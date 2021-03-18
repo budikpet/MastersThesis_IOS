@@ -1,0 +1,33 @@
+name: Build
+
+on: [pull_request, push]
+
+jobs:
+  tests:
+    name: Build-and-test
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: AckeeCZ/load-xcode-version@1.0
+        with:
+            repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: "Carthage dependencies"
+        run: carthage bootstrap --use-xcframeworks --platform ios --cache-builds
+      - uses: actions/cache@v2
+        with:
+          path: Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+      - name: Install gems
+        run: bundle install
+      - name: Select XCode
+        run: sudo xcode-select -switch '/Applications/Xcode_12.4.app'
+      - name: XCode version
+        run: /usr/bin/xcodebuild -version
+      - name: Run clean build
+        run: xcodebuild clean build -scheme Development -workspace 'MastersThesis-iOS.xcworkspace' -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.4' | xcpretty && exit ${PIPESTATUS[0]}
+      - name: Run unit tests
+        run: xcodebuild test -scheme Development -workspace 'MastersThesis-iOS.xcworkspace' -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.4' | xcpretty && exit ${PIPESTATUS[0]}
+#      - name: Build project
+#        run: set -o pipefail && xcodebuild -scheme Development -workspace ProjectTemplate.xcworkspace -sdk iphonesimulator ARCHS=x86_64 ONLY_ACTIVE_ARCH=NO | xcpretty
