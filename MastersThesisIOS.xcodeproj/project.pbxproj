@@ -145,6 +145,13 @@
 		4B34214A2603961D004B042E /* Alamofire.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Alamofire.xcframework; path = Carthage/Build/Alamofire.xcframework; sourceTree = "<group>"; };
 		4B34214B2603961D004B042E /* ReactiveCocoa.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ReactiveCocoa.xcframework; path = Carthage/Build/ReactiveCocoa.xcframework; sourceTree = "<group>"; };
 		4B34214C2603961D004B042E /* Reqres.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Reqres.xcframework; path = Carthage/Build/Reqres.xcframework; sourceTree = "<group>"; };
+		4B3421BC2603A589004B042E /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
+		4B3421BD2603A589004B042E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
+		4B3421C02603A589004B042E /* checks.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = checks.yml; sourceTree = "<group>"; };
+		4B3421C12603A589004B042E /* stale.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = stale.yml; sourceTree = "<group>"; };
+		4B3421C22603A589004B042E /* build.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = build.yml; sourceTree = "<group>"; };
+		4B3421C32603A589004B042E /* xcode-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = "xcode-version"; sourceTree = "<group>"; };
+		4B3421C42603A589004B042E /* PULL_REQUEST_TEMPLATE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PULL_REQUEST_TEMPLATE.md; sourceTree = "<group>"; };
 		4BFE500E9F06CBACF549DDD8 /* FirebaseCrashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCrashlytics.framework; sourceTree = "<group>"; };
 		4CE97500430CBD76773D5A7E /* MastersThesisIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51267FD03FAEDFFE9634756F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -344,6 +351,36 @@
 			path = FlowCoordinators;
 			sourceTree = "<group>";
 		};
+		4B3421BB2603A558004B042E /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				4B3421BE2603A589004B042E /* .github */,
+				4B3421BC2603A589004B042E /* .gitignore */,
+				4B3421BD2603A589004B042E /* .swiftlint.yml */,
+			);
+			path = Configs;
+			sourceTree = "<group>";
+		};
+		4B3421BE2603A589004B042E /* .github */ = {
+			isa = PBXGroup;
+			children = (
+				4B3421BF2603A589004B042E /* workflows */,
+				4B3421C32603A589004B042E /* xcode-version */,
+				4B3421C42603A589004B042E /* PULL_REQUEST_TEMPLATE.md */,
+			);
+			path = .github;
+			sourceTree = SOURCE_ROOT;
+		};
+		4B3421BF2603A589004B042E /* workflows */ = {
+			isa = PBXGroup;
+			children = (
+				4B3421C02603A589004B042E /* checks.yml */,
+				4B3421C12603A589004B042E /* stale.yml */,
+				4B3421C22603A589004B042E /* build.yml */,
+			);
+			path = workflows;
+			sourceTree = "<group>";
+		};
 		4F983D963B00F11AB24FF2A6 /* Build */ = {
 			isa = PBXGroup;
 			children = (
@@ -436,6 +473,7 @@
 			isa = PBXGroup;
 			children = (
 				B2F02A4090F193E35E16D1F2 /* MastersThesisIOS */,
+				AD0C6B10122A122E5279B949 /* Derived */,
 				A64E9CD0B70C29E6A475846E /* Tests */,
 			);
 			name = Project;
@@ -453,7 +491,7 @@
 			isa = PBXGroup;
 			children = (
 				8E17F3B4F9B5472ED64BC510 /* Project */,
-				AD0C6B10122A122E5279B949 /* Derived */,
+				4B3421BB2603A558004B042E /* Configs */,
 				B7D9687AAE4679F1AAF5ADC7 /* Frameworks */,
 				9A71A0E217C4599105B45DC6 /* Products */,
 				DD12440652EDAA4C852AF36D /* Carthage */,

@@ -26,8 +26,8 @@ jobs:
       - name: XCode version
         run: /usr/bin/xcodebuild -version
       - name: Run clean build
-        run: xcodebuild clean build -scheme Development -workspace 'MastersThesis-iOS.xcworkspace' -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.4' | xcpretty && exit ${PIPESTATUS[0]}
+        run: xcodebuild clean build -scheme Development -workspace 'MastersThesisIOS.xcworkspace' -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.4' | xcpretty && exit ${PIPESTATUS[0]}
       - name: Run unit tests
-        run: xcodebuild test -scheme Development -workspace 'MastersThesis-iOS.xcworkspace' -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.4' | xcpretty && exit ${PIPESTATUS[0]}
+        run: xcodebuild test -scheme Development -workspace 'MastersThesisIOS.xcworkspace' -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.4' | xcpretty && exit ${PIPESTATUS[0]}
 #      - name: Build project
 #        run: set -o pipefail && xcodebuild -scheme Development -workspace ProjectTemplate.xcworkspace -sdk iphonesimulator ARCHS=x86_64 ONLY_ACTIVE_ARCH=NO | xcpretty
