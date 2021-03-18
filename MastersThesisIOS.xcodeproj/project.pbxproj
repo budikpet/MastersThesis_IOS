@@ -1037,7 +1037,7 @@
 		2E0AC908C68EA6935B54D030 /* Beta-Stage */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ACK_APPNAME = "MastersThesisIOS β";
+				ACK_APPNAME = "Zoo Prague β";
 				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TARGET_NAME)/Environment";
 				ACK_PROJECT_VERSION = 0.1.0;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1128,6 +1128,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B085D19F59AFF8BF59E04EE3 /* Pods-MastersThesisIOS-MastersThesisIOSTests.beta-stage.xcconfig */;
 			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSTests.plist;
@@ -1181,7 +1182,7 @@
 		6FC77A2D4B9F067618AF282F /* Beta-Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ACK_APPNAME = "MastersThesisIOS β";
+				ACK_APPNAME = "Zoo Prague β";
 				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TARGET_NAME)/Environment";
 				ACK_PROJECT_VERSION = 0.1.0;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1244,6 +1245,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F3421E124754227CA30025F1 /* Pods-MastersThesisIOS-MastersThesisIOSTests.release.xcconfig */;
 			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSTests.plist;
@@ -1269,6 +1271,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6225A976BD9C54193322CFE9 /* Pods-MastersThesisIOS-MastersThesisIOSTests.debug.xcconfig */;
 			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSTests.plist;
@@ -1322,7 +1325,7 @@
 		CD55F13FAA2D77A4F5AA91C3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ACK_APPNAME = MastersThesisIOS;
+				ACK_APPNAME = "Zoo Prague";
 				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TARGET_NAME)/Environment";
 				ACK_PROJECT_VERSION = 0.1.0;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1385,6 +1388,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 49831CE6F46A8F75345370C6 /* Pods-MastersThesisIOS-MastersThesisIOSTests.beta-production.xcconfig */;
 			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSTests.plist;
@@ -1410,6 +1414,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A3BFDF11D49620C4550E8E04 /* Pods-MastersThesisIOS-MastersThesisIOSTests.beta-development.xcconfig */;
 			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSTests.plist;
@@ -1434,7 +1439,7 @@
 		F4EC45CC530DFC2D8EECB52F /* Beta-Production */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ACK_APPNAME = "MastersThesisIOS β";
+				ACK_APPNAME = "Zoo Prague β";
 				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TARGET_NAME)/Environment";
 				ACK_PROJECT_VERSION = 0.1.0;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1496,7 +1501,7 @@
 		F6405F8C398875180B64B680 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ACK_APPNAME = "MastersThesisIOS Δ";
+				ACK_APPNAME = "Zoo Prague Δ";
 				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TARGET_NAME)/Environment";
 				ACK_PROJECT_VERSION = 0.1.0;
 				ALWAYS_SEARCH_USER_PATHS = NO;
