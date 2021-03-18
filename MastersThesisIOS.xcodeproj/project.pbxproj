@@ -32,7 +32,6 @@
 		42837B520CFC6E74B49E9087 /* FirebasePushObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E857ECF275060A4A1513325 /* FirebasePushObserver.swift */; };
 		44AF8F9F303D783912865A7C /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43971ADE5937356B4E48B925 /* PushManager.swift */; };
 		4AC446CB1ABEA23F2F490EB7 /* FirebaseFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4240B73DD5F2989377796AAA /* FirebaseFetcher.swift */; };
-		4B34214D2603961D004B042E /* ReactiveMapKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B3421462603961C004B042E /* ReactiveMapKit.xcframework */; };
 		4B34214F2603961D004B042E /* SnapKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B3421472603961C004B042E /* SnapKit.xcframework */; };
 		4B3421512603961D004B042E /* ACKategories.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B3421482603961C004B042E /* ACKategories.xcframework */; };
 		4B3421532603961E004B042E /* ReactiveSwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B3421492603961D004B042E /* ReactiveSwift.xcframework */; };
@@ -255,7 +254,6 @@
 				2622E8235FE7E1BC65895716 /* GoogleUtilities.framework in Frameworks */,
 				AC3B5DAA2EAD37CD75D1A554 /* PromisesObjC.framework in Frameworks */,
 				1B89D9D1A717C2D890536DEA /* Protobuf.framework in Frameworks */,
-				4B34214D2603961D004B042E /* ReactiveMapKit.xcframework in Frameworks */,
 				F0826F5F4762D9FE34BCC48C /* nanopb.framework in Frameworks */,
 				F4036BB1669A257AF85979B9 /* Pods_MastersThesisIOS.framework in Frameworks */,
 			);
@@ -437,8 +435,6 @@
 		8E17F3B4F9B5472ED64BC510 /* Project */ = {
 			isa = PBXGroup;
 			children = (
-				DD12440652EDAA4C852AF36D /* Carthage */,
-				AD0C6B10122A122E5279B949 /* Derived */,
 				B2F02A4090F193E35E16D1F2 /* MastersThesisIOS */,
 				A64E9CD0B70C29E6A475846E /* Tests */,
 			);
@@ -457,8 +453,10 @@
 			isa = PBXGroup;
 			children = (
 				8E17F3B4F9B5472ED64BC510 /* Project */,
+				AD0C6B10122A122E5279B949 /* Derived */,
 				B7D9687AAE4679F1AAF5ADC7 /* Frameworks */,
 				9A71A0E217C4599105B45DC6 /* Products */,
+				DD12440652EDAA4C852AF36D /* Carthage */,
 				13AA501C60DC4590DE570F03 /* Pods */,
 			);
 			sourceTree = "<group>";
