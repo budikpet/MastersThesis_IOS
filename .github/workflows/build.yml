@@ -9,10 +9,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: AckeeCZ/load-xcode-version@1.0
+      - uses: actions/cache@v2
+        id: carthage-cache
         with:
-            repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: "Carthage dependencies"
-        run: carthage bootstrap --use-xcframeworks --platform ios --cache-builds
+          path: Carthage
+          key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
+      - name: Install Carthage dependencies if not in cache
+        if: steps.carthage-cache.outputs.cache-hit != 'true'
+        run: |
+          carthage bootstrap --platform iOS --cache-builds --use-xcframeworks
       - uses: actions/cache@v2
         with:
           path: Pods
@@ -26,8 +31,6 @@ jobs:
       - name: XCode version
         run: /usr/bin/xcodebuild -version
       - name: Run clean build
-        run: xcodebuild clean build -scheme Development -workspace 'MastersThesis-iOS.xcworkspace' -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.4' | xcpretty && exit ${PIPESTATUS[0]}
+        run: xcodebuild clean build -scheme Development -workspace 'MastersThesisIOS.xcworkspace' -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.4' | xcpretty && exit ${PIPESTATUS[0]}
       - name: Run unit tests
-        run: xcodebuild test -scheme Development -workspace 'MastersThesis-iOS.xcworkspace' -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.4' | xcpretty && exit ${PIPESTATUS[0]}
-#      - name: Build project
-#        run: set -o pipefail && xcodebuild -scheme Development -workspace ProjectTemplate.xcworkspace -sdk iphonesimulator ARCHS=x86_64 ONLY_ACTIVE_ARCH=NO | xcpretty
+        run: xcodebuild test -scheme Development -workspace 'MastersThesisIOS.xcworkspace' -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.4' | xcpretty && exit ${PIPESTATUS[0]}

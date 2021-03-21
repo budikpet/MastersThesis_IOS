@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,7 +15,6 @@
 		12F56DE64448249A6EF9DAB0 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F998C3B3ADDF5339666EA1B /* BaseViewController.swift */; };
 		15C14FFD4DFAFB298700B002 /* ExampleAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5119B5FFD02FDA73B8CBF /* ExampleAPIService.swift */; };
 		173B0A3635A5DB327F9E67C1 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C38A38ADCC20ED0EA4F958F /* Assets.swift */; };
-		198B969A9D6E0D91B13D79A1 /* ACKategories.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73700BCB09E1487263516EB0 /* ACKategories.framework */; };
 		1B89D9D1A717C2D890536DEA /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4376B33743F0EE65C98188DE /* Protobuf.framework */; };
 		1B8F44A566D1D88EA8FD8209 /* AuthenticatedJSONAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F036036E3B0CF605671F9F /* AuthenticatedJSONAPIService.swift */; };
 		1D4E2E6BE45AF34EDE075E6B /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6452F63DBA15C4CC7F458F0E /* Fetcher.swift */; };
@@ -23,8 +22,6 @@
 		261260516C58E1CB57F9FCA8 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BE85DCDEC2B5DFC8B050C3A /* LocalizedStrings.swift */; };
 		2622E8235FE7E1BC65895716 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF133F0880B0F0A9E2601A49 /* GoogleUtilities.framework */; };
 		26D15B4F4B6435CBCF9F3618 /* Bundle+MastersThesisIOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976C67478F69EA176C5F7E3A /* Bundle+MastersThesisIOS.swift */; };
-		2CDE825921C22510433D0AF1 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5217EF5C44F225A1297F6448 /* SnapKit.framework */; };
-		2CEA9419FD1859CF4A7B24CC /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6789311505018BF1C2737EF1 /* ReactiveCocoa.framework */; };
 		3086F555D508B50B4B3DEC1F /* UIElements+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A162687900210114D0A297 /* UIElements+Theme.swift */; };
 		3242E4675B9969BC32F5B35B /* AuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C37BE88E593A956CF5259 /* AuthHandler.swift */; };
 		3DCE3DF97E5AFF581BF6F976 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB4F1452B132A26B9C2FE706 /* GoogleService-Info.plist */; };
@@ -35,6 +32,12 @@
 		42837B520CFC6E74B49E9087 /* FirebasePushObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E857ECF275060A4A1513325 /* FirebasePushObserver.swift */; };
 		44AF8F9F303D783912865A7C /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43971ADE5937356B4E48B925 /* PushManager.swift */; };
 		4AC446CB1ABEA23F2F490EB7 /* FirebaseFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4240B73DD5F2989377796AAA /* FirebaseFetcher.swift */; };
+		4B34214F2603961D004B042E /* SnapKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B3421472603961C004B042E /* SnapKit.xcframework */; };
+		4B3421512603961D004B042E /* ACKategories.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B3421482603961C004B042E /* ACKategories.xcframework */; };
+		4B3421532603961E004B042E /* ReactiveSwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B3421492603961D004B042E /* ReactiveSwift.xcframework */; };
+		4B3421552603961E004B042E /* Alamofire.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B34214A2603961D004B042E /* Alamofire.xcframework */; };
+		4B3421572603961E004B042E /* ReactiveCocoa.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B34214B2603961D004B042E /* ReactiveCocoa.xcframework */; };
+		4B3421592603961E004B042E /* Reqres.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B34214C2603961D004B042E /* Reqres.xcframework */; };
 		50A1E91FC36763A9AECF3B98 /* GoogleDataTransport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C23BD5EC87B1BD484F2C85C /* GoogleDataTransport.framework */; };
 		5169715030BB735FB138C0B6 /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70F29F4F1802476EDF3FCCED /* environment.plist */; };
 		5A684721F7F11AED45A0A356 /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400C971EF0E0D6A5FE76998D /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework */; };
@@ -42,11 +45,8 @@
 		5DD9EF552815F66AD20C05A0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4349D97E80152CBB46EE8C1B /* User.swift */; };
 		5FDEB9A40822C7EF27C7118E /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D900C1F2E82CC1D2963EB2C0 /* BaseViewModel.swift */; };
 		60F8BA1BCEA94308EF81FB8C /* FirebaseABTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12ECCBB49C4443845AAB39E9 /* FirebaseABTesting.framework */; };
-		69EC94A32140263B4854F0C7 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53AA5D7B6DC80DB40AD56EE5 /* ReactiveSwift.framework */; };
 		69EE4ACDCCCE1E3138D77F61 /* CredentialsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDEC2BE5513D08713890CB6 /* CredentialsProvider.swift */; };
-		7105667DF76FB2B81AE4710D /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB055CB340D743CF6439260 /* Alamofire.framework */; };
 		7167C7A27309141CB9FA5FD3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8E2B3FC0F0D441AE28D9FC7 /* LaunchScreen.storyboard */; };
-		7C77C7A92C6C9C30D33312D7 /* Reqres.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB2041C959374F58EEB07A1 /* Reqres.framework */; };
 		810B6B3D33E50C545B516AEE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2DFBFBAD406A367C5DBE34A /* Localizable.strings */; };
 		81E6341D88B9C0944D4A957A /* UIView+Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133F80E91B4D9A2B0A948B92 /* UIView+Spacer.swift */; };
 		87B4739B8B3CCAC2E14E3348 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 28B9CF4BAE1E3FECB1A82BF8 /* Settings.bundle */; };
@@ -110,15 +110,6 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		531EEAC829BC1F89C3888551 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -147,6 +138,20 @@
 		4376B33743F0EE65C98188DE /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Protobuf.framework; sourceTree = "<group>"; };
 		43971ADE5937356B4E48B925 /* PushManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushManager.swift; sourceTree = "<group>"; };
 		49831CE6F46A8F75345370C6 /* Pods-MastersThesisIOS-MastersThesisIOSTests.beta-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MastersThesisIOS-MastersThesisIOSTests.beta-production.xcconfig"; path = "Target Support Files/Pods-MastersThesisIOS-MastersThesisIOSTests/Pods-MastersThesisIOS-MastersThesisIOSTests.beta-production.xcconfig"; sourceTree = "<group>"; };
+		4B3421462603961C004B042E /* ReactiveMapKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ReactiveMapKit.xcframework; path = Carthage/Build/ReactiveMapKit.xcframework; sourceTree = "<group>"; };
+		4B3421472603961C004B042E /* SnapKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SnapKit.xcframework; path = Carthage/Build/SnapKit.xcframework; sourceTree = "<group>"; };
+		4B3421482603961C004B042E /* ACKategories.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ACKategories.xcframework; path = Carthage/Build/ACKategories.xcframework; sourceTree = "<group>"; };
+		4B3421492603961D004B042E /* ReactiveSwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ReactiveSwift.xcframework; path = Carthage/Build/ReactiveSwift.xcframework; sourceTree = "<group>"; };
+		4B34214A2603961D004B042E /* Alamofire.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Alamofire.xcframework; path = Carthage/Build/Alamofire.xcframework; sourceTree = "<group>"; };
+		4B34214B2603961D004B042E /* ReactiveCocoa.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ReactiveCocoa.xcframework; path = Carthage/Build/ReactiveCocoa.xcframework; sourceTree = "<group>"; };
+		4B34214C2603961D004B042E /* Reqres.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Reqres.xcframework; path = Carthage/Build/Reqres.xcframework; sourceTree = "<group>"; };
+		4B3421BC2603A589004B042E /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
+		4B3421BD2603A589004B042E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
+		4B3421C02603A589004B042E /* checks.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = checks.yml; sourceTree = "<group>"; };
+		4B3421C12603A589004B042E /* stale.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = stale.yml; sourceTree = "<group>"; };
+		4B3421C22603A589004B042E /* build.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = build.yml; sourceTree = "<group>"; };
+		4B3421C32603A589004B042E /* xcode-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = "xcode-version"; sourceTree = "<group>"; };
+		4B3421C42603A589004B042E /* PULL_REQUEST_TEMPLATE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PULL_REQUEST_TEMPLATE.md; sourceTree = "<group>"; };
 		4BFE500E9F06CBACF549DDD8 /* FirebaseCrashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCrashlytics.framework; sourceTree = "<group>"; };
 		4CE97500430CBD76773D5A7E /* MastersThesisIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51267FD03FAEDFFE9634756F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -232,14 +237,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				198B969A9D6E0D91B13D79A1 /* ACKategories.framework in Frameworks */,
-				7105667DF76FB2B81AE4710D /* Alamofire.framework in Frameworks */,
+				4B3421532603961E004B042E /* ReactiveSwift.xcframework in Frameworks */,
 				9F44C0CE1DFA727D01CAD190 /* FIRAnalyticsConnector.framework in Frameworks */,
 				60F8BA1BCEA94308EF81FB8C /* FirebaseABTesting.framework in Frameworks */,
 				E877C17BF079F4656155EED1 /* FirebaseAnalytics.framework in Frameworks */,
 				F320259CBFA37C59D34A5317 /* FirebaseCore.framework in Frameworks */,
+				4B3421512603961D004B042E /* ACKategories.xcframework in Frameworks */,
+				4B3421572603961E004B042E /* ReactiveCocoa.xcframework in Frameworks */,
 				062DEA9F64DA2F11A7A97BF6 /* FirebaseCoreDiagnostics.framework in Frameworks */,
+				4B3421552603961E004B042E /* Alamofire.xcframework in Frameworks */,
 				9931CCF0D4EA57B1E9197D96 /* FirebaseCrashlytics.framework in Frameworks */,
+				4B3421592603961E004B042E /* Reqres.xcframework in Frameworks */,
+				4B34214F2603961D004B042E /* SnapKit.xcframework in Frameworks */,
 				B33B81CD7A7D0C6297F9837F /* FirebaseInstallations.framework in Frameworks */,
 				DD56334114EEABF5BB530D94 /* FirebaseInstanceID.framework in Frameworks */,
 				C55CD97EFD2F3D42538BB24F /* FirebaseMessaging.framework in Frameworks */,
@@ -252,10 +261,6 @@
 				2622E8235FE7E1BC65895716 /* GoogleUtilities.framework in Frameworks */,
 				AC3B5DAA2EAD37CD75D1A554 /* PromisesObjC.framework in Frameworks */,
 				1B89D9D1A717C2D890536DEA /* Protobuf.framework in Frameworks */,
-				2CEA9419FD1859CF4A7B24CC /* ReactiveCocoa.framework in Frameworks */,
-				69EC94A32140263B4854F0C7 /* ReactiveSwift.framework in Frameworks */,
-				7C77C7A92C6C9C30D33312D7 /* Reqres.framework in Frameworks */,
-				2CDE825921C22510433D0AF1 /* SnapKit.framework in Frameworks */,
 				F0826F5F4762D9FE34BCC48C /* nanopb.framework in Frameworks */,
 				F4036BB1669A257AF85979B9 /* Pods_MastersThesisIOS.framework in Frameworks */,
 			);
@@ -286,7 +291,6 @@
 				6225A976BD9C54193322CFE9 /* Pods-MastersThesisIOS-MastersThesisIOSTests.debug.xcconfig */,
 				F3421E124754227CA30025F1 /* Pods-MastersThesisIOS-MastersThesisIOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -333,8 +337,7 @@
 		3D4D787415D1C81FBE7A359B /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				9231407DA6A34BBCA3244899 /* ExampleViewController.swift */,
-				34ADB4BF00B6523DF75E90DF /* ExampleViewModel.swift */,
+				4B3421C8260766A8004B042E /* Example */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -345,6 +348,45 @@
 				DD027E4B3712029398C8787D /* AppFlowCoordinator.swift */,
 			);
 			path = FlowCoordinators;
+			sourceTree = "<group>";
+		};
+		4B3421BB2603A558004B042E /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				4B3421BE2603A589004B042E /* .github */,
+				4B3421BC2603A589004B042E /* .gitignore */,
+				4B3421BD2603A589004B042E /* .swiftlint.yml */,
+			);
+			path = Configs;
+			sourceTree = "<group>";
+		};
+		4B3421BE2603A589004B042E /* .github */ = {
+			isa = PBXGroup;
+			children = (
+				4B3421BF2603A589004B042E /* workflows */,
+				4B3421C32603A589004B042E /* xcode-version */,
+				4B3421C42603A589004B042E /* PULL_REQUEST_TEMPLATE.md */,
+			);
+			path = .github;
+			sourceTree = SOURCE_ROOT;
+		};
+		4B3421BF2603A589004B042E /* workflows */ = {
+			isa = PBXGroup;
+			children = (
+				4B3421C02603A589004B042E /* checks.yml */,
+				4B3421C12603A589004B042E /* stale.yml */,
+				4B3421C22603A589004B042E /* build.yml */,
+			);
+			path = workflows;
+			sourceTree = "<group>";
+		};
+		4B3421C8260766A8004B042E /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				9231407DA6A34BBCA3244899 /* ExampleViewController.swift */,
+				34ADB4BF00B6523DF75E90DF /* ExampleViewModel.swift */,
+			);
+			path = Example;
 			sourceTree = "<group>";
 		};
 		4F983D963B00F11AB24FF2A6 /* Build */ = {
@@ -430,7 +472,6 @@
 			isa = PBXGroup;
 			children = (
 				1B83164D9567E92E519CE9C3 /* Base */,
-				3D4D787415D1C81FBE7A359B /* Screens */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -438,9 +479,8 @@
 		8E17F3B4F9B5472ED64BC510 /* Project */ = {
 			isa = PBXGroup;
 			children = (
-				DD12440652EDAA4C852AF36D /* Carthage */,
-				AD0C6B10122A122E5279B949 /* Derived */,
 				B2F02A4090F193E35E16D1F2 /* MastersThesisIOS */,
+				AD0C6B10122A122E5279B949 /* Derived */,
 				A64E9CD0B70C29E6A475846E /* Tests */,
 			);
 			name = Project;
@@ -458,8 +498,10 @@
 			isa = PBXGroup;
 			children = (
 				8E17F3B4F9B5472ED64BC510 /* Project */,
+				4B3421BB2603A558004B042E /* Configs */,
 				B7D9687AAE4679F1AAF5ADC7 /* Frameworks */,
 				9A71A0E217C4599105B45DC6 /* Products */,
+				DD12440652EDAA4C852AF36D /* Carthage */,
 				13AA501C60DC4590DE570F03 /* Pods */,
 			);
 			sourceTree = "<group>";
@@ -534,6 +576,7 @@
 				951926522B5F2E641C7205CD /* Resources */,
 				93DDABE6864A9748A987AB16 /* Services */,
 				E83341C5AA4D61A25E61B7D6 /* Theme */,
+				3D4D787415D1C81FBE7A359B /* Screens */,
 				67419805D5AFA9D2E6D431BB /* ViewController */,
 				845311447A55D320E55CEF71 /* ViewModel */,
 				D97767315D6CAA5B7617C421 /* Aliases.swift */,
@@ -547,6 +590,13 @@
 		B7D9687AAE4679F1AAF5ADC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4B3421482603961C004B042E /* ACKategories.xcframework */,
+				4B34214A2603961D004B042E /* Alamofire.xcframework */,
+				4B34214B2603961D004B042E /* ReactiveCocoa.xcframework */,
+				4B3421462603961C004B042E /* ReactiveMapKit.xcframework */,
+				4B3421492603961D004B042E /* ReactiveSwift.xcframework */,
+				4B34214C2603961D004B042E /* Reqres.xcframework */,
+				4B3421472603961C004B042E /* SnapKit.xcframework */,
 				6AFB3087E4EB64FA06AB4B63 /* Pods_MastersThesisIOS.framework */,
 				400C971EF0E0D6A5FE76998D /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework */,
 			);
@@ -663,7 +713,6 @@
 				12569FB41FFF311C9CE14ACA /* Sources */,
 				C5E4B39D4E71397517543B9F /* Resources */,
 				DBB137E59ADF5B84D145B766 /* Embed Precompiled Frameworks */,
-				531EEAC829BC1F89C3888551 /* Embed Frameworks */,
 				9CACA6EB98429DE51F84D4B0 /* Frameworks */,
 				BC3DFEA1C3DC4FDBAC015382 /* Swiftlint */,
 				54EE85E9043BFBC849FC5066 /* Crashlytics */,
@@ -978,7 +1027,9 @@
 			baseConfigurationReference = 89FA42C4F68A16640169C0A0 /* Pods-MastersThesisIOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -992,6 +1043,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}";
 				PRODUCT_NAME = MastersThesisIOS;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1006,7 +1058,9 @@
 			baseConfigurationReference = A52F7ABF70B748D363867F1B /* Pods-MastersThesisIOS.beta-production.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1020,6 +1074,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}";
 				PRODUCT_NAME = MastersThesisIOS;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1032,7 +1087,7 @@
 		2E0AC908C68EA6935B54D030 /* Beta-Stage */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ACK_APPNAME = "MastersThesisIOS β";
+				ACK_APPNAME = "Zoo Prague β";
 				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TARGET_NAME)/Environment";
 				ACK_PROJECT_VERSION = 0.1.0;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1067,7 +1122,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PXDF48X6VX;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1083,9 +1138,9 @@
 				INFOPLIST_PREPROCESS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = cz.ackee.enterprise.MastersThesisIOS.stage.beta;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOS.stage.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match InHouse cz.ackee.enterprise.MastersThesisIOS.stage.beta";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = ADHOC;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1096,7 +1151,9 @@
 			baseConfigurationReference = 57EF51A26E8AA9E30397DAF4 /* Pods-MastersThesisIOS.beta-development.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1110,6 +1167,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}";
 				PRODUCT_NAME = MastersThesisIOS;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1123,16 +1181,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B085D19F59AFF8BF59E04EE3 /* Pods-MastersThesisIOS-MastersThesisIOSTests.beta-stage.xcconfig */;
 			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSTests.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cz.ackee.MastersThesisIOSTests;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSTests;
 				PRODUCT_NAME = MastersThesisIOSTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1149,7 +1213,9 @@
 			baseConfigurationReference = EB3BC3F1B674D7D62C38158F /* Pods-MastersThesisIOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1163,6 +1229,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}";
 				PRODUCT_NAME = MastersThesisIOS;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1176,7 +1243,7 @@
 		6FC77A2D4B9F067618AF282F /* Beta-Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ACK_APPNAME = "MastersThesisIOS β";
+				ACK_APPNAME = "Zoo Prague β";
 				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TARGET_NAME)/Environment";
 				ACK_PROJECT_VERSION = 0.1.0;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1211,7 +1278,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PXDF48X6VX;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1227,9 +1294,9 @@
 				INFOPLIST_PREPROCESS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = cz.ackee.enterprise.MastersThesisIOS.development.beta;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOS.development.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match InHouse cz.ackee.enterprise.MastersThesisIOS.development.beta";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = ADHOC;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1239,16 +1306,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F3421E124754227CA30025F1 /* Pods-MastersThesisIOS-MastersThesisIOSTests.release.xcconfig */;
 			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSTests.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cz.ackee.MastersThesisIOSTests;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSTests;
 				PRODUCT_NAME = MastersThesisIOSTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1264,16 +1337,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6225A976BD9C54193322CFE9 /* Pods-MastersThesisIOS-MastersThesisIOSTests.debug.xcconfig */;
 			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSTests.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cz.ackee.MastersThesisIOSTests;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSTests;
 				PRODUCT_NAME = MastersThesisIOSTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1291,7 +1370,9 @@
 			baseConfigurationReference = 5376568924D9861CD50E8DBF /* Pods-MastersThesisIOS.beta-stage.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1305,6 +1386,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}";
 				PRODUCT_NAME = MastersThesisIOS;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1317,7 +1399,7 @@
 		CD55F13FAA2D77A4F5AA91C3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ACK_APPNAME = MastersThesisIOS;
+				ACK_APPNAME = "Zoo Prague";
 				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TARGET_NAME)/Environment";
 				ACK_PROJECT_VERSION = 0.1.0;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1352,7 +1434,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PXDF48X6VX;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1368,9 +1450,9 @@
 				INFOPLIST_PREPROCESS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = cz.ackee.MastersThesisIOS;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match InHouse cz.ackee.MastersThesisIOS";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1380,16 +1462,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 49831CE6F46A8F75345370C6 /* Pods-MastersThesisIOS-MastersThesisIOSTests.beta-production.xcconfig */;
 			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSTests.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cz.ackee.MastersThesisIOSTests;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSTests;
 				PRODUCT_NAME = MastersThesisIOSTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1405,16 +1493,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A3BFDF11D49620C4550E8E04 /* Pods-MastersThesisIOS-MastersThesisIOSTests.beta-development.xcconfig */;
 			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSTests.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cz.ackee.MastersThesisIOSTests;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSTests;
 				PRODUCT_NAME = MastersThesisIOSTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1429,7 +1523,7 @@
 		F4EC45CC530DFC2D8EECB52F /* Beta-Production */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ACK_APPNAME = "MastersThesisIOS β";
+				ACK_APPNAME = "Zoo Prague β";
 				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TARGET_NAME)/Environment";
 				ACK_PROJECT_VERSION = 0.1.0;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1464,7 +1558,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PXDF48X6VX;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1480,9 +1574,9 @@
 				INFOPLIST_PREPROCESS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = cz.ackee.enterprise.MastersThesisIOS.production.beta;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOS.production.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match InHouse cz.ackee.enterprise.MastersThesisIOS.production.beta";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = ADHOC;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1491,7 +1585,7 @@
 		F6405F8C398875180B64B680 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ACK_APPNAME = "MastersThesisIOS Δ";
+				ACK_APPNAME = "Zoo Prague Δ";
 				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TARGET_NAME)/Environment";
 				ACK_PROJECT_VERSION = 0.1.0;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1526,7 +1620,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PXDF48X6VX;
+				DEVELOPMENT_TEAM = 634A34CZA9;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1549,9 +1643,9 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = cz.ackee.enterprise.MastersThesisIOS.debug;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOS.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match InHouse cz.ackee.enterprise.MastersThesisIOS.debug";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
