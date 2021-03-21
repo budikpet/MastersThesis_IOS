@@ -38,7 +38,11 @@
 		4B3421552603961E004B042E /* Alamofire.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B34214A2603961D004B042E /* Alamofire.xcframework */; };
 		4B3421572603961E004B042E /* ReactiveCocoa.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B34214B2603961D004B042E /* ReactiveCocoa.xcframework */; };
 		4B3421592603961E004B042E /* Reqres.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B34214C2603961D004B042E /* Reqres.xcframework */; };
-		4B522DD82607846800500699 /* MainTabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522DD72607846800500699 /* MainTabBarVC.swift */; };
+		4B522DE02607943E00500699 /* TabBarPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522DDF2607943E00500699 /* TabBarPage.swift */; };
+		4B522E052607A0F300500699 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E002607A0F200500699 /* MapVC.swift */; };
+		4B522E062607A0F300500699 /* MapVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E012607A0F200500699 /* MapVM.swift */; };
+		4B522E072607A0F300500699 /* LexiconVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E032607A0F300500699 /* LexiconVC.swift */; };
+		4B522E082607A0F300500699 /* LexiconVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E042607A0F300500699 /* LexiconVM.swift */; };
 		50A1E91FC36763A9AECF3B98 /* GoogleDataTransport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C23BD5EC87B1BD484F2C85C /* GoogleDataTransport.framework */; };
 		5169715030BB735FB138C0B6 /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70F29F4F1802476EDF3FCCED /* environment.plist */; };
 		5A684721F7F11AED45A0A356 /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400C971EF0E0D6A5FE76998D /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework */; };
@@ -64,7 +68,6 @@
 		9F959F2B0CFB8822BFC7393F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4150A9916A2C6DCD42004D /* AppDelegate.swift */; };
 		9FB7B455D96DCB81A70D6D40 /* PopupModalAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C13292FFE6888B51B7DA89E /* PopupModalAnimation.swift */; };
 		A256162302E6EBEAC633CE16 /* GoogleToolboxForMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01D8BF3C3B70789A526FF85B /* GoogleToolboxForMac.framework */; };
-		A3CF940515C52866FF40CBF6 /* AppDependency+Factories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5C8416DFFAC62BDBD1256B /* AppDependency+Factories.swift */; };
 		A5C657839D15A744657E9AE2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71DC1DEB6BB5D6570B1C4787 /* Images.xcassets */; };
 		AC3B5DAA2EAD37CD75D1A554 /* PromisesObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7842414B100C7D36167B8CA2 /* PromisesObjC.framework */; };
 		B33B81CD7A7D0C6297F9837F /* FirebaseInstallations.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC9A4DCC167620D396D3FA7E /* FirebaseInstallations.framework */; };
@@ -153,7 +156,11 @@
 		4B3421C22603A589004B042E /* build.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = build.yml; sourceTree = "<group>"; };
 		4B3421C32603A589004B042E /* xcode-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = "xcode-version"; sourceTree = "<group>"; };
 		4B3421C42603A589004B042E /* PULL_REQUEST_TEMPLATE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PULL_REQUEST_TEMPLATE.md; sourceTree = "<group>"; };
-		4B522DD72607846800500699 /* MainTabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarVC.swift; sourceTree = "<group>"; };
+		4B522DDF2607943E00500699 /* TabBarPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarPage.swift; sourceTree = "<group>"; };
+		4B522E002607A0F200500699 /* MapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
+		4B522E012607A0F200500699 /* MapVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVM.swift; sourceTree = "<group>"; };
+		4B522E032607A0F300500699 /* LexiconVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LexiconVC.swift; sourceTree = "<group>"; };
+		4B522E042607A0F300500699 /* LexiconVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LexiconVM.swift; sourceTree = "<group>"; };
 		4BFE500E9F06CBACF549DDD8 /* FirebaseCrashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCrashlytics.framework; sourceTree = "<group>"; };
 		4CE97500430CBD76773D5A7E /* MastersThesisIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51267FD03FAEDFFE9634756F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -177,7 +184,6 @@
 		7BBB49C8961782EBA73201B7 /* UIResponder+Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Errors.swift"; sourceTree = "<group>"; };
 		7CD5119B5FFD02FDA73B8CBF /* ExampleAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleAPIService.swift; sourceTree = "<group>"; };
 		7D2E975901D88FF973BE8035 /* UIFont+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Theme.swift"; sourceTree = "<group>"; };
-		7D5C8416DFFAC62BDBD1256B /* AppDependency+Factories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDependency+Factories.swift"; sourceTree = "<group>"; };
 		7F998C3B3ADDF5339666EA1B /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		80A98B4E5443F5DCF67B8F9D /* MastersThesisIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MastersThesisIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80F036036E3B0CF605671F9F /* AuthenticatedJSONAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedJSONAPIService.swift; sourceTree = "<group>"; };
@@ -318,7 +324,6 @@
 			isa = PBXGroup;
 			children = (
 				79F12CAE9EFB401DEB8025EB /* AppDependency.swift */,
-				7D5C8416DFFAC62BDBD1256B /* AppDependency+Factories.swift */,
 			);
 			path = DI;
 			sourceTree = "<group>";
@@ -339,6 +344,8 @@
 		3D4D787415D1C81FBE7A359B /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				4B522E022607A0F300500699 /* Lexicon */,
+				4B522DFF2607A0F200500699 /* Map */,
 				4B3421C8260766A8004B042E /* Example */,
 			);
 			path = Screens;
@@ -348,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				DD027E4B3712029398C8787D /* AppFlowCoordinator.swift */,
+				4B522DDF2607943E00500699 /* TabBarPage.swift */,
 			);
 			path = FlowCoordinators;
 			sourceTree = "<group>";
@@ -391,6 +399,26 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
+		4B522DFF2607A0F200500699 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				4B522E002607A0F200500699 /* MapVC.swift */,
+				4B522E012607A0F200500699 /* MapVM.swift */,
+			);
+			name = Map;
+			path = MastersThesisIOS/Screens/Map;
+			sourceTree = SOURCE_ROOT;
+		};
+		4B522E022607A0F300500699 /* Lexicon */ = {
+			isa = PBXGroup;
+			children = (
+				4B522E032607A0F300500699 /* LexiconVC.swift */,
+				4B522E042607A0F300500699 /* LexiconVM.swift */,
+			);
+			name = Lexicon;
+			path = MastersThesisIOS/Screens/Lexicon;
+			sourceTree = SOURCE_ROOT;
+		};
 		4F983D963B00F11AB24FF2A6 /* Build */ = {
 			isa = PBXGroup;
 			children = (
@@ -416,7 +444,6 @@
 				70C810703E5B431E11324545 /* Alert */,
 				8E22E836546837B9399434AD /* Base */,
 				D6E74C0711F4757EFEE845BD /* Popup */,
-				4B522DD72607846800500699 /* MainTabBarVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -955,16 +982,16 @@
 				69EE4ACDCCCE1E3138D77F61 /* CredentialsProvider.swift in Sources */,
 				173B0A3635A5DB327F9E67C1 /* Assets.swift in Sources */,
 				9E5627076F7C69DE2DCAF3DC /* Environment.swift in Sources */,
-				4B522DD82607846800500699 /* MainTabBarVC.swift in Sources */,
 				261260516C58E1CB57F9FCA8 /* LocalizedStrings.swift in Sources */,
 				8B36538BFF5739815866ABB4 /* Logger.swift in Sources */,
 				BD8A70A54D0327C6315DFF50 /* PushNotification.swift in Sources */,
 				5DD9EF552815F66AD20C05A0 /* User.swift in Sources */,
 				1B8F44A566D1D88EA8FD8209 /* AuthenticatedJSONAPIService.swift in Sources */,
 				9808590746A226DF3D839CE0 /* JSONAPIService.swift in Sources */,
-				A3CF940515C52866FF40CBF6 /* AppDependency+Factories.swift in Sources */,
+				4B522E072607A0F300500699 /* LexiconVC.swift in Sources */,
 				E216BE29264187D393D10067 /* AppDependency.swift in Sources */,
 				15C14FFD4DFAFB298700B002 /* ExampleAPIService.swift in Sources */,
+				4B522DE02607943E00500699 /* TabBarPage.swift in Sources */,
 				42837B520CFC6E74B49E9087 /* FirebasePushObserver.swift in Sources */,
 				3242E4675B9969BC32F5B35B /* AuthHandler.swift in Sources */,
 				9ABD1C3092517F1F202CB067 /* Network.swift in Sources */,
@@ -975,6 +1002,7 @@
 				44AF8F9F303D783912865A7C /* PushManager.swift in Sources */,
 				007372AF8B80C0886132CF0D /* UserManager.swift in Sources */,
 				1EF08B269DDA230663028E28 /* APIFetcher.swift in Sources */,
+				4B522E062607A0F300500699 /* MapVM.swift in Sources */,
 				1D4E2E6BE45AF34EDE075E6B /* Fetcher.swift in Sources */,
 				4AC446CB1ABEA23F2F490EB7 /* FirebaseFetcher.swift in Sources */,
 				3EE12907E60CDACDDB3B6866 /* VersionUpdateManager.swift in Sources */,
@@ -983,7 +1011,9 @@
 				3086F555D508B50B4B3DEC1F /* UIElements+Theme.swift in Sources */,
 				F2BD53010A616CBCF3FCCBD9 /* UIFont+Theme.swift in Sources */,
 				0D3A14F6563214839ECE7F71 /* DebugAlertController.swift in Sources */,
+				4B522E082607A0F300500699 /* LexiconVM.swift in Sources */,
 				12F56DE64448249A6EF9DAB0 /* BaseViewController.swift in Sources */,
+				4B522E052607A0F300500699 /* MapVC.swift in Sources */,
 				9FB7B455D96DCB81A70D6D40 /* PopupModalAnimation.swift in Sources */,
 				C4642B71A83782A2B4C8DF4D /* PopupPresenting.swift in Sources */,
 				5FDEB9A40822C7EF27C7118E /* BaseViewModel.swift in Sources */,
