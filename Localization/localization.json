@@ -1,9 +1,11 @@
 {
-    "destinationDir": "../ProjectTemplate/Resources",
-    "keyColumnName": "key_iOS",
+    "destinationDir": "../MastersThesisIOS/Resources",
+    "keyColumnName": "key_ios",
     "languageMapping": {
+        "CS": "cs",
         "EN": "en"
     },
-    "spreadsheetID": "1OfNO4fDngGa2_RtZXbDFrO18sfyKou031iezo9Wt51s",
-    "serviceAccount": "LocalizationServiceAccount.json"
+    "spreadsheetID": "1LP94rImvd0Tcw3e9EcOl9sAByonj1gIzto04QVS9YG4",
+    "serviceAccount": "localizationServiceAccount.json",
+    "stringsFileName": "Localizable.strings"
 }

@@ -27,7 +27,7 @@ final class AppFlowCoordinator: Base.FlowCoordinatorNoDeepLink {
         navVC.setNavigationBarHidden(false, animated: false)
 
         do {
-            navVC.tabBarItem = try UITabBarItem.init(title: page.rawValue, image: page.pageImage(), tag: page.pageOrderNumber())
+            navVC.tabBarItem = try UITabBarItem.init(title: page.localizedName(), image: page.pageImage(), tag: page.pageOrderNumber())
         } catch {
             fatalError(error.localizedDescription)
         }

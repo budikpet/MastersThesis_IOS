@@ -7,9 +7,9 @@
 
 import UIKit
 
-enum TabBarPage: String, CaseIterable {
-    case lexicon = "Lexikon"
-    case zooMap = "Mapa"
+enum TabBarPage: CaseIterable {
+    case lexicon
+    case zooMap
 
     init?(index: Int) {
         switch index {
@@ -19,6 +19,15 @@ enum TabBarPage: String, CaseIterable {
             self = .zooMap
         default:
             return nil
+        }
+    }
+
+    func localizedName() -> String {
+        switch self {
+        case .lexicon:
+            return L10n.Tab.lexicon
+        case .zooMap:
+            return L10n.Tab.zooMap
         }
     }
 

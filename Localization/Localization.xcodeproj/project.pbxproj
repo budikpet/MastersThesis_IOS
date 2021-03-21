@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0FB0225D8AEA822ECDDFB51F /* Pods_Localization.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2EB2D198053536AEB5DFF12 /* Pods_Localization.framework */; };
+		4BE7569F2607D62000DFB440 /* localization.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE7569D2607D62000DFB440 /* localization.json */; };
+		4BE756A22607D6C000DFB440 /* localizationServiceAccount.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756A12607D6C000DFB440 /* localizationServiceAccount.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		49F33091B3F05CEB18AFC887 /* Localization.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Localization.plist; sourceTree = "<group>"; };
+		4BE7569D2607D62000DFB440 /* localization.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = localization.json; sourceTree = "<group>"; };
+		4BE756A12607D6C000DFB440 /* localizationServiceAccount.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = localizationServiceAccount.json; sourceTree = "<group>"; };
 		6FCB376D8C35E582049B76DB /* Pods-Localization.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Localization.release.xcconfig"; path = "Target Support Files/Pods-Localization/Pods-Localization.release.xcconfig"; sourceTree = "<group>"; };
 		9C5242A89D741B14E2689F6C /* Pods-Localization.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Localization.debug.xcconfig"; path = "Target Support Files/Pods-Localization/Pods-Localization.debug.xcconfig"; sourceTree = "<group>"; };
 		A2EB2D198053536AEB5DFF12 /* Pods_Localization.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Localization.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +50,7 @@
 			isa = PBXGroup;
 			children = (
 				D88C1A3C68FE6786953E25EA /* Project */,
+				4BE7569B2607D60200DFB440 /* Configs */,
 				7D725379ECB23F21BC421695 /* Frameworks */,
 				EFD3000BB821F8AABB211B0B /* Products */,
 				FBA587B3B27553A0000388EC /* Pods */,
@@ -58,6 +63,15 @@
 				F5F58F929B6EDFE84E180FCE /* InfoPlists */,
 			);
 			path = Derived;
+			sourceTree = "<group>";
+		};
+		4BE7569B2607D60200DFB440 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				4BE7569D2607D62000DFB440 /* localization.json */,
+				4BE756A12607D6C000DFB440 /* localizationServiceAccount.json */,
+			);
+			name = Configs;
 			sourceTree = "<group>";
 		};
 		7D725379ECB23F21BC421695 /* Frameworks */ = {
@@ -133,8 +147,6 @@
 			isa = PBXProject;
 			attributes = {
 				ORGANIZATIONNAME = "Ackee, s.r.o.";
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = EBB887B776D8A0D60B23DD4F /* Build configuration list for PBXProject "Localization" */;
 			compatibilityVersion = "Xcode 9.3";
@@ -159,6 +171,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BE756A22607D6C000DFB440 /* localizationServiceAccount.json in Resources */,
+				4BE7569F2607D62000DFB440 /* localization.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,7 +231,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh localization.sh";
+			shellScript = "/bin/sh localization.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

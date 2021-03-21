@@ -1,5 +1,7 @@
+"tab.lexicon" = "Lexicon";
+"tab.zooMap" = "Map";
+"errors.missingImage" = "Image is missing.";
 "basic.error" = "Error";
 "basic.ok" = "OK";
 "basic.show_more" = "Show more";
-"basic.error.message" = "Something went wrong";
-"basic.testme" = "Test me";
+"basic.error.message" = "Something went wrong.";
