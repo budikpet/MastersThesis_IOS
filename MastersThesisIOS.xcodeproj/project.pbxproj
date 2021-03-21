@@ -337,8 +337,7 @@
 		3D4D787415D1C81FBE7A359B /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				9231407DA6A34BBCA3244899 /* ExampleViewController.swift */,
-				34ADB4BF00B6523DF75E90DF /* ExampleViewModel.swift */,
+				4B3421C8260766A8004B042E /* Example */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -379,6 +378,15 @@
 				4B3421C22603A589004B042E /* build.yml */,
 			);
 			path = workflows;
+			sourceTree = "<group>";
+		};
+		4B3421C8260766A8004B042E /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				9231407DA6A34BBCA3244899 /* ExampleViewController.swift */,
+				34ADB4BF00B6523DF75E90DF /* ExampleViewModel.swift */,
+			);
+			path = Example;
 			sourceTree = "<group>";
 		};
 		4F983D963B00F11AB24FF2A6 /* Build */ = {
@@ -464,7 +472,6 @@
 			isa = PBXGroup;
 			children = (
 				1B83164D9567E92E519CE9C3 /* Base */,
-				3D4D787415D1C81FBE7A359B /* Screens */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -569,6 +576,7 @@
 				951926522B5F2E641C7205CD /* Resources */,
 				93DDABE6864A9748A987AB16 /* Services */,
 				E83341C5AA4D61A25E61B7D6 /* Theme */,
+				3D4D787415D1C81FBE7A359B /* Screens */,
 				67419805D5AFA9D2E6D431BB /* ViewController */,
 				845311447A55D320E55CEF71 /* ViewModel */,
 				D97767315D6CAA5B7617C421 /* Aliases.swift */,
