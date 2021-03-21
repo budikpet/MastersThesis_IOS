@@ -5,7 +5,7 @@
 //  Created by Petr Budík on 21/03/2021.
 //
 
-import Foundation
+import UIKit
 
 enum TabBarPage: String, CaseIterable {
     case lexicon = "Lexikon"
@@ -31,7 +31,21 @@ enum TabBarPage: String, CaseIterable {
         }
     }
 
-    // Add tab icon value
+    func pageImage() throws -> UIImage {
+        let name: String = {
+            switch self {
+            case .lexicon:
+                return "zooPragueLexicon"
+            case .zooMap:
+                return "zooMapIcon"
+            }
+        }()
+
+        guard let img: UIImage = UIImage(named: name) else {
+            throw "Image named '\(name)' not found"
+        }
+        return img
+    }
 
     // Add tab icon selected / deselected color
 

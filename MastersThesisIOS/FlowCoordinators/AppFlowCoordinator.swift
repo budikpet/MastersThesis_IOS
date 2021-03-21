@@ -20,19 +20,17 @@ final class AppFlowCoordinator: Base.FlowCoordinatorNoDeepLink {
         tabBarController.selectedIndex = TabBarPage.zooMap.pageOrderNumber()
         /// Styling
         tabBarController.tabBar.isTranslucent = false
-
-//        let vm = ExampleViewModel(dependencies: appDependencies)
-//        let vc = ExampleViewController(viewModel: vm)
-//
-//        window.rootViewController = vc
-//
-//        rootViewController = vc
     }
 
     private func initTabController(_ page: TabBarPage) -> UINavigationController {
         let navVC = UINavigationController()
         navVC.setNavigationBarHidden(false, animated: false)
-        navVC.tabBarItem = UITabBarItem.init(title: page.rawValue, image: nil, tag: page.pageOrderNumber())
+
+        do {
+            navVC.tabBarItem = try UITabBarItem.init(title: page.rawValue, image: page.pageImage(), tag: page.pageOrderNumber())
+        } catch {
+            fatalError(error.localizedDescription)
+        }
 
         switch page {
         case .lexicon:

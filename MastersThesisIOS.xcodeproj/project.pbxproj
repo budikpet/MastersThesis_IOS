@@ -14,7 +14,6 @@
 		0D3A14F6563214839ECE7F71 /* DebugAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47DE13B70F286FD90C097B /* DebugAlertController.swift */; };
 		12F56DE64448249A6EF9DAB0 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F998C3B3ADDF5339666EA1B /* BaseViewController.swift */; };
 		15C14FFD4DFAFB298700B002 /* ExampleAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5119B5FFD02FDA73B8CBF /* ExampleAPIService.swift */; };
-		173B0A3635A5DB327F9E67C1 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C38A38ADCC20ED0EA4F958F /* Assets.swift */; };
 		1B89D9D1A717C2D890536DEA /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4376B33743F0EE65C98188DE /* Protobuf.framework */; };
 		1B8F44A566D1D88EA8FD8209 /* AuthenticatedJSONAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F036036E3B0CF605671F9F /* AuthenticatedJSONAPIService.swift */; };
 		1D4E2E6BE45AF34EDE075E6B /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6452F63DBA15C4CC7F458F0E /* Fetcher.swift */; };
@@ -43,6 +42,8 @@
 		4B522E062607A0F300500699 /* MapVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E012607A0F200500699 /* MapVM.swift */; };
 		4B522E072607A0F300500699 /* LexiconVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E032607A0F300500699 /* LexiconVC.swift */; };
 		4B522E082607A0F300500699 /* LexiconVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E042607A0F300500699 /* LexiconVM.swift */; };
+		4B522E342607AE0C00500699 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E332607AE0C00500699 /* Assets.swift */; };
+		4B522E3A2607B24400500699 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E392607B24400500699 /* String.swift */; };
 		50A1E91FC36763A9AECF3B98 /* GoogleDataTransport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C23BD5EC87B1BD484F2C85C /* GoogleDataTransport.framework */; };
 		5169715030BB735FB138C0B6 /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70F29F4F1802476EDF3FCCED /* environment.plist */; };
 		5A684721F7F11AED45A0A356 /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400C971EF0E0D6A5FE76998D /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework */; };
@@ -161,6 +162,8 @@
 		4B522E012607A0F200500699 /* MapVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVM.swift; sourceTree = "<group>"; };
 		4B522E032607A0F300500699 /* LexiconVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LexiconVC.swift; sourceTree = "<group>"; };
 		4B522E042607A0F300500699 /* LexiconVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LexiconVM.swift; sourceTree = "<group>"; };
+		4B522E332607AE0C00500699 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
+		4B522E392607B24400500699 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		4BFE500E9F06CBACF549DDD8 /* FirebaseCrashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCrashlytics.framework; sourceTree = "<group>"; };
 		4CE97500430CBD76773D5A7E /* MastersThesisIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51267FD03FAEDFFE9634756F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -201,7 +204,6 @@
 		976C67478F69EA176C5F7E3A /* Bundle+MastersThesisIOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+MastersThesisIOS.swift"; sourceTree = "<group>"; };
 		9785C3684D174ABDC9EE9418 /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
 		9BE85DCDEC2B5DFC8B050C3A /* LocalizedStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
-		9C38A38ADCC20ED0EA4F958F /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		9F1D335B75FEE2D91003ACF4 /* UIColor+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Theme.swift"; sourceTree = "<group>"; };
 		9FB055CB340D743CF6439260 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Alamofire.framework; sourceTree = "<group>"; };
 		9FB2041C959374F58EEB07A1 /* Reqres.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reqres.framework; sourceTree = "<group>"; };
@@ -451,7 +453,7 @@
 		6F95282263FC15B33BAFA37C /* Generated */ = {
 			isa = PBXGroup;
 			children = (
-				9C38A38ADCC20ED0EA4F958F /* Assets.swift */,
+				4B522E332607AE0C00500699 /* Assets.swift */,
 				F08A4514ADB85AD661BD8799 /* Environment.swift */,
 				9BE85DCDEC2B5DFC8B050C3A /* LocalizedStrings.swift */,
 			);
@@ -678,6 +680,7 @@
 				7BBB49C8961782EBA73201B7 /* UIResponder+Errors.swift */,
 				133F80E91B4D9A2B0A948B92 /* UIView+Spacer.swift */,
 				F8DBCCF4CC567320FE8C258E /* UIViewController+FrontmostController.swift */,
+				4B522E392607B24400500699 /* String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -980,7 +983,6 @@
 				9564D632A6035A44065802C3 /* AppFlowCoordinator.swift in Sources */,
 				5D495379DF9D537E3E9BE41A /* Credentials.swift in Sources */,
 				69EE4ACDCCCE1E3138D77F61 /* CredentialsProvider.swift in Sources */,
-				173B0A3635A5DB327F9E67C1 /* Assets.swift in Sources */,
 				9E5627076F7C69DE2DCAF3DC /* Environment.swift in Sources */,
 				261260516C58E1CB57F9FCA8 /* LocalizedStrings.swift in Sources */,
 				8B36538BFF5739815866ABB4 /* Logger.swift in Sources */,
@@ -1008,11 +1010,13 @@
 				3EE12907E60CDACDDB3B6866 /* VersionUpdateManager.swift in Sources */,
 				417060A89002220CC931FA9B /* ThemeProvider.swift in Sources */,
 				BB0EF8151C5F21B8CCD3EFAB /* UIColor+Theme.swift in Sources */,
+				4B522E342607AE0C00500699 /* Assets.swift in Sources */,
 				3086F555D508B50B4B3DEC1F /* UIElements+Theme.swift in Sources */,
 				F2BD53010A616CBCF3FCCBD9 /* UIFont+Theme.swift in Sources */,
 				0D3A14F6563214839ECE7F71 /* DebugAlertController.swift in Sources */,
 				4B522E082607A0F300500699 /* LexiconVM.swift in Sources */,
 				12F56DE64448249A6EF9DAB0 /* BaseViewController.swift in Sources */,
+				4B522E3A2607B24400500699 /* String.swift in Sources */,
 				4B522E052607A0F300500699 /* MapVC.swift in Sources */,
 				9FB7B455D96DCB81A70D6D40 /* PopupModalAnimation.swift in Sources */,
 				C4642B71A83782A2B4C8DF4D /* PopupPresenting.swift in Sources */,
