@@ -38,6 +38,7 @@
 		4B3421552603961E004B042E /* Alamofire.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B34214A2603961D004B042E /* Alamofire.xcframework */; };
 		4B3421572603961E004B042E /* ReactiveCocoa.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B34214B2603961D004B042E /* ReactiveCocoa.xcframework */; };
 		4B3421592603961E004B042E /* Reqres.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B34214C2603961D004B042E /* Reqres.xcframework */; };
+		4B522DD82607846800500699 /* MainTabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522DD72607846800500699 /* MainTabBarVC.swift */; };
 		50A1E91FC36763A9AECF3B98 /* GoogleDataTransport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C23BD5EC87B1BD484F2C85C /* GoogleDataTransport.framework */; };
 		5169715030BB735FB138C0B6 /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70F29F4F1802476EDF3FCCED /* environment.plist */; };
 		5A684721F7F11AED45A0A356 /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400C971EF0E0D6A5FE76998D /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework */; };
@@ -152,6 +153,7 @@
 		4B3421C22603A589004B042E /* build.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = build.yml; sourceTree = "<group>"; };
 		4B3421C32603A589004B042E /* xcode-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = "xcode-version"; sourceTree = "<group>"; };
 		4B3421C42603A589004B042E /* PULL_REQUEST_TEMPLATE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PULL_REQUEST_TEMPLATE.md; sourceTree = "<group>"; };
+		4B522DD72607846800500699 /* MainTabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarVC.swift; sourceTree = "<group>"; };
 		4BFE500E9F06CBACF549DDD8 /* FirebaseCrashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCrashlytics.framework; sourceTree = "<group>"; };
 		4CE97500430CBD76773D5A7E /* MastersThesisIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51267FD03FAEDFFE9634756F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 				70C810703E5B431E11324545 /* Alert */,
 				8E22E836546837B9399434AD /* Base */,
 				D6E74C0711F4757EFEE845BD /* Popup */,
+				4B522DD72607846800500699 /* MainTabBarVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -952,6 +955,7 @@
 				69EE4ACDCCCE1E3138D77F61 /* CredentialsProvider.swift in Sources */,
 				173B0A3635A5DB327F9E67C1 /* Assets.swift in Sources */,
 				9E5627076F7C69DE2DCAF3DC /* Environment.swift in Sources */,
+				4B522DD82607846800500699 /* MainTabBarVC.swift in Sources */,
 				261260516C58E1CB57F9FCA8 /* LocalizedStrings.swift in Sources */,
 				8B36538BFF5739815866ABB4 /* Logger.swift in Sources */,
 				BD8A70A54D0327C6315DFF50 /* PushNotification.swift in Sources */,
@@ -1036,7 +1040,7 @@
 					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOS.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1067,7 +1071,7 @@
 					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOS.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1160,7 +1164,7 @@
 					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOS.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1222,7 +1226,7 @@
 					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOS.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1379,7 +1383,7 @@
 					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOS.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
