@@ -14,6 +14,8 @@ protocol LexiconViewModelingActions {
 
 protocol LexiconViewModeling {
 	var actions: LexiconViewModelingActions { get }
+
+    func getLabelLocation(using animal: AnimalData) -> String
 }
 
 extension LexiconViewModeling where Self: LexiconViewModelingActions {
@@ -54,6 +56,22 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     }
 
     // MARK: Helpers
+
+    public func getLabelLocation(using animal: AnimalData) -> String {
+        var res: String = ""
+        if(animal.location_in_zoo == "-" && animal.map_locations.count == 0) {
+            res = "-"
+        } else if(animal.location_in_zoo == "-") {
+            res = L10n.Label.externalPen
+        } else if(animal.map_locations.count == 0) {
+            res = animal.location_in_zoo
+        } else {
+            res = "\(animal.location_in_zoo) - \(L10n.Label.externalPen)"
+        }
+        res = res.trimmed().lowercased().capitalizingFirstLetter()
+
+        return res
+    }
 
     private func setupBindings() {
 

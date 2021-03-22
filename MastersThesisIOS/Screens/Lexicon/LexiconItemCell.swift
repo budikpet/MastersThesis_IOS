@@ -61,28 +61,18 @@ class LexiconItemCell: UITableViewCell {
     Load data of an Item into the cell.
     
     - Parameters:
-       - animal: `AnimalData` which should be displayed using the `ItemCell`.
+       - data: `LexiconItemCellData` which should be displayed using the `LexiconItemCell`.
     */
-    func setData(using animal: AnimalData) {
-        labelName.text = animal.name
-        imageAnimal.image = UIImage(asset: Asset.testLama)
-        labelLocation.text = getLabelLocation(using: animal)
+    func setData(using data: LexiconItemCellData) {
+        labelName.text = data.name
+        imageAnimal.image = data.imageAnimal
+        labelLocation.text = data.location
     }
 
-    private func getLabelLocation(using animal: AnimalData) -> String {
-        var res: String = ""
-        if(animal.location_in_zoo == "-" && animal.map_locations.count == 0) {
-            res = "-"
-        } else if(animal.location_in_zoo == "-") {
-            res = L10n.Label.externalPen
-        } else if(animal.map_locations.count == 0) {
-            res = animal.location_in_zoo
-        } else {
-            res = "\(animal.location_in_zoo) - \(L10n.Label.externalPen)"
-        }
-        res = res.trimmed().lowercased().capitalizingFirstLetter()
+}
 
-        return res
-    }
-
+struct LexiconItemCellData {
+    let imageAnimal: UIImage
+    let name: String
+    let location: String
 }

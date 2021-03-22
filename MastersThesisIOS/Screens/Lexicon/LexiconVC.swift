@@ -82,7 +82,8 @@ extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
         let animals = viewModel.actions.animals
 
         let item = animals[indexPath.row]
-        cell.setData(using: item)
+        let data = LexiconItemCellData(imageAnimal: UIImage(asset: Asset.testLama), name: item.name, location: viewModel.getLabelLocation(using: item))
+        cell.setData(using: data)
 
         return cell
     }
