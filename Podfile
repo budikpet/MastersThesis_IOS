@@ -14,6 +14,8 @@ target project_name do
     
     pod 'SwiftGen', '~> 6.3'
     pod 'LicensePlist', '~> 2.14'
+    pod 'Tangram-es', '~> 0.15.0'
+    pod 'RealmSwift', '~> 10.7.2'
     
     target 'MastersThesisIOSTests' do
         inherit! :complete

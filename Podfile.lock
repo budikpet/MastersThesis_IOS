@@ -1,28 +1,42 @@
 PODS:
   - ACKLocalization (1.1.2)
   - LicensePlist (2.16.0)
+  - Realm (10.7.2):
+    - Realm/Headers (= 10.7.2)
+  - Realm/Headers (10.7.2)
+  - RealmSwift (10.7.2):
+    - Realm (= 10.7.2)
   - SwiftGen (6.3.0)
   - SwiftLint (0.40.3)
+  - Tangram-es (0.15.0)
 
 DEPENDENCIES:
   - ACKLocalization (~> 1.1)
   - LicensePlist (~> 2.14)
+  - RealmSwift (~> 10.7.2)
   - SwiftGen (~> 6.3)
   - SwiftLint (~> 0.27)
+  - Tangram-es (~> 0.15.0)
 
 SPEC REPOS:
   trunk:
     - ACKLocalization
     - LicensePlist
+    - Realm
+    - RealmSwift
     - SwiftGen
     - SwiftLint
+    - Tangram-es
 
 SPEC CHECKSUMS:
   ACKLocalization: 534037e17a30d07d58808f764a1c6acce51b92be
   LicensePlist: 26afd3ef32fffcc649a15b31d96fef5eded65497
+  Realm: e523da9ade306c5ae87e85dc09fdef148d3e1cc1
+  RealmSwift: 4f6758c3adbdcc87f7b7777107226532a077f61c
   SwiftGen: 3d5024a47ea79e408cded20763d7a17d18a4548c
   SwiftLint: dfd554ff0dff17288ee574814ccdd5cea85d76f7
+  Tangram-es: ec3048d4f8887f0dde78f40e6d8330e8f5e8c5eb
 
-PODFILE CHECKSUM: 1e748aea8a7bd63fb34c6ff989e44cc7e8718e3e
+PODFILE CHECKSUM: 9e6782aab08f835d729251e180eb394f9dfd75b2
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1
