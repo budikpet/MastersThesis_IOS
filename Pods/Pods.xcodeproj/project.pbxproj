@@ -15,6 +15,7 @@
 			dependencies = (
 			);
 			name = SwiftGen;
+			productName = SwiftGen;
 		};
 		4A634C58117A79A80C4A39944AD23BEF /* ACKLocalization */ = {
 			isa = PBXAggregateTarget;
@@ -24,6 +25,7 @@
 			dependencies = (
 			);
 			name = ACKLocalization;
+			productName = ACKLocalization;
 		};
 		52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */ = {
 			isa = PBXAggregateTarget;
@@ -33,6 +35,7 @@
 			dependencies = (
 			);
 			name = SwiftLint;
+			productName = SwiftLint;
 		};
 		B08332B0C91F6CDC405644DADDB96E3C /* LicensePlist */ = {
 			isa = PBXAggregateTarget;
@@ -42,6 +45,7 @@
 			dependencies = (
 			);
 			name = LicensePlist;
+			productName = LicensePlist;
 		};
 /* End PBXAggregateTarget section */
 
@@ -110,7 +114,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0DA338F43983A85D57C51E3C7FB0B998 /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_MastersThesisIOS_MastersThesisIOSTests.framework; path = "Pods-MastersThesisIOS-MastersThesisIOSTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0DA338F43983A85D57C51E3C7FB0B998 /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MastersThesisIOS_MastersThesisIOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		21E674E2C278A79FBE5F7FCAE857DBB5 /* Pods-MastersThesisIOS-MastersThesisIOSTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MastersThesisIOS-MastersThesisIOSTests-umbrella.h"; sourceTree = "<group>"; };
 		241939784133E4B924F0D4A3043F0867 /* Pods-MastersThesisIOS-MastersThesisIOSTests.beta-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MastersThesisIOS-MastersThesisIOSTests.beta-production.xcconfig"; sourceTree = "<group>"; };
 		306E6145095E8B191F3EC4B0D025DF40 /* Pods-Localization-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Localization-umbrella.h"; sourceTree = "<group>"; };
@@ -137,20 +141,20 @@
 		90FE5B817DDFF0A17B65E7D4FCF41491 /* LicensePlist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = LicensePlist.debug.xcconfig; sourceTree = "<group>"; };
 		9552A0E2E6D1EBB97D29B8F6CEB4E0FF /* Pods-Localization-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Localization-dummy.m"; sourceTree = "<group>"; };
 		97C933200B17BF3FD11B3A01A699F319 /* Pods-MastersThesisIOS-MastersThesisIOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MastersThesisIOS-MastersThesisIOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; };
 		9E4B60B29C76229FC921FB5EA0418D11 /* Pods-MastersThesisIOS.beta-stage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MastersThesisIOS.beta-stage.xcconfig"; sourceTree = "<group>"; };
 		A1D3AAD65E52CF8862D9070C0E2014C3 /* Pods-MastersThesisIOS-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MastersThesisIOS-acknowledgements.plist"; sourceTree = "<group>"; };
 		B7D2829F390CD0E922C50ED9B10A602D /* Pods-Localization-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Localization-Info.plist"; sourceTree = "<group>"; };
 		BC94278843D6531E975766BEF93C080B /* Pods-Localization.beta-development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Localization.beta-development.xcconfig"; sourceTree = "<group>"; };
 		BE447B6970EACF52307C344FF51BED88 /* Pods-Localization-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Localization-acknowledgements.plist"; sourceTree = "<group>"; };
 		BEA39CC10FFE949ADA49011E18D2D9AE /* Pods-MastersThesisIOS-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MastersThesisIOS-acknowledgements.markdown"; sourceTree = "<group>"; };
-		C1B1C7B621A728E69A05434D3B418725 /* Pods_MastersThesisIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_MastersThesisIOS.framework; path = "Pods-MastersThesisIOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1B1C7B621A728E69A05434D3B418725 /* Pods_MastersThesisIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MastersThesisIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8103F7C4304C8B3C89EB013467327A4 /* Pods-MastersThesisIOS-MastersThesisIOSTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MastersThesisIOS-MastersThesisIOSTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		CFF2726B83415BE634944F45CAAAB723 /* ACKLocalization.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ACKLocalization.debug.xcconfig; sourceTree = "<group>"; };
 		D2A87C644C7488491B2E6FC1C22323FC /* Pods-MastersThesisIOS.beta-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MastersThesisIOS.beta-production.xcconfig"; sourceTree = "<group>"; };
 		D3BB2BCEDA3BE563007C0425B282CA02 /* Pods-MastersThesisIOS-MastersThesisIOSTests.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MastersThesisIOS-MastersThesisIOSTests.development.xcconfig"; sourceTree = "<group>"; };
 		D579CDA8CDB49AE7F209716BFE672AC3 /* LicensePlist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = LicensePlist.release.xcconfig; sourceTree = "<group>"; };
-		DA44A9D3756838544F2824C30E117802 /* Pods_Localization.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Localization.framework; path = "Pods-Localization.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA44A9D3756838544F2824C30E117802 /* Pods_Localization.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Localization.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDDDDBD88C843EFED6175695B2B598BE /* Pods-Localization.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Localization.release.xcconfig"; sourceTree = "<group>"; };
 		DF0F5156AD8434E7144E0AFFDB580C89 /* Pods-MastersThesisIOS-MastersThesisIOSTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-MastersThesisIOS-MastersThesisIOSTests.modulemap"; sourceTree = "<group>"; };
 		E19692B459D34E04525D17703E8631AF /* Pods-MastersThesisIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MastersThesisIOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -194,7 +198,6 @@
 			children = (
 				F2482EF74D733C76440C80CC5310154F /* Support Files */,
 			);
-			name = SwiftGen;
 			path = SwiftGen;
 			sourceTree = "<group>";
 		};
@@ -253,7 +256,6 @@
 			children = (
 				C5EE11A634EA4D5B0E47CC79FAA23FAC /* Support Files */,
 			);
-			name = ACKLocalization;
 			path = ACKLocalization;
 			sourceTree = "<group>";
 		};
@@ -262,7 +264,6 @@
 			children = (
 				F8DA1115AC65A5EE56FFA5C738EDD336 /* Support Files */,
 			);
-			name = LicensePlist;
 			path = LicensePlist;
 			sourceTree = "<group>";
 		};
@@ -271,7 +272,6 @@
 			children = (
 				A5D85F645D042A392AB3A97E55E844EF /* Support Files */,
 			);
-			name = SwiftLint;
 			path = SwiftLint;
 			sourceTree = "<group>";
 		};

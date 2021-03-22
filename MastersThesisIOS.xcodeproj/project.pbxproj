@@ -45,6 +45,9 @@
 		4B522E3A2607B24400500699 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E392607B24400500699 /* String.swift */; };
 		4BE756902607D0C800DFB440 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */; };
 		4BE756A52607D7A600DFB440 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756A42607D7A600DFB440 /* README.md */; };
+		4BE756AB26089B1C00DFB440 /* AnimalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE756AA26089B1C00DFB440 /* AnimalData.swift */; };
+		4BE756BC26089F1A00DFB440 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756BA26089F1A00DFB440 /* Cartfile */; };
+		4BE756BD26089F1A00DFB440 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756BB26089F1A00DFB440 /* Podfile */; };
 		50A1E91FC36763A9AECF3B98 /* GoogleDataTransport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C23BD5EC87B1BD484F2C85C /* GoogleDataTransport.framework */; };
 		5169715030BB735FB138C0B6 /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70F29F4F1802476EDF3FCCED /* environment.plist */; };
 		5A684721F7F11AED45A0A356 /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400C971EF0E0D6A5FE76998D /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework */; };
@@ -168,6 +171,9 @@
 		4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		4BE756982607D59400DFB440 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4BE756A42607D7A600DFB440 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		4BE756AA26089B1C00DFB440 /* AnimalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalData.swift; sourceTree = "<group>"; };
+		4BE756BA26089F1A00DFB440 /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = SOURCE_ROOT; };
+		4BE756BB26089F1A00DFB440 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
 		4BFE500E9F06CBACF549DDD8 /* FirebaseCrashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCrashlytics.framework; sourceTree = "<group>"; };
 		4CE97500430CBD76773D5A7E /* MastersThesisIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51267FD03FAEDFFE9634756F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -337,6 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				6F95282263FC15B33BAFA37C /* Generated */,
+				4BE756A926089AEF00DFB440 /* RealmData */,
 				05DCA311AAD7A01333B12091 /* Credentials.swift */,
 				ECDEC2BE5513D08713890CB6 /* CredentialsProvider.swift */,
 				6F219E84D09A1B43C95C66F8 /* Logger.swift */,
@@ -371,6 +378,8 @@
 				4B3421BE2603A589004B042E /* .github */,
 				4B3421BC2603A589004B042E /* .gitignore */,
 				4B3421BD2603A589004B042E /* .swiftlint.yml */,
+				4BE756BA26089F1A00DFB440 /* Cartfile */,
+				4BE756BB26089F1A00DFB440 /* Podfile */,
 				4BE756A42607D7A600DFB440 /* README.md */,
 			);
 			path = Configs;
@@ -424,6 +433,14 @@
 			name = Lexicon;
 			path = MastersThesisIOS/Screens/Lexicon;
 			sourceTree = SOURCE_ROOT;
+		};
+		4BE756A926089AEF00DFB440 /* RealmData */ = {
+			isa = PBXGroup;
+			children = (
+				4BE756AA26089B1C00DFB440 /* AnimalData.swift */,
+			);
+			path = RealmData;
+			sourceTree = "<group>";
 		};
 		4F983D963B00F11AB24FF2A6 /* Build */ = {
 			isa = PBXGroup;
@@ -769,7 +786,7 @@
 		62EAF215D097B1438D8765D8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				ORGANIZATIONNAME = "Ackee, s.r.o.";
+				ORGANIZATIONNAME = "Petr Budík";
 				TargetAttributes = {
 					7ACD3C16EBAC26D5066D7CD4 = {
 						TestTargetID = A1A06FEB47735E474B783847;
@@ -810,9 +827,11 @@
 			files = (
 				3DCE3DF97E5AFF581BF6F976 /* GoogleService-Info.plist in Resources */,
 				5169715030BB735FB138C0B6 /* environment.plist in Resources */,
+				4BE756BC26089F1A00DFB440 /* Cartfile in Resources */,
 				A5C657839D15A744657E9AE2 /* Images.xcassets in Resources */,
 				4BE756A52607D7A600DFB440 /* README.md in Resources */,
 				7167C7A27309141CB9FA5FD3 /* LaunchScreen.storyboard in Resources */,
+				4BE756BD26089F1A00DFB440 /* Podfile in Resources */,
 				810B6B3D33E50C545B516AEE /* Localizable.strings in Resources */,
 				87B4739B8B3CCAC2E14E3348 /* Settings.bundle in Resources */,
 			);
@@ -1005,6 +1024,7 @@
 				CC74F05EB137F28A38431A0E /* NetworkStructs.swift in Sources */,
 				3E47A031D6CB09F918A7F27D /* NetworkUploadable.swift in Sources */,
 				404E9C41C0362D17595DA5F4 /* UnauthorizedHandling.swift in Sources */,
+				4BE756AB26089B1C00DFB440 /* AnimalData.swift in Sources */,
 				042201D69B9F206E8A18AEBD /* PushAPIService.swift in Sources */,
 				44AF8F9F303D783912865A7C /* PushManager.swift in Sources */,
 				007372AF8B80C0886132CF0D /* UserManager.swift in Sources */,
