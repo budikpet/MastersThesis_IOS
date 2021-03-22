@@ -849,9 +849,40 @@ class SignalProducerSpec: QuickSpec {
 
 					expect(result?.value) == [1, 4, 9, 16]
 				}
+
+				it("should interrupt all intermediate signals when the upstream is terminated") {
+					let baseProducer = SignalProducer<Int, Never>.empty
+
+					var lastEvent: Signal<Int, Never>.Event?
+
+					var isNeverEndingSignalDisposed = false
+
+					let disposable = baseProducer
+						.lift { _ in Signal.never.on(disposed: { isNeverEndingSignalDisposed = true }) }
+						.start { event in
+							lastEvent = event
+						}
+
+					expect(lastEvent).to(beNil())
+					expect(isNeverEndingSignalDisposed) == false
+
+					disposable.dispose()
+					expect(lastEvent) == .interrupted
+					expect(isNeverEndingSignalDisposed) == true
+				}
 			}
 
 			describe("over binary operators") {
+				var isNeverEndingSignalDisposed = false
+
+				let binaryLiftTransform = { (_: Signal<Int, Never>) -> (Signal<Int, Never>) -> Signal<Int, Never> in
+					{ (_: Signal<Int, Never>) in
+						Signal<Int, Never>.never.on(disposed: { isNeverEndingSignalDisposed = true })
+					}
+				}
+
+				beforeEach { isNeverEndingSignalDisposed = false }
+
 				it("should invoke transformation once per started signal") {
 					let baseProducer = SignalProducer<Int, Never>([1, 2])
 					let otherProducer = SignalProducer<Int, Never>([3, 4])
@@ -888,6 +919,44 @@ class SignalProducerSpec: QuickSpec {
 					let result = producer.collect().single()
 
 					expect(result?.value) == [5, 7, 9]
+				}
+
+				it("[left associative] should interrupt all intermediate signals when the upstream is terminated") {
+					let baseProducer = SignalProducer<Int, Never>.empty
+
+					var lastEvent: Signal<Int, Never>.Event?
+
+					let disposable = baseProducer
+						.liftLeft(binaryLiftTransform)(.empty)
+						.start { event in
+							lastEvent = event
+						}
+
+					expect(lastEvent).to(beNil())
+					expect(isNeverEndingSignalDisposed) == false
+
+					disposable.dispose()
+					expect(lastEvent) == .interrupted
+					expect(isNeverEndingSignalDisposed) == true
+				}
+
+				it("[right associative] should interrupt all intermediate signals when the upstream is terminated") {
+					let baseProducer = SignalProducer<Int, Never>.empty
+
+					var lastEvent: Signal<Int, Never>.Event?
+
+					let disposable = baseProducer
+						.liftRight(binaryLiftTransform)(.empty)
+						.start { event in
+							lastEvent = event
+						}
+
+					expect(lastEvent).to(beNil())
+					expect(isNeverEndingSignalDisposed) == false
+
+					disposable.dispose()
+					expect(lastEvent) == .interrupted
+					expect(isNeverEndingSignalDisposed) == true
 				}
 			}
 
@@ -1169,6 +1238,71 @@ class SignalProducerSpec: QuickSpec {
 
 				var isDisposed = false
 				weak var weakSignal: Signal<Date, Never>?
+				producer.startWithSignal { signal, disposable in
+					weakSignal = signal
+					scheduler.schedule {
+						disposable.dispose()
+					}
+					signal.on(disposed: { isDisposed = true }).observeInterrupted { interrupted = true }
+				}
+
+				expect(weakSignal).to(beNil())
+				expect(isDisposed) == false
+				expect(interrupted) == false
+
+				scheduler.run()
+				expect(weakSignal).to(beNil())
+				expect(isDisposed) == true
+				expect(interrupted) == true
+			}
+		}
+
+		describe("interval") {
+			it("should send the next sequence value at the given interval") {
+				let scheduler = TestScheduler()
+				let producer = SignalProducer.interval("abc", interval: .seconds(1), on: scheduler)
+
+				var isDisposed = false
+				var values: [Character] = []
+				producer
+					.on(disposed: { isDisposed = true })
+					.startWithValues { values.append($0) }
+
+				scheduler.advance(by: .milliseconds(900))
+				expect(values) == []
+
+				scheduler.advance(by: .seconds(1))
+				expect(values) == ["a"]
+
+				scheduler.advance()
+				expect(values) == ["a"]
+
+				scheduler.advance(by: .milliseconds(200))
+				expect(values) == ["a", "b"]
+
+				scheduler.advance(by: .seconds(1))
+				expect(values) == ["a", "b", "c"]
+
+				scheduler.advance(by: .seconds(1))
+				expect(isDisposed) == true
+			}
+
+			it("shouldn't overflow on a real scheduler") {
+				let scheduler = QueueScheduler.makeForTesting()
+				let testSequence = repeatElement(Character("a"), count: 1_000_000)
+				let producer = SignalProducer.interval(testSequence, interval: .seconds(3), on: scheduler)
+				producer
+					.start()
+					.dispose()
+			}
+
+			it("should dispose of the signal when disposed") {
+				let scheduler = TestScheduler()
+				let producer = SignalProducer.interval("abc", interval: .seconds(1), on: scheduler)
+				var interrupted = false
+
+				var isDisposed = false
+				weak var weakSignal: Signal<Character, Never>?
 				producer.startWithSignal { signal, disposable in
 					weakSignal = signal
 					scheduler.schedule {
@@ -2849,7 +2983,7 @@ class SignalProducerSpec: QuickSpec {
 				expect(result).to(beNil())
 
 				observer.send(value: 1)
-				expect(result).toEventually(equal(1), timeout: 5.0)
+				expect(result).toEventually(equal(1), timeout: .seconds(5))
 			}
 
 			it("should return a nil result if no values are sent before completion") {
@@ -3623,7 +3757,7 @@ class SignalProducerSpec: QuickSpec {
 				}
 			}
 			
-			it("should emit false when all producers in array emit false") {
+			it("should emit false when all producers emit false") {
 				let producer1 = SignalProducer<Bool, Never> { observer, _ in
 					observer.send(value: false)
 					observer.sendCompleted()
@@ -3637,7 +3771,7 @@ class SignalProducerSpec: QuickSpec {
 					observer.sendCompleted()
 				}
 
-				SignalProducer.any([producer1, producer2, producer3]).startWithValues { value in
+				SignalProducer.any(producer1, producer2, producer3).startWithValues { value in
 					expect(value).to(beFalse())
 				}
 			}
@@ -3677,8 +3811,11 @@ class SignalProducerSpec: QuickSpec {
 // MARK: - Helpers
 
 private func == <T>(left: Expectation<T.Type>, right: Any.Type) {
-	left.to(Predicate.fromDeprecatedClosure { expression, _ in
-		return try expression.evaluate()! == right
+	left.to(Predicate { expression in
+		PredicateResult(
+			bool: try expression.evaluate()! == right,
+			message: ExpectationMessage.expectedActualValueTo("equal to")
+		)
 	}.requireNonNil)
 }
 

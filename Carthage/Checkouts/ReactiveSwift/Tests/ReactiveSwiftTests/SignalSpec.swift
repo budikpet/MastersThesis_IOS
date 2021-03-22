@@ -357,7 +357,7 @@ class SignalSpec: QuickSpec {
 				group.wait()
 
 				expect(executionCounter.value) == iterations * 2
-				expect(counter.value).toEventually(equal(iterations), timeout: 5)
+				expect(counter.value).toEventually(equal(iterations), timeout: .seconds(5))
 			}
 		}
 
@@ -3896,11 +3896,11 @@ class SignalSpec: QuickSpec {
 				observer3.sendCompleted()
 			}
 			
-			it("should emit false when all signals in array emits false") {
+			it("should emit false when all signals emits false") {
 				let (signal1, observer1) = Signal<Bool, Never>.pipe()
 				let (signal2, observer2) = Signal<Bool, Never>.pipe()
 				let (signal3, observer3) = Signal<Bool, Never>.pipe()
-				Signal.any([signal1, signal2, signal3]).observeValues { value in
+				Signal.any(signal1, signal2, signal3).observeValues { value in
 					expect(value).to(beFalse())
 				}
 				observer1.send(value: false)
