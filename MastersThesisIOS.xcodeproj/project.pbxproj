@@ -374,19 +374,6 @@
 			path = FlowCoordinators;
 			sourceTree = "<group>";
 		};
-		4B3421BB2603A558004B042E /* Configs */ = {
-			isa = PBXGroup;
-			children = (
-				4B3421BE2603A589004B042E /* .github */,
-				4B3421BC2603A589004B042E /* .gitignore */,
-				4B3421BD2603A589004B042E /* .swiftlint.yml */,
-				4BE756BA26089F1A00DFB440 /* Cartfile */,
-				4BE756BB26089F1A00DFB440 /* Podfile */,
-				4BE756A42607D7A600DFB440 /* README.md */,
-			);
-			path = Configs;
-			sourceTree = "<group>";
-		};
 		4B3421BE2603A589004B042E /* .github */ = {
 			isa = PBXGroup;
 			children = (
@@ -442,6 +429,19 @@
 				4BE756AA26089B1C00DFB440 /* AnimalData.swift */,
 			);
 			path = RealmData;
+			sourceTree = "<group>";
+		};
+		4BE756DE2608AB8000DFB440 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				4B3421BE2603A589004B042E /* .github */,
+				4B3421BC2603A589004B042E /* .gitignore */,
+				4B3421BD2603A589004B042E /* .swiftlint.yml */,
+				4BE756BA26089F1A00DFB440 /* Cartfile */,
+				4BE756BB26089F1A00DFB440 /* Podfile */,
+				4BE756A42607D7A600DFB440 /* README.md */,
+			);
+			name = Configs;
 			sourceTree = "<group>";
 		};
 		4F983D963B00F11AB24FF2A6 /* Build */ = {
@@ -553,7 +553,7 @@
 			isa = PBXGroup;
 			children = (
 				8E17F3B4F9B5472ED64BC510 /* Project */,
-				4B3421BB2603A558004B042E /* Configs */,
+				4BE756DE2608AB8000DFB440 /* Configs */,
 				B7D9687AAE4679F1AAF5ADC7 /* Frameworks */,
 				9A71A0E217C4599105B45DC6 /* Products */,
 				DD12440652EDAA4C852AF36D /* Carthage */,
@@ -751,6 +751,7 @@
 				1C7A9402654ECEC2290ACADD /* Embed Precompiled Frameworks */,
 				2B3C00B36B68774B0EFF8530 /* Embed Frameworks */,
 				0163BF6E16A25C83F84704D0 /* Frameworks */,
+				A10CA5CD62D6B67AAE158C7E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -774,6 +775,7 @@
 				9CACA6EB98429DE51F84D4B0 /* Frameworks */,
 				BC3DFEA1C3DC4FDBAC015382 /* Swiftlint */,
 				54EE85E9043BFBC849FC5066 /* Crashlytics */,
+				FA33398AA2819CF1089B2495 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -896,6 +898,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PROJECT_DIR}\"/BuildPhases/All.sh ";
 		};
+		A10CA5CD62D6B67AAE158C7E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MastersThesisIOS-MastersThesisIOSTests/Pods-MastersThesisIOS-MastersThesisIOSTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MastersThesisIOS-MastersThesisIOSTests/Pods-MastersThesisIOS-MastersThesisIOSTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MastersThesisIOS-MastersThesisIOSTests/Pods-MastersThesisIOS-MastersThesisIOSTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		A47D07D49284FC75E617A505 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -994,6 +1013,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FA33398AA2819CF1089B2495 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MastersThesisIOS/Pods-MastersThesisIOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MastersThesisIOS/Pods-MastersThesisIOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MastersThesisIOS/Pods-MastersThesisIOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

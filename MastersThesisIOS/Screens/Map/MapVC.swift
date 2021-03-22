@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import TangramMap
 import ReactiveSwift
 
 final class MapVC: BaseViewController {

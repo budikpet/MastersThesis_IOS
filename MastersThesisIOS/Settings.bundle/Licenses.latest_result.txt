@@ -14,6 +14,30 @@ body: MIT License
 Copyrig…
 version: 2.16.0
 
+name: Realm, nameSpecified: 
+body: TABLE OF CONTENTS
+
+1…
+version: 10.7.2
+
+name: Realm, nameSpecified: 
+body: TABLE OF CONTENTS
+
+1…
+version: 10.7.2
+
+name: RealmSwift, nameSpecified: 
+body: TABLE OF CONTENTS
+
+1…
+version: 10.7.2
+
+name: RealmSwift, nameSpecified: 
+body: TABLE OF CONTENTS
+
+1…
+version: 10.7.2
+
 name: SwiftGen, nameSpecified: 
 body: MIT Licence
 
@@ -33,6 +57,14 @@ version: 0.40.3
 name: SwiftLint, nameSpecified: 
 body: The MIT License (MIT…
 version: 0.40.3
+
+name: Tangram-es, nameSpecified: 
+body: The MIT License (MIT…
+version: 0.15.0
+
+name: Tangram-es, nameSpecified: 
+body: The MIT License (MIT…
+version: 0.15.0
 
 name: ACKategories, nameSpecified: , owner: AckeeCZ, version: 6.8.1
 
@@ -41,8 +73,6 @@ name: Alamofire, nameSpecified: , owner: Alamofire, version: 4.9.1
 name: ReactiveCocoa, nameSpecified: , owner: ReactiveCocoa, version: 10.3.0
 
 name: ReactiveSwift, nameSpecified: , owner: ReactiveCocoa, version: 6.6.0
-
-name: realm-cocoa, nameSpecified: , owner: realm, version: v5.5.1
 
 name: Reqres, nameSpecified: , owner: AckeeCZ, version: 3.1.1
 
