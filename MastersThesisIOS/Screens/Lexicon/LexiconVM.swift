@@ -39,7 +39,10 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
         data3.name = "Name 3"
         data3.map_locations.append(44)
         data3.image_url = "www.zoopraha.cz/images/lexikon-images/_22J6092.jpg"
-        return [data1, data2, data3]
+
+        let data4 = AnimalData(withId: 4)
+        data4.name = "Name 4"
+        return [data1, data2, data3, data4]
     }()
 
     // MARK: Initializers

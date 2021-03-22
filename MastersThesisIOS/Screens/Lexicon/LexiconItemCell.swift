@@ -23,44 +23,31 @@ class LexiconItemCell: UITableViewCell {
         let imageAnimal = UIImageView()
         addSubview(imageAnimal)
         self.imageAnimal = imageAnimal
-        imageAnimal.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        imageAnimal.setContentHuggingPriority(.defaultLow, for: .vertical)
-        imageAnimal.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        imageAnimal.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
 
         let labelName = UILabel()
         addSubview(labelName)
         self.labelName = labelName
-        labelName.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        labelName.setContentHuggingPriority(.init(251), for: .vertical)
-        labelName.setContentCompressionResistancePriority(.required, for: .horizontal)
-        labelName.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
 
         let labelLocation = UILabel()
         addSubview(labelLocation)
         self.labelLocation = labelLocation
         labelLocation.textColor = .lightGray
-        labelLocation.setContentHuggingPriority(.init(251), for: .horizontal)
-        labelLocation.setContentHuggingPriority(.init(251), for: .vertical)
-        labelLocation.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        labelLocation.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
 
         // Constraints
         imageAnimal.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalToSuperview().inset(16)
+            make.top.bottom.leading.equalToSuperview().inset(8)
             make.width.equalTo(imageAnimal.snp.height).multipliedBy(1/1)
-            make.height.equalTo(30)
+            make.height.equalTo(80)
         }
 
         labelName.snp.makeConstraints { make in
-            make.bottom.top.equalToSuperview().inset(8)
+            make.top.equalTo(imageAnimal.snp.top).inset(8)
             make.leading.equalTo(imageAnimal.snp.trailing).offset(16)
-            make.trailing.greaterThanOrEqualTo(labelLocation.snp.leading).offset(-8)
         }
 
         labelLocation.snp.makeConstraints { make in
-            make.bottom.trailing.top.equalToSuperview().inset(8)
+            make.top.equalTo(labelName.snp.bottom).offset(4)
+            make.leading.equalTo(labelName.snp.leading)
         }
     }
 
@@ -78,8 +65,24 @@ class LexiconItemCell: UITableViewCell {
     */
     func setData(using animal: AnimalData) {
         labelName.text = animal.name
-        labelLocation.text = animal.location_in_zoo
         imageAnimal.image = UIImage(asset: Asset.testLama)
+        labelLocation.text = getLabelLocation(using: animal)
+    }
+
+    private func getLabelLocation(using animal: AnimalData) -> String {
+        var res: String = ""
+        if(animal.location_in_zoo == "-" && animal.map_locations.count == 0) {
+            res = "-"
+        } else if(animal.location_in_zoo == "-") {
+            res = "Venkovní výběh"
+        } else if(animal.map_locations.count == 0) {
+            res = animal.location_in_zoo
+        } else {
+            res = "\(animal.location_in_zoo) - Venkovní výběh"
+        }
+        res = res.trimmed().lowercased().capitalizingFirstLetter()
+
+        return res
     }
 
 }

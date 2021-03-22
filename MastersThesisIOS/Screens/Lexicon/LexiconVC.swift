@@ -47,6 +47,7 @@ final class LexiconVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.estimatedRowHeight = 120
 
         setupBindings()
 
