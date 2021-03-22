@@ -10,9 +10,7 @@ import ReactiveSwift
 
 final class LexiconVC: BaseViewController {
 
-    private weak var imageView: UIImageView!
-    private weak var activityIndicator: UIActivityIndicatorView!
-    private weak var reloadButton: UIButton!
+    private weak var tableView: UITableView!
 
     // MARK: Dependencies
 
@@ -34,54 +32,66 @@ final class LexiconVC: BaseViewController {
 
     override func loadView() {
         super.loadView()
-        view.backgroundColor = UIColor(hex: 0x78dd82)
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = UIColor.black.withAlphaComponent(0.1)
-        view.addSubview(imageView)
-        imageView.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-            make.width.equalToSuperview().inset(20)
-            make.height.equalTo(imageView.snp.width)
-        }
-        self.imageView = imageView
+        view.backgroundColor = .white
+        view.accessibilityIdentifier = "LexiconVC"
 
-        let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
-        activityIndicator.tintColor = .black
-        activityIndicator.hidesWhenStopped = true
-        imageView.addSubview(activityIndicator)
-        activityIndicator.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-        }
-        self.activityIndicator = activityIndicator
+        let tableView = UITableView(frame: self.view.bounds, style: UITableView.Style.plain)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.accessibilityIdentifier = "LexiconVC_TableView"
 
-        let reloadButton = UIButton()
-        reloadButton.setTitle("STOP", for: [])
-        reloadButton.setTitleColor(.black, for: [])
-        view.addSubview(reloadButton)
-        reloadButton.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(10)
-            make.centerX.equalToSuperview()
-        }
-        self.reloadButton = reloadButton
+        tableView.register(LexiconItemCell.self, forCellReuseIdentifier: "LexiconItemCell")
+        view.addSubview(tableView)
+        self.tableView = tableView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupBindings()
+
+        // TODO: Move to VM?
+        navigationItem.title = "Lexikon Zoo Praha"
     }
 
     // MARK: Helpers
 
     private func setupBindings() {
 
-        activityIndicator.reactive.isAnimating <~ viewModel.actions.fetchPhoto.isExecuting
-
-        viewModel.actions.fetchPhoto <~ reloadButton.reactive.controlEvents(.touchUpInside).map { _ in }
-
-        imageView.reactive.image <~ viewModel.photo
+//        activityIndicator.reactive.isAnimating <~ viewModel.actions.fetchPhoto.isExecuting
+//
+//        viewModel.actions.fetchPhoto <~ reloadButton.reactive.controlEvents(.touchUpInside).map { _ in }
+//
+//        imageView.reactive.image <~ viewModel.photo
 
     }
 
+}
+
+// MARK: UITableView delegate and data source
+extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let animals = viewModel.actions.animals
+
+        return animals.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LexiconItemCell", for: indexPath) as! LexiconItemCell
+        let animals = viewModel.actions.animals
+
+        let item = animals[indexPath.row]
+        cell.setData(using: item)
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let animals = viewModel.actions.animals
+
+        let item = animals[indexPath.row]
+        print("Selected item: \(item)")
+
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }

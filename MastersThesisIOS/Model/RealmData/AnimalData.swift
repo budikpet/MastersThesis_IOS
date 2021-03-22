@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 
 class AnimalData: Object {
-    public let _id: Int64
+    @objc dynamic public var _id: Int64 = -1
     @objc dynamic public var name: String = "-"
     @objc dynamic public var latin_name: String = "-"
     @objc dynamic public var base_summary: String = "-"
@@ -29,13 +29,14 @@ class AnimalData: Object {
     @objc dynamic public var interesting_data: String = "-"
     @objc dynamic public var about_placement_in_zoo_prague: String = "-"
     @objc dynamic public var location_in_zoo: String = "-"
-    public let mapLocations = List<Int64>()
+    public let map_locations = List<Int64>()
 
     override public static func primaryKey() -> String? {
         return "_id"
     }
 
-    init(withId id: Int64) {
+    public convenience init(withId id: Int64) {
+        self.init()
         self._id = id
     }
 }

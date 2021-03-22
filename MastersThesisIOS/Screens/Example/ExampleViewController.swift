@@ -47,7 +47,7 @@ final class ExampleViewController: BaseViewController {
         }
         self.imageView = imageView
 
-        let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+        let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
         activityIndicator.tintColor = .black
         activityIndicator.hidesWhenStopped = true
         imageView.addSubview(activityIndicator)

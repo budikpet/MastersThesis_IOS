@@ -9,13 +9,11 @@ import UIKit
 import ReactiveSwift
 
 protocol LexiconViewModelingActions {
-    var fetchPhoto: Action<Void, UIImage?, RequestError> { get }
+    var animals: Array<AnimalData> { get }
 }
 
 protocol LexiconViewModeling {
 	var actions: LexiconViewModelingActions { get }
-
-    var photo: Property<UIImage?> { get }
 }
 
 extension LexiconViewModeling where Self: LexiconViewModelingActions {
@@ -23,24 +21,30 @@ extension LexiconViewModeling where Self: LexiconViewModelingActions {
 }
 
 final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingActions {
-    typealias Dependencies = HasExampleAPI
+    typealias Dependencies = HasNoDependency
 
-    let fetchPhoto: Action<Void, UIImage?, RequestError>
+    let animals: Array<AnimalData> = {
+        let data1 = AnimalData(withId: 1)
+        data1.name = "Name 1"
+        data1.location_in_zoo = "Pavilon XYZ"
+        data1.image_url = "www.zoopraha.cz/images/lexikon/Adax_foto_Vaclav_Silha_3I4A6578_export.jpg"
 
-    var photo: Property<UIImage?>
+        let data2 = AnimalData(withId: 2)
+        data2.name = "Name 2"
+        data2.location_in_zoo = "Horní část Zoo"
+        data2.map_locations.append(21)
+        data2.image_url = "www.zoopraha.cz/images/lexikon/bazant_palawansky_DSC_1416.jpg"
+
+        let data3 = AnimalData(withId: 3)
+        data3.name = "Name 3"
+        data3.map_locations.append(44)
+        data3.image_url = "www.zoopraha.cz/images/lexikon-images/_22J6092.jpg"
+        return [data1, data2, data3]
+    }()
 
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
-        fetchPhoto = Action { dependencies.exampleAPI.fetchPhoto(1)  // wired photo ID just for example
-            .compactMap { URL(string: $0) }
-            .observe(on: QueueScheduler())
-            .compactMap { try? Data(contentsOf: $0) }
-            .observe(on: QueueScheduler.main)
-            .map { UIImage(data: $0) }
-        }
-
-        photo = Property(initial: nil, then: fetchPhoto.values)
 
         super.init()
         setupBindings()

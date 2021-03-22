@@ -48,6 +48,7 @@
 		4BE756AB26089B1C00DFB440 /* AnimalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE756AA26089B1C00DFB440 /* AnimalData.swift */; };
 		4BE756BC26089F1A00DFB440 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756BA26089F1A00DFB440 /* Cartfile */; };
 		4BE756BD26089F1A00DFB440 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756BB26089F1A00DFB440 /* Podfile */; };
+		4BE7570D2608BEE000DFB440 /* LexiconItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7570C2608BEE000DFB440 /* LexiconItemCell.swift */; };
 		50A1E91FC36763A9AECF3B98 /* GoogleDataTransport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C23BD5EC87B1BD484F2C85C /* GoogleDataTransport.framework */; };
 		5169715030BB735FB138C0B6 /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70F29F4F1802476EDF3FCCED /* environment.plist */; };
 		5A684721F7F11AED45A0A356 /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400C971EF0E0D6A5FE76998D /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework */; };
@@ -176,6 +177,7 @@
 		4BE756BB26089F1A00DFB440 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
 		4BE756C72608A48100DFB440 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		4BE756C82608A48100DFB440 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
+		4BE7570C2608BEE000DFB440 /* LexiconItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexiconItemCell.swift; sourceTree = "<group>"; };
 		4BFE500E9F06CBACF549DDD8 /* FirebaseCrashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCrashlytics.framework; sourceTree = "<group>"; };
 		4CE97500430CBD76773D5A7E /* MastersThesisIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51267FD03FAEDFFE9634756F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 		4B522E022607A0F300500699 /* Lexicon */ = {
 			isa = PBXGroup;
 			children = (
+				4BE7570C2608BEE000DFB440 /* LexiconItemCell.swift */,
 				4B522E032607A0F300500699 /* LexiconVC.swift */,
 				4B522E042607A0F300500699 /* LexiconVM.swift */,
 			);
@@ -1088,6 +1091,7 @@
 				C4642B71A83782A2B4C8DF4D /* PopupPresenting.swift in Sources */,
 				5FDEB9A40822C7EF27C7118E /* BaseViewModel.swift in Sources */,
 				8F4BEE23125EA78F4CE7F09B /* ExampleViewController.swift in Sources */,
+				4BE7570D2608BEE000DFB440 /* LexiconItemCell.swift in Sources */,
 				BE192750960B3C27E9192E3A /* ExampleViewModel.swift in Sources */,
 				F5A2602D3DBC683053A48B4D /* main.swift in Sources */,
 			);
