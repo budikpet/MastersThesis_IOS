@@ -52,7 +52,7 @@ final class LexiconVC: BaseViewController {
         setupBindings()
 
         // TODO: Move to VM?
-        navigationItem.title = "Lexikon Zoo Praha"
+        navigationItem.title = L10n.NavigationItem.Title.lexicon
     }
 
     // MARK: Helpers

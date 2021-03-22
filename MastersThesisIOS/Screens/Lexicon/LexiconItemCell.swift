@@ -74,11 +74,11 @@ class LexiconItemCell: UITableViewCell {
         if(animal.location_in_zoo == "-" && animal.map_locations.count == 0) {
             res = "-"
         } else if(animal.location_in_zoo == "-") {
-            res = "Venkovní výběh"
+            res = L10n.Label.externalPen
         } else if(animal.map_locations.count == 0) {
             res = animal.location_in_zoo
         } else {
-            res = "\(animal.location_in_zoo) - Venkovní výběh"
+            res = "\(animal.location_in_zoo) - \(L10n.Label.externalPen)"
         }
         res = res.trimmed().lowercased().capitalizingFirstLetter()
 

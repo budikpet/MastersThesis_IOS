@@ -5,3 +5,6 @@
 "basic.ok" = "OK";
 "basic.show_more" = "Ukázat více";
 "basic.error.message" = "Něco se pokazilo.";
+"navigationItem.title.zooMap" = "Mapa Zoo";
+"navigationItem.title.lexicon" = "Lexikon zvířat";
+"label.externalPen" = "Venkovní výběh";

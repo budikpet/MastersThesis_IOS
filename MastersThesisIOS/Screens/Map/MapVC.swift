@@ -69,6 +69,7 @@ final class MapVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = L10n.NavigationItem.Title.zooMap
 
         setupBindings()
     }
