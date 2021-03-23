@@ -23,7 +23,7 @@ class ImageFetcherReactive {
      - Parameters:
         - urlString: A remote URL from which the image is to be fetched. If null then it is expected to be looking for the image in local storage.
      */
-    func fetchImage(from urlString: String?, options: FetchableImageOptionsReactive? = nil) -> SignalProducer<DataResponse, RequestError> {
+    func fetchImage(from urlString: String?, options: FetchableImageOptionsReactive? = nil) -> SignalProducer<Data, RequestError> {
 
         return SignalProducer<(URL, Bool), RequestError> { observer, lifetime in
             let opt = FetchableImageHelperReactive.getOptions(options)
@@ -44,20 +44,24 @@ class ImageFetcherReactive {
 
             observer.sendCompleted()
         }
-        .flatMap(.concat) { (url, isLocal) -> SignalProducer<DataResponse, RequestError> in
-            if(isLocal) {
-                // Image exists locally!
-                // Load it using the composed localURL.
-                return FetchableImageHelperReactive.loadLocalImage(from: url)
-            } else {
-                // Image does not exist locally!
-                // Download it.
-                let address = RequestAddress(withUrl: url)
-
-                return self.network.request(address, method: .get, parameters: [:], encoding: URLEncoding.default, headers: [:])
-                    .on(event: {event in try? event.value?.data?.write(to: url) })
-            }
+        .observe(on: QueueScheduler())
+        .compactMap { url, isLocal in
+            try? Data(contentsOf: url)
         }
+//        .flatMap(.concat) { (url, isLocal) -> SignalProducer<DataResponse, RequestError> in
+//            if(isLocal) {
+//                // Image exists locally!
+//                // Load it using the composed localURL.
+//                return FetchableImageHelperReactive.loadLocalImage(from: url)
+//            } else {
+//                // Image does not exist locally!
+//                // Download it.
+//                let address = RequestAddress(withUrl: url)
+//
+//                return self.network.request(address, method: .get, parameters: [:], encoding: URLEncoding.default, headers: [:])
+//                    .on(event: {event in try? event.value?.data?.write(to: url) })
+//            }
+//        }
     }
 
     /**

@@ -72,7 +72,7 @@ class LexiconItemCell: UITableViewCell {
 }
 
 struct LexiconItemCellData {
-    let imageAnimal: UIImage
+    let imageAnimal: UIImage?
     let name: String
     let location: String
 }
