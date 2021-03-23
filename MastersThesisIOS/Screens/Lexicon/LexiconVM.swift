@@ -9,11 +9,13 @@ import UIKit
 import ReactiveSwift
 
 protocol LexiconViewModelingActions {
-    var animals: Array<AnimalData> { get }
+    var fetchData: Action<Array<LexiconData>, Array<LexiconData>, RequestError> { get }
 }
 
 protocol LexiconViewModeling {
 	var actions: LexiconViewModelingActions { get }
+
+    var data: Property<Array<LexiconData>> { get }
 
     func getLabelLocation(using animal: AnimalData) -> String
 }
@@ -23,9 +25,15 @@ extension LexiconViewModeling where Self: LexiconViewModelingActions {
 }
 
 final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingActions {
-    typealias Dependencies = HasNoDependency
+    typealias Dependencies = HasNetwork
 
-    let animals: Array<AnimalData> = {
+    private let imageFetcher: ImageFetcherReactive
+
+    var fetchData: Action<Array<LexiconData>, Array<LexiconData>, RequestError>
+
+    var data: Property<Array<LexiconData>>
+
+    let animals: Array<LexiconData> = {
         let data1 = AnimalData(withId: 1)
         data1.name = "Name 1"
         data1.location_in_zoo = "Pavilon XYZ"
@@ -44,12 +52,24 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 
         let data4 = AnimalData(withId: 4)
         data4.name = "Name 4"
-        return [data1, data2, data3, data4]
+        print("running")
+        return [data1, data2, data3, data4].map { (animal: AnimalData) -> LexiconData in
+            return LexiconData(imageAnimal: nil, imageUrl: animal.image_url, _id: animal._id, name: animal.name, location: "-")
+        }
     }()
 
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
+        imageFetcher = ImageFetcherReactive(dependencies: dependencies)
+
+        fetchData = Action<Array<LexiconData>, Array<LexiconData>, RequestError> { input in
+            return SignalProducer(value: input)
+        }
+
+        data = Property(initial: [], then: fetchData.values)
+
+        fetchData.apply(animals).start()
 
         super.init()
         setupBindings()
@@ -76,4 +96,12 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     private func setupBindings() {
 
     }
+}
+
+struct LexiconData {
+    let imageAnimal: UIImage?
+    let imageUrl: String
+    let _id: Int64
+    let name: String
+    let location: String
 }

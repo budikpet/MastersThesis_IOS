@@ -11,7 +11,11 @@ struct RequestAddress {
 extension RequestAddress {
     // swiftlint:disable force_unwrapping
     init(path: String, baseURL: URL = URL(string: Environment.apiURLString)!) {
-        url = URL(string: path, relativeTo: baseURL)!
+        self.url = URL(string: path, relativeTo: baseURL)!
+    }
+
+    init(withUrl url: URL) {
+        self.url = url
     }
 }
 

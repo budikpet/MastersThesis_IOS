@@ -19,32 +19,32 @@ extension FetchableImage {
                           options: FetchableImageOptions? = nil,
                           partialFetchHandler: @escaping (_ imageData: Data?, _ index: Int) -> Void,
                           completion: @escaping () -> Void) {
-        
+
         let partialHandlerClosure = { (imageData, index) in
             partialFetchHandler(imageData, index)
         }
-     
+
         performBatchImageFetching(using: urlStrings, currentImageIndex: 0, options: options, partialFetchHandler: partialHandlerClosure) {
             completion()
         }
-     
+
     }
-    
+
     private func performBatchImageFetching(using urlStrings: [String?], currentImageIndex: Int,
         options: FetchableImageOptions?,
         partialFetchHandler: @escaping (_ imageData: Data?, _ index: Int) -> Void,
         completion: @escaping () -> Void) {
-        
+
         if(currentImageIndex >= urlStrings.count) {
             // Recursion completed
             completion()
             return
         }
-        
+
         fetchImage(from: urlStrings[currentImageIndex], options: options) { (imageData) in
             // Pass current image data to the caller
             partialFetchHandler(imageData, currentImageIndex)
-     
+
             // Continue recursion
             self.performBatchImageFetching(using: urlStrings,
                 currentImageIndex: currentImageIndex + 1,
@@ -53,7 +53,7 @@ extension FetchableImage {
             }
         }
     }
-    
+
     /**
      - Parameters:
         - imageURL: Remote URL of the image should be fetched from.

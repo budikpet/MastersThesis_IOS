@@ -59,6 +59,12 @@ final class LexiconVC: BaseViewController {
 
     private func setupBindings() {
 
+        viewModel.data.signal
+            .take(during: reactive.lifetime)
+            .observeValues { [unowned self] _ in
+                self.tableView.reloadData()
+            }
+
 //        activityIndicator.reactive.isAnimating <~ viewModel.actions.fetchPhoto.isExecuting
 //
 //        viewModel.actions.fetchPhoto <~ reloadButton.reactive.controlEvents(.touchUpInside).map { _ in }
@@ -72,24 +78,24 @@ final class LexiconVC: BaseViewController {
 // MARK: UITableView delegate and data source
 extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let animals = viewModel.actions.animals
-
-        return animals.count
+        return viewModel.data.value.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // swiftlint:disable force_cast
         let cell = tableView.dequeueReusableCell(withIdentifier: "LexiconItemCell", for: indexPath) as! LexiconItemCell
-        let animals = viewModel.actions.animals
+        let animals = viewModel.data.value
 
         let item = animals[indexPath.row]
-        let data = LexiconItemCellData(imageAnimal: UIImage(asset: Asset.testLama), name: item.name, location: viewModel.getLabelLocation(using: item))
+//        let data = LexiconItemCellData(imageAnimal: UIImage(asset: Asset.testLama), name: item.name, location: viewModel.getLabelLocation(using: item))
+        let data = LexiconItemCellData(imageAnimal: UIImage(asset: Asset.testLama), name: item.name, location: "-")
         cell.setData(using: data)
 
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let animals = viewModel.actions.animals
+        let animals = viewModel.data.value
 
         let item = animals[indexPath.row]
         print("Selected item: \(item)")
