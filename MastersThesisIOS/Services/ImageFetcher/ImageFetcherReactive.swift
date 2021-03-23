@@ -30,6 +30,7 @@ class ImageFetcherReactive {
             let localURL = self.localFileURL(for: urlString, options: options)
 
             if opt.allowLocalStorage, let localURL = localURL, FileManager.default.fileExists(atPath: localURL.path) {
+                print("Sending local: \(localURL)")
                 observer.send(value: (localURL, true))
             } else {
                 guard let urlString = urlString, let url = URL(string: urlString) else {
@@ -37,6 +38,7 @@ class ImageFetcherReactive {
                     observer.sendCompleted()
                     return
                 }
+                print("Sending global: \(url)")
                 observer.send(value: (url, false))
             }
 

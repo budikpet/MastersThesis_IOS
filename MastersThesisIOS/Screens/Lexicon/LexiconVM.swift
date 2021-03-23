@@ -39,32 +39,46 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
         data1.location_in_zoo = "Pavilon XYZ"
         data1.image_url = "www.zoopraha.cz/images/lexikon/Adax_foto_Vaclav_Silha_3I4A6578_export.jpg"
 
-        let data2 = AnimalData(withId: 2)
-        data2.name = "Name 2"
-        data2.location_in_zoo = "Horní část Zoo"
-        data2.map_locations.append(21)
-        data2.image_url = "www.zoopraha.cz/images/lexikon/bazant_palawansky_DSC_1416.jpg"
-
-        let data3 = AnimalData(withId: 3)
-        data3.name = "Name 3"
-        data3.map_locations.append(44)
-        data3.image_url = "www.zoopraha.cz/images/lexikon-images/_22J6092.jpg"
-
-        let data4 = AnimalData(withId: 4)
-        data4.name = "Name 4"
-        print("running")
-        return [data1, data2, data3, data4].map { (animal: AnimalData) -> LexiconData in
-            return LexiconData(imageAnimal: nil, imageUrl: animal.image_url, _id: animal._id, name: animal.name, location: "-")
+//        let data2 = AnimalData(withId: 2)
+//        data2.name = "Name 2"
+//        data2.location_in_zoo = "Horní část Zoo"
+//        data2.map_locations.append(21)
+//        data2.image_url = "www.zoopraha.cz/images/lexikon/bazant_palawansky_DSC_1416.jpg"
+//
+//        let data3 = AnimalData(withId: 3)
+//        data3.name = "Name 3"
+//        data3.map_locations.append(44)
+//        data3.image_url = "www.zoopraha.cz/images/lexikon-images/_22J6092.jpg"
+//
+//        let data4 = AnimalData(withId: 4)
+//        data4.name = "Name 4"
+//        print("running")
+//        data4.image_url = "www.zoopraha.cz/images/lexikon-images/_22J6092.jpg"
+        return [data1].map { (animal: AnimalData) -> LexiconData in
+            return LexiconData(image: nil, imageUrl: animal.image_url, _id: animal._id, name: animal.name, location: "-")
         }
     }()
 
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
-        imageFetcher = ImageFetcherReactive(dependencies: dependencies)
+        let imageFetcher = ImageFetcherReactive(dependencies: dependencies)
+        self.imageFetcher = imageFetcher
 
         fetchData = Action<[LexiconData], [LexiconData], RequestError> { input in
-            return SignalProducer(value: input)
+            let res =  SignalProducer<[LexiconData], RequestError>(value: input)
+                .flatten()
+                .flatMap(.concat) { lexiconData -> SignalProducer<LexiconData, RequestError> in
+                    print("FETCHING STARTED")
+                    return imageFetcher.fetchImage(from: lexiconData.imageUrl)
+                        .map() { dataResponse -> LexiconData in
+                            let currLexiconData = LexiconData(image: UIImage(data: dataResponse.data!), imageUrl: lexiconData.imageUrl, _id: lexiconData._id, name: lexiconData.name, location: lexiconData.location)
+                            return currLexiconData
+                        }
+                }
+                .collect()
+
+            return res
         }
 
         data = Property(initial: [], then: fetchData.values)
@@ -99,7 +113,7 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 }
 
 struct LexiconData {
-    let imageAnimal: UIImage?
+    let image: UIImage?
     let imageUrl: String
     let _id: Int64
     let name: String
