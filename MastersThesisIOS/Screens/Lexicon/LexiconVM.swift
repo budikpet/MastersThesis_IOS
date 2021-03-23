@@ -9,13 +9,13 @@ import UIKit
 import ReactiveSwift
 
 protocol LexiconViewModelingActions {
-    var fetchData: Action<Array<LexiconData>, Array<LexiconData>, RequestError> { get }
+    var fetchData: Action<[LexiconData], [LexiconData], RequestError> { get }
 }
 
 protocol LexiconViewModeling {
 	var actions: LexiconViewModelingActions { get }
 
-    var data: Property<Array<LexiconData>> { get }
+    var data: Property<[LexiconData]> { get }
 
     func getLabelLocation(using animal: AnimalData) -> String
 }
@@ -29,11 +29,11 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 
     private let imageFetcher: ImageFetcherReactive
 
-    var fetchData: Action<Array<LexiconData>, Array<LexiconData>, RequestError>
+    var fetchData: Action<[LexiconData], [LexiconData], RequestError>
 
-    var data: Property<Array<LexiconData>>
+    var data: Property<[LexiconData]>
 
-    let animals: Array<LexiconData> = {
+    let animals: [LexiconData] = {
         let data1 = AnimalData(withId: 1)
         data1.name = "Name 1"
         data1.location_in_zoo = "Pavilon XYZ"
@@ -63,7 +63,7 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     init(dependencies: Dependencies) {
         imageFetcher = ImageFetcherReactive(dependencies: dependencies)
 
-        fetchData = Action<Array<LexiconData>, Array<LexiconData>, RequestError> { input in
+        fetchData = Action<[LexiconData], [LexiconData], RequestError> { input in
             return SignalProducer(value: input)
         }
 
