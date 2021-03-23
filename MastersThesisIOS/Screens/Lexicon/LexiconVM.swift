@@ -27,7 +27,7 @@ extension LexiconViewModeling where Self: LexiconViewModelingActions {
 final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingActions {
     typealias Dependencies = HasNetwork
 
-    private let imageFetcher: ImageFetcherReactive
+    private let imageFetcher: ImageFetcherService
 
     var fetchData: Action<[LexiconData], [LexiconData], RequestError>
 
@@ -62,7 +62,7 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
-        let imageFetcher = ImageFetcherReactive(dependencies: dependencies)
+        let imageFetcher = ImageFetcherService(dependencies: dependencies)
         self.imageFetcher = imageFetcher
 
         fetchData = Action<[LexiconData], [LexiconData], RequestError> { input in
