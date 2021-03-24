@@ -49,7 +49,7 @@
 		4BE756BC26089F1A00DFB440 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756BA26089F1A00DFB440 /* Cartfile */; };
 		4BE756BD26089F1A00DFB440 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756BB26089F1A00DFB440 /* Podfile */; };
 		4BE7570D2608BEE000DFB440 /* LexiconItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7570C2608BEE000DFB440 /* LexiconItemCell.swift */; };
-		4BE7573C2609F86F00DFB440 /* ImageFetcherReactive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7573B2609F86F00DFB440 /* ImageFetcherReactive.swift */; };
+		4BE7573C2609F86F00DFB440 /* ImageFetcherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7573B2609F86F00DFB440 /* ImageFetcherService.swift */; };
 		50A1E91FC36763A9AECF3B98 /* GoogleDataTransport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C23BD5EC87B1BD484F2C85C /* GoogleDataTransport.framework */; };
 		5169715030BB735FB138C0B6 /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70F29F4F1802476EDF3FCCED /* environment.plist */; };
 		5A684721F7F11AED45A0A356 /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400C971EF0E0D6A5FE76998D /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework */; };
@@ -179,7 +179,7 @@
 		4BE756C72608A48100DFB440 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		4BE756C82608A48100DFB440 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		4BE7570C2608BEE000DFB440 /* LexiconItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexiconItemCell.swift; sourceTree = "<group>"; };
-		4BE7573B2609F86F00DFB440 /* ImageFetcherReactive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetcherReactive.swift; sourceTree = "<group>"; };
+		4BE7573B2609F86F00DFB440 /* ImageFetcherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetcherService.swift; sourceTree = "<group>"; };
 		4BFE500E9F06CBACF549DDD8 /* FirebaseCrashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCrashlytics.framework; sourceTree = "<group>"; };
 		4CE97500430CBD76773D5A7E /* MastersThesisIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51267FD03FAEDFFE9634756F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -573,7 +573,7 @@
 				2F647250D0D941D2E6119BD1 /* DI */,
 				D8D2EA463F3FD1F64E3600EC /* Network */,
 				4FB85A81794FC9E565C69424 /* VersionUpdate */,
-				4BE7573B2609F86F00DFB440 /* ImageFetcherReactive.swift */,
+				4BE7573B2609F86F00DFB440 /* ImageFetcherService.swift */,
 				7CD5119B5FFD02FDA73B8CBF /* ExampleAPIService.swift */,
 				8E857ECF275060A4A1513325 /* FirebasePushObserver.swift */,
 				2D89919997817157F48C3F46 /* PushAPIService.swift */,
@@ -1088,7 +1088,7 @@
 				4B522E082607A0F300500699 /* LexiconVM.swift in Sources */,
 				12F56DE64448249A6EF9DAB0 /* BaseViewController.swift in Sources */,
 				4B522E3A2607B24400500699 /* String.swift in Sources */,
-				4BE7573C2609F86F00DFB440 /* ImageFetcherReactive.swift in Sources */,
+				4BE7573C2609F86F00DFB440 /* ImageFetcherService.swift in Sources */,
 				4B522E052607A0F300500699 /* MapVC.swift in Sources */,
 				9FB7B455D96DCB81A70D6D40 /* PopupModalAnimation.swift in Sources */,
 				4BE756902607D0C800DFB440 /* LocalizedStrings.swift in Sources */,
