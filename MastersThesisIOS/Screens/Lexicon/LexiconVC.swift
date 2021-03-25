@@ -16,8 +16,6 @@ final class LexiconVC: BaseViewController {
 
     private let viewModel: LexiconViewModeling
 
-    private static let dummy_image =  UIImage(asset: Asset.zooPragueLogo)!
-
     // MARK: Initializers
 
     init(viewModel: LexiconViewModeling) {
@@ -86,10 +84,7 @@ extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // swiftlint:disable force_cast
         let cell = tableView.dequeueReusableCell(withIdentifier: "LexiconItemCell", for: indexPath) as! LexiconItemCell
-        let animals = viewModel.data.value
-
-        let item = animals[indexPath.row]
-        let data = LexiconItemCellData(imageAnimal: item.image ?? LexiconVC.dummy_image, name: item.name, location: "-")
+        let data = viewModel.item(at: indexPath.row)
         cell.setData(using: data)
 
         return cell
@@ -99,7 +94,6 @@ extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
         let animals = viewModel.data.value
 
         let item = animals[indexPath.row]
-        print("Selected item: \(item)")
 
         tableView.deselectRow(at: indexPath, animated: true)
     }

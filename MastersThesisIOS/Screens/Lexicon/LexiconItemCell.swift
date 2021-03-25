@@ -61,18 +61,12 @@ class LexiconItemCell: UITableViewCell {
     Load data of an Item into the cell.
     
     - Parameters:
-       - data: `LexiconItemCellData` which should be displayed using the `LexiconItemCell`.
+       - data: `LexiconShortData` which should be displayed using the `LexiconShortData`.
     */
-    func setData(using data: LexiconItemCellData) {
+    func setData(using data: LexiconShortData) {
         labelName.text = data.name
-        imageAnimal.image = data.imageAnimal
+        imageAnimal.image = data.image
         labelLocation.text = data.location
     }
 
-}
-
-struct LexiconItemCellData {
-    let imageAnimal: UIImage?
-    let name: String
-    let location: String
 }
