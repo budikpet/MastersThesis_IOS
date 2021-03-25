@@ -7,9 +7,10 @@
 
 import UIKit
 import ReactiveSwift
+import os.log
 
 protocol LexiconViewModelingActions {
-    var fetchData: Action<[LexiconData], [LexiconData], RequestError> { get }
+    var fetchData: Action<[LexiconData], [LexiconData], FetchingError> { get }
 }
 
 protocol LexiconViewModeling {
@@ -29,7 +30,7 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 
     private let imageFetcher: ImageFetcherService
 
-    var fetchData: Action<[LexiconData], [LexiconData], RequestError>
+    var fetchData: Action<[LexiconData], [LexiconData], FetchingError>
 
     var data: Property<[LexiconData]>
 
@@ -65,16 +66,20 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
         let imageFetcher = ImageFetcherService(dependencies: dependencies)
         self.imageFetcher = imageFetcher
 
-        fetchData = Action<[LexiconData], [LexiconData], RequestError> { input in
-            let res =  SignalProducer<[LexiconData], RequestError>(value: input)
+        fetchData = Action<[LexiconData], [LexiconData], FetchingError> { input in
+            let res =  SignalProducer<[LexiconData], FetchingError>(value: input)
                 .observe(on: QueueScheduler())
+                .on(event: {_ in os_log("Fetching started.")})
                 .flatten()
-                .flatMap(.concat) { lexiconData -> SignalProducer<LexiconData, RequestError> in
-                    print("FETCHING STARTED")
+                .flatMap(.concat) { lexiconData -> SignalProducer<LexiconData, FetchingError> in
                     return imageFetcher.fetchImage(from: lexiconData.imageUrl)
                         .map() { data -> LexiconData in
                             let currLexiconData = LexiconData(image: UIImage(data: data), imageUrl: lexiconData.imageUrl, _id: lexiconData._id, name: lexiconData.name, location: lexiconData.location)
                             return currLexiconData
+                        }
+                        .flatMapError() { _ -> SignalProducer<LexiconData, FetchingError> in
+                            // There was an error loading the image
+                            return SignalProducer(value: lexiconData)
                         }
                 }
                 .observe(on: QueueScheduler.main)

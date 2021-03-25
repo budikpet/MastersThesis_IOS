@@ -16,6 +16,8 @@ final class LexiconVC: BaseViewController {
 
     private let viewModel: LexiconViewModeling
 
+    private static let dummy_image =  UIImage(asset: Asset.zooPragueLogo)!
+
     // MARK: Initializers
 
     init(viewModel: LexiconViewModeling) {
@@ -87,8 +89,7 @@ extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
         let animals = viewModel.data.value
 
         let item = animals[indexPath.row]
-//        let data = LexiconItemCellData(imageAnimal: UIImage(asset: Asset.testLama), name: item.name, location: viewModel.getLabelLocation(using: item))
-        let data = LexiconItemCellData(imageAnimal: item.image, name: item.name, location: "-")
+        let data = LexiconItemCellData(imageAnimal: item.image ?? LexiconVC.dummy_image, name: item.name, location: "-")
         cell.setData(using: data)
 
         return cell

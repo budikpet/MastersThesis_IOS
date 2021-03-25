@@ -8,6 +8,7 @@
 
 import Foundation
 import ReactiveSwift
+import os.log
 
 class ImageFetcherService {
     typealias Dependencies = HasNetwork
@@ -23,41 +24,45 @@ class ImageFetcherService {
      - Parameters:
         - urlString: A remote URL from which the image is to be fetched. If null then it is expected to be looking for the image in local storage.
      */
-    func fetchImage(from urlString: String?, options: FetchableImageOptions? = nil) -> SignalProducer<Data, RequestError> {
-
-        return SignalProducer<(URL, Bool), RequestError> { observer, lifetime in
+    func fetchImage(from urlString: String?, options: FetchableImageOptions? = nil) -> SignalProducer<Data, FetchingError> {
+        return SignalProducer<(URL, Bool), FetchingError> { observer, lifetime in
             let opt = FetchableImageHelper.getOptions(options)
             let localURL = self.localFileURL(for: urlString, options: options)
 
             if opt.allowLocalStorage, let localURL = localURL, FileManager.default.fileExists(atPath: localURL.path) {
-                print("Sending local: \(localURL)")
+                os_log("Using local URL: %{public}@", "\(localURL)")
                 observer.send(value: (localURL, true))
             } else {
                 guard let urlString = urlString, let url = URL(string: urlString) else {
-//                    observer.send(nil)
+                    observer.send(error: .urlInvalid)
                     observer.sendCompleted()
                     return
                 }
-                print("Sending global: \(url)")
+                os_log("Using global URL: %{public}@", "\(url)")
                 observer.send(value: (url, false))
             }
 
             observer.sendCompleted()
         }
         .observe(on: QueueScheduler())
-        .compactMap { url, islocal in
+        .attemptMap { url, islocal in
             // Get data from global/local url
             let localURL = self.localFileURL(for: urlString, options: options)
             let opt = FetchableImageHelper.getOptions(options)
-            let data = try? Data(contentsOf: url)
+            var data: Data
+            do {
+                data = try Data(contentsOf: url)
+            } catch {
+                return .failure(.problemLoadingData)
+            }
 
             if let localURL = localURL, !islocal, opt.allowLocalStorage {
                 // Write to local cache if the global url was used
-                print("Writing to cache")
-                try? data?.write(to: localURL)
+                os_log("Writing to cache")
+                try? data.write(to: localURL)
             }
 
-            return data
+            return .success(data)
         }
     }
 
@@ -81,6 +86,13 @@ class ImageFetcherService {
         guard let imageName = FetchableImageHelper.getImageName(from: urlString) else { return nil }
         return targetDir.appendingPathComponent(imageName)
     }
+}
+
+enum FetchingError: Error {
+    case problemLoadingData
+    case problemCaching
+    case urlNotFound
+    case urlInvalid
 }
 
 /**
