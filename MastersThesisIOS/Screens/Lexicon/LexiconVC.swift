@@ -91,9 +91,7 @@ extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let animals = viewModel.data.value
-
-        let item = animals[indexPath.row]
+        let item = viewModel.item(at: indexPath.row)
 
         tableView.deselectRow(at: indexPath, animated: true)
     }

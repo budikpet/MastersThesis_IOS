@@ -10,16 +10,15 @@ import ReactiveSwift
 import os.log
 
 protocol LexiconViewModelingActions {
-    var fetchData: Action<[LexiconShortData], [LexiconShortData], FetchingError> { get }
 }
 
 protocol LexiconViewModeling {
 	var actions: LexiconViewModelingActions { get }
 
-    var data: Property<[LexiconShortData]> { get }
+    var data: Property<[AnimalData]> { get }
 
     func getLabelLocation(using animal: AnimalData) -> String
-    func item(at index: Int) -> LexiconShortData
+    func item(at index: Int) -> AnimalData
 }
 
 extension LexiconViewModeling where Self: LexiconViewModelingActions {
@@ -29,14 +28,10 @@ extension LexiconViewModeling where Self: LexiconViewModelingActions {
 final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingActions {
     typealias Dependencies = HasNetwork
 
-    private let imageFetcher: ImageFetcherService
+    var data: Property<[AnimalData]>
 
-    var fetchData: Action<[LexiconShortData], [LexiconShortData], FetchingError>
-    var data: Property<[LexiconShortData]>
-
-    private static let dummy_image =  UIImage(asset: Asset.zooPragueLogo)!
-
-    let animals: [LexiconShortData] = {
+    // TODO: Předělat na normální AnimalData. Budu předávat vybranou hodnotu do AnimalDetailVC přímo
+    let animals: [AnimalData] = {
         let data1 = AnimalData(withId: 1)
         data1.name = "Name 1"
         data1.location_in_zoo = "Pavilon XYZ"
@@ -57,42 +52,13 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 //        data4.name = "Name 4"
 //        print("running")
 //        data4.image_url = "www.zoopraha.cz/images/lexikon-images/_22J6092.jpg"
-        return [data1, data2, data3].map { (animal: AnimalData) -> LexiconShortData in
-            return LexiconShortData(image: nil, imageUrl: animal.image_url, _id: animal._id, name: animal.name, location: "-")
-        }
+        return [data1, data2, data3]
     }()
 
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
-        let imageFetcher = ImageFetcherService(dependencies: dependencies)
-        self.imageFetcher = imageFetcher
-
-        fetchData = Action<[LexiconShortData], [LexiconShortData], FetchingError> { input in
-            let res =  SignalProducer<[LexiconShortData], FetchingError>(value: input)
-                .observe(on: QueueScheduler())
-                .on(event: {_ in os_log("Fetching started.")})
-                .flatten()
-                .flatMap(.concat) { lexiconData -> SignalProducer<LexiconShortData, FetchingError> in
-                    return imageFetcher.fetchImage(from: lexiconData.imageUrl)
-                        .map() { data -> LexiconShortData in
-                            let currLexiconData = LexiconShortData(image: UIImage(data: data), imageUrl: lexiconData.imageUrl, _id: lexiconData._id, name: lexiconData.name, location: lexiconData.location)
-                            return currLexiconData
-                        }
-                        .flatMapError() { _ -> SignalProducer<LexiconShortData, FetchingError> in
-                            // There was an error loading the image
-                            return SignalProducer(value: lexiconData)
-                        }
-                }
-                .observe(on: QueueScheduler.main)
-                .collect()
-
-            return res
-        }
-
-        data = Property(initial: [], then: fetchData.values)
-
-        fetchData.apply(animals).start()
+        data = Property(initial: [], then: SignalProducer(value: animals))
 
         super.init()
         setupBindings()
@@ -124,20 +90,9 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 // MARK: VC Delegate/DataSource helpers
 
 extension LexiconVM {
-    func item(at index: Int) -> LexiconShortData {
+    func item(at index: Int) -> AnimalData {
         let item = data.value[index]
 
-        return LexiconShortData(image: item.image ?? LexiconVM.dummy_image, imageUrl: item.imageUrl, _id: item._id, name: item.name, location: item.location)
+        return item
     }
-}
-
-/**
- Smaller Lexicon data object that is used by Lexicon page for fetching & holding images.
- */
-struct LexiconShortData {
-    let image: UIImage?
-    let imageUrl: String
-    let _id: Int64
-    let name: String
-    let location: String
 }

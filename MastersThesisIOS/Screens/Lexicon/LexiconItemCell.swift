@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import SDWebImage
 
 /**
  Visual representation of Lexicon UITableViewCell.
@@ -18,6 +19,7 @@ class LexiconItemCell: UITableViewCell {
     private weak var imageAnimal: UIImageView!
 
     public static let identifier: String = "LexiconItemCell"
+    private static let placeholder_image =  UIImage(systemName: "photo")!
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -63,12 +65,14 @@ class LexiconItemCell: UITableViewCell {
     Load data of an Item into the cell.
     
     - Parameters:
-       - data: `LexiconShortData` which should be displayed using the `LexiconShortData`.
+       - data: `AnimalData` which should be displayed using the `AnimalData`.
     */
-    func setData(using data: LexiconShortData) {
+    func setData(using data: AnimalData) {
         labelName.text = data.name
-        imageAnimal.image = data.image
-        labelLocation.text = data.location
+        labelLocation.text = data.location_in_zoo
+        imageAnimal.sd_setImage(with: URL(string: data.image_url),
+                                placeholderImage: LexiconItemCell.placeholder_image,
+                                options: .continueInBackground)
     }
 
 }

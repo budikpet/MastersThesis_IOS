@@ -43,6 +43,7 @@
 		4B522E082607A0F300500699 /* LexiconVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E042607A0F300500699 /* LexiconVM.swift */; };
 		4B522E342607AE0C00500699 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E332607AE0C00500699 /* Assets.swift */; };
 		4B522E3A2607B24400500699 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E392607B24400500699 /* String.swift */; };
+		4B8B3D97260FE6B8000B1E92 /* SDWebImage.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */; };
 		4BE756902607D0C800DFB440 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */; };
 		4BE756A52607D7A600DFB440 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756A42607D7A600DFB440 /* README.md */; };
 		4BE756AB26089B1C00DFB440 /* AnimalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE756AA26089B1C00DFB440 /* AnimalData.swift */; };
@@ -170,6 +171,7 @@
 		4B522E042607A0F300500699 /* LexiconVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LexiconVM.swift; sourceTree = "<group>"; };
 		4B522E332607AE0C00500699 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		4B522E392607B24400500699 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SDWebImage.xcframework; path = Carthage/Build/SDWebImage.xcframework; sourceTree = "<group>"; };
 		4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		4BE756982607D59400DFB440 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4BE756A42607D7A600DFB440 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -275,6 +277,7 @@
 				4B3421592603961E004B042E /* Reqres.xcframework in Frameworks */,
 				4B34214F2603961D004B042E /* SnapKit.xcframework in Frameworks */,
 				B33B81CD7A7D0C6297F9837F /* FirebaseInstallations.framework in Frameworks */,
+				4B8B3D97260FE6B8000B1E92 /* SDWebImage.xcframework in Frameworks */,
 				DD56334114EEABF5BB530D94 /* FirebaseInstanceID.framework in Frameworks */,
 				C55CD97EFD2F3D42538BB24F /* FirebaseMessaging.framework in Frameworks */,
 				0C85129A81E42E95D9C7CB1F /* FirebasePerformance.framework in Frameworks */,
@@ -651,6 +654,7 @@
 		B7D9687AAE4679F1AAF5ADC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */,
 				4BE756C72608A48100DFB440 /* Realm.framework */,
 				4BE756C82608A48100DFB440 /* RealmSwift.framework */,
 				4B3421482603961C004B042E /* ACKategories.xcframework */,

@@ -9,6 +9,8 @@ github "AckeeCZ/ACKategories" ~> 6.5
 
 github "SnapKit/SnapKit" ~> 5.0
 
+github "SDWebImage/SDWebImage" ~> 5.10.4
+
 binary "https://dl.google.com/dl/firebase/ios/carthage/FirebaseAnalyticsBinary.json" ~> 6.26
 binary "https://dl.google.com/dl/firebase/ios/carthage/FirebaseCrashlyticsBinary.json" ~> 6.26
 binary "https://dl.google.com/dl/firebase/ios/carthage/FirebaseMessagingBinary.json" ~> 6.26
