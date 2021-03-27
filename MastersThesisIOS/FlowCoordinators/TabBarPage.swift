@@ -44,7 +44,7 @@ enum TabBarPage: CaseIterable {
         let name: String = {
             switch self {
             case .lexicon:
-                return "zooPragueLexicon"
+                return "zooPragueLexiconIcon"
             case .zooMap:
                 return "zooMapIcon"
             }

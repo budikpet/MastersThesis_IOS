@@ -40,7 +40,7 @@ final class LexiconVC: BaseViewController {
         tableView.delegate = self
         tableView.accessibilityIdentifier = "LexiconVC_TableView"
 
-        tableView.register(LexiconItemCell.self, forCellReuseIdentifier: "LexiconItemCell")
+        tableView.register(LexiconItemCell.self, forCellReuseIdentifier: LexiconItemCell.identifier)
         view.addSubview(tableView)
         self.tableView = tableView
     }
@@ -83,7 +83,7 @@ extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // swiftlint:disable force_cast
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LexiconItemCell", for: indexPath) as! LexiconItemCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: LexiconItemCell.identifier, for: indexPath) as! LexiconItemCell
         let data = viewModel.item(at: indexPath.row)
         cell.setData(using: data)
 

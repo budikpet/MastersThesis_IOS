@@ -17,6 +17,8 @@ class LexiconItemCell: UITableViewCell {
     private weak var labelLocation: UILabel!
     private weak var imageAnimal: UIImageView!
 
+    public static let identifier: String = "LexiconItemCell"
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
