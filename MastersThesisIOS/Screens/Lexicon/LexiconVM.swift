@@ -30,12 +30,28 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 
     var data: Property<[AnimalData]>
 
-    // TODO: Předělat na normální AnimalData. Budu předávat vybranou hodnotu do AnimalDetailVC přímo
     let animals: [AnimalData] = {
         let data1 = AnimalData(withId: 1)
         data1.name = "Name 1"
         data1.location_in_zoo = "Pavilon XYZ"
         data1.image_url = "https://www.zoopraha.cz/images/lexikon/Adax_foto_Vaclav_Silha_3I4A6578_export.jpg"
+        data1.latin_name = "Animalus Namus 1"
+        data1.base_summary = "Lorem ipsum for the base summary."
+        data1.class_ = "Savec"
+        data1.class_latin = "Savcum"
+        data1.order = "Order"
+        data1.order_latin = "Order_latin"
+        data1.continent = "Europe"
+        data1.continent_detail = "Czech republic"
+        data1.biotop = "Hory"
+        data1.biotop_detail = "Alpy"
+        data1.food = "Food"
+        data1.sizes = "Sizes"
+        data1.reproduction = "Reproduction"
+        data1.interesting_data = "Lorem ipsum for interesting data."
+        data1.about_placement_in_zoo_prague = "Lorem ipsum for placement details."
+        data1.location_in_zoo = "Horní část Zoo"
+        data1.map_locations.append(objectsIn: [Int64.init(1), Int64.init(2)])
 
         let data2 = AnimalData(withId: 2)
         data2.name = "Name 2"
@@ -48,10 +64,6 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
         data3.map_locations.append(44)
         data3.image_url = "https://www.zoopraha.cz/images/lexikon-images/_22J6092.jpg"
 
-//        let data4 = AnimalData(withId: 4)
-//        data4.name = "Name 4"
-//        print("running")
-//        data4.image_url = "www.zoopraha.cz/images/lexikon-images/_22J6092.jpg"
         return [data1, data2, data3]
     }()
 

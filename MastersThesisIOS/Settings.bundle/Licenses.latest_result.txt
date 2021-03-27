@@ -76,6 +76,8 @@ name: ReactiveSwift, nameSpecified: , owner: ReactiveCocoa, version: 6.6.0
 
 name: Reqres, nameSpecified: , owner: AckeeCZ, version: 3.1.1
 
+name: SDWebImage, nameSpecified: , owner: SDWebImage, version: 5.10.4
+
 name: SnapKit, nameSpecified: , owner: SnapKit, version: 5.0.1
 
 add-version-numbers: false
