@@ -43,7 +43,8 @@
 		4B522E082607A0F300500699 /* LexiconVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E042607A0F300500699 /* LexiconVM.swift */; };
 		4B522E342607AE0C00500699 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E332607AE0C00500699 /* Assets.swift */; };
 		4B522E3A2607B24400500699 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E392607B24400500699 /* String.swift */; };
-		4B8B3D97260FE6B8000B1E92 /* SDWebImage.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */; };
+		4B7FB075261082F00086A057 /* SDWebImage.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */; };
+		4B7FB076261082F00086A057 /* SDWebImage.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4BE756902607D0C800DFB440 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */; };
 		4BE756A52607D7A600DFB440 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756A42607D7A600DFB440 /* README.md */; };
 		4BE756AB26089B1C00DFB440 /* AnimalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE756AA26089B1C00DFB440 /* AnimalData.swift */; };
@@ -118,6 +119,17 @@
 			buildActionMask = 2147483647;
 			dstSubfolderSpec = 10;
 			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4B7FB077261082F00086A057 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4B7FB076261082F00086A057 /* SDWebImage.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,7 +289,7 @@
 				4B3421592603961E004B042E /* Reqres.xcframework in Frameworks */,
 				4B34214F2603961D004B042E /* SnapKit.xcframework in Frameworks */,
 				B33B81CD7A7D0C6297F9837F /* FirebaseInstallations.framework in Frameworks */,
-				4B8B3D97260FE6B8000B1E92 /* SDWebImage.xcframework in Frameworks */,
+				4B7FB075261082F00086A057 /* SDWebImage.xcframework in Frameworks */,
 				DD56334114EEABF5BB530D94 /* FirebaseInstanceID.framework in Frameworks */,
 				C55CD97EFD2F3D42538BB24F /* FirebaseMessaging.framework in Frameworks */,
 				0C85129A81E42E95D9C7CB1F /* FirebasePerformance.framework in Frameworks */,
@@ -786,6 +798,7 @@
 				BC3DFEA1C3DC4FDBAC015382 /* Swiftlint */,
 				54EE85E9043BFBC849FC5066 /* Crashlytics */,
 				FA33398AA2819CF1089B2495 /* [CP] Embed Pods Frameworks */,
+				4B7FB077261082F00086A057 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -906,7 +919,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PROJECT_DIR}\"/BuildPhases/All.sh ";
+			shellScript = "\"${PROJECT_DIR}\"/BuildPhases/All.sh \n";
 		};
 		A10CA5CD62D6B67AAE158C7E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
