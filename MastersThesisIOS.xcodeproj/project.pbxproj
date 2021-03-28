@@ -46,6 +46,8 @@
 		4B7FB075261082F00086A057 /* SDWebImage.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */; };
 		4B7FB076261082F00086A057 /* SDWebImage.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4B7FB07C26108E1D0086A057 /* LexiconItemCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7FB07B26108E1D0086A057 /* LexiconItemCellVM.swift */; };
+		4B7FB08C2610998E0086A057 /* AnimalDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7FB08B2610998E0086A057 /* AnimalDetailVC.swift */; };
+		4B7FB09026109A350086A057 /* AnimalDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7FB08F26109A350086A057 /* AnimalDetailVM.swift */; };
 		4BE756902607D0C800DFB440 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */; };
 		4BE756A52607D7A600DFB440 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756A42607D7A600DFB440 /* README.md */; };
 		4BE756AB26089B1C00DFB440 /* AnimalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE756AA26089B1C00DFB440 /* AnimalData.swift */; };
@@ -185,6 +187,8 @@
 		4B522E332607AE0C00500699 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		4B522E392607B24400500699 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		4B7FB07B26108E1D0086A057 /* LexiconItemCellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexiconItemCellVM.swift; sourceTree = "<group>"; };
+		4B7FB08B2610998E0086A057 /* AnimalDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalDetailVC.swift; sourceTree = "<group>"; };
+		4B7FB08F26109A350086A057 /* AnimalDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalDetailVM.swift; sourceTree = "<group>"; };
 		4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SDWebImage.xcframework; path = Carthage/Build/SDWebImage.xcframework; sourceTree = "<group>"; };
 		4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		4BE756982607D59400DFB440 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -379,6 +383,7 @@
 		3D4D787415D1C81FBE7A359B /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				4B7FB08A261099740086A057 /* AnimalDetail */,
 				4B7FB07926108DB50086A057 /* LexiconItemCell */,
 				4B522E022607A0F300500699 /* Lexicon */,
 				4B522DFF2607A0F200500699 /* Map */,
@@ -452,6 +457,15 @@
 				4B7FB07B26108E1D0086A057 /* LexiconItemCellVM.swift */,
 			);
 			path = LexiconItemCell;
+			sourceTree = "<group>";
+		};
+		4B7FB08A261099740086A057 /* AnimalDetail */ = {
+			isa = PBXGroup;
+			children = (
+				4B7FB08B2610998E0086A057 /* AnimalDetailVC.swift */,
+				4B7FB08F26109A350086A057 /* AnimalDetailVM.swift */,
+			);
+			path = AnimalDetail;
 			sourceTree = "<group>";
 		};
 		4BE756A926089AEF00DFB440 /* RealmData */ = {
@@ -1104,6 +1118,7 @@
 				4B7FB07C26108E1D0086A057 /* LexiconItemCellVM.swift in Sources */,
 				007372AF8B80C0886132CF0D /* UserManager.swift in Sources */,
 				1EF08B269DDA230663028E28 /* APIFetcher.swift in Sources */,
+				4B7FB08C2610998E0086A057 /* AnimalDetailVC.swift in Sources */,
 				4B522E062607A0F300500699 /* MapVM.swift in Sources */,
 				1D4E2E6BE45AF34EDE075E6B /* Fetcher.swift in Sources */,
 				4AC446CB1ABEA23F2F490EB7 /* FirebaseFetcher.swift in Sources */,
@@ -1127,6 +1142,7 @@
 				4BE7570D2608BEE000DFB440 /* LexiconItemCellVC.swift in Sources */,
 				BE192750960B3C27E9192E3A /* ExampleViewModel.swift in Sources */,
 				F5A2602D3DBC683053A48B4D /* main.swift in Sources */,
+				4B7FB09026109A350086A057 /* AnimalDetailVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

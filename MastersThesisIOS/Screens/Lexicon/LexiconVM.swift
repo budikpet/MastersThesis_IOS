@@ -17,8 +17,9 @@ protocol LexiconViewModeling {
 
     var data: Property<[AnimalData]> { get }
 
-    func item(at index: Int) -> AnimalData
+    func animal(at index: Int) -> AnimalData
     func getLexiconItemCellVM(at index: Int) -> LexiconItemCellVM
+    func rowHeightAt(_ index: Int) -> CGFloat
 }
 
 extension LexiconViewModeling where Self: LexiconViewModelingActions {
@@ -84,13 +85,17 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 // MARK: VC Delegate/DataSource helpers
 
 extension LexiconVM {
-    func item(at index: Int) -> AnimalData {
+    func animal(at index: Int) -> AnimalData {
         let item = data.value[index]
 
         return item
     }
 
     func getLexiconItemCellVM(at index: Int) -> LexiconItemCellVM {
-        return LexiconItemCellVM(withAnimal: item(at: index))
+        return LexiconItemCellVM(withAnimal: animal(at: index))
+    }
+
+    func rowHeightAt(_ index: Int) -> CGFloat {
+        return 80.0
     }
 }

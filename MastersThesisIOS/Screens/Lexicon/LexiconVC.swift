@@ -8,6 +8,10 @@
 import UIKit
 import ReactiveSwift
 
+protocol LexiconVCFlowDelegate: class {
+    func viewAnimal(using animal: AnimalData)
+}
+
 final class LexiconVC: BaseViewController {
 
     private weak var tableView: UITableView!
@@ -15,6 +19,8 @@ final class LexiconVC: BaseViewController {
     // MARK: Dependencies
 
     private let viewModel: LexiconViewModeling
+
+    weak var flowDelegate: LexiconVCFlowDelegate?
 
     // MARK: Initializers
 
@@ -90,8 +96,13 @@ extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = viewModel.item(at: indexPath.row)
-
+        let animal = viewModel.animal(at: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: true)
+
+        flowDelegate?.viewAnimal(using: animal)
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return viewModel.rowHeightAt(indexPath.row)
     }
 }

@@ -50,7 +50,6 @@ class LexiconItemCellVC: UITableViewCell {
         imageAnimal.snp.makeConstraints { make in
             make.top.bottom.leading.equalToSuperview().inset(8)
             make.width.equalTo(imageAnimal.snp.height).multipliedBy(1/1)
-            make.height.equalTo(80)
         }
 
         labelName.snp.makeConstraints { make in
