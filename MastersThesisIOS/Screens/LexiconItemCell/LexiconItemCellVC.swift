@@ -13,13 +13,22 @@ import SDWebImage
 /**
  Visual representation of Lexicon UITableViewCell.
  */
-class LexiconItemCell: UITableViewCell {
+class LexiconItemCellVC: UITableViewCell {
     private weak var labelName: UILabel!
     private weak var labelLocation: UILabel!
     private weak var imageAnimal: UIImageView!
 
     public static let identifier: String = "LexiconItemCell"
-    private static let placeholder_image =  UIImage(systemName: "photo")!
+
+    var viewModel: LexiconItemCellVM! {
+        didSet {
+            labelName.text = viewModel.name
+            labelLocation.text = viewModel.location
+            imageAnimal.sd_setImage(with: viewModel.imageUrl,
+                                    placeholderImage: LexiconItemCellVM.placeholder_image,
+                                    options: .continueInBackground)
+        }
+    }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -57,22 +66,6 @@ class LexiconItemCell: UITableViewCell {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    // MARK: Data-loading methods
-
-    /**
-    Load data of an Item into the cell.
-    
-    - Parameters:
-       - data: `AnimalData` which should be displayed using the `AnimalData`.
-    */
-    func setData(using data: AnimalData) {
-        labelName.text = data.name
-        labelLocation.text = data.location_in_zoo
-        imageAnimal.sd_setImage(with: URL(string: data.image_url),
-                                placeholderImage: LexiconItemCell.placeholder_image,
-                                options: .continueInBackground)
     }
 
 }

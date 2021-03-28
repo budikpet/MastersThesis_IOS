@@ -45,12 +45,13 @@
 		4B522E3A2607B24400500699 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B522E392607B24400500699 /* String.swift */; };
 		4B7FB075261082F00086A057 /* SDWebImage.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */; };
 		4B7FB076261082F00086A057 /* SDWebImage.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4B7FB07C26108E1D0086A057 /* LexiconItemCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7FB07B26108E1D0086A057 /* LexiconItemCellVM.swift */; };
 		4BE756902607D0C800DFB440 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */; };
 		4BE756A52607D7A600DFB440 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756A42607D7A600DFB440 /* README.md */; };
 		4BE756AB26089B1C00DFB440 /* AnimalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE756AA26089B1C00DFB440 /* AnimalData.swift */; };
 		4BE756BC26089F1A00DFB440 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756BA26089F1A00DFB440 /* Cartfile */; };
 		4BE756BD26089F1A00DFB440 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756BB26089F1A00DFB440 /* Podfile */; };
-		4BE7570D2608BEE000DFB440 /* LexiconItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7570C2608BEE000DFB440 /* LexiconItemCell.swift */; };
+		4BE7570D2608BEE000DFB440 /* LexiconItemCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7570C2608BEE000DFB440 /* LexiconItemCellVC.swift */; };
 		4BE7573C2609F86F00DFB440 /* ImageFetcherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7573B2609F86F00DFB440 /* ImageFetcherService.swift */; };
 		50A1E91FC36763A9AECF3B98 /* GoogleDataTransport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C23BD5EC87B1BD484F2C85C /* GoogleDataTransport.framework */; };
 		5169715030BB735FB138C0B6 /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70F29F4F1802476EDF3FCCED /* environment.plist */; };
@@ -183,6 +184,7 @@
 		4B522E042607A0F300500699 /* LexiconVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LexiconVM.swift; sourceTree = "<group>"; };
 		4B522E332607AE0C00500699 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		4B522E392607B24400500699 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		4B7FB07B26108E1D0086A057 /* LexiconItemCellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexiconItemCellVM.swift; sourceTree = "<group>"; };
 		4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SDWebImage.xcframework; path = Carthage/Build/SDWebImage.xcframework; sourceTree = "<group>"; };
 		4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		4BE756982607D59400DFB440 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -192,7 +194,7 @@
 		4BE756BB26089F1A00DFB440 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
 		4BE756C72608A48100DFB440 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		4BE756C82608A48100DFB440 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
-		4BE7570C2608BEE000DFB440 /* LexiconItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexiconItemCell.swift; sourceTree = "<group>"; };
+		4BE7570C2608BEE000DFB440 /* LexiconItemCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexiconItemCellVC.swift; sourceTree = "<group>"; };
 		4BE7573B2609F86F00DFB440 /* ImageFetcherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetcherService.swift; sourceTree = "<group>"; };
 		4BFE500E9F06CBACF549DDD8 /* FirebaseCrashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCrashlytics.framework; sourceTree = "<group>"; };
 		4CE97500430CBD76773D5A7E /* MastersThesisIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -377,6 +379,7 @@
 		3D4D787415D1C81FBE7A359B /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				4B7FB07926108DB50086A057 /* LexiconItemCell */,
 				4B522E022607A0F300500699 /* Lexicon */,
 				4B522DFF2607A0F200500699 /* Map */,
 				4B3421C8260766A8004B042E /* Example */,
@@ -435,13 +438,21 @@
 		4B522E022607A0F300500699 /* Lexicon */ = {
 			isa = PBXGroup;
 			children = (
-				4BE7570C2608BEE000DFB440 /* LexiconItemCell.swift */,
 				4B522E032607A0F300500699 /* LexiconVC.swift */,
 				4B522E042607A0F300500699 /* LexiconVM.swift */,
 			);
 			name = Lexicon;
 			path = MastersThesisIOS/Screens/Lexicon;
 			sourceTree = SOURCE_ROOT;
+		};
+		4B7FB07926108DB50086A057 /* LexiconItemCell */ = {
+			isa = PBXGroup;
+			children = (
+				4BE7570C2608BEE000DFB440 /* LexiconItemCellVC.swift */,
+				4B7FB07B26108E1D0086A057 /* LexiconItemCellVM.swift */,
+			);
+			path = LexiconItemCell;
+			sourceTree = "<group>";
 		};
 		4BE756A926089AEF00DFB440 /* RealmData */ = {
 			isa = PBXGroup;
@@ -1090,6 +1101,7 @@
 				4BE756AB26089B1C00DFB440 /* AnimalData.swift in Sources */,
 				042201D69B9F206E8A18AEBD /* PushAPIService.swift in Sources */,
 				44AF8F9F303D783912865A7C /* PushManager.swift in Sources */,
+				4B7FB07C26108E1D0086A057 /* LexiconItemCellVM.swift in Sources */,
 				007372AF8B80C0886132CF0D /* UserManager.swift in Sources */,
 				1EF08B269DDA230663028E28 /* APIFetcher.swift in Sources */,
 				4B522E062607A0F300500699 /* MapVM.swift in Sources */,
@@ -1112,7 +1124,7 @@
 				C4642B71A83782A2B4C8DF4D /* PopupPresenting.swift in Sources */,
 				5FDEB9A40822C7EF27C7118E /* BaseViewModel.swift in Sources */,
 				8F4BEE23125EA78F4CE7F09B /* ExampleViewController.swift in Sources */,
-				4BE7570D2608BEE000DFB440 /* LexiconItemCell.swift in Sources */,
+				4BE7570D2608BEE000DFB440 /* LexiconItemCellVC.swift in Sources */,
 				BE192750960B3C27E9192E3A /* ExampleViewModel.swift in Sources */,
 				F5A2602D3DBC683053A48B4D /* main.swift in Sources */,
 			);

@@ -17,8 +17,8 @@ protocol LexiconViewModeling {
 
     var data: Property<[AnimalData]> { get }
 
-    func getLabelLocation(using animal: AnimalData) -> String
     func item(at index: Int) -> AnimalData
+    func getLexiconItemCellVM(at index: Int) -> LexiconItemCellVM
 }
 
 extension LexiconViewModeling where Self: LexiconViewModelingActions {
@@ -55,13 +55,13 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 
         let data2 = AnimalData(withId: 2)
         data2.name = "Name 2"
-        data2.location_in_zoo = "Horní část Zoo"
+//        data2.location_in_zoo = "Horní část Zoo"
         data2.map_locations.append(21)
         data2.image_url = "https://www.zoopraha.cz/images/lexikon/bazant_palawansky_DSC_1416.jpg"
 
         let data3 = AnimalData(withId: 3)
         data3.name = "Name 3"
-        data3.map_locations.append(44)
+//        data3.map_locations.append(44)
         data3.image_url = "https://www.zoopraha.cz/images/lexikon-images/_22J6092.jpg"
 
         return [data1, data2, data3]
@@ -76,24 +76,6 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
         setupBindings()
     }
 
-    // MARK: Helpers
-
-    public func getLabelLocation(using animal: AnimalData) -> String {
-        var res: String = ""
-        if(animal.location_in_zoo == "-" && animal.map_locations.count == 0) {
-            res = "-"
-        } else if(animal.location_in_zoo == "-") {
-            res = L10n.Label.externalPen
-        } else if(animal.map_locations.count == 0) {
-            res = animal.location_in_zoo
-        } else {
-            res = "\(animal.location_in_zoo) - \(L10n.Label.externalPen)"
-        }
-        res = res.trimmed().lowercased().capitalizingFirstLetter()
-
-        return res
-    }
-
     private func setupBindings() {
 
     }
@@ -106,5 +88,9 @@ extension LexiconVM {
         let item = data.value[index]
 
         return item
+    }
+
+    func getLexiconItemCellVM(at index: Int) -> LexiconItemCellVM {
+        return LexiconItemCellVM(withAnimal: item(at: index))
     }
 }
