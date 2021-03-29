@@ -192,6 +192,18 @@
 		4B7FB08F26109A350086A057 /* AnimalDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalDetailVM.swift; sourceTree = "<group>"; };
 		4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SDWebImage.xcframework; path = Carthage/Build/SDWebImage.xcframework; sourceTree = "<group>"; };
 		4BADE9A8261254C4004440A6 /* ZooAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZooAPIService.swift; sourceTree = "<group>"; };
+		4BADE9FF26125988004440A6 /* GoogleService-Info-Beta-Stage.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Beta-Stage.plist"; sourceTree = "<group>"; };
+		4BADEA0026125988004440A6 /* GoogleService-Info-Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Release.plist"; sourceTree = "<group>"; };
+		4BADEA0126125988004440A6 /* GoogleService-Info-Debug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Debug.plist"; sourceTree = "<group>"; };
+		4BADEA0226125988004440A6 /* environment.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = environment.plist; sourceTree = "<group>"; };
+		4BADEA0526125989004440A6 /* GoogleService-Info-Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Release.plist"; sourceTree = "<group>"; };
+		4BADEA0626125989004440A6 /* GoogleService-Info-Beta-Development.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Beta-Development.plist"; sourceTree = "<group>"; };
+		4BADEA0726125989004440A6 /* GoogleService-Info-Debug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Debug.plist"; sourceTree = "<group>"; };
+		4BADEA0826125989004440A6 /* environment.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = environment.plist; sourceTree = "<group>"; };
+		4BADEA0B26125989004440A6 /* GoogleService-Info-Beta-Production.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Beta-Production.plist"; sourceTree = "<group>"; };
+		4BADEA0C26125989004440A6 /* GoogleService-Info-Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Release.plist"; sourceTree = "<group>"; };
+		4BADEA0D26125989004440A6 /* GoogleService-Info-Debug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Debug.plist"; sourceTree = "<group>"; };
+		4BADEA0E26125989004440A6 /* environment.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = environment.plist; sourceTree = "<group>"; };
 		4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		4BE756982607D59400DFB440 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4BE756A42607D7A600DFB440 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -321,6 +333,9 @@
 			isa = PBXGroup;
 			children = (
 				DC269E7A9837F4155F7A8DC5 /* Current */,
+				4BADEA0326125989004440A6 /* Development */,
+				4BADEA0926125989004440A6 /* Production */,
+				4BADE9FD26125988004440A6 /* Stage */,
 			);
 			path = Environment;
 			sourceTree = "<group>";
@@ -468,6 +483,63 @@
 				4B7FB08F26109A350086A057 /* AnimalDetailVM.swift */,
 			);
 			path = AnimalDetail;
+			sourceTree = "<group>";
+		};
+		4BADE9FD26125988004440A6 /* Stage */ = {
+			isa = PBXGroup;
+			children = (
+				4BADE9FE26125988004440A6 /* GoogleService */,
+				4BADEA0226125988004440A6 /* environment.plist */,
+			);
+			path = Stage;
+			sourceTree = "<group>";
+		};
+		4BADE9FE26125988004440A6 /* GoogleService */ = {
+			isa = PBXGroup;
+			children = (
+				4BADE9FF26125988004440A6 /* GoogleService-Info-Beta-Stage.plist */,
+				4BADEA0026125988004440A6 /* GoogleService-Info-Release.plist */,
+				4BADEA0126125988004440A6 /* GoogleService-Info-Debug.plist */,
+			);
+			path = GoogleService;
+			sourceTree = "<group>";
+		};
+		4BADEA0326125989004440A6 /* Development */ = {
+			isa = PBXGroup;
+			children = (
+				4BADEA0426125989004440A6 /* GoogleService */,
+				4BADEA0826125989004440A6 /* environment.plist */,
+			);
+			path = Development;
+			sourceTree = "<group>";
+		};
+		4BADEA0426125989004440A6 /* GoogleService */ = {
+			isa = PBXGroup;
+			children = (
+				4BADEA0526125989004440A6 /* GoogleService-Info-Release.plist */,
+				4BADEA0626125989004440A6 /* GoogleService-Info-Beta-Development.plist */,
+				4BADEA0726125989004440A6 /* GoogleService-Info-Debug.plist */,
+			);
+			path = GoogleService;
+			sourceTree = "<group>";
+		};
+		4BADEA0926125989004440A6 /* Production */ = {
+			isa = PBXGroup;
+			children = (
+				4BADEA0A26125989004440A6 /* GoogleService */,
+				4BADEA0E26125989004440A6 /* environment.plist */,
+			);
+			path = Production;
+			sourceTree = "<group>";
+		};
+		4BADEA0A26125989004440A6 /* GoogleService */ = {
+			isa = PBXGroup;
+			children = (
+				4BADEA0B26125989004440A6 /* GoogleService-Info-Beta-Production.plist */,
+				4BADEA0C26125989004440A6 /* GoogleService-Info-Release.plist */,
+				4BADEA0D26125989004440A6 /* GoogleService-Info-Debug.plist */,
+			);
+			path = GoogleService;
 			sourceTree = "<group>";
 		};
 		4BE756A926089AEF00DFB440 /* RealmData */ = {

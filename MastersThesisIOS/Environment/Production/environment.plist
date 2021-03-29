@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>apiURLString</key>
-	<string>https://jsonplaceholder.typicode.com</string>
+	<string>https://budikpet-zoo-prague.herokuapp.com/</string>
 </dict>
 </plist>

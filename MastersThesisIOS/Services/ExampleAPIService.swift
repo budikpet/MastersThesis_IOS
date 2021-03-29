@@ -27,7 +27,10 @@ final class ExampleAPIService: ExampleAPIServicing {
     }
 
     func fetchPhoto(_ id: Int) -> SignalProducer<String, RequestError> {
-        jsonAPI.request(path: "photos/\(id)").compactMap { response in
+        // swiftlint:disable force_unwrapping
+        let address = RequestAddress(path: "photos/\(id)", baseURL: URL(string: "https://jsonplaceholder.typicode.com")!)
+
+        return jsonAPI.request(address).compactMap { response in
             (response.data as? [String: Any])?["url"] as? String
         }
     }
