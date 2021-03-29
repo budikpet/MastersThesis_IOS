@@ -144,19 +144,28 @@ extension AnimalDetailVC {
         characterView.spacing = 10
         characterView.axis = .vertical
 
+        let test = """
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec consectetur enim. Mauris ac turpis faucibus, ultricies velit in, fermentum tortor. Praesent sit amet sem consectetur, imperdiet nisi non, rhoncus dolor. Proin quis metus ex. Ut commodo diam ac egestas posuere. Nullam auctor dictum risus, sit amet consectetur ante congue sit amet. Curabitur rutrum vulputate arcu sed placerat. Quisque sed risus ac lacus condimentum dignissim.
+        """
+
         let values = [
             ("Název:", viewModel.animal.value.name),
-            ("Název latinský:", viewModel.animal.value.latin_name)
+            ("Název latinský:", viewModel.animal.value.latin_name),
+            ("Test:", test)
         ]
 
         for (name, value) in values {
             let labelName = UILabel()
             labelName.text = name
+            labelName.font = UIFont.boldSystemFont(ofSize: 16.0)
 
             let labelValue = UILabel()
             labelValue.text = value
+            labelValue.lineBreakMode = .byWordWrapping
+            labelValue.numberOfLines = 0
 
             let valueStack = UIStackView(arrangedSubviews: [labelName, labelValue])
+            valueStack.distribution = .fillEqually
             characterView.addArrangedSubview(valueStack)
         }
     }
