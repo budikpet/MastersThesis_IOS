@@ -49,7 +49,9 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
         data1.food = "části rostlin"
         data1.sizes = "Délka těla 1,2–1,8 m, délka ocasu 25–35 cm, výška v kohoutku 1–1,1 m, hmotnost 60–125 kg"
         data1.reproduction = "Březost 257–264 dny, počet mláďat 1"
-        data1.interesting_data = "K nehostinnému prostředí je skvěle přizpůsoben. Nepotřebuje totiž pít každý den, protože dokáže hospodařit s vodou obsaženou v potravě. Navíc jsou adaxové aktivní za soumraku a v noci, kdy putují krajinou za potravou od jednoho ostrůvku rostlin k druhému; den tráví obvykle odpočinkem, ukrytí ve stín"
+        data1.interesting_data = """
+            K nehostinnému prostředí je skvěle přizpůsoben. Nepotřebuje totiž pít každý den, protože dokáže hospodařit s vodou obsaženou v potravě. Navíc jsou adaxové aktivní za soumraku a v noci, kdy putují krajinou za potravou od jednoho ostrůvku rostlin k druhému; den tráví obvykle odpočinkem, ukrytí ve stínu izolovaných ostrůvků stromů. Široká kopyta zabraňují adaxům, aby se při chůzi probořili do sypkého podkladu. Adaxové se sdružují do málo početných, pevně semknutých skupin, ve kterých samce od samic jen těžko poznáte – spirálovité rohy mají totiž obě pohlaví. Mláďata se rodí hnědavá a teprve ve věku několika měsíců se začínají zbarvovat jako dospělí.
+            """
         data1.about_placement_in_zoo_prague = "Pražská zoo chová adaxy od roku 1979."
         data1.location_in_zoo = "Pláně"
         data1.map_locations.append(objectsIn: [Int64.init(4636937676)])
