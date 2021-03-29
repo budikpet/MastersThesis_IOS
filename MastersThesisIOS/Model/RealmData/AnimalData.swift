@@ -24,6 +24,7 @@ class AnimalData: Object {
     @objc dynamic public var biotop: String = "-"
     @objc dynamic public var biotop_detail: String = "-"
     @objc dynamic public var food: String = "-"
+    @objc dynamic public var food_detail: String = "-"
     @objc dynamic public var sizes: String = "-"
     @objc dynamic public var reproduction: String = "-"
     @objc dynamic public var interesting_data: String = "-"

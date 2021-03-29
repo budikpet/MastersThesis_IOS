@@ -144,29 +144,17 @@ extension AnimalDetailVC {
         characterView.spacing = 10
         characterView.axis = .vertical
 
-        // List of pairs.
-        // First is the heading
-        // Second is a name of AnimalData's property which is then mapped to ReactiveSwift's Property type
+        let property = viewModel.animal
         let values = [
-            ("Název:", "name"),
-            ("Název latinský:", "latin_name"),
-            ("Třída:", "class_"),
-            ("Řád:", "class_"),
-            ("Kontinent:", "name"),
-            ("Biotop:", "name"),
-            ("Potrava:", "name"),
-            ("Rozměry:", "sizes"),
-            ("Rozmnožování:", "reproduction"),
-            ("Název:", "name"),
-            ("Název:", "name"),
-            ("Název:", "name"),
-            ("Název:", "name"),
-            ("Název:", "name"),
-        ].map() { name, value -> (String, Property<String>) in
-            // swiftlint:disable force_cast
-            let newValue = viewModel.animal.map() { $0.value(forKey: value) as! String }
-            return (name, newValue)
-        }
+            ("Název:", property.map() { self.getCombinedString($0.name, $0.latin_name) }),
+            ("Třída:", property.map() { self.getCombinedString($0.class_, $0.class_latin) }),
+            ("Řád:", property.map() { self.getCombinedString($0.order, $0.order_latin) }),
+            ("Kontinent:", property.map() { self.getCombinedString($0.continent, $0.continent_detail) }),
+            ("Biotop:", property.map() { self.getCombinedString($0.biotop, $0.biotop_detail) }),
+            ("Potrava:", property.map() { self.getCombinedString($0.food, $0.food_detail) }),
+            ("Rozměry:", property.map() { $0.sizes.capitalizingFirstLetter() }),
+            ("Rozmnožování:", property.map() { $0.reproduction.capitalizingFirstLetter() })
+        ]
 
         for (name, value) in values {
             let labelName = UILabel()
@@ -182,5 +170,10 @@ extension AnimalDetailVC {
             valueStack.distribution = .fillEqually
             characterView.addArrangedSubview(valueStack)
         }
+    }
+
+    private func getCombinedString(_ a: String, _ b: String) -> String {
+        let a = a.capitalizingFirstLetter()
+        return b == "-" ? a : "\(a) (\(b))"
     }
 }
