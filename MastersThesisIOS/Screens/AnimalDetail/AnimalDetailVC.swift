@@ -53,18 +53,8 @@ final class AnimalDetailVC: BaseViewController {
         }
 
         prepareStackView()
+        prepareAnimalImage()
         prepareCharacteristicsView()
-
-        let imageAnimal = UIImageView()
-        stackView.addArrangedSubview(imageAnimal)
-        imageAnimal.sd_setImage(with: URL(string: viewModel.animal.value.image_url),
-                                placeholderImage: LexiconItemCellVM.placeholder_image,
-                                options: .continueInBackground)
-        imageAnimal.snp.makeConstraints { (make) in
-            make.height.equalTo(imageAnimal.snp.width).multipliedBy(1.0 / 1.0)
-        }
-        imageAnimal.contentMode = .scaleAspectFit
-//        imageAnimal.clipsToBounds = true
 
         let label = UILabel()
         stackView.addArrangedSubview(label)
@@ -126,6 +116,21 @@ extension AnimalDetailVC {
         stackView.distribution = .equalSpacing
         stackView.spacing = 20
         stackView.axis = .vertical
+    }
+
+    private func prepareAnimalImage() {
+        let imageAnimal = UIImageView()
+        stackView.addArrangedSubview(imageAnimal)
+        imageAnimal.sd_setImage(with: URL(string: viewModel.animal.value.image_url),
+                                placeholderImage: LexiconItemCellVM.placeholder_image,
+                                options: .continueInBackground) { image, error, _, _ in
+            guard let image = image else { return }
+            let ratio = image.size.width / image.size.height
+            imageAnimal.snp.makeConstraints { (make) in
+                make.height.equalTo(imageAnimal.snp.width).multipliedBy(1/ratio)
+            }
+        }
+        imageAnimal.contentMode = .scaleAspectFit
     }
 
     /**
