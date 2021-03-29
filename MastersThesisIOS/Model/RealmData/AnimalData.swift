@@ -40,4 +40,20 @@ class AnimalData: Object {
         self.init()
         self._id = id
     }
+
+    public func createShownLocation() -> String {
+        var res: String = ""
+        if(self.location_in_zoo == "-" && self.map_locations.count == 0) {
+            res = "-"
+        } else if(self.location_in_zoo == "-") {
+            res = L10n.Label.externalPen
+        } else if(self.map_locations.count == 0) {
+            res = self.location_in_zoo
+        } else {
+            res = "\(self.location_in_zoo) - \(L10n.Label.externalPen)"
+        }
+        res = res.trimmed().lowercased().capitalizingFirstLetter()
+
+        return res
+    }
 }

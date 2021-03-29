@@ -8,3 +8,12 @@
 "navigationItem.title.zooMap" = "Zoo Map";
 "navigationItem.title.lexicon" = "Animal lexicon";
 "label.externalPen" = "External animal pen";
+"animalDetail.labelName" = "Název";
+"animalDetail.labelClass" = "Třída";
+"animalDetail.labelOrder" = "Řád";
+"animalDetail.labelContinent" = "Kontinent";
+"animalDetail.labelBiotop" = "Biotop";
+"animalDetail.labelFood" = "Potrava";
+"animalDetail.labelSizes" = "Rozměry";
+"animalDetail.labelReproduction" = "Rozmnožování";
+"animalDetail.labelLocation" = "Umístění v Zoo Praha";

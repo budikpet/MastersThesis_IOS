@@ -145,15 +145,16 @@ extension AnimalDetailVC {
         characterView.axis = .vertical
 
         let property = viewModel.animal
-        let values = [
-            ("Název:", property.map() { self.getCombinedString($0.name, $0.latin_name) }),
-            ("Třída:", property.map() { self.getCombinedString($0.class_, $0.class_latin) }),
-            ("Řád:", property.map() { self.getCombinedString($0.order, $0.order_latin) }),
-            ("Kontinent:", property.map() { self.getCombinedString($0.continent, $0.continent_detail) }),
-            ("Biotop:", property.map() { self.getCombinedString($0.biotop, $0.biotop_detail) }),
-            ("Potrava:", property.map() { self.getCombinedString($0.food, $0.food_detail) }),
-            ("Rozměry:", property.map() { $0.sizes.capitalizingFirstLetter() }),
-            ("Rozmnožování:", property.map() { $0.reproduction.capitalizingFirstLetter() })
+        let values: [(String, Property<String>)] = [
+            (L10n.AnimalDetail.labelName, property.map() { self.getCombinedString($0.name, $0.latin_name) }),
+            (L10n.AnimalDetail.labelClass, property.map() { self.getCombinedString($0.class_, $0.class_latin) }),
+            (L10n.AnimalDetail.labelOrder, property.map() { self.getCombinedString($0.order, $0.order_latin) }),
+            (L10n.AnimalDetail.labelContinent, property.map() { self.getCombinedString($0.continent, $0.continent_detail) }),
+            (L10n.AnimalDetail.labelBiotop, property.map() { self.getCombinedString($0.biotop, $0.biotop_detail) }),
+            (L10n.AnimalDetail.labelFood, property.map() { self.getCombinedString($0.food, $0.food_detail) }),
+            (L10n.AnimalDetail.labelSizes, property.map() { $0.sizes.capitalizingFirstLetter() }),
+            (L10n.AnimalDetail.labelReproduction, property.map() { $0.reproduction.capitalizingFirstLetter() }),
+            (L10n.AnimalDetail.labelLocation, property.map() { $0.createShownLocation() })
         ]
 
         for (name, value) in values {
