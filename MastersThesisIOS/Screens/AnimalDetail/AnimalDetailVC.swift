@@ -51,13 +51,10 @@ final class AnimalDetailVC: BaseViewController {
 
         scrollView.addSubview(contentView)
         contentView.snp.makeConstraints { (make) in
-            make.top.bottom.equalTo(scrollView)
-                make.left.right.equalTo(self.view)
-                make.width.equalTo(scrollView)
-//                make.height.equalTo(scrollView)
-                // or:
-                // make.centerX.equalTo(self.scrollView)
-                // make.centerY.equalTo(self.scrollView)
+            make.top.equalTo(scrollView).offset(8)
+            make.bottom.equalTo(scrollView)
+            make.left.right.equalTo(self.view).offset(8)
+            make.width.equalTo(scrollView)
         }
 
         let label = UILabel()
@@ -65,8 +62,7 @@ final class AnimalDetailVC: BaseViewController {
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.snp.makeConstraints { make in
-//            make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 30, left: 0, bottom: 50, right: 0))
-            make.edges.equalToSuperview().offset(10)
+            make.edges.equalToSuperview()
         }
         label.text = """
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec consectetur enim. Mauris ac turpis faucibus, ultricies velit in, fermentum tortor. Praesent sit amet sem consectetur, imperdiet nisi non, rhoncus dolor. Proin quis metus ex. Ut commodo diam ac egestas posuere. Nullam auctor dictum risus, sit amet consectetur ante congue sit amet. Curabitur rutrum vulputate arcu sed placerat. Quisque sed risus ac lacus condimentum dignissim.
