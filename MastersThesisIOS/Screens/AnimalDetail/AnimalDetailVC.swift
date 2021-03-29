@@ -144,15 +144,29 @@ extension AnimalDetailVC {
         characterView.spacing = 10
         characterView.axis = .vertical
 
-        let test = """
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec consectetur enim. Mauris ac turpis faucibus, ultricies velit in, fermentum tortor. Praesent sit amet sem consectetur, imperdiet nisi non, rhoncus dolor. Proin quis metus ex. Ut commodo diam ac egestas posuere. Nullam auctor dictum risus, sit amet consectetur ante congue sit amet. Curabitur rutrum vulputate arcu sed placerat. Quisque sed risus ac lacus condimentum dignissim.
-        """
-
+        // List of pairs.
+        // First is the heading
+        // Second is a name of AnimalData's property which is then mapped to ReactiveSwift's Property type
         let values = [
-            ("Název:", viewModel.animal.value.name),
-            ("Název latinský:", viewModel.animal.value.latin_name),
-            ("Test:", test)
-        ]
+            ("Název:", "name"),
+            ("Název latinský:", "latin_name"),
+            ("Třída:", "class_"),
+            ("Řád:", "class_"),
+            ("Kontinent:", "name"),
+            ("Biotop:", "name"),
+            ("Potrava:", "name"),
+            ("Rozměry:", "sizes"),
+            ("Rozmnožování:", "reproduction"),
+            ("Název:", "name"),
+            ("Název:", "name"),
+            ("Název:", "name"),
+            ("Název:", "name"),
+            ("Název:", "name"),
+        ].map() { name, value -> (String, Property<String>) in
+            // swiftlint:disable force_cast
+            let newValue = viewModel.animal.map() { $0.value(forKey: value) as! String }
+            return (name, newValue)
+        }
 
         for (name, value) in values {
             let labelName = UILabel()
@@ -160,9 +174,9 @@ extension AnimalDetailVC {
             labelName.font = UIFont.boldSystemFont(ofSize: 16.0)
 
             let labelValue = UILabel()
-            labelValue.text = value
             labelValue.lineBreakMode = .byWordWrapping
             labelValue.numberOfLines = 0
+            labelValue.reactive.text <~ value
 
             let valueStack = UIStackView(arrangedSubviews: [labelName, labelValue])
             valueStack.distribution = .fillEqually
