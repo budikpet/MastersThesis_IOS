@@ -48,6 +48,7 @@
 		4B7FB07C26108E1D0086A057 /* LexiconItemCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7FB07B26108E1D0086A057 /* LexiconItemCellVM.swift */; };
 		4B7FB08C2610998E0086A057 /* AnimalDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7FB08B2610998E0086A057 /* AnimalDetailVC.swift */; };
 		4B7FB09026109A350086A057 /* AnimalDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7FB08F26109A350086A057 /* AnimalDetailVM.swift */; };
+		4BADE9A9261254C4004440A6 /* ZooAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADE9A8261254C4004440A6 /* ZooAPIService.swift */; };
 		4BE756902607D0C800DFB440 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */; };
 		4BE756A52607D7A600DFB440 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756A42607D7A600DFB440 /* README.md */; };
 		4BE756AB26089B1C00DFB440 /* AnimalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE756AA26089B1C00DFB440 /* AnimalData.swift */; };
@@ -190,12 +191,13 @@
 		4B7FB08B2610998E0086A057 /* AnimalDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalDetailVC.swift; sourceTree = "<group>"; };
 		4B7FB08F26109A350086A057 /* AnimalDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalDetailVM.swift; sourceTree = "<group>"; };
 		4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SDWebImage.xcframework; path = Carthage/Build/SDWebImage.xcframework; sourceTree = "<group>"; };
+		4BADE9A8261254C4004440A6 /* ZooAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZooAPIService.swift; sourceTree = "<group>"; };
 		4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		4BE756982607D59400DFB440 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4BE756A42607D7A600DFB440 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		4BE756AA26089B1C00DFB440 /* AnimalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalData.swift; sourceTree = "<group>"; };
 		4BE756BA26089F1A00DFB440 /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = SOURCE_ROOT; };
-		4BE756BB26089F1A00DFB440 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
+		4BE756BB26089F1A00DFB440 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4BE756C72608A48100DFB440 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		4BE756C82608A48100DFB440 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		4BE7570C2608BEE000DFB440 /* LexiconItemCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexiconItemCellVC.swift; sourceTree = "<group>"; };
@@ -615,6 +617,7 @@
 				4FB85A81794FC9E565C69424 /* VersionUpdate */,
 				4BE7573B2609F86F00DFB440 /* ImageFetcherService.swift */,
 				7CD5119B5FFD02FDA73B8CBF /* ExampleAPIService.swift */,
+				4BADE9A8261254C4004440A6 /* ZooAPIService.swift */,
 				8E857ECF275060A4A1513325 /* FirebasePushObserver.swift */,
 				2D89919997817157F48C3F46 /* PushAPIService.swift */,
 				43971ADE5937356B4E48B925 /* PushManager.swift */,
@@ -1106,6 +1109,7 @@
 				E216BE29264187D393D10067 /* AppDependency.swift in Sources */,
 				15C14FFD4DFAFB298700B002 /* ExampleAPIService.swift in Sources */,
 				4B522DE02607943E00500699 /* TabBarPage.swift in Sources */,
+				4BADE9A9261254C4004440A6 /* ZooAPIService.swift in Sources */,
 				42837B520CFC6E74B49E9087 /* FirebasePushObserver.swift in Sources */,
 				3242E4675B9969BC32F5B35B /* AuthHandler.swift in Sources */,
 				9ABD1C3092517F1F202CB067 /* Network.swift in Sources */,

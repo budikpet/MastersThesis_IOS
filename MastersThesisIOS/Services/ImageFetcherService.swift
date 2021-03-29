@@ -10,6 +10,7 @@ import Foundation
 import ReactiveSwift
 import os.log
 
+@available(*, deprecated, message: "use SDWebImage library instead")
 class ImageFetcherService {
     typealias Dependencies = HasNetwork
 
