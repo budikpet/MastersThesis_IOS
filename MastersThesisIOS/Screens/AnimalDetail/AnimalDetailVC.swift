@@ -41,20 +41,32 @@ final class AnimalDetailVC: BaseViewController {
         view.backgroundColor = .white
         view.accessibilityIdentifier = "AnimalDetailVC"
 
-//        let scrollView = UIScrollView(frame: view.bounds)
-//        self.rootView = scrollView
-//        view.addSubview(scrollView)
-//        scrollView.isDirectionalLockEnabled = true
+        let scrollView = UIScrollView()
+        self.rootView = scrollView
+        self.view.addSubview(scrollView)
+        scrollView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.view)
+        }
+        let contentView = UIView()
+
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints { (make) in
+            make.top.bottom.equalTo(scrollView)
+                make.left.right.equalTo(self.view)
+                make.width.equalTo(scrollView)
+//                make.height.equalTo(scrollView)
+                // or:
+                // make.centerX.equalTo(self.scrollView)
+                // make.centerY.equalTo(self.scrollView)
+        }
 
         let label = UILabel()
-        view.addSubview(label)
+        contentView.addSubview(label)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.snp.makeConstraints { make in
-            make.top.equalTo(view.snp.topMargin).offset(10)
-            make.left.right.equalTo(self.view)
-            make.width.height.equalToSuperview()
-//            make.leading.trailing.equalToSuperview().offset(10)
+//            make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 30, left: 0, bottom: 50, right: 0))
+            make.edges.equalToSuperview().offset(10)
         }
         label.text = """
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec consectetur enim. Mauris ac turpis faucibus, ultricies velit in, fermentum tortor. Praesent sit amet sem consectetur, imperdiet nisi non, rhoncus dolor. Proin quis metus ex. Ut commodo diam ac egestas posuere. Nullam auctor dictum risus, sit amet consectetur ante congue sit amet. Curabitur rutrum vulputate arcu sed placerat. Quisque sed risus ac lacus condimentum dignissim.
