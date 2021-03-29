@@ -53,7 +53,7 @@ final class AnimalDetailVC: BaseViewController {
         }
 
         prepareStackView()
-        prepareAnimalImage()
+        prepareAnimalImageView()
         prepareCharacteristicsView()
 
         let label = UILabel()
@@ -118,7 +118,7 @@ extension AnimalDetailVC {
         stackView.axis = .vertical
     }
 
-    private func prepareAnimalImage() {
+    private func prepareAnimalImageView() {
         let imageAnimal = UIImageView()
         stackView.addArrangedSubview(imageAnimal)
         imageAnimal.sd_setImage(with: URL(string: viewModel.animal.value.image_url),
@@ -139,5 +139,25 @@ extension AnimalDetailVC {
     private func prepareCharacteristicsView() {
         let characterView = UIStackView()
         self.characterView = characterView
+        self.stackView.addArrangedSubview(characterView)
+        characterView.distribution = .equalSpacing
+        characterView.spacing = 10
+        characterView.axis = .vertical
+
+        let values = [
+            ("Název:", viewModel.animal.value.name),
+            ("Název latinský:", viewModel.animal.value.latin_name)
+        ]
+
+        for (name, value) in values {
+            let labelName = UILabel()
+            labelName.text = name
+
+            let labelValue = UILabel()
+            labelValue.text = value
+
+            let valueStack = UIStackView(arrangedSubviews: [labelName, labelValue])
+            characterView.addArrangedSubview(valueStack)
+        }
     }
 }
