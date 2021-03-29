@@ -20,7 +20,11 @@ final class AnimalDetailVC: BaseViewController {
     private let viewModel: AnimalDetailViewModeling
     public weak var flowDelegate: AnimalDetailFlowDelegate?
 
-    private weak var rootView: UIScrollView!
+    private weak var scrollView: UIScrollView!
+
+    /** Main stack view. */
+    private weak var stackView: UIStackView!
+    private weak var characterView: UIStackView!
 
     // MARK: Initializers
 
@@ -42,28 +46,33 @@ final class AnimalDetailVC: BaseViewController {
         view.accessibilityIdentifier = "AnimalDetailVC"
 
         let scrollView = UIScrollView()
-        self.rootView = scrollView
+        self.scrollView = scrollView
         self.view.addSubview(scrollView)
         scrollView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
-        let contentView = UIView()
 
-        scrollView.addSubview(contentView)
-        contentView.snp.makeConstraints { (make) in
-            make.top.equalTo(scrollView).offset(8)
-            make.bottom.equalTo(scrollView)
-            make.left.right.equalTo(self.view).offset(8)
-            make.width.equalTo(scrollView)
+        prepareStackView()
+        prepareCharacteristicsView()
+
+        let imageAnimal = UIImageView()
+        stackView.addArrangedSubview(imageAnimal)
+        imageAnimal.sd_setImage(with: URL(string: viewModel.animal.value.image_url),
+                                placeholderImage: LexiconItemCellVM.placeholder_image,
+                                options: .continueInBackground)
+        imageAnimal.snp.makeConstraints { (make) in
+            make.height.equalTo(imageAnimal.snp.width).multipliedBy(1.0 / 1.0)
         }
+        imageAnimal.contentMode = .scaleAspectFit
+//        imageAnimal.clipsToBounds = true
 
         let label = UILabel()
-        contentView.addSubview(label)
+        stackView.addArrangedSubview(label)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
-        label.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+//        label.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
+//        }
         label.text = """
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec consectetur enim. Mauris ac turpis faucibus, ultricies velit in, fermentum tortor. Praesent sit amet sem consectetur, imperdiet nisi non, rhoncus dolor. Proin quis metus ex. Ut commodo diam ac egestas posuere. Nullam auctor dictum risus, sit amet consectetur ante congue sit amet. Curabitur rutrum vulputate arcu sed placerat. Quisque sed risus ac lacus condimentum dignissim.
 
@@ -95,4 +104,35 @@ final class AnimalDetailVC: BaseViewController {
 
     }
 
+}
+
+// MARK: Helpers
+
+extension AnimalDetailVC {
+    /**
+     Prepares the main stack view.
+     */
+    private func prepareStackView() {
+        let stackView = UIStackView()
+        self.stackView = stackView
+        scrollView.addSubview(stackView)
+        stackView.snp.makeConstraints { (make) in
+            make.top.equalTo(scrollView).offset(8)
+            make.bottom.equalTo(scrollView)
+            make.left.equalTo(self.view).offset(8)
+            make.right.equalTo(self.view).inset(8)
+            make.width.equalTo(scrollView)
+        }
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 20
+        stackView.axis = .vertical
+    }
+
+    /**
+     Prepares a view that contains all table information - name, latin name, class, food...
+     */
+    private func prepareCharacteristicsView() {
+        let characterView = UIStackView()
+        self.characterView = characterView
+    }
 }
