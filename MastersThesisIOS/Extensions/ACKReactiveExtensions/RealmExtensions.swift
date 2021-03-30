@@ -11,10 +11,6 @@ import RealmSwift
 import ReactiveCocoa
 import ReactiveSwift
 
-#if !COCOAPODS
-    import ACKReactiveExtensionsCore
-#endif
-
 /// Error return in case of Realm operation failure
 public struct RealmError: Error {
     public let underlyingError: NSError

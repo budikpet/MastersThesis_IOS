@@ -34,7 +34,7 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     let animals: [AnimalData] = {
         let data1 = AnimalData(withId: 1)
         data1.name = "Adax"
-        data1.latin_name = "Addax nasomaculatus"
+        data1.name_latin = "Addax nasomaculatus"
         data1.location_in_zoo = "Pavilon XYZ"
         data1.image_url = "https://www.zoopraha.cz/images/lexikon/Adax_foto_Vaclav_Silha_3I4A6578_export.jpg"
         data1.base_summary = "Svetlé zbarvení srsti adaxe napovídá, že žije v poušti, vyprahlé krajine plné kamení a písku, daleko od vody."

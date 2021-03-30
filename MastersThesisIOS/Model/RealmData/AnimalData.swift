@@ -12,7 +12,7 @@ import RealmSwift
 class AnimalData: Object {
     @objc dynamic public var _id: Int64 = -1
     @objc dynamic public var name: String = "-"
-    @objc dynamic public var latin_name: String = "-"
+    @objc dynamic public var name_latin: String = "-"
     @objc dynamic public var base_summary: String = "-"
     @objc dynamic public var image_url: String = "-"
     @objc dynamic public var class_: String = "-"
@@ -41,6 +41,30 @@ class AnimalData: Object {
         self._id = id
     }
 
+    public convenience init(using fetchedData: FetchedAnimalData) {
+        self.init()
+        self._id = fetchedData._id
+        self.name = fetchedData.name
+        self.base_summary = fetchedData.base_summary
+        self.image_url = fetchedData.image_url
+        self.class_ = fetchedData.class_
+        self.class_latin = fetchedData.class_latin
+        self.order = fetchedData.order
+        self.order_latin = fetchedData.order_latin
+        self.continent = fetchedData.continent
+        self.continent_detail = fetchedData.continent_detail
+        self.biotop = fetchedData.biotop
+        self.biotop_detail = fetchedData.biotop_detail
+        self.food = fetchedData.food
+        self.food_detail = fetchedData.food_detail
+        self.sizes = fetchedData.sizes
+        self.reproduction = fetchedData.reproduction
+        self.interesting_data = fetchedData.interesting_data
+        self.about_placement_in_zoo_prague = fetchedData.about_placement_in_zoo_prague
+        self.location_in_zoo = fetchedData.location_in_zoo
+        self.map_locations.append(objectsIn: fetchedData.map_locations)
+    }
+
     public func createShownLocation() -> String {
         var res: String = ""
         if(self.location_in_zoo == "-" && self.map_locations.count == 0) {
@@ -55,5 +79,37 @@ class AnimalData: Object {
         res = res.trimmed().lowercased().capitalizingFirstLetter()
 
         return res
+    }
+}
+
+struct FetchedAnimalData {
+    public var _id: Int64 = -1
+    public var name: String = "-"
+    public var latin_name: String = "-"
+    public var base_summary: String = "-"
+    public var image_url: String = "-"
+    public var class_: String = "-"
+    public var class_latin: String = "-"
+    public var order: String = "-"
+    public var order_latin: String = "-"
+    public var continent: String = "-"
+    public var continent_detail: String = "-"
+    public var biotop: String = "-"
+    public var biotop_detail: String = "-"
+    public var food: String = "-"
+    public var food_detail: String = "-"
+    public var sizes: String = "-"
+    public var reproduction: String = "-"
+    public var interesting_data: String = "-"
+    public var about_placement_in_zoo_prague: String = "-"
+    public var location_in_zoo: String = "-"
+    public let map_locations = List<Int64>()
+
+    // swiftlint:disable force_cast
+    init(using dict: [String: Any]) {
+        self._id = dict["_id"] as! Int64
+        self.name = (dict["name"] as? String) ?? "-"
+        self.latin_name = (dict["latin_name"] as? String) ?? "-"
+        self.map_locations.append(objectsIn: dict["map_locations"] as! Array<Int64>)
     }
 }

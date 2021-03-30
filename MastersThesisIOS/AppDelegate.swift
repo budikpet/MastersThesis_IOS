@@ -19,6 +19,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
 
+        appDependencies.realmDBManager.actions.updateLocalDB.apply(false).start()
+
         // swiftlint:disable force_unwrapping
         appFlowCoordinator.start(in: window!)
         return true

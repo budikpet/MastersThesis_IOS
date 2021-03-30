@@ -130,7 +130,7 @@ extension AnimalDetailVC {
 
         let property = viewModel.animal
         let values: [(String, Property<String>)] = [
-            (L10n.AnimalDetail.labelName, property.map() { self.getCombinedString($0.name, $0.latin_name) }),
+            (L10n.AnimalDetail.labelName, property.map() { self.getCombinedString($0.name, $0.name_latin) }),
             (L10n.AnimalDetail.labelClass, property.map() { self.getCombinedString($0.class_, $0.class_latin) }),
             (L10n.AnimalDetail.labelOrder, property.map() { self.getCombinedString($0.order, $0.order_latin) }),
             (L10n.AnimalDetail.labelContinent, property.map() { self.getCombinedString($0.continent, $0.continent_detail) }),
