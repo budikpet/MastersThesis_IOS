@@ -32,4 +32,14 @@ final class ZooAPIService: ZooAPIServicing {
             (response.data as? [String: Any])?["url"] as? String
         }
     }
+
+    func getAnimals() -> SignalProducer<(Metadata, [AnimalData]), RequestError> {
+        let path = "/api/animals"
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func getClasses() -> SignalProducer<(Metadata, [AnimalsFilter]), RequestError> {
+        let path = "/api/classes"
+        fatalError("init(coder:) has not been implemented")
+    }
 }

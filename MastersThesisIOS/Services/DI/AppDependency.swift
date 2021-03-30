@@ -4,7 +4,7 @@ import RealmSwift
 typealias HasBaseAPIDependecies = HasNetwork & HasJSONAPI & HasAuthenticatedJSONAPI & HasAuthHandler
 typealias HasAPIDependencies = HasPushAPI & HasFetcher & HasExampleAPI & HasZooAPI
 typealias HasCredentialsDependencies = HasCredentialsProvider & HasCredentialsStore
-typealias HasManagerDependencies = HasPushManager & HasUserManager & HasFirebasePushObserver & HasVersionUpdateManager & HasRealm
+typealias HasManagerDependencies = HasPushManager & HasUserManager & HasFirebasePushObserver & HasVersionUpdateManager & HasRealm & HasRealmDBManager
 
 /// Container for all app dependencies
 final class AppDependency: HasBaseAPIDependecies, HasCredentialsDependencies, HasManagerDependencies, HasAPIDependencies {
@@ -26,6 +26,7 @@ final class AppDependency: HasBaseAPIDependecies, HasCredentialsDependencies, Ha
     lazy var pushManager: PushManaging = PushManager(dependencies: self)
     lazy var userManager: UserManaging = UserManager()
     lazy var versionUpdateManager: VersionUpdateManaging = VersionUpdateManager(dependencies: self)
+    lazy var realmDBManager: RealmDBManaging = RealmDBManager(dependencies: self)
 
     lazy var realm: Realm = AppDependency.realm()
 
@@ -60,7 +61,7 @@ protocol HasNoDependency { }
 extension AppDependency: HasNoDependency { }
 
 protocol HasRealm {
-    var network: Networking { get }
+    var realm: Realm { get }
 }
 
 let appDependencies = AppDependency()
