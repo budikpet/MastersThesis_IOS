@@ -30,7 +30,9 @@ final class RealmDBManager: RealmDBManaging, RealmDBManagingActions {
 
     var actions: RealmDBManagingActions { self }
 
-    internal lazy var updateLocalDB: Action<Bool, UpdateStatus, UpdateError> = Action { [unowned self] isForced in self.runUpdate(forced: isForced) }
+    internal lazy var updateLocalDB: Action<Bool, UpdateStatus, UpdateError> = Action { [unowned self] isForced in
+        self.runUpdate(forced: isForced)
+    }
 
     private let zooApi: ZooAPIServicing
     private let realm: Realm!
@@ -48,7 +50,10 @@ final class RealmDBManager: RealmDBManaging, RealmDBManagingActions {
 extension RealmDBManager {
     private func runUpdate(forced: Bool = false) -> SignalProducer<UpdateStatus, UpdateError> {
         if let metadata = self.metadata.first, !forced {
-            return SignalProducer<UpdateStatus, UpdateError>(value: .dataNotUpdated)
+            if(metadata.last_update_end < Date()) {
+                // If the end of the last update happened before today then no data is probably there
+                return SignalProducer<UpdateStatus, UpdateError>(value: .dataNotUpdated)
+            }
         }
 
         return zooApi.getAnimals()

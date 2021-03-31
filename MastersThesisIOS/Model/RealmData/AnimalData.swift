@@ -110,6 +110,7 @@ struct FetchedAnimalData {
         self._id = dict["_id"] as! Int64
         self.name = (dict["name"] as? String) ?? "-"
         self.latin_name = (dict["latin_name"] as? String) ?? "-"
+        self.base_summary = (dict["base_summary"] as? String) ?? "-"
         self.map_locations.append(objectsIn: dict["map_locations"] as! Array<Int64>)
     }
 }
