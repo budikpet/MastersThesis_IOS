@@ -9,6 +9,7 @@
 import Foundation
 import RealmSwift
 import ReactiveSwift
+import os.log
 
 protocol HasRealmDBManager {
     var realmDBManager: RealmDBManaging { get }
@@ -18,30 +19,44 @@ protocol RealmDBManagingActions {
     var updateLocalDB: Action<Bool, UpdateStatus, UpdateError> { get }
 }
 
+protocol RealmDBManagingObjects {
+    var metadata: Results<Metadata> { get }
+    var animalData: Results<AnimalData> { get }
+    var animalsFilter: Results<AnimalsFilter> { get }
+}
+
 protocol RealmDBManaging {
     var actions: RealmDBManagingActions { get }
+    var objects: RealmDBManagingObjects { get }
 }
 
 /**
  Handles updating of local Realm DB.
  */
-final class RealmDBManager: RealmDBManaging, RealmDBManagingActions {
+final class RealmDBManager: RealmDBManaging, RealmDBManagingActions, RealmDBManagingObjects {
     typealias Dependencies = HasZooAPI
+    private let realm: Realm!
+    private let zooApi: ZooAPIServicing
 
-    var actions: RealmDBManagingActions { self }
-
+    // MARK: Actions
+    internal var actions: RealmDBManagingActions { self }
     internal lazy var updateLocalDB: Action<Bool, UpdateStatus, UpdateError> = Action { [unowned self] isForced in
         self.runUpdate(forced: isForced)
     }
 
-    private let zooApi: ZooAPIServicing
-    private let realm: Realm!
-    private let metadata: Results<Metadata>
+    // MARK: Objects
+    internal var objects: RealmDBManagingObjects { self }
+    internal var metadata: Results<Metadata>
+    internal var animalData: Results<AnimalData>
+    internal var animalsFilter: Results<AnimalsFilter>
 
     init(dependencies: Dependencies) {
         self.zooApi = dependencies.zooAPI
         self.realm = RealmDBManager.initRealm()
         self.metadata = realm.objects(Metadata.self).filter("_id == 0")
+        self.animalData = realm.objects(AnimalData.self)
+            .sorted(byKeyPath: "name", ascending: true)
+        self.animalsFilter = realm.objects(AnimalsFilter.self)
     }
 }
 
@@ -52,10 +67,12 @@ extension RealmDBManager {
         if let metadata = self.metadata.first, !forced {
             if(metadata.last_update_end < Date()) {
                 // If the end of the last update happened before today then no data is probably there
+                os_log("Update not needed.")
                 return SignalProducer<UpdateStatus, UpdateError>(value: .dataNotUpdated)
             }
         }
 
+        os_log("Update required.")
         return zooApi.getAnimals()
             .mapError() { UpdateError.updateError($0) }
             .observe(on: QueueScheduler.main)
@@ -64,8 +81,8 @@ extension RealmDBManager {
 
                 do {
                     try realm.write() {
-                        realm.add(Metadata(using: metadata))
-                        realm.add(animals.map() { AnimalData(using: $0) })
+                        realm.add(Metadata(using: metadata), update: .modified)
+                        realm.add(animals.map() { AnimalData(using: $0) }, update: .modified)
                     }
                 } catch (let e) {
                     fatalError("Error occured when writing to realm: \(e)")

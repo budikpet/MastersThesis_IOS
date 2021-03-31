@@ -7,6 +7,7 @@
 
 import UIKit
 import ReactiveSwift
+import RealmSwift
 import os.log
 
 protocol LexiconViewModelingActions {
@@ -15,7 +16,7 @@ protocol LexiconViewModelingActions {
 protocol LexiconViewModeling {
 	var actions: LexiconViewModelingActions { get }
 
-    var data: Property<[AnimalData]> { get }
+    var data: Results<AnimalData> { get }
 
     func animal(at index: Int) -> AnimalData
     func getLexiconItemCellVM(at index: Int) -> LexiconItemCellVM
@@ -27,9 +28,10 @@ extension LexiconViewModeling where Self: LexiconViewModelingActions {
 }
 
 final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingActions {
-    typealias Dependencies = HasNetwork
+    typealias Dependencies = HasNetwork & HasRealmDBManager
+    let realmDbManager: RealmDBManaging
 
-    var data: Property<[AnimalData]>
+    var data: Results<AnimalData>
 
     let animals: [AnimalData] = {
         let data1 = AnimalData(withId: 1)
@@ -73,7 +75,10 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
-        data = Property(initial: [], then: SignalProducer(value: animals))
+        realmDbManager = dependencies.realmDBManager
+//        data = Property(initial: [], then: SignalProducer(value: animals))
+
+        data = realmDbManager.objects.animalData
 
         super.init()
         setupBindings()
@@ -88,7 +93,7 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 
 extension LexiconVM {
     func animal(at index: Int) -> AnimalData {
-        let item = data.value[index]
+        let item = data[index]
 
         return item
     }

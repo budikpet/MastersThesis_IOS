@@ -32,7 +32,7 @@ public enum Change<T> {
 
 public extension Reactive where Base: RealmCollection {
 
-    /// SignalProducer that sends changes as they happen
+    /// SignalProducer in RealmCollection that sends changes as they happen
     var changes: SignalProducer<Change<Base>, RealmError> {
         var notificationToken: NotificationToken? = nil
 
@@ -89,7 +89,7 @@ public extension Reactive where Base: RealmCollection {
         return producer
     }
 
-    /// SignalProducer that sends the latest value
+    /// SignalProducer in RealmCollection that sends the latest value
     var values: SignalProducer<Base, RealmError> {
         return self.changes.map { changes -> Base in
             switch changes {
@@ -101,7 +101,7 @@ public extension Reactive where Base: RealmCollection {
         }
     }
 
-    /// Property which represents the latest value
+    /// Property in RealmCollection which represents the latest value
     var property: ReactiveSwift.Property<Base> {
         return ReactiveSwift.Property(initial: base, then: values.ignoreError() )
     }
@@ -156,6 +156,7 @@ public extension Reactive where Base: Object {
         }
     }
 
+    /// SignalProducer in Realm object that sends changes as they happen
     var changes: SignalProducer<ObjectChange<ObjectBase>, RealmError> {
         var notificationToken: NotificationToken? = nil
 
@@ -210,6 +211,7 @@ public extension Reactive where Base: Object {
         return producer
     }
 
+    /// SignalProducer in Realm object that sends the latest value
     var values: SignalProducer<Base, RealmError> {
         return self.changes
             .filter { if case .deleted = $0 { return false }; return true }
@@ -218,6 +220,7 @@ public extension Reactive where Base: Object {
         }
     }
 
+    /// Property in Realm object which represents the latest value
     var property: ReactiveSwift.Property<Base> {
         return ReactiveSwift.Property(initial: base, then: values.ignoreError() )
     }
@@ -317,5 +320,26 @@ extension Realm {
         }
         self.delete(objectsToDelete)
         self.add(objects, update: update)
+    }
+
+    func list<T: Object>(_ type: T.Type) -> List<T> {
+        let objects = self.objects(type)
+        let list = objects.reduce(List<T>()) { list, element -> List<T> in
+            list.append(element)
+            return list
+        }
+
+        return list
+    }
+}
+
+extension Results {
+    func list() -> List<ElementType> {
+        let list = self.reduce(List<ElementType>()) { list, element -> List<ElementType> in
+            list.append(element)
+            return list
+        }
+
+        return list
     }
 }

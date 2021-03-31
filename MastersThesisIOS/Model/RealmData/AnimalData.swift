@@ -45,6 +45,7 @@ class AnimalData: Object {
         self.init()
         self._id = fetchedData._id
         self.name = fetchedData.name
+        self.name_latin = fetchedData.latin_name
         self.base_summary = fetchedData.base_summary
         self.image_url = fetchedData.image_url
         self.class_ = fetchedData.class_
@@ -111,6 +112,31 @@ struct FetchedAnimalData {
         self.name = (dict["name"] as? String) ?? "-"
         self.latin_name = (dict["latin_name"] as? String) ?? "-"
         self.base_summary = (dict["base_summary"] as? String) ?? "-"
+        self.class_ = (dict["class_"] as? String) ?? "-"
+        self.class_latin = (dict["class_latin"] as? String) ?? "-"
+        self.order = (dict["order"] as? String) ?? "-"
+        self.order_latin = (dict["order_latin"] as? String) ?? "-"
+        self.continent = (dict["continent"] as? String) ?? "-"
+        self.continent_detail = (dict["continent_detail"] as? String) ?? "-"
+        self.biotop = (dict["biotop"] as? String) ?? "-"
+        self.biotop_detail = (dict["biotop_detail"] as? String) ?? "-"
+        self.food = (dict["food"] as? String) ?? "-"
+        self.food_detail = (dict["food_detail"] as? String) ?? "-"
+        self.sizes = (dict["sizes"] as? String) ?? "-"
+        self.reproduction = (dict["reproduction"] as? String) ?? "-"
+        self.interesting_data = (dict["interesting_data"] as? String) ?? "-"
+        self.about_placement_in_zoo_prague = (dict["about_placement_in_zoo_prague"] as? String) ?? "-"
+        self.location_in_zoo = (dict["location_in_zoo"] as? String) ?? "-"
         self.map_locations.append(objectsIn: dict["map_locations"] as! Array<Int64>)
+
+        if let image_url = (dict["image"] as? String) {
+            if(image_url.hasPrefix("https://")) {
+                self.image_url = image_url
+            } else if(image_url.hasPrefix("http://")) {
+                self.image_url = image_url.replacingOccurrences(of: "http", with: "https")
+            } else {
+                self.image_url = "https://\(image_url)"
+            }
+        }
     }
 }

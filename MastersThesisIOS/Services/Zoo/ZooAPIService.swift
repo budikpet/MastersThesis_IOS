@@ -7,6 +7,7 @@
 //
 
 import ReactiveSwift
+import os.log
 
 protocol HasZooAPI {
     var zooAPI: ZooAPIServicing { get }
@@ -39,7 +40,8 @@ final class ZooAPIService: ZooAPIServicing {
     }
 
     func getAnimals() -> SignalProducer<(FetchedMetadata, [FetchedAnimalData]), RequestError> {
-        jsonAPI.request(path: "/api/animals").compactMap { response in
+        os_log("Fetching all animals.")
+        return jsonAPI.request(path: "/api/animals").compactMap { response in
             guard let responseData = (response.data as? [String: Any]) else { return nil }
             guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
             guard let animalDict = responseData["data"] as? Array<[String: Any]> else { return nil }
@@ -51,6 +53,7 @@ final class ZooAPIService: ZooAPIServicing {
     }
 
     func getClasses() -> SignalProducer<(FetchedMetadata, [AnimalsFilter]), RequestError> {
+        os_log("Fetching all classes.")
         let path = "/api/classes"
         fatalError("init(coder:) has not been implemented")
     }

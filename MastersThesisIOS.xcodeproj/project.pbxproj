@@ -50,9 +50,9 @@
 		4B7FB09026109A350086A057 /* AnimalDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7FB08F26109A350086A057 /* AnimalDetailVM.swift */; };
 		4B91749E26135BD600946DE8 /* RealmExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B91749D26135BD500946DE8 /* RealmExtensions.swift */; };
 		4B9174AD261362E000946DE8 /* ReactiveSwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174AC261362E000946DE8 /* ReactiveSwiftExtensions.swift */; };
+		4B9174B52614E33F00946DE8 /* AnimalsFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174B42614E33F00946DE8 /* AnimalsFilter.swift */; };
 		4BADE9A9261254C4004440A6 /* ZooAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADE9A8261254C4004440A6 /* ZooAPIService.swift */; };
 		4BADEA1326127B8E004440A6 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1226127B8E004440A6 /* Metadata.swift */; };
-		4BADEA1626127D98004440A6 /* FilterClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1526127D98004440A6 /* FilterClasses.swift */; };
 		4BADEA1A26130B03004440A6 /* RealmDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1926130B03004440A6 /* RealmDBManager.swift */; };
 		4BE756902607D0C800DFB440 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */; };
 		4BE756A52607D7A600DFB440 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756A42607D7A600DFB440 /* README.md */; };
@@ -198,6 +198,7 @@
 		4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SDWebImage.xcframework; path = Carthage/Build/SDWebImage.xcframework; sourceTree = "<group>"; };
 		4B91749D26135BD500946DE8 /* RealmExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmExtensions.swift; sourceTree = "<group>"; };
 		4B9174AC261362E000946DE8 /* ReactiveSwiftExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactiveSwiftExtensions.swift; sourceTree = "<group>"; };
+		4B9174B42614E33F00946DE8 /* AnimalsFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalsFilter.swift; sourceTree = "<group>"; };
 		4BADE9A8261254C4004440A6 /* ZooAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZooAPIService.swift; sourceTree = "<group>"; };
 		4BADE9FF26125988004440A6 /* GoogleService-Info-Beta-Stage.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Beta-Stage.plist"; sourceTree = "<group>"; };
 		4BADEA0026125988004440A6 /* GoogleService-Info-Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Release.plist"; sourceTree = "<group>"; };
@@ -212,7 +213,6 @@
 		4BADEA0D26125989004440A6 /* GoogleService-Info-Debug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Debug.plist"; sourceTree = "<group>"; };
 		4BADEA0E26125989004440A6 /* environment.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = environment.plist; sourceTree = "<group>"; };
 		4BADEA1226127B8E004440A6 /* Metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
-		4BADEA1526127D98004440A6 /* FilterClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterClasses.swift; sourceTree = "<group>"; };
 		4BADEA1926130B03004440A6 /* RealmDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDBManager.swift; sourceTree = "<group>"; };
 		4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		4BE756982607D59400DFB440 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -576,7 +576,7 @@
 			children = (
 				4BE756AA26089B1C00DFB440 /* AnimalData.swift */,
 				4BADEA1226127B8E004440A6 /* Metadata.swift */,
-				4BADEA1526127D98004440A6 /* FilterClasses.swift */,
+				4B9174B42614E33F00946DE8 /* AnimalsFilter.swift */,
 			);
 			path = RealmData;
 			sourceTree = "<group>";
@@ -1201,12 +1201,12 @@
 				EE0625AE662CC31AAFA06049 /* UIViewController+FrontmostController.swift in Sources */,
 				9564D632A6035A44065802C3 /* AppFlowCoordinator.swift in Sources */,
 				5D495379DF9D537E3E9BE41A /* Credentials.swift in Sources */,
+				4B9174B52614E33F00946DE8 /* AnimalsFilter.swift in Sources */,
 				69EE4ACDCCCE1E3138D77F61 /* CredentialsProvider.swift in Sources */,
 				9E5627076F7C69DE2DCAF3DC /* Environment.swift in Sources */,
 				8B36538BFF5739815866ABB4 /* Logger.swift in Sources */,
 				BD8A70A54D0327C6315DFF50 /* PushNotification.swift in Sources */,
 				5DD9EF552815F66AD20C05A0 /* User.swift in Sources */,
-				4BADEA1626127D98004440A6 /* FilterClasses.swift in Sources */,
 				1B8F44A566D1D88EA8FD8209 /* AuthenticatedJSONAPIService.swift in Sources */,
 				9808590746A226DF3D839CE0 /* JSONAPIService.swift in Sources */,
 				4B522E072607A0F300500699 /* LexiconVC.swift in Sources */,

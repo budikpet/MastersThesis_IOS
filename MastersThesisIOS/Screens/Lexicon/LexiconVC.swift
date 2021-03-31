@@ -7,14 +7,17 @@
 
 import UIKit
 import ReactiveSwift
+import RealmSwift
 
 protocol LexiconVCFlowDelegate: class {
     func viewAnimal(using animal: AnimalData)
 }
 
-final class LexiconVC: BaseViewController {
+final class LexiconVC: BaseViewController, RealmTableViewReloading {
+//final class LexiconVC: BaseViewController, RealmTableViewReloading {
+    typealias Element = AnimalData
 
-    private weak var tableView: UITableView!
+    internal weak var tableView: UITableView!
 
     // MARK: Dependencies
 
@@ -65,11 +68,12 @@ final class LexiconVC: BaseViewController {
 
     private func setupBindings() {
 
-        viewModel.data.signal
-            .take(during: reactive.lifetime)
-            .observeValues { [unowned self] _ in
-                self.tableView.reloadData()
-            }
+//        viewModel.data.signal
+//            .take(during: reactive.lifetime)
+//            .observeValues { [unowned self] _ in
+//                self.tableView.reloadData()
+//            }
+        self.reactive.changes <~ SignalProducer(value: Change.initial(viewModel.data))
 
 //        activityIndicator.reactive.isAnimating <~ viewModel.actions.fetchPhoto.isExecuting
 //
@@ -84,7 +88,7 @@ final class LexiconVC: BaseViewController {
 // MARK: UITableView delegate and data source
 extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.data.value.count
+        return viewModel.data.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
