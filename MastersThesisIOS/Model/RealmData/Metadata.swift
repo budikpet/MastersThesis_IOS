@@ -40,12 +40,18 @@ struct FetchedMetadata {
 
     // swiftlint:disable force_cast
     init(using dict: [String: Any]) {
-        let formatter = ISO8601DateFormatter()
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
 
         self.scheduler_state = dict["scheduler_state"] as! Int
-        self.next_update = formatter.date(from: dict["next_update"] as! String) ?? Date()
-        self.last_update_start = formatter.date(from: dict["last_update_start"] as! String) ?? Date()
-        self.last_update_end = formatter.date(from: dict["last_update_end"] as! String) ?? Date()
+        self.next_update = formatter.date(from: removedMillis(dict["next_update"] as! String)) ?? Date()
+        self.last_update_start = formatter.date(from: removedMillis(dict["last_update_start"] as! String)) ?? Date()
+        self.last_update_end = formatter.date(from: removedMillis(dict["last_update_end"] as! String)) ?? Date()
+    }
+
+    private func removedMillis(_ dateString: String) -> String {
+        return dateString.replacingOccurrences(of: "\\.\\d+", with: "", options: .regularExpression)
     }
 }
 
