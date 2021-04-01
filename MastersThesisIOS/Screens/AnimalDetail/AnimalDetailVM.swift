@@ -16,7 +16,7 @@ protocol AnimalDetailViewModelingActions {
 protocol AnimalDetailViewModeling {
     var actions: AnimalDetailViewModelingActions { get }
 
-    var animal: MutableProperty<AnimalData> { get }
+    var animal: Property<AnimalData> { get }
 }
 
 extension AnimalDetailViewModeling where Self: AnimalDetailViewModelingActions {
@@ -24,14 +24,16 @@ extension AnimalDetailViewModeling where Self: AnimalDetailViewModelingActions {
 }
 
 final class AnimalDetailVM: BaseViewModel, AnimalDetailViewModeling, AnimalDetailViewModelingActions {
-    typealias Dependencies = HasNoDependency
+    typealias Dependencies = HasRealmDBManager
+    private let realmDbManager: RealmDBManaging
 
-    let animal: MutableProperty<AnimalData>
+    let animal: Property<AnimalData>
 
     // MARK: Initializers
 
     init(dependencies: Dependencies, using animal: AnimalData) {
-        self.animal = MutableProperty(animal)
+        self.realmDbManager = dependencies.realmDBManager
+        self.animal = animal.reactive.property
 
         super.init()
         setupBindings()
