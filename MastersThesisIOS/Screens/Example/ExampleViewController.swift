@@ -82,7 +82,6 @@ final class ExampleViewController: BaseViewController {
         viewModel.actions.fetchPhoto <~ reloadButton.reactive.controlEvents(.touchUpInside).map { _ in }
 
         imageView.reactive.image <~ viewModel.photo
-
     }
 
 }

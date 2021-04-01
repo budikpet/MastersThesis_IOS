@@ -17,3 +17,4 @@
 "animalDetail.labelSizes" = "Sizes";
 "animalDetail.labelReproduction" = "Reproduction";
 "animalDetail.labelLocation" = "Location in Zoo Prague";
+"lexicon.updatingDB" = "Updating lexicon...";

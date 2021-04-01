@@ -11,6 +11,7 @@ import RealmSwift
 import os.log
 
 protocol LexiconViewModelingActions {
+    var updateLocalDB: Action<Bool, UpdateStatus, UpdateError> { get }
 }
 
 protocol LexiconViewModeling {
@@ -72,11 +73,14 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
         return [data1, data2, data3]
     }()
 
+    // MARK: Actions
+    internal var updateLocalDB: Action<Bool, UpdateStatus, UpdateError>
+
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
         realmDbManager = dependencies.realmDBManager
-//        data = Property(initial: [], then: SignalProducer(value: animals))
+        updateLocalDB = realmDbManager.actions.updateLocalDB
 
         data = realmDbManager.objects.animalData
 

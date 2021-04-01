@@ -69,6 +69,7 @@ extension RealmDBManager {
                 // If the end of the last update happened before today then no data is probably there
                 os_log("Update not needed.")
                 return SignalProducer<UpdateStatus, UpdateError>(value: .dataNotUpdated)
+                    .delay(1.0, on: QueueScheduler.main)
             }
         }
 

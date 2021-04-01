@@ -13,19 +13,16 @@ protocol LexiconVCFlowDelegate: class {
     func viewAnimal(using animal: AnimalData)
 }
 
-final class LexiconVC: BaseViewController, RealmTableViewReloading {
-//final class LexiconVC: BaseViewController, RealmTableViewReloading {
-    typealias Element = AnimalData
-
-    internal weak var tableView: UITableView!
-
+final class LexiconVC: BaseViewController {
     // MARK: Dependencies
 
     private let viewModel: LexiconViewModeling
-
     weak var flowDelegate: LexiconVCFlowDelegate?
 
     private var realmToken: NotificationToken!
+
+    private weak var tableView: UITableView!
+    private weak var refreshControl: UIRefreshControl!
 
     // MARK: Initializers
 
@@ -58,6 +55,11 @@ final class LexiconVC: BaseViewController, RealmTableViewReloading {
         tableView.register(LexiconItemCellVC.self, forCellReuseIdentifier: LexiconItemCellVC.identifier)
         view.addSubview(tableView)
         self.tableView = tableView
+
+        let refreshControl = UIRefreshControl()
+        self.refreshControl = refreshControl
+        refreshControl.attributedTitle = NSAttributedString(string: L10n.Lexicon.updatingDB)
+        tableView.addSubview(refreshControl)
     }
 
     override func viewDidLoad() {
@@ -93,6 +95,9 @@ final class LexiconVC: BaseViewController, RealmTableViewReloading {
                 fatalError("Error occured during observation.")
             }
         }
+
+        refreshControl.reactive.isRefreshing <~ viewModel.actions.updateLocalDB.isExecuting
+        viewModel.actions.updateLocalDB <~ refreshControl.reactive.controlEvents(.valueChanged).map() { _ in false }
 
 //        viewModel.data.signal
 //            .take(during: reactive.lifetime)

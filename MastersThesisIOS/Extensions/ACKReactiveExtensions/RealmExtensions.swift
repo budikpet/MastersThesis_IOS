@@ -333,13 +333,14 @@ extension Realm {
     }
 }
 
-extension Results {
-    func list() -> List<ElementType> {
-        let list = self.reduce(List<ElementType>()) { list, element -> List<ElementType> in
-            list.append(element)
-            return list
-        }
-
-        return list
-    }
-}
+//extension Results {
+//    func list() -> List<ElementType> {
+//        let list = self.reduce(List<ElementType>()) { list, element -> List<ElementType> in
+//            list.append(element)
+//
+//            return list
+//        }
+//
+//        return list
+//    }
+//}
