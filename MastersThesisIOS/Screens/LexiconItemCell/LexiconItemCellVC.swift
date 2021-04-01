@@ -36,6 +36,7 @@ class LexiconItemCellVC: UITableViewCell {
         let imageAnimal = UIImageView()
         addSubview(imageAnimal)
         self.imageAnimal = imageAnimal
+        imageAnimal.contentMode = .scaleAspectFit
 
         let labelName = UILabel()
         addSubview(labelName)
@@ -45,11 +46,13 @@ class LexiconItemCellVC: UITableViewCell {
         addSubview(labelLocation)
         self.labelLocation = labelLocation
         labelLocation.textColor = .lightGray
+        labelLocation.lineBreakMode = .byWordWrapping
+        labelLocation.numberOfLines = 2
 
         // Constraints
         imageAnimal.snp.makeConstraints { make in
             make.top.bottom.leading.equalToSuperview().inset(8)
-            make.width.equalTo(imageAnimal.snp.height).multipliedBy(1/1)
+            make.width.equalTo(imageAnimal.snp.height)
         }
 
         labelName.snp.makeConstraints { make in
@@ -60,6 +63,7 @@ class LexiconItemCellVC: UITableViewCell {
         labelLocation.snp.makeConstraints { make in
             make.top.equalTo(labelName.snp.bottom).offset(4)
             make.leading.equalTo(labelName.snp.leading)
+            make.trailing.equalToSuperview().inset(8)
         }
     }
 

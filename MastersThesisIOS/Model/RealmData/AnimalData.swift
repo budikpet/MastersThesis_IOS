@@ -75,7 +75,7 @@ class AnimalData: Object {
         } else if(self.map_locations.count == 0) {
             res = self.location_in_zoo
         } else {
-            res = "\(self.location_in_zoo) - \(L10n.Label.externalPen)"
+            res = "\(self.location_in_zoo), \(L10n.Label.externalPen)"
         }
         res = res.trimmed().lowercased().capitalizingFirstLetter()
 

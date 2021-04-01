@@ -103,6 +103,6 @@ extension LexiconVM {
     }
 
     func rowHeightAt(_ index: Int) -> CGFloat {
-        return 80.0
+        return 100.0
     }
 }
