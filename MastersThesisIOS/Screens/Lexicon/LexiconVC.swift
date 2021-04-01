@@ -25,6 +25,8 @@ final class LexiconVC: BaseViewController, RealmTableViewReloading {
 
     weak var flowDelegate: LexiconVCFlowDelegate?
 
+    private var realmToken: NotificationToken!
+
     // MARK: Initializers
 
     init(viewModel: LexiconViewModeling) {
@@ -35,6 +37,10 @@ final class LexiconVC: BaseViewController, RealmTableViewReloading {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        realmToken.invalidate()
     }
 
     // MARK: View life cycle
@@ -60,7 +66,6 @@ final class LexiconVC: BaseViewController, RealmTableViewReloading {
 
         setupBindings()
 
-        // TODO: Move to VM?
         navigationItem.title = L10n.NavigationItem.Title.lexicon
     }
 
@@ -68,12 +73,34 @@ final class LexiconVC: BaseViewController, RealmTableViewReloading {
 
     private func setupBindings() {
 
+        realmToken = viewModel.data.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let tableView = self?.tableView else { return }
+            switch changes {
+            case .initial:
+                tableView.reloadData()
+                break
+            case .update(_, let deletions, let insertions, let modifications):
+                tableView.beginUpdates()
+                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
+                                     with: .automatic)
+                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
+                                     with: .automatic)
+                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
+                                     with: .automatic)
+                tableView.endUpdates()
+                break
+            case .error:
+                fatalError("Error occured during observation.")
+            }
+        }
+
 //        viewModel.data.signal
 //            .take(during: reactive.lifetime)
 //            .observeValues { [unowned self] _ in
 //                self.tableView.reloadData()
 //            }
-        self.reactive.changes <~ SignalProducer(value: Change.initial(viewModel.data))
+//        let res = SignalProducer(value: Change.initial(viewModel.data))
+//        self.reactive.changes <~ res
 
 //        activityIndicator.reactive.isAnimating <~ viewModel.actions.fetchPhoto.isExecuting
 //
