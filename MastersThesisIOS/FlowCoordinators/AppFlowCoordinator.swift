@@ -27,6 +27,10 @@ final class AppFlowCoordinator: Base.FlowCoordinatorNoDeepLink {
 }
 
 extension AppFlowCoordinator: LexiconVCFlowDelegate {
+    func viewFilters() {
+        print("view filters")
+    }
+
     func viewAnimal(using animal: AnimalData) {
         let vm = AnimalDetailVM(dependencies: appDependencies, using: animal)
         let vc = AnimalDetailVC(viewModel: vm)

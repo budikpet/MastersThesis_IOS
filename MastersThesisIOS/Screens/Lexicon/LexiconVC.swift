@@ -7,10 +7,12 @@
 
 import UIKit
 import ReactiveSwift
+import ReactiveCocoa
 import RealmSwift
 
 protocol LexiconVCFlowDelegate: class {
     func viewAnimal(using animal: AnimalData)
+    func viewFilters()
 }
 
 final class LexiconVC: BaseViewController {
@@ -22,6 +24,7 @@ final class LexiconVC: BaseViewController {
     private var realmToken: NotificationToken!
 
     private weak var tableView: UITableView!
+    private weak var filterItem: UIBarButtonItem!
     private weak var refreshControl: UIRefreshControl!
 
     // MARK: Initializers
@@ -46,6 +49,11 @@ final class LexiconVC: BaseViewController {
         super.loadView()
         view.backgroundColor = .white
         view.accessibilityIdentifier = "LexiconVC"
+
+        let filterItem = UIBarButtonItem(image: UIImage(named: "animalFilter"), style: .plain, target: self, action: #selector(filterTapped))
+        self.filterItem = filterItem
+        filterItem.image = UIImage(named: "animalFilter")
+        navigationItem.rightBarButtonItem = filterItem
 
         let tableView = UITableView(frame: self.view.bounds, style: UITableView.Style.plain)
         tableView.dataSource = self
@@ -113,6 +121,11 @@ final class LexiconVC: BaseViewController {
 //
 //        imageView.reactive.image <~ viewModel.photo
 
+    }
+
+    @objc
+    private func filterTapped(_ sender: UIBarButtonItem) {
+        flowDelegate?.viewFilters()
     }
 
 }
