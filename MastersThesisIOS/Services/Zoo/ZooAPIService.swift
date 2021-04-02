@@ -16,7 +16,7 @@ protocol HasZooAPI {
 protocol ZooAPIServicing {
     func fetchPhoto(_ id: Int) -> SignalProducer<String, RequestError>
     func getAnimals() -> SignalProducer<(FetchedMetadata, [FetchedAnimalData]), RequestError>
-    func getClasses() -> SignalProducer<(FetchedMetadata, [AnimalsFilter]), RequestError>
+    func getClasses() -> SignalProducer<(FetchedMetadata, FetchedAnimalsFilter), RequestError>
 }
 
 /**
@@ -52,9 +52,16 @@ final class ZooAPIService: ZooAPIServicing {
         }
     }
 
-    func getClasses() -> SignalProducer<(FetchedMetadata, [AnimalsFilter]), RequestError> {
+    func getClasses() -> SignalProducer<(FetchedMetadata, FetchedAnimalsFilter), RequestError> {
         os_log("Fetching all classes.")
-        let path = "/api/classes"
-        fatalError("init(coder:) has not been implemented")
+        return jsonAPI.request(path: "/api/classes").compactMap { response in
+            guard let responseData = (response.data as? [String: Any]) else { return nil }
+            guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
+            guard let values = responseData["data"] as? [String] else { return nil }
+
+            let metadata: FetchedMetadata = FetchedMetadata(using: metadataDict)
+            let animalData: FetchedAnimalsFilter = FetchedAnimalsFilter(ofType: "class_", values)
+            return (metadata, animalData)
+        }
     }
 }

@@ -33,8 +33,8 @@ struct FetchedAnimalsFilter {
     /** All values of the given filter type. */
     let values: [String]
 
-    init(ofType type: String, dict: [String: Any]) {
+    init(ofType type: String, _ values: [String]) {
         self.type = type
-        self.values = (dict["values"] as? [String]) ?? []
+        self.values = values
     }
 }
