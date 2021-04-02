@@ -33,10 +33,10 @@ class Metadata: Object {
 }
 
 struct FetchedMetadata {
-    public var next_update: Date = Date()
-    public var last_update_start: Date = Date()
-    public var last_update_end: Date = Date()
-    public var scheduler_state: Int = 0
+    let next_update: Date
+    let last_update_start: Date
+    let last_update_end: Date
+    let scheduler_state: Int
 
     // swiftlint:disable force_cast
     init(using dict: [String: Any]) {
@@ -44,13 +44,13 @@ struct FetchedMetadata {
         formatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
 
-        self.scheduler_state = dict["scheduler_state"] as! Int
-        self.next_update = formatter.date(from: removedMillis(dict["next_update"] as! String)) ?? Date()
-        self.last_update_start = formatter.date(from: removedMillis(dict["last_update_start"] as! String)) ?? Date()
-        self.last_update_end = formatter.date(from: removedMillis(dict["last_update_end"] as! String)) ?? Date()
+        self.scheduler_state = (dict["scheduler_state"] as? Int) ?? 0
+        self.next_update = formatter.date(from: FetchedMetadata.removedMillis(dict["next_update"] as! String)) ?? Date()
+        self.last_update_start = formatter.date(from: FetchedMetadata.removedMillis(dict["last_update_start"] as! String)) ?? Date()
+        self.last_update_end = formatter.date(from: FetchedMetadata.removedMillis(dict["last_update_end"] as! String)) ?? Date()
     }
 
-    private func removedMillis(_ dateString: String) -> String {
+    private static func removedMillis(_ dateString: String) -> String {
         return dateString.replacingOccurrences(of: "\\.\\d+", with: "", options: .regularExpression)
     }
 }

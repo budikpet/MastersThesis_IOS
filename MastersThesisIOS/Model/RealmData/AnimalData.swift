@@ -84,27 +84,27 @@ class AnimalData: Object {
 }
 
 struct FetchedAnimalData {
-    public var _id: Int64 = -1
-    public var name: String = "-"
-    public var latin_name: String = "-"
-    public var base_summary: String = "-"
-    public var image_url: String = "-"
-    public var class_: String = "-"
-    public var class_latin: String = "-"
-    public var order: String = "-"
-    public var order_latin: String = "-"
-    public var continent: String = "-"
-    public var continent_detail: String = "-"
-    public var biotop: String = "-"
-    public var biotop_detail: String = "-"
-    public var food: String = "-"
-    public var food_detail: String = "-"
-    public var sizes: String = "-"
-    public var reproduction: String = "-"
-    public var interesting_data: String = "-"
-    public var about_placement_in_zoo_prague: String = "-"
-    public var location_in_zoo: String = "-"
-    public let map_locations = List<Int64>()
+    let _id: Int64
+    let name: String
+    let latin_name: String
+    let base_summary: String
+    let image_url: String
+    let class_: String
+    let class_latin: String
+    let order: String
+    let order_latin: String
+    let continent: String
+    let continent_detail: String
+    let biotop: String
+    let biotop_detail: String
+    let food: String
+    let food_detail: String
+    let sizes: String
+    let reproduction: String
+    let interesting_data: String
+    let about_placement_in_zoo_prague: String
+    let location_in_zoo: String
+    let map_locations: [Int64]
 
     // swiftlint:disable force_cast
     init(using dict: [String: Any]) {
@@ -127,7 +127,7 @@ struct FetchedAnimalData {
         self.interesting_data = (dict["interesting_data"] as? String) ?? "-"
         self.about_placement_in_zoo_prague = (dict["about_placement_in_zoo_prague"] as? String) ?? "-"
         self.location_in_zoo = (dict["location_in_zoo"] as? String) ?? "-"
-        self.map_locations.append(objectsIn: dict["map_locations"] as! Array<Int64>)
+        self.map_locations = (dict["map_locations"] as? [Int64]) ?? []
 
         if let image_url = (dict["image"] as? String) {
             if(image_url.hasPrefix("https://")) {
@@ -137,6 +137,9 @@ struct FetchedAnimalData {
             } else {
                 self.image_url = "https://\(image_url)"
             }
+        } else {
+            // TODO: Change to default image?
+            self.image_url = "-"
         }
     }
 }
