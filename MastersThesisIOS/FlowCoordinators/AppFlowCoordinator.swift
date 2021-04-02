@@ -28,7 +28,15 @@ final class AppFlowCoordinator: Base.FlowCoordinatorNoDeepLink {
 
 extension AppFlowCoordinator: LexiconVCFlowDelegate {
     func viewFilters() {
-        print("view filters")
+        let vm = AnimalFilterVM(dependencies: appDependencies)
+        let vc = AnimalFilterVC(viewModel: vm)
+//        vc.flowDelegate = self
+
+        guard let navController = self.navigationController(for: .lexicon) as? UINavigationController else {
+            fatalError("Did not get UINavigationController from the root TabBar.")
+        }
+
+        navController.pushViewController(vc, animated: true)
     }
 
     func viewAnimal(using animal: AnimalData) {

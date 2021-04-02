@@ -22,7 +22,7 @@ protocol RealmDBManagingActions {
 protocol RealmDBManagingObjects {
     var metadata: Results<Metadata> { get }
     var animalData: Results<AnimalData> { get }
-    var animalsFilter: Results<AnimalFilter> { get }
+    var animalFilter: Results<AnimalFilter> { get }
 }
 
 protocol RealmDBManaging {
@@ -48,7 +48,7 @@ final class RealmDBManager: RealmDBManaging, RealmDBManagingActions, RealmDBMana
     internal var objects: RealmDBManagingObjects { self }
     internal var metadata: Results<Metadata>
     internal var animalData: Results<AnimalData>
-    internal var animalsFilter: Results<AnimalFilter>
+    internal var animalFilter: Results<AnimalFilter>
 
     init(dependencies: Dependencies) {
         self.zooApi = dependencies.zooAPI
@@ -56,7 +56,7 @@ final class RealmDBManager: RealmDBManaging, RealmDBManagingActions, RealmDBMana
         self.metadata = realm.objects(Metadata.self).filter("_id == 0")
         self.animalData = realm.objects(AnimalData.self)
             .sorted(byKeyPath: "name", ascending: true)
-        self.animalsFilter = realm.objects(AnimalFilter.self)
+        self.animalFilter = realm.objects(AnimalFilter.self)
     }
 }
 

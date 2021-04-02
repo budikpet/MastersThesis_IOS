@@ -51,6 +51,11 @@
 		4B91749E26135BD600946DE8 /* RealmExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B91749D26135BD500946DE8 /* RealmExtensions.swift */; };
 		4B9174AD261362E000946DE8 /* ReactiveSwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174AC261362E000946DE8 /* ReactiveSwiftExtensions.swift */; };
 		4B9174B52614E33F00946DE8 /* AnimalFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174B42614E33F00946DE8 /* AnimalFilter.swift */; };
+		4B9174BC261770AC00946DE8 /* AnimalFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174BB261770AC00946DE8 /* AnimalFilterVC.swift */; };
+		4B9174C0261770BB00946DE8 /* AnimalFilterVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174BF261770BB00946DE8 /* AnimalFilterVM.swift */; };
+		4B9174D3261776C500946DE8 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 4B9174CF261776C500946DE8 /* .gitkeep */; };
+		4B9174D5261776C500946DE8 /* AnimalFilterItemCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174D2261776C500946DE8 /* AnimalFilterItemCellVC.swift */; };
+		4B9764CE26177EA500F32FA4 /* AnimalFilterItemCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9764CD26177EA500F32FA4 /* AnimalFilterItemCellVM.swift */; };
 		4BADE9A9261254C4004440A6 /* ZooAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADE9A8261254C4004440A6 /* ZooAPIService.swift */; };
 		4BADEA1326127B8E004440A6 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1226127B8E004440A6 /* Metadata.swift */; };
 		4BADEA1A26130B03004440A6 /* RealmDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1926130B03004440A6 /* RealmDBManager.swift */; };
@@ -199,6 +204,11 @@
 		4B91749D26135BD500946DE8 /* RealmExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmExtensions.swift; sourceTree = "<group>"; };
 		4B9174AC261362E000946DE8 /* ReactiveSwiftExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactiveSwiftExtensions.swift; sourceTree = "<group>"; };
 		4B9174B42614E33F00946DE8 /* AnimalFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalFilter.swift; sourceTree = "<group>"; };
+		4B9174BB261770AC00946DE8 /* AnimalFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalFilterVC.swift; sourceTree = "<group>"; };
+		4B9174BF261770BB00946DE8 /* AnimalFilterVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalFilterVM.swift; sourceTree = "<group>"; };
+		4B9174CF261776C500946DE8 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		4B9174D2261776C500946DE8 /* AnimalFilterItemCellVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimalFilterItemCellVC.swift; sourceTree = "<group>"; };
+		4B9764CD26177EA500F32FA4 /* AnimalFilterItemCellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalFilterItemCellVM.swift; sourceTree = "<group>"; };
 		4BADE9A8261254C4004440A6 /* ZooAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZooAPIService.swift; sourceTree = "<group>"; };
 		4BADE9FF26125988004440A6 /* GoogleService-Info-Beta-Stage.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Beta-Stage.plist"; sourceTree = "<group>"; };
 		4BADEA0026125988004440A6 /* GoogleService-Info-Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Release.plist"; sourceTree = "<group>"; };
@@ -410,8 +420,8 @@
 		3D4D787415D1C81FBE7A359B /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				4B9174C42617736200946DE8 /* AnimalFilter */,
 				4B7FB08A261099740086A057 /* AnimalDetail */,
-				4B7FB07926108DB50086A057 /* LexiconItemCell */,
 				4B522E022607A0F300500699 /* Lexicon */,
 				4B522DFF2607A0F200500699 /* Map */,
 				4B3421C8260766A8004B042E /* Example */,
@@ -477,15 +487,6 @@
 			path = MastersThesisIOS/Screens/Lexicon;
 			sourceTree = SOURCE_ROOT;
 		};
-		4B7FB07926108DB50086A057 /* LexiconItemCell */ = {
-			isa = PBXGroup;
-			children = (
-				4BE7570C2608BEE000DFB440 /* LexiconItemCellVC.swift */,
-				4B7FB07B26108E1D0086A057 /* LexiconItemCellVM.swift */,
-			);
-			path = LexiconItemCell;
-			sourceTree = "<group>";
-		};
 		4B7FB08A261099740086A057 /* AnimalDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -502,6 +503,43 @@
 				4B9174AC261362E000946DE8 /* ReactiveSwiftExtensions.swift */,
 			);
 			path = ACKReactiveExtensions;
+			sourceTree = "<group>";
+		};
+		4B9174C42617736200946DE8 /* AnimalFilter */ = {
+			isa = PBXGroup;
+			children = (
+				4B9174BB261770AC00946DE8 /* AnimalFilterVC.swift */,
+				4B9174BF261770BB00946DE8 /* AnimalFilterVM.swift */,
+			);
+			path = AnimalFilter;
+			sourceTree = "<group>";
+		};
+		4B9174CD261776C500946DE8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4B9174CE261776C500946DE8 /* CollectionView cells */,
+				4B9174D0261776C500946DE8 /* TableView cells */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4B9174CE261776C500946DE8 /* CollectionView cells */ = {
+			isa = PBXGroup;
+			children = (
+				4B9174CF261776C500946DE8 /* .gitkeep */,
+			);
+			path = "CollectionView cells";
+			sourceTree = "<group>";
+		};
+		4B9174D0261776C500946DE8 /* TableView cells */ = {
+			isa = PBXGroup;
+			children = (
+				4B9174D2261776C500946DE8 /* AnimalFilterItemCellVC.swift */,
+				4B9764CD26177EA500F32FA4 /* AnimalFilterItemCellVM.swift */,
+				4BE7570C2608BEE000DFB440 /* LexiconItemCellVC.swift */,
+				4B7FB07B26108E1D0086A057 /* LexiconItemCellVM.swift */,
+			);
+			path = "TableView cells";
 			sourceTree = "<group>";
 		};
 		4BADE9FD26125988004440A6 /* Stage */ = {
@@ -783,6 +821,7 @@
 				93DDABE6864A9748A987AB16 /* Services */,
 				E83341C5AA4D61A25E61B7D6 /* Theme */,
 				3D4D787415D1C81FBE7A359B /* Screens */,
+				4B9174CD261776C500946DE8 /* View */,
 				67419805D5AFA9D2E6D431BB /* ViewController */,
 				845311447A55D320E55CEF71 /* ViewModel */,
 				D97767315D6CAA5B7617C421 /* Aliases.swift */,
@@ -992,6 +1031,7 @@
 				4BE756A52607D7A600DFB440 /* README.md in Resources */,
 				7167C7A27309141CB9FA5FD3 /* LaunchScreen.storyboard in Resources */,
 				4BE756BD26089F1A00DFB440 /* Podfile in Resources */,
+				4B9174D3261776C500946DE8 /* .gitkeep in Resources */,
 				810B6B3D33E50C545B516AEE /* Localizable.strings in Resources */,
 				87B4739B8B3CCAC2E14E3348 /* Settings.bundle in Resources */,
 			);
@@ -1203,10 +1243,12 @@
 				5D495379DF9D537E3E9BE41A /* Credentials.swift in Sources */,
 				4B9174B52614E33F00946DE8 /* AnimalFilter.swift in Sources */,
 				69EE4ACDCCCE1E3138D77F61 /* CredentialsProvider.swift in Sources */,
+				4B9174C0261770BB00946DE8 /* AnimalFilterVM.swift in Sources */,
 				9E5627076F7C69DE2DCAF3DC /* Environment.swift in Sources */,
 				8B36538BFF5739815866ABB4 /* Logger.swift in Sources */,
 				BD8A70A54D0327C6315DFF50 /* PushNotification.swift in Sources */,
 				5DD9EF552815F66AD20C05A0 /* User.swift in Sources */,
+				4B9764CE26177EA500F32FA4 /* AnimalFilterItemCellVM.swift in Sources */,
 				1B8F44A566D1D88EA8FD8209 /* AuthenticatedJSONAPIService.swift in Sources */,
 				9808590746A226DF3D839CE0 /* JSONAPIService.swift in Sources */,
 				4B522E072607A0F300500699 /* LexiconVC.swift in Sources */,
@@ -1251,6 +1293,8 @@
 				5FDEB9A40822C7EF27C7118E /* BaseViewModel.swift in Sources */,
 				8F4BEE23125EA78F4CE7F09B /* ExampleViewController.swift in Sources */,
 				4BE7570D2608BEE000DFB440 /* LexiconItemCellVC.swift in Sources */,
+				4B9174BC261770AC00946DE8 /* AnimalFilterVC.swift in Sources */,
+				4B9174D5261776C500946DE8 /* AnimalFilterItemCellVC.swift in Sources */,
 				4B91749E26135BD600946DE8 /* RealmExtensions.swift in Sources */,
 				BE192750960B3C27E9192E3A /* ExampleViewModel.swift in Sources */,
 				F5A2602D3DBC683053A48B4D /* main.swift in Sources */,

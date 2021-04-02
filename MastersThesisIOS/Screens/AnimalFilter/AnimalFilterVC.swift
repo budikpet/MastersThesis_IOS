@@ -1,8 +1,9 @@
 //
-//  LexiconVC.swift
+//  AnimalFilterVC.swift
 //  MastersThesisIOS
 //
-//  Created by Petr Budík on 21/03/2021.
+//  Created by Petr Budík on 02/04/2021.
+//  Copyright © 2021 Petr Budík. All rights reserved.
 //
 
 import UIKit
@@ -10,26 +11,25 @@ import ReactiveSwift
 import ReactiveCocoa
 import RealmSwift
 
-protocol LexiconVCFlowDelegate: class {
+protocol AnimalFilterVCFlowDelegate: class {
     func viewAnimal(using animal: AnimalData)
     func viewFilters()
 }
 
-final class LexiconVC: BaseViewController {
+final class AnimalFilterVC: BaseViewController {
     // MARK: Dependencies
 
-    private let viewModel: LexiconViewModeling
-    weak var flowDelegate: LexiconVCFlowDelegate?
+    private let viewModel: AnimalFilterViewModeling
+    weak var flowDelegate: AnimalFilterVCFlowDelegate?
 
-    private var realmToken: NotificationToken!
+    private var realmToken: NotificationToken?
 
     private weak var tableView: UITableView!
     private weak var filterItem: UIBarButtonItem!
-    private weak var refreshControl: UIRefreshControl!
 
     // MARK: Initializers
 
-    init(viewModel: LexiconViewModeling) {
+    init(viewModel: AnimalFilterViewModeling) {
         self.viewModel = viewModel
 
         super.init()
@@ -40,7 +40,7 @@ final class LexiconVC: BaseViewController {
     }
 
     deinit {
-        realmToken.invalidate()
+        realmToken?.invalidate()
     }
 
     // MARK: View life cycle
@@ -48,7 +48,7 @@ final class LexiconVC: BaseViewController {
     override func loadView() {
         super.loadView()
         view.backgroundColor = .white
-        view.accessibilityIdentifier = "LexiconVC"
+        view.accessibilityIdentifier = "AnimalFilterVC"
 
         let filterItem = UIBarButtonItem(image: UIImage(named: "animalFilter"), style: .plain, target: self, action: #selector(filterTapped))
         self.filterItem = filterItem
@@ -57,16 +57,11 @@ final class LexiconVC: BaseViewController {
         let tableView = UITableView(frame: self.view.bounds, style: UITableView.Style.plain)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.accessibilityIdentifier = "LexiconVC_TableView"
+        tableView.accessibilityIdentifier = "AnimalFilterVC_TableView"
 
-        tableView.register(LexiconItemCellVC.self, forCellReuseIdentifier: LexiconItemCellVC.identifier)
+        tableView.register(AnimalFilterItemCellVC.self, forCellReuseIdentifier: AnimalFilterItemCellVC.identifier)
         view.addSubview(tableView)
         self.tableView = tableView
-
-        let refreshControl = UIRefreshControl()
-        self.refreshControl = refreshControl
-        refreshControl.attributedTitle = NSAttributedString(string: L10n.Lexicon.updatingDB)
-        tableView.addSubview(refreshControl)
     }
 
     override func viewDidLoad() {
@@ -82,29 +77,26 @@ final class LexiconVC: BaseViewController {
 
     private func setupBindings() {
 
-        realmToken = viewModel.data.observe { [weak self] (changes: RealmCollectionChange) in
-            guard let tableView = self?.tableView else { return }
-            switch changes {
-            case .initial:
-                tableView.reloadData()
-                break
-            case .update(_, let deletions, let insertions, let modifications):
-                tableView.beginUpdates()
-                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
-                                     with: .automatic)
-                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
-                                     with: .automatic)
-                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
-                                     with: .automatic)
-                tableView.endUpdates()
-                break
-            case .error:
-                fatalError("Error occured during observation.")
-            }
-        }
-
-        refreshControl.reactive.isRefreshing <~ viewModel.actions.updateLocalDB.isExecuting
-        viewModel.actions.updateLocalDB <~ refreshControl.reactive.controlEvents(.valueChanged).map() { _ in false }
+//        realmToken = viewModel.data.observe { [weak self] (changes: RealmCollectionChange) in
+//            guard let tableView = self?.tableView else { return }
+//            switch changes {
+//            case .initial:
+//                tableView.reloadData()
+//                break
+//            case .update(_, let deletions, let insertions, let modifications):
+//                tableView.beginUpdates()
+//                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
+//                                     with: .automatic)
+//                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
+//                                     with: .automatic)
+//                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
+//                                     with: .automatic)
+//                tableView.endUpdates()
+//                break
+//            case .error:
+//                fatalError("Error occured during observation.")
+//            }
+//        }
 
 //        viewModel.data.signal
 //            .take(during: reactive.lifetime)
@@ -130,15 +122,15 @@ final class LexiconVC: BaseViewController {
 }
 
 // MARK: UITableView delegate and data source
-extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
+extension AnimalFilterVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.data.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // swiftlint:disable force_cast
-        let cell = tableView.dequeueReusableCell(withIdentifier: LexiconItemCellVC.identifier, for: indexPath) as! LexiconItemCellVC
-        cell.viewModel = viewModel.getLexiconItemCellVM(at: indexPath.row)
+        let cell = tableView.dequeueReusableCell(withIdentifier: AnimalFilterItemCellVC.identifier, for: indexPath) as! AnimalFilterItemCellVC
+        cell.viewModel = viewModel.getAnimalFilterItemCellVM(at: indexPath)
 
         return cell
     }
