@@ -74,11 +74,19 @@ extension RealmDBManager {
         }
 
         os_log("Update required.")
-        return zooApi.getAnimals()
+
+        return SignalProducer([updateAnimalData(), updateAnimalFilters()])
+            .flatten(.concat)
+    }
+
+    private func updateAnimalData() -> SignalProducer<UpdateStatus, UpdateError> {
+        zooApi.getAnimals()
             .mapError() { UpdateError.updateError($0) }
             .observe(on: QueueScheduler.main)
             .flatMap(.concat) { [weak self] (metadata, animals) -> SignalProducer<UpdateStatus, UpdateError> in
                 guard let realm = self?.realm else { return SignalProducer(error: UpdateError.realmError) }
+
+                os_log("Storing animal data.")
 
                 do {
                     try realm.write() {
@@ -91,16 +99,37 @@ extension RealmDBManager {
 
                 return SignalProducer(value: UpdateStatus.dataUpdated)
             }
-//        SignalProducer { sink, _ in
-//            if(forced) {
-//                return self.zooApi.getAnimals()
-//                    .map() { metadata, animals -> UpdateStatus in
-//                        return .dataUpdated
-//                    }
-//            } else {
-//                return SignalProducer<UpdateStatus, UpdateError>(value: .dataNotUpdated)
-//            }
-//        }
+    }
+
+    private func updateAnimalFilters() -> SignalProducer<UpdateStatus, UpdateError> {
+        SignalProducer([zooApi.getClasses(), zooApi.getFoods(), zooApi.getBiotops()])
+            .flatten(.concat)
+            .collect()
+            .mapError() { UpdateError.updateError($0) }
+            .observe(on: QueueScheduler.main)
+            .flatMap(.concat) { [weak self] resultsList -> SignalProducer<UpdateStatus, UpdateError> in
+                guard let realm = self?.realm else { return SignalProducer(error: UpdateError.realmError) }
+
+                os_log("Storing animal filters.")
+
+                if(resultsList.isEmpty) {
+                    return SignalProducer(value: UpdateStatus.dataUpdated)
+                }
+
+                do {
+                    try realm.write() {
+                        // swiftlint:disable force_unwrapping
+                        realm.add(Metadata(using: resultsList.first!.0), update: .modified)
+                        for (_, filter) in resultsList {
+                            realm.add(AnimalsFilter(filter), update: .modified)
+                        }
+                    }
+                } catch (let e) {
+                    fatalError("Error occured when writing to realm: \(e)")
+                }
+
+                return SignalProducer(value: UpdateStatus.dataUpdated)
+            }
     }
 
     private static func initRealm() -> Realm {

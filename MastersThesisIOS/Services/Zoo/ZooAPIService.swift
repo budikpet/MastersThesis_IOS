@@ -17,6 +17,8 @@ protocol ZooAPIServicing {
     func fetchPhoto(_ id: Int) -> SignalProducer<String, RequestError>
     func getAnimals() -> SignalProducer<(FetchedMetadata, [FetchedAnimalData]), RequestError>
     func getClasses() -> SignalProducer<(FetchedMetadata, FetchedAnimalsFilter), RequestError>
+    func getBiotops() -> SignalProducer<(FetchedMetadata, FetchedAnimalsFilter), RequestError>
+    func getFoods() -> SignalProducer<(FetchedMetadata, FetchedAnimalsFilter), RequestError>
 }
 
 /**
@@ -60,8 +62,34 @@ final class ZooAPIService: ZooAPIServicing {
             guard let values = responseData["data"] as? [String] else { return nil }
 
             let metadata: FetchedMetadata = FetchedMetadata(using: metadataDict)
-            let animalData: FetchedAnimalsFilter = FetchedAnimalsFilter(ofType: "class_", values)
-            return (metadata, animalData)
+            let animalsFilter: FetchedAnimalsFilter = FetchedAnimalsFilter(ofType: "class_", values)
+            return (metadata, animalsFilter)
+        }
+    }
+
+    func getBiotops() -> SignalProducer<(FetchedMetadata, FetchedAnimalsFilter), RequestError> {
+        os_log("Fetching all biotops.")
+        return jsonAPI.request(path: "/api/biotops").compactMap { response in
+            guard let responseData = (response.data as? [String: Any]) else { return nil }
+            guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
+            guard let values = responseData["data"] as? [String] else { return nil }
+
+            let metadata: FetchedMetadata = FetchedMetadata(using: metadataDict)
+            let animalsFilter: FetchedAnimalsFilter = FetchedAnimalsFilter(ofType: "biotop", values)
+            return (metadata, animalsFilter)
+        }
+    }
+
+    func getFoods() -> SignalProducer<(FetchedMetadata, FetchedAnimalsFilter), RequestError> {
+        os_log("Fetching all foods.")
+        return jsonAPI.request(path: "/api/foods").compactMap { response in
+            guard let responseData = (response.data as? [String: Any]) else { return nil }
+            guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
+            guard let values = responseData["data"] as? [String] else { return nil }
+
+            let metadata: FetchedMetadata = FetchedMetadata(using: metadataDict)
+            let animalsFilter: FetchedAnimalsFilter = FetchedAnimalsFilter(ofType: "food", values)
+            return (metadata, animalsFilter)
         }
     }
 }
