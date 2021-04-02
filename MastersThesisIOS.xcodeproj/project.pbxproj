@@ -50,7 +50,7 @@
 		4B7FB09026109A350086A057 /* AnimalDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7FB08F26109A350086A057 /* AnimalDetailVM.swift */; };
 		4B91749E26135BD600946DE8 /* RealmExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B91749D26135BD500946DE8 /* RealmExtensions.swift */; };
 		4B9174AD261362E000946DE8 /* ReactiveSwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174AC261362E000946DE8 /* ReactiveSwiftExtensions.swift */; };
-		4B9174B52614E33F00946DE8 /* AnimalsFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174B42614E33F00946DE8 /* AnimalsFilter.swift */; };
+		4B9174B52614E33F00946DE8 /* AnimalFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174B42614E33F00946DE8 /* AnimalFilter.swift */; };
 		4BADE9A9261254C4004440A6 /* ZooAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADE9A8261254C4004440A6 /* ZooAPIService.swift */; };
 		4BADEA1326127B8E004440A6 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1226127B8E004440A6 /* Metadata.swift */; };
 		4BADEA1A26130B03004440A6 /* RealmDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1926130B03004440A6 /* RealmDBManager.swift */; };
@@ -198,7 +198,7 @@
 		4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SDWebImage.xcframework; path = Carthage/Build/SDWebImage.xcframework; sourceTree = "<group>"; };
 		4B91749D26135BD500946DE8 /* RealmExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmExtensions.swift; sourceTree = "<group>"; };
 		4B9174AC261362E000946DE8 /* ReactiveSwiftExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactiveSwiftExtensions.swift; sourceTree = "<group>"; };
-		4B9174B42614E33F00946DE8 /* AnimalsFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalsFilter.swift; sourceTree = "<group>"; };
+		4B9174B42614E33F00946DE8 /* AnimalFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalFilter.swift; sourceTree = "<group>"; };
 		4BADE9A8261254C4004440A6 /* ZooAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZooAPIService.swift; sourceTree = "<group>"; };
 		4BADE9FF26125988004440A6 /* GoogleService-Info-Beta-Stage.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Beta-Stage.plist"; sourceTree = "<group>"; };
 		4BADEA0026125988004440A6 /* GoogleService-Info-Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Release.plist"; sourceTree = "<group>"; };
@@ -576,7 +576,7 @@
 			children = (
 				4BE756AA26089B1C00DFB440 /* AnimalData.swift */,
 				4BADEA1226127B8E004440A6 /* Metadata.swift */,
-				4B9174B42614E33F00946DE8 /* AnimalsFilter.swift */,
+				4B9174B42614E33F00946DE8 /* AnimalFilter.swift */,
 			);
 			path = RealmData;
 			sourceTree = "<group>";
@@ -1201,7 +1201,7 @@
 				EE0625AE662CC31AAFA06049 /* UIViewController+FrontmostController.swift in Sources */,
 				9564D632A6035A44065802C3 /* AppFlowCoordinator.swift in Sources */,
 				5D495379DF9D537E3E9BE41A /* Credentials.swift in Sources */,
-				4B9174B52614E33F00946DE8 /* AnimalsFilter.swift in Sources */,
+				4B9174B52614E33F00946DE8 /* AnimalFilter.swift in Sources */,
 				69EE4ACDCCCE1E3138D77F61 /* CredentialsProvider.swift in Sources */,
 				9E5627076F7C69DE2DCAF3DC /* Environment.swift in Sources */,
 				8B36538BFF5739815866ABB4 /* Logger.swift in Sources */,

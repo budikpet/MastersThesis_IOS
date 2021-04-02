@@ -8,7 +8,7 @@
 
 import RealmSwift
 
-class AnimalsFilter: Object {
+class AnimalFilter: Object {
     /** Type name of the filter which says which AnimalData attribute it is supposed to filter (class, continent etc.) */
     @objc dynamic public var type: String = "-"
 
@@ -19,14 +19,14 @@ class AnimalsFilter: Object {
         return "type"
     }
 
-    public convenience init(_ fetchedAnimalsFilter: FetchedAnimalsFilter) {
+    public convenience init(_ fetchedAnimalFilter: FetchedAnimalFilter) {
         self.init()
-        self.type = fetchedAnimalsFilter.type
-        self.values.append(objectsIn: fetchedAnimalsFilter.values)
+        self.type = fetchedAnimalFilter.type
+        self.values.append(objectsIn: fetchedAnimalFilter.values)
     }
 }
 
-struct FetchedAnimalsFilter {
+struct FetchedAnimalFilter {
     /** Type name of the filter which says which AnimalData attribute it is supposed to filter (class, continent etc.) */
     let type: String
 
