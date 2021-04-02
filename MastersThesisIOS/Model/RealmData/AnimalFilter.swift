@@ -15,6 +15,9 @@ class AnimalFilter: Object {
     /** Value of the filtered attribute. */
     public let values = List<String>()
 
+    /** Value of the filtered attribute. */
+    public let checkmarkValues = List<Bool>()
+
     override public static func primaryKey() -> String? {
         return "type"
     }
@@ -22,7 +25,12 @@ class AnimalFilter: Object {
     public convenience init(_ fetchedAnimalFilter: FetchedAnimalFilter) {
         self.init()
         self.type = fetchedAnimalFilter.type
-        self.values.append(objectsIn: fetchedAnimalFilter.values)
+
+        for value in fetchedAnimalFilter.values {
+            self.values.append(value)
+            self.checkmarkValues.append(false)
+        }
+
     }
 }
 
