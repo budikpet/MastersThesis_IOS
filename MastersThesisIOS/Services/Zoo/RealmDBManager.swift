@@ -28,6 +28,8 @@ protocol RealmDBManagingObjects {
 protocol RealmDBManaging {
     var actions: RealmDBManagingActions { get }
     var objects: RealmDBManagingObjects { get }
+
+    func realmEdit(_ editClosure: (Realm) -> ())
 }
 
 /**
@@ -58,6 +60,16 @@ final class RealmDBManager: RealmDBManaging, RealmDBManagingActions, RealmDBMana
             .sorted(byKeyPath: "name", ascending: true)
         self.animalFilter = realm.objects(AnimalFilter.self)
     }
+
+    func realmEdit(_ editClosure: (Realm) -> ()) {
+        do {
+            try realm.write() {
+                editClosure(realm)
+            }
+        } catch (let e) {
+            fatalError("Error occured when writing to realm: \(e)")
+        }
+    }
 }
 
 // MARK: Helpers
@@ -84,17 +96,13 @@ extension RealmDBManager {
             .mapError() { UpdateError.updateError($0) }
             .observe(on: QueueScheduler.main)
             .flatMap(.concat) { [weak self] (metadata, animals) -> SignalProducer<UpdateStatus, UpdateError> in
-                guard let realm = self?.realm else { return SignalProducer(error: UpdateError.realmError) }
+                guard let self = self else { return SignalProducer(error: UpdateError.realmError) }
 
                 os_log("Storing animal data.")
 
-                do {
-                    try realm.write() {
-                        realm.add(Metadata(using: metadata), update: .modified)
-                        realm.add(animals.map() { AnimalData(using: $0) }, update: .modified)
-                    }
-                } catch (let e) {
-                    fatalError("Error occured when writing to realm: \(e)")
+                self.realmEdit { (realm: Realm) in
+                    realm.add(Metadata(using: metadata), update: .modified)
+                    realm.add(animals.map() { AnimalData(using: $0) }, update: .modified)
                 }
 
                 return SignalProducer(value: UpdateStatus.dataUpdated)
@@ -108,7 +116,7 @@ extension RealmDBManager {
             .mapError() { UpdateError.updateError($0) }
             .observe(on: QueueScheduler.main)
             .flatMap(.concat) { [weak self] resultsList -> SignalProducer<UpdateStatus, UpdateError> in
-                guard let realm = self?.realm else { return SignalProducer(error: UpdateError.realmError) }
+                guard let self = self else { return SignalProducer(error: UpdateError.realmError) }
 
                 os_log("Storing animal filters.")
 
@@ -116,16 +124,11 @@ extension RealmDBManager {
                     return SignalProducer(value: UpdateStatus.dataUpdated)
                 }
 
-                do {
-                    try realm.write() {
-                        // swiftlint:disable force_unwrapping
-                        realm.add(Metadata(using: resultsList.first!.0), update: .modified)
-                        for (_, filter) in resultsList {
-                            realm.add(AnimalFilter(filter), update: .modified)
-                        }
+                self.realmEdit { (realm: Realm) in
+                    realm.add(Metadata(using: resultsList.first!.0), update: .modified)
+                    for (_, filter) in resultsList {
+                        realm.add(AnimalFilter(filter), update: .modified)
                     }
-                } catch (let e) {
-                    fatalError("Error occured when writing to realm: \(e)")
                 }
 
                 return SignalProducer(value: UpdateStatus.dataUpdated)

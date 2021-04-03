@@ -54,7 +54,7 @@ final class LexiconVC: BaseViewController {
         self.filterItem = filterItem
         navigationItem.rightBarButtonItem = filterItem
 
-        let tableView = UITableView(frame: self.view.bounds, style: UITableView.Style.plain)
+        let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.accessibilityIdentifier = "LexiconVC_TableView"
@@ -67,11 +67,14 @@ final class LexiconVC: BaseViewController {
         self.refreshControl = refreshControl
         refreshControl.attributedTitle = NSAttributedString(string: L10n.Lexicon.updatingDB)
         tableView.addSubview(refreshControl)
+
+        tableView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.view)
+        }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.estimatedRowHeight = 120
 
         setupBindings()
 

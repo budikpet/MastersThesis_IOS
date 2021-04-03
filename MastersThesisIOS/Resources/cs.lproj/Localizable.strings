@@ -18,3 +18,6 @@
 "animalDetail.labelReproduction" = "Rozmnožování";
 "animalDetail.labelLocation" = "Umístění v Zoo Praha";
 "lexicon.updatingDB" = "Stahování dat lexikonu...";
+"animalFilter.class_" = "Třída";
+"animalFilter.biotop" = "Biotop";
+"animalFilter.food" = "Potrava";

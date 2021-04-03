@@ -11,21 +11,14 @@ import ReactiveSwift
 import ReactiveCocoa
 import RealmSwift
 
-protocol AnimalFilterVCFlowDelegate: class {
-    func viewAnimal(using animal: AnimalData)
-    func viewFilters()
-}
-
 final class AnimalFilterVC: BaseViewController {
     // MARK: Dependencies
 
     private let viewModel: AnimalFilterViewModeling
-    weak var flowDelegate: AnimalFilterVCFlowDelegate?
 
     private var realmToken: NotificationToken?
 
     private weak var tableView: UITableView!
-    private weak var filterItem: UIBarButtonItem!
 
     // MARK: Initializers
 
@@ -50,23 +43,23 @@ final class AnimalFilterVC: BaseViewController {
         view.backgroundColor = .white
         view.accessibilityIdentifier = "AnimalFilterVC"
 
-        let filterItem = UIBarButtonItem(image: UIImage(named: "animalFilter"), style: .plain, target: self, action: #selector(filterTapped))
-        self.filterItem = filterItem
-        navigationItem.rightBarButtonItem = filterItem
-
-        let tableView = UITableView(frame: self.view.bounds, style: UITableView.Style.plain)
+        let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.accessibilityIdentifier = "AnimalFilterVC_TableView"
+        tableView.separatorStyle = .none
 
         tableView.register(AnimalFilterItemCellVC.self, forCellReuseIdentifier: AnimalFilterItemCellVC.identifier)
         view.addSubview(tableView)
         self.tableView = tableView
+
+        tableView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.view)
+        }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.estimatedRowHeight = 120
 
         setupBindings()
 
@@ -77,26 +70,29 @@ final class AnimalFilterVC: BaseViewController {
 
     private func setupBindings() {
 
-//        realmToken = viewModel.data.observe { [weak self] (changes: RealmCollectionChange) in
-//            guard let tableView = self?.tableView else { return }
-//            switch changes {
-//            case .initial:
-//                tableView.reloadData()
-//                break
-//            case .update(_, let deletions, let insertions, let modifications):
-//                tableView.beginUpdates()
-//                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
-//                                     with: .automatic)
-//                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
-//                                     with: .automatic)
-//                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
-//                                     with: .automatic)
-//                tableView.endUpdates()
-//                break
-//            case .error:
-//                fatalError("Error occured during observation.")
-//            }
-//        }
+        realmToken = viewModel.data.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let self = self else { return }
+            switch changes {
+            case .initial:
+                self.tableView.reloadData()
+                break
+            case .update(_, _, _, let modifications):
+                self.tableView.beginUpdates()
+
+                switch self.viewModel.editedRows {
+                case .all:
+                    self.tableView.reloadData()
+                case .one(let row):
+                    self.tableView.reloadRows(at: modifications.map({ IndexPath(row: row, section: $0) }),
+                                         with: .automatic)
+                }
+
+                self.tableView.endUpdates()
+                break
+            case .error:
+                fatalError("Error occured during observation.")
+            }
+        }
 
 //        viewModel.data.signal
 //            .take(during: reactive.lifetime)
@@ -114,17 +110,30 @@ final class AnimalFilterVC: BaseViewController {
 
     }
 
-    @objc
-    private func filterTapped(_ sender: UIBarButtonItem) {
-        flowDelegate?.viewFilters()
-    }
-
 }
 
 // MARK: UITableView delegate and data source
 extension AnimalFilterVC: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.data.count
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch viewModel.data[section].type {
+        case "class_":
+            return L10n.AnimalFilter.class
+        case "biotop":
+            return L10n.AnimalFilter.biotop
+        case "food":
+            return L10n.AnimalFilter.food
+        default:
+            fatalError("Unknown section value")
+        }
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.data[section].values.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -136,13 +145,15 @@ extension AnimalFilterVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let animal = viewModel.animal(at: indexPath.row)
+        viewModel.pickValue(at: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
-
-        flowDelegate?.viewAnimal(using: animal)
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return viewModel.rowHeightAt(indexPath.row)
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return viewModel.rowHeightAt(indexPath.row)
+//    }
+}
+
+struct Section {
+
 }

@@ -18,9 +18,10 @@ protocol AnimalFilterViewModelingActions {
 protocol AnimalFilterViewModeling {
     var actions: AnimalFilterViewModelingActions { get }
 
-    var data: Results<AnimalData> { get }
+    var data: Results<AnimalFilter> { get }
+    var editedRows: EditedRows { get }
 
-    func animal(at index: Int) -> AnimalData
+    func pickValue(at indexPath: IndexPath)
     func getAnimalFilterItemCellVM(at indexPath: IndexPath) -> AnimalFilterItemCellVM
     func rowHeightAt(_ index: Int) -> CGFloat
 }
@@ -33,10 +34,12 @@ final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilte
     typealias Dependencies = HasNetwork & HasRealmDBManager
     let realmDbManager: RealmDBManaging
 
-    var data: Results<AnimalData>
+    var data: Results<AnimalFilter>
 
     // MARK: Actions
     internal var updateLocalDB: Action<Bool, UpdateStatus, UpdateError>
+
+    var editedRows: EditedRows = .all
 
     // MARK: Initializers
 
@@ -44,7 +47,7 @@ final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilte
         realmDbManager = dependencies.realmDBManager
         updateLocalDB = realmDbManager.actions.updateLocalDB
 
-        data = realmDbManager.objects.animalData
+        data = realmDbManager.objects.animalFilter
 
         super.init()
         setupBindings()
@@ -58,18 +61,28 @@ final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilte
 // MARK: VC Delegate/DataSource helpers
 
 extension AnimalFilterVM {
-    func animal(at index: Int) -> AnimalData {
-        let item = data[index]
+    func pickValue(at indexPath: IndexPath) {
+        let filter = data[indexPath.section]
+        editedRows = EditedRows.one(indexPath.row)
 
-        return item
+        realmDbManager.realmEdit { _ in
+            filter.checkmarkValues[indexPath.row] = !filter.checkmarkValues[indexPath.row]
+        }
     }
 
     func getAnimalFilterItemCellVM(at indexPath: IndexPath) -> AnimalFilterItemCellVM {
-        // TODO: Connect to section/index
-        return AnimalFilterItemCellVM(withValue: "TMP", checked: true)
+        let filter = data[indexPath.section]
+        let value = filter.values[indexPath.row]
+        let isChecked = filter.checkmarkValues[indexPath.row]
+        return AnimalFilterItemCellVM(withValue: value, checked: isChecked)
     }
 
     func rowHeightAt(_ index: Int) -> CGFloat {
-        return 50.0
+        return 30.0
     }
+}
+
+enum EditedRows {
+    case all
+    case one(Int)
 }
