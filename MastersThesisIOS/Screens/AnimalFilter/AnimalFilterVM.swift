@@ -47,7 +47,7 @@ final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilte
         realmDbManager = dependencies.realmDBManager
         updateLocalDB = realmDbManager.actions.updateLocalDB
 
-        data = realmDbManager.objects.animalFilter
+        data = realmDbManager.realm.objects(AnimalFilter.self)
 
         super.init()
         setupBindings()

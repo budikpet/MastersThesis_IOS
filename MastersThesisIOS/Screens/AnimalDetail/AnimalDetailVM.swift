@@ -24,15 +24,13 @@ extension AnimalDetailViewModeling where Self: AnimalDetailViewModelingActions {
 }
 
 final class AnimalDetailVM: BaseViewModel, AnimalDetailViewModeling, AnimalDetailViewModelingActions {
-    typealias Dependencies = HasRealmDBManager
-    private let realmDbManager: RealmDBManaging
+    typealias Dependencies = HasNoDependency
 
     let animal: Property<AnimalData>
 
     // MARK: Initializers
 
     init(dependencies: Dependencies, using animal: AnimalData) {
-        self.realmDbManager = dependencies.realmDBManager
         self.animal = animal.reactive.property
 
         super.init()

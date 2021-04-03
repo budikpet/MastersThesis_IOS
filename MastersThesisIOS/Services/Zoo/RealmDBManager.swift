@@ -19,15 +19,9 @@ protocol RealmDBManagingActions {
     var updateLocalDB: Action<Bool, UpdateStatus, UpdateError> { get }
 }
 
-protocol RealmDBManagingObjects {
-    var metadata: Results<Metadata> { get }
-    var animalData: Results<AnimalData> { get }
-    var animalFilter: Results<AnimalFilter> { get }
-}
-
 protocol RealmDBManaging {
     var actions: RealmDBManagingActions { get }
-    var objects: RealmDBManagingObjects { get }
+    var realm: Realm { get }
 
     func realmEdit(_ editClosure: (Realm) -> ())
 }
@@ -35,9 +29,8 @@ protocol RealmDBManaging {
 /**
  Handles updating of local Realm DB.
  */
-final class RealmDBManager: RealmDBManaging, RealmDBManagingActions, RealmDBManagingObjects {
+final class RealmDBManager: RealmDBManaging, RealmDBManagingActions {
     typealias Dependencies = HasZooAPI
-    private let realm: Realm!
     private let zooApi: ZooAPIServicing
 
     // MARK: Actions
@@ -46,19 +39,14 @@ final class RealmDBManager: RealmDBManaging, RealmDBManagingActions, RealmDBMana
         self.runUpdate(forced: isForced)
     }
 
-    // MARK: Objects
-    internal var objects: RealmDBManagingObjects { self }
+    // MARK: Local
+    internal var realm: Realm
     internal var metadata: Results<Metadata>
-    internal var animalData: Results<AnimalData>
-    internal var animalFilter: Results<AnimalFilter>
 
     init(dependencies: Dependencies) {
         self.zooApi = dependencies.zooAPI
         self.realm = RealmDBManager.initRealm()
         self.metadata = realm.objects(Metadata.self).filter("_id == 0")
-        self.animalData = realm.objects(AnimalData.self)
-            .sorted(byKeyPath: "name", ascending: true)
-        self.animalFilter = realm.objects(AnimalFilter.self)
     }
 
     func realmEdit(_ editClosure: (Realm) -> ()) {
