@@ -21,6 +21,7 @@ protocol AnimalFilterViewModeling {
     var viewedAnimalFilters: MutableProperty<[ViewedAnimalFilter]> { get }
 
     func persistChanges()
+    func resetFilter()
     func pickValue(at indexPath: IndexPath)
     func getAnimalFilterItemCellVM(at indexPath: IndexPath) -> AnimalFilterItemCellVM
     func rowHeightAt(_ index: Int) -> CGFloat
@@ -59,14 +60,6 @@ final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilte
         realmToken?.invalidate()
     }
 
-    func persistChanges() {
-        realmDbManager.realmEdit { (realm: Realm) in
-            for viewedAnimalFilter in viewedAnimalFilters.value {
-                viewedAnimalFilter.persistChanges(realm)
-            }
-        }
-    }
-
     private func setupBindings() {
         realmToken = animalFilters.observe { [weak self] (changes: RealmCollectionChange) in
             guard let self = self else { return }
@@ -78,6 +71,26 @@ final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilte
                 break
             case .error:
                 fatalError("Error occured during observation.")
+            }
+        }
+    }
+}
+
+// MARK: Protocol functions
+
+extension AnimalFilterVM {
+    func persistChanges() {
+        realmDbManager.realmEdit { (realm: Realm) in
+            for viewedAnimalFilter in viewedAnimalFilters.value {
+                viewedAnimalFilter.persistChanges(realm)
+            }
+        }
+    }
+
+    func resetFilter() {
+        for viewFilter in viewedAnimalFilters.value {
+            for (_, checkmarkValue) in viewFilter.cellValues {
+                checkmarkValue.value = false
             }
         }
     }

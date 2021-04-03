@@ -7,6 +7,7 @@
 "basic.error.message" = "Something went wrong.";
 "navigationItem.title.zooMap" = "Zoo Map";
 "navigationItem.title.lexicon" = "Animal lexicon";
+"navigationItem.title.animalFilter" = "Lexicon filter";
 "label.externalPen" = "External animal pen";
 "animalDetail.labelName" = "Name";
 "animalDetail.labelClass" = "Class";

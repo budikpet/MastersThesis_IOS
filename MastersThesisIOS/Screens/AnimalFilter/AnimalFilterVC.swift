@@ -17,6 +17,7 @@ final class AnimalFilterVC: BaseViewController {
     private let viewModel: AnimalFilterViewModeling
 
     private weak var tableView: UITableView!
+    private weak var resetFilter: UIBarButtonItem!
 
     // MARK: Initializers
 
@@ -36,6 +37,10 @@ final class AnimalFilterVC: BaseViewController {
         super.loadView()
         view.backgroundColor = .white
         view.accessibilityIdentifier = "AnimalFilterVC"
+
+        let resetFilter = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(resetFilterTapped))
+        self.resetFilter = resetFilter
+        navigationItem.rightBarButtonItem = resetFilter
 
         let tableView = UITableView()
         tableView.dataSource = self
@@ -57,7 +62,7 @@ final class AnimalFilterVC: BaseViewController {
 
         setupBindings()
 
-        navigationItem.title = L10n.NavigationItem.Title.lexicon
+        navigationItem.title = L10n.NavigationItem.Title.animalFilter
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -84,6 +89,11 @@ final class AnimalFilterVC: BaseViewController {
 //
 //        imageView.reactive.image <~ viewModel.photo
 
+    }
+
+    @objc
+    private func resetFilterTapped(_ sender: UIBarButtonItem) {
+        viewModel.resetFilter()
     }
 
 }
