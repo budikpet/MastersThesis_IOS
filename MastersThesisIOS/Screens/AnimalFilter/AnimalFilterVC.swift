@@ -16,8 +16,6 @@ final class AnimalFilterVC: BaseViewController {
 
     private let viewModel: AnimalFilterViewModeling
 
-    private var realmToken: NotificationToken?
-
     private weak var tableView: UITableView!
 
     // MARK: Initializers
@@ -30,10 +28,6 @@ final class AnimalFilterVC: BaseViewController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    deinit {
-        realmToken?.invalidate()
     }
 
     // MARK: View life cycle
@@ -66,33 +60,15 @@ final class AnimalFilterVC: BaseViewController {
         navigationItem.title = L10n.NavigationItem.Title.lexicon
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.persistChanges()
+    }
+
     // MARK: Helpers
 
     private func setupBindings() {
-
-        realmToken = viewModel.data.observe { [weak self] (changes: RealmCollectionChange) in
-            guard let self = self else { return }
-            switch changes {
-            case .initial:
-                self.tableView.reloadData()
-                break
-            case .update(_, _, _, let modifications):
-                self.tableView.beginUpdates()
-
-                switch self.viewModel.editedRows {
-                case .all:
-                    self.tableView.reloadData()
-                case .one(let row):
-                    self.tableView.reloadRows(at: modifications.map({ IndexPath(row: row, section: $0) }),
-                                         with: .automatic)
-                }
-
-                self.tableView.endUpdates()
-                break
-            case .error:
-                fatalError("Error occured during observation.")
-            }
-        }
+        tableView.reactive.reloadData <~ viewModel.viewedAnimalFilters.signal.map() { _ in }
 
 //        viewModel.data.signal
 //            .take(during: reactive.lifetime)
@@ -116,11 +92,11 @@ final class AnimalFilterVC: BaseViewController {
 extension AnimalFilterVC: UITableViewDelegate, UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.data.count
+        return viewModel.viewedAnimalFilters.value.count
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch viewModel.data[section].type {
+        switch viewModel.viewedAnimalFilters.value[section].type {
         case "class_":
             return L10n.AnimalFilter.class
         case "biotop":
@@ -133,7 +109,7 @@ extension AnimalFilterVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.data[section].values.count
+        return viewModel.viewedAnimalFilters.value[section].cellValues.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -152,8 +128,4 @@ extension AnimalFilterVC: UITableViewDelegate, UITableViewDataSource {
 //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 //        return viewModel.rowHeightAt(indexPath.row)
 //    }
-}
-
-struct Section {
-
 }

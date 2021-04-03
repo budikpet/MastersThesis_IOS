@@ -18,9 +18,9 @@ protocol AnimalFilterViewModelingActions {
 protocol AnimalFilterViewModeling {
     var actions: AnimalFilterViewModelingActions { get }
 
-    var data: Results<AnimalFilter> { get }
-    var editedRows: EditedRows { get }
+    var viewedAnimalFilters: MutableProperty<[ViewedAnimalFilter]> { get }
 
+    func persistChanges()
     func pickValue(at indexPath: IndexPath)
     func getAnimalFilterItemCellVM(at indexPath: IndexPath) -> AnimalFilterItemCellVM
     func rowHeightAt(_ index: Int) -> CGFloat
@@ -34,12 +34,13 @@ final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilte
     typealias Dependencies = HasNetwork & HasRealmDBManager
     let realmDbManager: RealmDBManaging
 
-    var data: Results<AnimalFilter>
+    internal var viewedAnimalFilters: MutableProperty<[ViewedAnimalFilter]>
 
     // MARK: Actions
     internal var updateLocalDB: Action<Bool, UpdateStatus, UpdateError>
 
-    var editedRows: EditedRows = .all
+    private var animalFilters: Results<AnimalFilter>
+    private var realmToken: NotificationToken?
 
     // MARK: Initializers
 
@@ -47,14 +48,38 @@ final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilte
         realmDbManager = dependencies.realmDBManager
         updateLocalDB = realmDbManager.actions.updateLocalDB
 
-        data = realmDbManager.realm.objects(AnimalFilter.self)
+        animalFilters = realmDbManager.realm.objects(AnimalFilter.self)
+        viewedAnimalFilters = MutableProperty(animalFilters.map() { ViewedAnimalFilter($0) })
 
         super.init()
         setupBindings()
     }
 
-    private func setupBindings() {
+    deinit {
+        realmToken?.invalidate()
+    }
 
+    func persistChanges() {
+        realmDbManager.realmEdit { (realm: Realm) in
+            for viewedAnimalFilter in viewedAnimalFilters.value {
+                viewedAnimalFilter.persistChanges(realm)
+            }
+        }
+    }
+
+    private func setupBindings() {
+        realmToken = animalFilters.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let self = self else { return }
+            switch changes {
+            case .initial:
+                break
+            case .update(let newAnimalFilters, _, _, _):
+                self.viewedAnimalFilters.value = newAnimalFilters.map() { ViewedAnimalFilter($0) }
+                break
+            case .error:
+                fatalError("Error occured during observation.")
+            }
+        }
     }
 }
 
@@ -62,19 +87,16 @@ final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilte
 
 extension AnimalFilterVM {
     func pickValue(at indexPath: IndexPath) {
-        let filter = data[indexPath.section]
-        editedRows = EditedRows.one(indexPath.row)
+        let filter = viewedAnimalFilters.value[indexPath.section]
+        let cellValue = filter.cellValues[indexPath.row]
 
-        realmDbManager.realmEdit { _ in
-            filter.checkmarkValues[indexPath.row] = !filter.checkmarkValues[indexPath.row]
-        }
+        cellValue.1.value = !cellValue.1.value
     }
 
     func getAnimalFilterItemCellVM(at indexPath: IndexPath) -> AnimalFilterItemCellVM {
-        let filter = data[indexPath.section]
-        let value = filter.values[indexPath.row]
-        let isChecked = filter.checkmarkValues[indexPath.row]
-        return AnimalFilterItemCellVM(withValue: value, checked: isChecked)
+        let filter = viewedAnimalFilters.value[indexPath.section]
+        let cellValue = filter.cellValues[indexPath.row]
+        return AnimalFilterItemCellVM(withValue: cellValue.0, checked: cellValue.1)
     }
 
     func rowHeightAt(_ index: Int) -> CGFloat {
@@ -82,7 +104,34 @@ extension AnimalFilterVM {
     }
 }
 
-enum EditedRows {
-    case all
-    case one(Int)
+/**
+ Stores AnimalFilter values for viewing in AnimalFilter view.
+ Has better structure for viewing than AnimalFilter class and its changes aren't stored in DB immediately.
+ */
+struct ViewedAnimalFilter {
+    public let type: String
+
+    /** Value of the filtered attribute. */
+    public let cellValues: [(String, MutableProperty<Bool>)]
+
+    private let animalFilter: AnimalFilter
+
+    init(_ animalFilter: AnimalFilter) {
+        self.type = animalFilter.type
+        self.cellValues = Array(zip(animalFilter.values, animalFilter.checkmarkValues))
+            .map { (value, checkmarkValue) -> (String, MutableProperty<Bool>) in
+                (value, MutableProperty(checkmarkValue))
+            }
+
+        self.animalFilter = animalFilter
+    }
+
+    public func persistChanges(_ realm: Realm) {
+        for (index, (_, newCheckmarkValue)) in cellValues.enumerated() {
+            let checkmarkValue = animalFilter.checkmarkValues[index]
+            if(checkmarkValue != newCheckmarkValue.value) {
+                animalFilter.checkmarkValues[index] = newCheckmarkValue.value
+            }
+        }
+    }
 }

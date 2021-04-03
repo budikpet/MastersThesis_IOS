@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import ReactiveSwift
 
 /**
  Visual representation of AnimalFilter UITableViewCell.
@@ -21,7 +22,7 @@ class AnimalFilterItemCellVC: UITableViewCell {
     var viewModel: AnimalFilterItemCellVM! {
         didSet {
             labelValue.text = viewModel.value
-            imageCheckmark.isHidden = !viewModel.isChecked
+            imageCheckmark.reactive.isHidden <~ viewModel.isChecked.map() { !$0 }
         }
     }
 

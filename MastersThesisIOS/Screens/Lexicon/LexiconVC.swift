@@ -85,7 +85,7 @@ final class LexiconVC: BaseViewController {
 
     private func setupBindings() {
 
-        realmToken = viewModel.data.observe { [weak self] (changes: RealmCollectionChange) in
+        realmToken = viewModel.animalData.observe { [weak self] (changes: RealmCollectionChange) in
             guard let tableView = self?.tableView else { return }
             switch changes {
             case .initial:
@@ -135,7 +135,7 @@ final class LexiconVC: BaseViewController {
 // MARK: UITableView delegate and data source
 extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.data.count
+        return viewModel.animalData.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

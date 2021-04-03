@@ -17,7 +17,8 @@ protocol LexiconViewModelingActions {
 protocol LexiconViewModeling {
 	var actions: LexiconViewModelingActions { get }
 
-    var data: Results<AnimalData> { get }
+    var animalData: Results<AnimalData> { get }
+    var animalFilters: Results<AnimalFilter> { get }
 
     func animal(at index: Int) -> AnimalData
     func getLexiconItemCellVM(at index: Int) -> LexiconItemCellVM
@@ -32,7 +33,10 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     typealias Dependencies = HasNetwork & HasRealmDBManager
     let realmDbManager: RealmDBManaging
 
-    var data: Results<AnimalData>
+    internal var animalData: Results<AnimalData>
+    internal var animalFilters: Results<AnimalFilter>
+
+    private var realmToken: NotificationToken!
 
 //    let animals: [AnimalData] = {
 //        let data1 = AnimalData(withId: 1)
@@ -82,15 +86,23 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
         realmDbManager = dependencies.realmDBManager
         updateLocalDB = realmDbManager.actions.updateLocalDB
 
-        data = realmDbManager.realm.objects(AnimalData.self)
+        animalData = realmDbManager.realm.objects(AnimalData.self)
             .sorted(byKeyPath: "name", ascending: true)
+
+        animalFilters = realmDbManager.realm.objects(AnimalFilter.self)
 
         super.init()
         setupBindings()
     }
 
-    private func setupBindings() {
+    deinit {
+        realmToken.invalidate()
+    }
 
+    private func setupBindings() {
+        realmToken = animalFilters.observe { [weak self] (changes: RealmCollectionChange) in
+            print("Change observed.")
+        }
     }
 }
 
@@ -98,7 +110,7 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 
 extension LexiconVM {
     func animal(at index: Int) -> AnimalData {
-        let item = data[index]
+        let item = animalData[index]
 
         return item
     }

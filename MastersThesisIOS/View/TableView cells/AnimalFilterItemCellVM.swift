@@ -7,14 +7,15 @@
 //
 
 import UIKit
+import ReactiveSwift
 
 struct AnimalFilterItemCellVM {
     let value: String
-    let isChecked: Bool
+    let isChecked: MutableProperty<Bool>
 
     static let checkmarkImg =  UIImage(named: "checkmark")!
 
-    init(withValue value: String, checked: Bool) {
+    init(withValue value: String, checked: MutableProperty<Bool>) {
         self.value = value
         self.isChecked = checked
     }
