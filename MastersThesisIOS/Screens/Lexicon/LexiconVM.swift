@@ -10,6 +10,8 @@ import ReactiveSwift
 import RealmSwift
 import os.log
 
+typealias TransformedData = (Bool, AnimalData)
+
 protocol LexiconViewModelingActions {
     var updateLocalDB: Action<Bool, UpdateStatus, UpdateError> { get }
 }
@@ -42,10 +44,10 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     // MARK: Internal
     internal var animalData: Results<AnimalData>
     internal var animalFilters: Results<AnimalFilter>
+    internal var transformationAnimalData: MutableProperty<[TransformedData]>
 
     private var animalFiltersToken: NotificationToken!
     private var animalDataToken: NotificationToken!
-    private var disposables = CompositeDisposable()
 
 //    let animals: [AnimalData] = {
 //        let data1 = AnimalData(withId: 1)
@@ -95,6 +97,7 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
         animalData = realmDbManager.realm.objects(AnimalData.self)
             .sorted(byKeyPath: "name", ascending: true)
         animalFilters = realmDbManager.realm.objects(AnimalFilter.self)
+        transformationAnimalData = MutableProperty(Array(animalData).map() { (true, $0) })
 
         filteredAnimalData = MutableProperty([])
         searchText = MutableProperty("")
@@ -106,30 +109,33 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     deinit {
         animalFiltersToken.invalidate()
         animalDataToken.invalidate()
-        disposables.dispose()
     }
 
     private func setupBindings() {
-//        disposables += searchText.signal.observeValues { str in
-//            print(str)
-//        }
+        // Pass data from transformationAnimalData to filteredAnimalData. Use only data that is marked as visible.
+        filteredAnimalData <~ transformationAnimalData.signal.map() { list in
+            list.compactMap() { $0.0 ? $0.1 : nil }
+        }
 
-        filteredAnimalData <~ searchText.signal
+        transformationAnimalData <~ searchText.signal
             .debounce(0.5, on: QueueScheduler.main)
-            .map() { [weak self] partialName -> [AnimalData] in
+            .map() { [weak self] partialName -> [TransformedData] in
                 guard let self = self else { return [] }
-                return self.filteredAnimalData.value
-                    .filter { $0.name.lowercased().contains(partialName.lowercased()) }
+                return self.transformationAnimalData.value
+                    .map { transformedData -> TransformedData in
+                        let res = partialName == "" ? true : transformedData.1.name.lowercased().contains(partialName.lowercased())
+                        return (res, transformedData.1)
+                    }
             }
 
         animalFiltersToken = animalFilters.observe { [weak self] (changes: RealmCollectionChange) in
             guard let self = self else { return }
             switch changes {
             case .initial:
-                self.filteredAnimalData.value = self.getFilteredAnimals(from: self.animalData, using: self.animalFilters)
+                self.transformationAnimalData.value = self.getFilteredAnimals(from: self.animalData, using: self.animalFilters)
                 break
             case .update(let newAnimalFilters, _, _, _):
-                self.filteredAnimalData.value = self.getFilteredAnimals(from: self.animalData, using: newAnimalFilters)
+                self.transformationAnimalData.value = self.getFilteredAnimals(from: self.animalData, using: newAnimalFilters)
                 break
             case .error:
                 fatalError("Error occured during observation.")
@@ -140,10 +146,10 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
             guard let self = self else { return }
             switch changes {
             case .initial:
-                self.filteredAnimalData.value = self.getFilteredAnimals(from: self.animalData, using: self.animalFilters)
+                self.transformationAnimalData.value = self.getFilteredAnimals(from: self.animalData, using: self.animalFilters)
                 break
             case .update(let newAnimalData, _, _, _):
-                self.filteredAnimalData.value = self.getFilteredAnimals(from: newAnimalData, using: self.animalFilters)
+                self.transformationAnimalData.value = self.getFilteredAnimals(from: newAnimalData, using: self.animalFilters)
                 break
             case .error:
                 fatalError("Error occured during observation.")
@@ -162,7 +168,7 @@ extension LexiconVM {
      - Returns:
         New list of AnimalData objects that should be shown. The list is filtered by the given filters.
      */
-    private func getFilteredAnimals(from animalData: Results<AnimalData>, using animalFilters: Results<AnimalFilter>) -> [AnimalData] {
+    private func getFilteredAnimals(from animalData: Results<AnimalData>, using animalFilters: Results<AnimalFilter>) -> [TransformedData] {
         // First member of tuple is the type of filter (the filtered property of AnimalData), second member are all picked values
         let pickedFiltersList: [PickedFilters] = Array(animalFilters)
             .map { (filter: AnimalFilter) -> PickedFilters in
@@ -174,9 +180,9 @@ extension LexiconVM {
                 return PickedFilters(type: filter.type, pickedFilters: pickedValues)
             }
 
-        let res =  Array(self.animalData)
-            .filter { (animalData: AnimalData) -> Bool in
-                pickedFiltersList.reduce(true) { (fullRes: Bool, filter) -> Bool in
+        return Array(self.animalData)
+            .map { (animalData: AnimalData) -> TransformedData in
+                let res = pickedFiltersList.reduce(true) { (fullRes: Bool, filter) -> Bool in
                     if(filter.pickedFilters.isEmpty) {
                         return fullRes
                     }
@@ -188,9 +194,9 @@ extension LexiconVM {
                         currRes || propertyValue.contains(filterValue)
                     }
                 }
-            }
 
-        return res
+                return (res, animalData)
+            }
     }
 }
 
