@@ -20,4 +20,19 @@ extension String {
     mutating func capitalizeFirstLetter() {
         self = self.capitalizingFirstLetter()
     }
+
+    func getCleanedURL() -> URL? {
+        guard self.isEmpty == false else {
+            return nil
+        }
+        if let url = URL(string: self) {
+            return url
+        } else {
+            // Some URL strings may contains characters which aren't usually allowed in swift. This encodes them so that the URL can be used.
+            if let urlEscapedString = self.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed), let escapedURL = URL(string: urlEscapedString){
+                return escapedURL
+            }
+        }
+        return nil
+     }
 }

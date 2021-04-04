@@ -20,7 +20,7 @@ struct LexiconItemCellVM {
         self.location = animal.createShownLocation()
 
         if let urlString =  animal.image_url {
-            self.imageUrl = URL(string: urlString)
+            self.imageUrl = urlString.getCleanedURL()
         } else {
             self.imageUrl = nil
         }

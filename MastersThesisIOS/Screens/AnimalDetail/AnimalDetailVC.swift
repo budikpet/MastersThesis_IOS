@@ -107,7 +107,7 @@ extension AnimalDetailVC {
 
         let imageAnimal = UIImageView()
         stackView.addArrangedSubview(imageAnimal)
-        imageAnimal.sd_setImage(with: URL(string: imageUrlString),
+        imageAnimal.sd_setImage(with: imageUrlString.getCleanedURL(),
                                 placeholderImage: LexiconItemCellVM.placeholder_image,
                                 options: .continueInBackground) { image, error, _, _ in
             if error != nil || image == nil {
