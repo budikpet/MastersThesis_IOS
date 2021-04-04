@@ -106,10 +106,20 @@ final class LexiconVC: BaseViewController {
         self.searchBarVisibilityAction <~ self.searchBar.reactive.cancelButtonClicked.map() { return false }
 
         // Bind hiding UIBarButtonItems when SearchBar is used
-        self.navigationItem.reactive.rightBarButtonItems <~ self.searchBar.reactive.textDidBeginEditing.map() { nil }
-        self.navigationItem.reactive.rightBarButtonItems <~ self.searchBar.reactive.textDidEndEditing.map() { [weak self] _ -> [UIBarButtonItem] in
-            guard let self = self else { return [] }
-            return [self.searchItem, self.filterItem]
+        self.navigationItem.reactive.rightBarButtonItems <~ self.searchBar.reactive.visibility
+            .map() { [weak self] searchBarVisible -> [UIBarButtonItem] in
+                guard let self = self else { return [] }
+                return searchBarVisible ? [self.filterItem] : [self.searchItem, self.filterItem]
+            }
+
+//        self.navigationItem.reactive.rightBarButtonItems <~ self.searchBar.reactive.textDidBeginEditing.map() { nil }
+//        self.navigationItem.reactive.rightBarButtonItems <~ self.searchBar.reactive.textDidEndEditing.map() { [weak self] _ -> [UIBarButtonItem] in
+//            guard let self = self else { return [] }
+//            return [self.searchItem, self.filterItem]
+//        }
+
+        self.searchBar.reactive.searchButtonClicked.observeValues { _ in
+            print("searchButtonClicked")
         }
 
 //        viewModel.data.signal
