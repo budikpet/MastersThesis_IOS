@@ -21,8 +21,6 @@ final class LexiconVC: BaseViewController {
     private let viewModel: LexiconViewModeling
     weak var flowDelegate: LexiconVCFlowDelegate?
 
-    private var realmToken: NotificationToken!
-
     private weak var tableView: UITableView!
     private weak var filterItem: UIBarButtonItem!
     private weak var refreshControl: UIRefreshControl!
@@ -37,10 +35,6 @@ final class LexiconVC: BaseViewController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    deinit {
-        realmToken.invalidate()
     }
 
     // MARK: View life cycle
@@ -84,27 +78,7 @@ final class LexiconVC: BaseViewController {
     // MARK: Helpers
 
     private func setupBindings() {
-
-        realmToken = viewModel.animalData.observe { [weak self] (changes: RealmCollectionChange) in
-            guard let tableView = self?.tableView else { return }
-            switch changes {
-            case .initial:
-                tableView.reloadData()
-                break
-            case .update(_, let deletions, let insertions, let modifications):
-                tableView.beginUpdates()
-                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
-                                     with: .automatic)
-                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
-                                     with: .automatic)
-                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
-                                     with: .automatic)
-                tableView.endUpdates()
-                break
-            case .error:
-                fatalError("Error occured during observation.")
-            }
-        }
+        tableView.reactive.reloadData <~ viewModel.filteredAnimalData.signal.map() { _ in }
 
         refreshControl.reactive.isRefreshing <~ viewModel.actions.updateLocalDB.isExecuting
         viewModel.actions.updateLocalDB <~ refreshControl.reactive.controlEvents(.valueChanged).map() { _ in false }
@@ -135,7 +109,7 @@ final class LexiconVC: BaseViewController {
 // MARK: UITableView delegate and data source
 extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.animalData.count
+        return viewModel.filteredAnimalData.value.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

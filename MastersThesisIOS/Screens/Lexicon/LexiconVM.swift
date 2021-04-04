@@ -17,8 +17,7 @@ protocol LexiconViewModelingActions {
 protocol LexiconViewModeling {
 	var actions: LexiconViewModelingActions { get }
 
-    var animalData: Results<AnimalData> { get }
-    var animalFilters: Results<AnimalFilter> { get }
+    var filteredAnimalData: MutableProperty<[AnimalData]> { get }
 
     func animal(at index: Int) -> AnimalData
     func getLexiconItemCellVM(at index: Int) -> LexiconItemCellVM
@@ -33,10 +32,17 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     typealias Dependencies = HasNetwork & HasRealmDBManager
     let realmDbManager: RealmDBManaging
 
+    // MARK: Protocol
+    internal var updateLocalDB: Action<Bool, UpdateStatus, UpdateError>
+
+    internal var filteredAnimalData: MutableProperty<[AnimalData]>
+
+    // MARK: Internal
     internal var animalData: Results<AnimalData>
     internal var animalFilters: Results<AnimalFilter>
 
-    private var realmToken: NotificationToken!
+    private var animalFiltersToken: NotificationToken!
+    private var animalDataToken: NotificationToken!
 
 //    let animals: [AnimalData] = {
 //        let data1 = AnimalData(withId: 1)
@@ -77,9 +83,6 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 //        return [data1, data2, data3]
 //    }()
 
-    // MARK: Actions
-    internal var updateLocalDB: Action<Bool, UpdateStatus, UpdateError>
-
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
@@ -88,21 +91,89 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 
         animalData = realmDbManager.realm.objects(AnimalData.self)
             .sorted(byKeyPath: "name", ascending: true)
-
         animalFilters = realmDbManager.realm.objects(AnimalFilter.self)
+
+        filteredAnimalData = MutableProperty([])
 
         super.init()
         setupBindings()
     }
 
     deinit {
-        realmToken.invalidate()
+        animalFiltersToken.invalidate()
+        animalDataToken.invalidate()
     }
 
     private func setupBindings() {
-        realmToken = animalFilters.observe { [weak self] (changes: RealmCollectionChange) in
-            print("Change observed.")
+        animalFiltersToken = animalFilters.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let self = self else { return }
+            switch changes {
+            case .initial:
+                self.filteredAnimalData.value = self.getFilteredAnimals(from: self.animalData, using: self.animalFilters)
+                break
+            case .update(let newAnimalFilters, _, _, _):
+                self.filteredAnimalData.value = self.getFilteredAnimals(from: self.animalData, using: newAnimalFilters)
+                break
+            case .error:
+                fatalError("Error occured during observation.")
+            }
         }
+
+        animalDataToken = animalData.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let self = self else { return }
+            switch changes {
+            case .initial:
+                self.filteredAnimalData.value = self.getFilteredAnimals(from: self.animalData, using: self.animalFilters)
+                break
+            case .update(let newAnimalData, _, _, _):
+                self.filteredAnimalData.value = self.getFilteredAnimals(from: newAnimalData, using: self.animalFilters)
+                break
+            case .error:
+                fatalError("Error occured during observation.")
+            }
+        }
+    }
+}
+
+// MARK: Helpers
+
+extension LexiconVM {
+
+    /**
+     - Parameters:
+        - animalFilters: Filters that are used on all AnimalData objects received from the database.
+     - Returns:
+        New list of AnimalData objects that should be shown. The list is filtered by the given filters.
+     */
+    private func getFilteredAnimals(from animalData: Results<AnimalData>, using animalFilters: Results<AnimalFilter>) -> [AnimalData] {
+        // First member of tuple is the type of filter (the filtered property of AnimalData), second member are all picked values
+        let pickedFiltersList: [PickedFilters] = Array(animalFilters)
+            .map { (filter: AnimalFilter) -> PickedFilters in
+                let pickedValues = Array(zip(filter.values, filter.checkmarkValues))
+                    .compactMap { (value, checkmarkValue) -> String? in
+                        return checkmarkValue ? value.lowercased() : nil
+                    }
+
+                return PickedFilters(type: filter.type, pickedFilters: pickedValues)
+            }
+
+        let res =  Array(self.animalData)
+            .filter { (animalData: AnimalData) -> Bool in
+                pickedFiltersList.reduce(true) { (fullRes: Bool, filter) -> Bool in
+                    if(filter.pickedFilters.isEmpty) {
+                        return fullRes
+                    }
+
+                    guard var propertyValue = animalData.value(forKey: filter.type) as? String else { return false }
+                    propertyValue = propertyValue.lowercased()
+
+                    return fullRes && filter.pickedFilters.reduce(false) { (currRes, filterValue) -> Bool in
+                        currRes || propertyValue.contains(filterValue)
+                    }
+                }
+            }
+
+        return res
     }
 }
 
@@ -110,7 +181,7 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 
 extension LexiconVM {
     func animal(at index: Int) -> AnimalData {
-        let item = animalData[index]
+        let item = filteredAnimalData.value[index]
 
         return item
     }
@@ -122,4 +193,11 @@ extension LexiconVM {
     func rowHeightAt(_ index: Int) -> CGFloat {
         return 100.0
     }
+}
+
+private struct PickedFilters {
+    public let type: String
+
+    /// Contains only filter values that were picked by a user
+    public let pickedFilters: [String]
 }

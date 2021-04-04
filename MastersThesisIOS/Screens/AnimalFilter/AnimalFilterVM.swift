@@ -35,11 +35,12 @@ final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilte
     typealias Dependencies = HasNetwork & HasRealmDBManager
     let realmDbManager: RealmDBManaging
 
-    internal var viewedAnimalFilters: MutableProperty<[ViewedAnimalFilter]>
-
-    // MARK: Actions
+    // MARK: Protocol
     internal var updateLocalDB: Action<Bool, UpdateStatus, UpdateError>
 
+    internal var viewedAnimalFilters: MutableProperty<[ViewedAnimalFilter]>
+
+    // MARK: Internal
     private var animalFilters: Results<AnimalFilter>
     private var realmToken: NotificationToken?
 
@@ -94,11 +95,9 @@ extension AnimalFilterVM {
             }
         }
     }
-}
 
-// MARK: VC Delegate/DataSource helpers
+    // MARK: VC Delegate/DataSource helpers
 
-extension AnimalFilterVM {
     func pickValue(at indexPath: IndexPath) {
         let filter = viewedAnimalFilters.value[indexPath.section]
         let cellValue = filter.cellValues[indexPath.row]
