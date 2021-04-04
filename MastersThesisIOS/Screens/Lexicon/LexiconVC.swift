@@ -118,9 +118,8 @@ final class LexiconVC: BaseViewController {
 //            return [self.searchItem, self.filterItem]
 //        }
 
-        self.searchBar.reactive.searchButtonClicked.observeValues { _ in
-            print("searchButtonClicked")
-        }
+        self.viewModel.searchText.bindingTarget <~ SignalProducer(self.searchBar.reactive.continuousTextValues)
+            .compactMap() { return $0 }
 
 //        viewModel.data.signal
 //            .take(during: reactive.lifetime)
@@ -195,13 +194,5 @@ extension LexiconVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return viewModel.rowHeightAt(indexPath.row)
-    }
-}
-
-// MARK: UISearchBarDelegate
-
-extension LexiconVC: UISearchBarDelegate {
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-
     }
 }

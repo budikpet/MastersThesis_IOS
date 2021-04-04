@@ -18,6 +18,7 @@ protocol LexiconViewModeling {
 	var actions: LexiconViewModelingActions { get }
 
     var filteredAnimalData: MutableProperty<[AnimalData]> { get }
+    var searchText: MutableProperty<String> { get }
 
     func animal(at index: Int) -> AnimalData
     func getLexiconItemCellVM(at index: Int) -> LexiconItemCellVM
@@ -36,6 +37,7 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     internal var updateLocalDB: Action<Bool, UpdateStatus, UpdateError>
 
     internal var filteredAnimalData: MutableProperty<[AnimalData]>
+    internal var searchText: MutableProperty<String>
 
     // MARK: Internal
     internal var animalData: Results<AnimalData>
@@ -43,6 +45,7 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 
     private var animalFiltersToken: NotificationToken!
     private var animalDataToken: NotificationToken!
+    private var disposables = CompositeDisposable()
 
 //    let animals: [AnimalData] = {
 //        let data1 = AnimalData(withId: 1)
@@ -94,6 +97,7 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
         animalFilters = realmDbManager.realm.objects(AnimalFilter.self)
 
         filteredAnimalData = MutableProperty([])
+        searchText = MutableProperty("")
 
         super.init()
         setupBindings()
@@ -102,9 +106,22 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     deinit {
         animalFiltersToken.invalidate()
         animalDataToken.invalidate()
+        disposables.dispose()
     }
 
     private func setupBindings() {
+//        disposables += searchText.signal.observeValues { str in
+//            print(str)
+//        }
+
+        filteredAnimalData <~ searchText.signal
+            .debounce(0.5, on: QueueScheduler.main)
+            .map() { [weak self] partialName -> [AnimalData] in
+                guard let self = self else { return [] }
+                return self.filteredAnimalData.value
+                    .filter { $0.name.lowercased().contains(partialName.lowercased()) }
+            }
+
         animalFiltersToken = animalFilters.observe { [weak self] (changes: RealmCollectionChange) in
             guard let self = self else { return }
             switch changes {
