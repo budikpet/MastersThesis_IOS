@@ -109,17 +109,14 @@ final class LexiconVC: BaseViewController {
         self.navigationItem.reactive.rightBarButtonItems <~ self.searchBar.reactive.visibility
             .map() { [weak self] searchBarVisible -> [UIBarButtonItem] in
                 guard let self = self else { return [] }
-                return searchBarVisible ? [self.filterItem] : [self.searchItem, self.filterItem]
+                return searchBarVisible ? [] : [self.searchItem, self.filterItem]
             }
 
-//        self.navigationItem.reactive.rightBarButtonItems <~ self.searchBar.reactive.textDidBeginEditing.map() { nil }
-//        self.navigationItem.reactive.rightBarButtonItems <~ self.searchBar.reactive.textDidEndEditing.map() { [weak self] _ -> [UIBarButtonItem] in
-//            guard let self = self else { return [] }
-//            return [self.searchItem, self.filterItem]
-//        }
-
-        self.viewModel.searchText.bindingTarget <~ SignalProducer(self.searchBar.reactive.continuousTextValues)
+        self.viewModel.searchText <~ SignalProducer(self.searchBar.reactive.continuousTextValues)
             .compactMap() { return $0 }
+
+        // Reset searchText and search bar when the search bar is opened/closed
+        self.viewModel.searchText <~ self.searchBar.reactive.visibility.compactMap { _ in "" }
 
 //        viewModel.data.signal
 //            .take(during: reactive.lifetime)
