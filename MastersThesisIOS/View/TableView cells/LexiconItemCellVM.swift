@@ -18,6 +18,12 @@ struct LexiconItemCellVM {
     init(withAnimal animal: AnimalData) {
         self.name = animal.name
         self.location = animal.createShownLocation()
-        self.imageUrl = URL(string: animal.image_url)
+
+        if let urlString =  animal.image_url {
+            self.imageUrl = URL(string: urlString)
+        } else {
+            self.imageUrl = nil
+        }
+
     }
 }

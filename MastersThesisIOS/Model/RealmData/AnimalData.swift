@@ -14,7 +14,7 @@ class AnimalData: Object {
     @objc dynamic public var name: String = "-"
     @objc dynamic public var name_latin: String = "-"
     @objc dynamic public var base_summary: String = "-"
-    @objc dynamic public var image_url: String = "-"
+    @objc dynamic public var image_url: String?
     @objc dynamic public var class_: String = "-"
     @objc dynamic public var class_latin: String = "-"
     @objc dynamic public var order: String = "-"
@@ -88,7 +88,7 @@ struct FetchedAnimalData {
     let name: String
     let latin_name: String
     let base_summary: String
-    let image_url: String
+    let image_url: String?
     let class_: String
     let class_latin: String
     let order: String
@@ -138,8 +138,7 @@ struct FetchedAnimalData {
                 self.image_url = "https://\(image_url)"
             }
         } else {
-            // TODO: Change to default image?
-            self.image_url = "-"
+            self.image_url = nil
         }
     }
 }

@@ -103,11 +103,18 @@ extension AnimalDetailVC {
     }
 
     private func prepareAnimalImageView() {
+        guard let imageUrlString = viewModel.animal.value.image_url else { return }
+
         let imageAnimal = UIImageView()
         stackView.addArrangedSubview(imageAnimal)
-        imageAnimal.sd_setImage(with: URL(string: viewModel.animal.value.image_url),
+        imageAnimal.sd_setImage(with: URL(string: imageUrlString),
                                 placeholderImage: LexiconItemCellVM.placeholder_image,
                                 options: .continueInBackground) { image, error, _, _ in
+            if error != nil || image == nil {
+                imageAnimal.isHidden = true
+                return
+            }
+
             guard let image = image else { return }
             let ratio = image.size.width / image.size.height
             imageAnimal.snp.makeConstraints { (make) in

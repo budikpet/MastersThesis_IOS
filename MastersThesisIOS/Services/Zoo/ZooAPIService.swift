@@ -43,7 +43,7 @@ final class ZooAPIService: ZooAPIServicing {
 
     func getAnimals() -> SignalProducer<(FetchedMetadata, [FetchedAnimalData]), RequestError> {
         os_log("Fetching all animals.")
-        return jsonAPI.request(path: "/api/animals/3").compactMap { response in
+        return jsonAPI.request(path: "/api/animals").compactMap { response in
             guard let responseData = (response.data as? [String: Any]) else { return nil }
             guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
             guard let animalDict = responseData["data"] as? Array<[String: Any]> else { return nil }
