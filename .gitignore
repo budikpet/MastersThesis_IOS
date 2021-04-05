@@ -9,6 +9,7 @@ MastersThesisIOS/Environment/Current
 MastersThesisIOS/Environment/.current
 MastersThesisIOS/Environment/.environment_preprocess.h
 Localization/localizationServiceAccount.json
+MastersThesisIOS/Resources/bubbleWrapStyle/*
 
 # Xcode
 #

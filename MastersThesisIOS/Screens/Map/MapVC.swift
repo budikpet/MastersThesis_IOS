@@ -36,6 +36,10 @@ final class MapVC: BaseViewController {
         mapView.mapViewDelegate = self
         mapView.gestureDelegate = self
 
+        let min_zoom = CGFloat(viewModel.mapConfig.value.minZoom)
+        mapView.cameraPosition = TGCameraPosition(center: viewModel.currLocation.value, zoom: min_zoom, bearing: 0, pitch: 0)
+        mapView.minimumZoomLevel = min_zoom
+
         mapView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
@@ -80,12 +84,12 @@ final class MapVC: BaseViewController {
 extension MapVC: TGMapViewDelegate {
 
     /// Run after scene had been loaded.
-    func mapView(_ mapView: TGMapView, didLoadScene sceneID: Int32, withError sceneError: Error?) {
-        print("MapView did complete loading")
-        let min_zoom = CGFloat(viewModel.mapConfig.value.minZoom)
-        mapView.cameraPosition = TGCameraPosition(center: viewModel.currLocation.value, zoom: min_zoom, bearing: 0, pitch: 0)
-        mapView.minimumZoomLevel = min_zoom
-    }
+//    func mapView(_ mapView: TGMapView, didLoadScene sceneID: Int32, withError sceneError: Error?) {
+//        print("MapView did complete loading")
+//        let min_zoom = CGFloat(viewModel.mapConfig.value.minZoom)
+//        mapView.cameraPosition = TGCameraPosition(center: viewModel.currLocation.value, zoom: min_zoom, bearing: 0, pitch: 0)
+//        mapView.minimumZoomLevel = min_zoom
+//    }
 
     func mapView(_ mapView: TGMapView, regionDidChangeAnimated animated: Bool) {
         // Puts the map back inside bounds in case scrolling animation gets out of them
@@ -93,6 +97,10 @@ extension MapVC: TGMapViewDelegate {
             guard let (_, inBoundsCenterCoord) = self.checkBounds(mapView, mapView.cameraPosition.center) else { return }
             mapView.cameraPosition = TGCameraPosition(center: inBoundsCenterCoord, zoom: mapView.zoom, bearing: mapView.bearing, pitch: mapView.pitch)
         }
+    }
+
+    func mapView(_ mapView: TGMapView, didSelectFeature feature: [String: String]?, atScreenPosition position: CGPoint) {
+        print(feature)
     }
 
 }
@@ -118,6 +126,10 @@ extension MapVC: TGRecognizerDelegate {
         let zoom = view.zoom == CGFloat(config.minZoom) ? config.maxZoom : config.minZoom
         guard let pos = TGCameraPosition(center: view.coordinate(fromViewPosition: location), zoom: CGFloat(zoom), bearing: view.bearing, pitch: view.pitch) else { return }
         mapView.setCameraPosition(pos, withDuration: 0.5, easeType: .quint)
+    }
+
+    func mapView(_ view: TGMapView!, recognizer: UIGestureRecognizer!, didRecognizeSingleTapGesture location: CGPoint) {
+        view.pickFeature(at: location)
     }
 }
 

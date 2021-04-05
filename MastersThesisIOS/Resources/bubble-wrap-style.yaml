@@ -608,7 +608,7 @@ fonts:
 sources:
     mapzen:
         type: GeoJSON # The source expects GeoJSON tile data.
-        url: ... # The MBTiles file is located relative to the scene file. Must be changed in runtime since the file is stored alongside the app.
+#        url: ... # The MBTiles file is located relative to the scene file. Must be changed in runtime since the file is stored alongside the app.
         max_zoom: 16 # Other parameters are applied as usual.
 
 #    # Only enable this for local debug, should not be enabled for prod (app inserts these at runtime)
@@ -3081,6 +3081,7 @@ layers:
         # set default footprint and extrusion draw properties, but don't draw by default (rules below will turn visibility on)
         draw:
             polygons:
+                interactive: true
                 visible: false
                 order: 329
                 color: global.building2
@@ -3124,7 +3125,7 @@ layers:
                 text_wrap: 10
                 visible: true
                 font:
-                    fill: red
+                    fill: black
                     style: italic
                     weight: normal
 

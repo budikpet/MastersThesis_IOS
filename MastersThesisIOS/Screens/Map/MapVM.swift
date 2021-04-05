@@ -43,7 +43,7 @@ final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
     init(dependencies: Dependencies) {
         mapConfig = MutableProperty(MapVM.loadMapConfig())
 
-        guard let sceneUrl = Bundle.resources.url(forResource: "bubbleWrapStyle", withExtension: "yaml") else { fatalError("Scene file not found.") }
+        guard let sceneUrl = Bundle.resources.url(forResource: "bubbleWrapStyle", withExtension: "zip") else { fatalError("Scene file not found.") }
         self.sceneUrl = MutableProperty(sceneUrl)
 
         guard let mbtilesPath = Bundle.resources.path(forResource: "defaultZooPrague", ofType: "mbtiles") else { fatalError("MBTiles file not found.") }
