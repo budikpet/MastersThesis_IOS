@@ -66,10 +66,10 @@
 		4BE756BD26089F1A00DFB440 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756BB26089F1A00DFB440 /* Podfile */; };
 		4BE7570D2608BEE000DFB440 /* LexiconItemCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7570C2608BEE000DFB440 /* LexiconItemCellVC.swift */; };
 		4BF9A4F1261A51F000E98D03 /* OtherExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF9A4F0261A51EF00E98D03 /* OtherExtensions.swift */; };
-		4BF9A4FB261B363F00E98D03 /* bubble-wrap-style.zip in Resources */ = {isa = PBXBuildFile; fileRef = 4BF9A4F8261B363F00E98D03 /* bubble-wrap-style.zip */; };
 		4BF9A4FC261B363F00E98D03 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BF9A4F9261B363F00E98D03 /* config.json */; };
 		4BF9A4FF261B367F00E98D03 /* MapModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF9A4FE261B367E00E98D03 /* MapModels.swift */; };
 		4BF9A515261B70C400E98D03 /* defaultZooPrague.mbtiles in Resources */ = {isa = PBXBuildFile; fileRef = 4BF9A514261B70C300E98D03 /* defaultZooPrague.mbtiles */; };
+		4BF9A520261B7AE900E98D03 /* bubbleWrapStyle.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 4BF9A51F261B7AE900E98D03 /* bubbleWrapStyle.yaml */; };
 		50A1E91FC36763A9AECF3B98 /* GoogleDataTransport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C23BD5EC87B1BD484F2C85C /* GoogleDataTransport.framework */; };
 		5169715030BB735FB138C0B6 /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70F29F4F1802476EDF3FCCED /* environment.plist */; };
 		5A684721F7F11AED45A0A356 /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400C971EF0E0D6A5FE76998D /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework */; };
@@ -238,10 +238,10 @@
 		4BE756C82608A48100DFB440 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		4BE7570C2608BEE000DFB440 /* LexiconItemCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexiconItemCellVC.swift; sourceTree = "<group>"; };
 		4BF9A4F0261A51EF00E98D03 /* OtherExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherExtensions.swift; sourceTree = "<group>"; };
-		4BF9A4F8261B363F00E98D03 /* bubble-wrap-style.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "bubble-wrap-style.zip"; sourceTree = "<group>"; };
 		4BF9A4F9261B363F00E98D03 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 		4BF9A4FE261B367E00E98D03 /* MapModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModels.swift; sourceTree = "<group>"; };
 		4BF9A514261B70C300E98D03 /* defaultZooPrague.mbtiles */ = {isa = PBXFileReference; lastKnownFileType = file; path = defaultZooPrague.mbtiles; sourceTree = "<group>"; };
+		4BF9A51F261B7AE900E98D03 /* bubbleWrapStyle.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = bubbleWrapStyle.yaml; sourceTree = "<group>"; };
 		4BFE500E9F06CBACF549DDD8 /* FirebaseCrashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCrashlytics.framework; sourceTree = "<group>"; };
 		4CE97500430CBD76773D5A7E /* MastersThesisIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51267FD03FAEDFFE9634756F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -643,9 +643,9 @@
 		4BF9A51C261B75D600E98D03 /* Map resources */ = {
 			isa = PBXGroup;
 			children = (
-				4BF9A514261B70C300E98D03 /* defaultZooPrague.mbtiles */,
-				4BF9A4F8261B363F00E98D03 /* bubble-wrap-style.zip */,
+				4BF9A51F261B7AE900E98D03 /* bubbleWrapStyle.yaml */,
 				4BF9A4F9261B363F00E98D03 /* config.json */,
+				4BF9A514261B70C300E98D03 /* defaultZooPrague.mbtiles */,
 			);
 			name = "Map resources";
 			sourceTree = "<group>";
@@ -1047,9 +1047,9 @@
 				3DCE3DF97E5AFF581BF6F976 /* GoogleService-Info.plist in Resources */,
 				5169715030BB735FB138C0B6 /* environment.plist in Resources */,
 				4BE756BC26089F1A00DFB440 /* Cartfile in Resources */,
-				4BF9A4FB261B363F00E98D03 /* bubble-wrap-style.zip in Resources */,
 				4BF9A515261B70C400E98D03 /* defaultZooPrague.mbtiles in Resources */,
 				A5C657839D15A744657E9AE2 /* Images.xcassets in Resources */,
+				4BF9A520261B7AE900E98D03 /* bubbleWrapStyle.yaml in Resources */,
 				4BE756A52607D7A600DFB440 /* README.md in Resources */,
 				7167C7A27309141CB9FA5FD3 /* LaunchScreen.storyboard in Resources */,
 				4BE756BD26089F1A00DFB440 /* Podfile in Resources */,
