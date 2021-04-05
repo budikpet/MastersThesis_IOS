@@ -10,8 +10,6 @@ import ReactiveSwift
 import RealmSwift
 import os.log
 
-typealias TransformedData = (Bool, AnimalData)
-
 protocol LexiconViewModelingActions {
     var updateLocalDB: Action<Bool, UpdateStatus, UpdateError> { get }
 }
@@ -97,8 +95,8 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
         animalData = realmDbManager.realm.objects(AnimalData.self)
             .sorted(byKeyPath: "name", ascending: true)
         animalFilters = realmDbManager.realm.objects(AnimalFilter.self)
-        transformationAnimalData = MutableProperty(Array(animalData).map() { (true, $0) })
 
+        transformationAnimalData = MutableProperty([])
         filteredAnimalData = MutableProperty([])
         searchText = MutableProperty("")
 
@@ -114,25 +112,21 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     private func setupBindings() {
         // Pass data from transformationAnimalData to filteredAnimalData. Use only data that is marked as visible.
         filteredAnimalData <~ transformationAnimalData.signal.map() { list in
-            list.compactMap() { $0.0 ? $0.1 : nil }
+            list.compactMap() { $0.pickedBySearch && $0.pickedByFilters ? $0.animalData : nil }
         }
 
         transformationAnimalData <~ searchText.signal
             .debounce(0.5, on: QueueScheduler.main)
             .map() { [weak self] partialName -> [TransformedData] in
                 guard let self = self else { return [] }
-                return self.transformationAnimalData.value
-                    .map { transformedData -> TransformedData in
-                        let res = partialName == "" ? true : transformedData.1.name.lowercased().contains(partialName.lowercased())
-                        return (res, transformedData.1)
-                    }
+                return self.getFilteredAnimals(from: self.transformationAnimalData.value, withSearchString: partialName)
             }
 
         animalFiltersToken = animalFilters.observe { [weak self] (changes: RealmCollectionChange) in
             guard let self = self else { return }
             switch changes {
             case .initial:
-                self.transformationAnimalData.value = self.getFilteredAnimals(from: self.animalData, using: self.animalFilters)
+//                self.transformationAnimalData.value = self.getFilteredAnimals(from: self.animalData, using: self.animalFilters)
                 break
             case .update(let newAnimalFilters, _, _, _):
                 self.transformationAnimalData.value = self.getFilteredAnimals(from: self.animalData, using: newAnimalFilters)
@@ -149,7 +143,9 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
                 self.transformationAnimalData.value = self.getFilteredAnimals(from: self.animalData, using: self.animalFilters)
                 break
             case .update(let newAnimalData, _, _, _):
-                self.transformationAnimalData.value = self.getFilteredAnimals(from: newAnimalData, using: self.animalFilters)
+                // Filter new AnimalData using search text and filters
+                let res =  self.getFilteredAnimals(from: newAnimalData, using: self.animalFilters)
+                self.transformationAnimalData.value = self.getFilteredAnimals(from: res, withSearchString: self.searchText.value)
                 break
             case .error:
                 fatalError("Error occured during observation.")
@@ -170,15 +166,7 @@ extension LexiconVM {
      */
     private func getFilteredAnimals(from animalData: Results<AnimalData>, using animalFilters: Results<AnimalFilter>) -> [TransformedData] {
         // First member of tuple is the type of filter (the filtered property of AnimalData), second member are all picked values
-        let pickedFiltersList: [PickedFilters] = Array(animalFilters)
-            .map { (filter: AnimalFilter) -> PickedFilters in
-                let pickedValues = Array(zip(filter.values, filter.checkmarkValues))
-                    .compactMap { (value, checkmarkValue) -> String? in
-                        return checkmarkValue ? value.lowercased() : nil
-                    }
-
-                return PickedFilters(type: filter.type, pickedFilters: pickedValues)
-            }
+        let pickedFiltersList: [PickedFilters] = getPickedFilters(allFilters: Array(animalFilters))
 
         return Array(self.animalData)
             .map { (animalData: AnimalData) -> TransformedData in
@@ -195,7 +183,26 @@ extension LexiconVM {
                     }
                 }
 
-                return (res, animalData)
+                return TransformedData(pickedByFilters: res, pickedBySearch: true, animalData: animalData)
+            }
+    }
+
+    private func getPickedFilters(allFilters: [AnimalFilter]) -> [PickedFilters] {
+        allFilters
+            .map { (filter: AnimalFilter) -> PickedFilters in
+                let pickedValues = Array(zip(filter.values, filter.checkmarkValues))
+                    .compactMap { (value, checkmarkValue) -> String? in
+                        return checkmarkValue ? value.lowercased() : nil
+                    }
+
+                return PickedFilters(type: filter.type, pickedFilters: pickedValues)
+            }
+    }
+
+    private func getFilteredAnimals(from data: [TransformedData], withSearchString partialName: String) -> [TransformedData] {
+        return data.map { currData -> TransformedData in
+                let res = partialName == "" ? true : currData.animalData.name.lowercased().contains(partialName.lowercased())
+                return TransformedData(pickedByFilters: currData.pickedByFilters, pickedBySearch: res, animalData: currData.animalData)
             }
     }
 }
@@ -223,4 +230,10 @@ private struct PickedFilters {
 
     /// Contains only filter values that were picked by a user
     public let pickedFilters: [String]
+}
+
+public struct TransformedData {
+    fileprivate var pickedByFilters: Bool
+    fileprivate var pickedBySearch: Bool
+    fileprivate var animalData: AnimalData
 }
