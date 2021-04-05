@@ -15,11 +15,6 @@ final class MapVC: BaseViewController {
 
     private weak var mapView: TGMapView!
 
-    let min_zoom: CGFloat = CGFloat(17)
-
-    var zooPragueBounds: TGCoordinateBounds?
-    var zooPrague: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 50.117001, longitude: 14.406395)
-
     // MARK: Initializers
 
     init(viewModel: MapViewModeling) {
@@ -35,14 +30,6 @@ final class MapVC: BaseViewController {
     override func loadView() {
         super.loadView()
 
-        navigationController?.setNavigationBarHidden(true, animated: false)
-
-        // Init from config
-        guard let configFile = Bundle.resources.url(forResource: "config", withExtension: "json") else { fatalError("Config file not found.") }
-        let configData = try! Data(contentsOf: configFile)
-        let config: Config = try! JSONDecoder().decode(Config.self, from: configData)
-        zooPragueBounds = TGCoordinateBounds(sw: CLLocationCoordinate2D(latitude: config.bounds.south, longitude: config.bounds.west), ne: CLLocationCoordinate2D(latitude: config.bounds.north, longitude: config.bounds.east))
-
         let mapView = TGMapView()
         self.mapView = mapView
         view.addSubview(mapView)
@@ -53,19 +40,15 @@ final class MapVC: BaseViewController {
             make.edges.equalToSuperview()
         }
 
-        guard let mbtilesPath = Bundle.resources.path(forResource: "zooPrague", ofType: "mbtiles") else { fatalError("MBTiles file not found.") }
-
         // Updates values inside the scene YAML file
         let sceneUpdates = [
             TGSceneUpdate(path: "global.icon_visible_poi_landuse", value: "true"),
-            TGSceneUpdate(path: "sources.mapzen.type", value: "TopoJSON"),
-            TGSceneUpdate(path: "sources.mapzen.url", value: mbtilesPath),  // Pass on-device path to mbtiles into the mapView
-            TGSceneUpdate(path: "sources.mapzen.maxzoom", value: "18")
+            TGSceneUpdate(path: "sources.mapzen.type", value: "TopoJSON"),                  // TODO: Change to GeoJSON
+            TGSceneUpdate(path: "sources.mapzen.url", value: viewModel.mbtilesPath.value),  // Pass on-device path to mbtiles into the mapView
+            TGSceneUpdate(path: "sources.mapzen.maxzoom", value: "\(viewModel.mapConfig.value.maxZoom)")
         ]
 
-        guard let sceneUrl = Bundle.resources.url(forResource: "bubble-wrap-style", withExtension: "zip") else { fatalError("Scene file not found.") }
-
-        mapView.loadSceneAsync(from: sceneUrl, with: sceneUpdates)
+        mapView.loadSceneAsync(from: viewModel.sceneUrl.value, with: sceneUpdates)
     }
 
     override func viewDidLoad() {
@@ -99,8 +82,8 @@ extension MapVC: TGMapViewDelegate {
     /// Run after scene had been loaded.
     func mapView(_ mapView: TGMapView, didLoadScene sceneID: Int32, withError sceneError: Error?) {
         print("MapView did complete loading")
-
-        mapView.cameraPosition = TGCameraPosition(center: zooPrague, zoom: min_zoom, bearing: 0, pitch: 0)
+        let min_zoom = CGFloat(viewModel.mapConfig.value.minZoom)
+        mapView.cameraPosition = TGCameraPosition(center: viewModel.currLocation.value, zoom: min_zoom, bearing: 0, pitch: 0)
         mapView.minimumZoomLevel = min_zoom
     }
 
@@ -136,7 +119,7 @@ extension MapVC: TGRecognizerDelegate {
 extension MapVC {
     private func checkBounds(_ view: TGMapView, _ currCenterCoord: CLLocationCoordinate2D) -> (CGPoint, CLLocationCoordinate2D)? {
         let currCenterPos = view.viewPosition(from: view.cameraPosition.center, clipToViewport: false)
-        guard let zooPragueBounds = self.zooPragueBounds else { return nil }
+        let zooPragueBounds = viewModel.bounds.value
 
         // Coordinates of the current north-western screen location (top-left screen corner)
         let currNW = view.coordinate(fromViewPosition: CGPoint(x: view.bounds.minX, y: view.bounds.minY))

@@ -15,6 +15,8 @@ struct Bounds: Decodable {
     var west: Double
 }
 
-struct Config: Decodable {
+struct MapConfig: Decodable {
     var bounds: Bounds
+    var minZoom: Float
+    var maxZoom: Float
 }
