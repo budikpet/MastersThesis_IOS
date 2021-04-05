@@ -43,7 +43,7 @@ final class MapVC: BaseViewController {
         // Updates values inside the scene YAML file
         let sceneUpdates = [
             TGSceneUpdate(path: "global.icon_visible_poi_landuse", value: "true"),
-            TGSceneUpdate(path: "sources.mapzen.type", value: "TopoJSON"),                  // TODO: Change to GeoJSON
+            TGSceneUpdate(path: "sources.mapzen.type", value: "GeoJSON"),
             TGSceneUpdate(path: "sources.mapzen.url", value: viewModel.mbtilesPath.value),  // Pass on-device path to mbtiles into the mapView
             TGSceneUpdate(path: "sources.mapzen.maxzoom", value: "\(viewModel.mapConfig.value.maxZoom)")
         ]

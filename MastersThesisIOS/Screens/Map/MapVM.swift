@@ -41,13 +41,13 @@ final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
+        mapConfig = MutableProperty(MapVM.loadMapConfig())
+
         guard let sceneUrl = Bundle.resources.url(forResource: "bubble-wrap-style", withExtension: "zip") else { fatalError("Scene file not found.") }
         self.sceneUrl = MutableProperty(sceneUrl)
 
-        guard let mbtilesPath = Bundle.resources.path(forResource: "zooPrague", ofType: "mbtiles") else { fatalError("MBTiles file not found.") }
+        guard let mbtilesPath = Bundle.resources.path(forResource: "defaultZooPrague", ofType: "mbtiles") else { fatalError("MBTiles file not found.") }
         self.mbtilesPath = MutableProperty(mbtilesPath)
-
-        mapConfig = MutableProperty(MapVM.loadMapConfig())
 
         bounds = Property(initial: TGCoordinateBounds.init(), then: mapConfig.producer.map() {
             let bounds = $0.bounds

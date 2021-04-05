@@ -19,4 +19,5 @@ struct MapConfig: Decodable {
     var bounds: Bounds
     var minZoom: Float
     var maxZoom: Float
+    var mbtilesName: String
 }
