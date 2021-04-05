@@ -69,7 +69,7 @@
 		4BF9A4FA261B363F00E98D03 /* zooPrague.mbtiles in Resources */ = {isa = PBXBuildFile; fileRef = 4BF9A4F7261B363E00E98D03 /* zooPrague.mbtiles */; };
 		4BF9A4FB261B363F00E98D03 /* bubble-wrap-style.zip in Resources */ = {isa = PBXBuildFile; fileRef = 4BF9A4F8261B363F00E98D03 /* bubble-wrap-style.zip */; };
 		4BF9A4FC261B363F00E98D03 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BF9A4F9261B363F00E98D03 /* config.json */; };
-		4BF9A4FF261B367F00E98D03 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF9A4FE261B367E00E98D03 /* Map.swift */; };
+		4BF9A4FF261B367F00E98D03 /* MapModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF9A4FE261B367E00E98D03 /* MapModels.swift */; };
 		50A1E91FC36763A9AECF3B98 /* GoogleDataTransport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C23BD5EC87B1BD484F2C85C /* GoogleDataTransport.framework */; };
 		5169715030BB735FB138C0B6 /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70F29F4F1802476EDF3FCCED /* environment.plist */; };
 		5A684721F7F11AED45A0A356 /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400C971EF0E0D6A5FE76998D /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework */; };
@@ -241,7 +241,7 @@
 		4BF9A4F7261B363E00E98D03 /* zooPrague.mbtiles */ = {isa = PBXFileReference; lastKnownFileType = file; path = zooPrague.mbtiles; sourceTree = "<group>"; };
 		4BF9A4F8261B363F00E98D03 /* bubble-wrap-style.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "bubble-wrap-style.zip"; sourceTree = "<group>"; };
 		4BF9A4F9261B363F00E98D03 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
-		4BF9A4FE261B367E00E98D03 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		4BF9A4FE261B367E00E98D03 /* MapModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModels.swift; sourceTree = "<group>"; };
 		4BFE500E9F06CBACF549DDD8 /* FirebaseCrashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCrashlytics.framework; sourceTree = "<group>"; };
 		4CE97500430CBD76773D5A7E /* MastersThesisIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51267FD03FAEDFFE9634756F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -415,7 +415,7 @@
 			isa = PBXGroup;
 			children = (
 				6F95282263FC15B33BAFA37C /* Generated */,
-				4BE756A926089AEF00DFB440 /* RealmData */,
+				4BE756A926089AEF00DFB440 /* ZooData */,
 				05DCA311AAD7A01333B12091 /* Credentials.swift */,
 				ECDEC2BE5513D08713890CB6 /* CredentialsProvider.swift */,
 				6F219E84D09A1B43C95C66F8 /* Logger.swift */,
@@ -616,15 +616,15 @@
 			path = Zoo;
 			sourceTree = "<group>";
 		};
-		4BE756A926089AEF00DFB440 /* RealmData */ = {
+		4BE756A926089AEF00DFB440 /* ZooData */ = {
 			isa = PBXGroup;
 			children = (
 				4BE756AA26089B1C00DFB440 /* AnimalData.swift */,
 				4BADEA1226127B8E004440A6 /* Metadata.swift */,
 				4B9174B42614E33F00946DE8 /* AnimalFilter.swift */,
-				4BF9A4FE261B367E00E98D03 /* Map.swift */,
+				4BF9A4FE261B367E00E98D03 /* MapModels.swift */,
 			);
-			path = RealmData;
+			path = ZooData;
 			sourceTree = "<group>";
 		};
 		4BE756DE2608AB8000DFB440 /* Configs */ = {
@@ -1309,7 +1309,7 @@
 				8F4BEE23125EA78F4CE7F09B /* ExampleViewController.swift in Sources */,
 				4BE7570D2608BEE000DFB440 /* LexiconItemCellVC.swift in Sources */,
 				4B9174BC261770AC00946DE8 /* AnimalFilterVC.swift in Sources */,
-				4BF9A4FF261B367F00E98D03 /* Map.swift in Sources */,
+				4BF9A4FF261B367F00E98D03 /* MapModels.swift in Sources */,
 				4B9174D5261776C500946DE8 /* AnimalFilterItemCellVC.swift in Sources */,
 				4B91749E26135BD600946DE8 /* RealmExtensions.swift in Sources */,
 				BE192750960B3C27E9192E3A /* ExampleViewModel.swift in Sources */,
