@@ -1,5 +1,12 @@
 Author: Geraldine Sarmiento, Nathaniel V. Kelso, Patricio Gonzalez Vivo, Brett Camper, Peter Richardson
 
+#####################################################################################################################
+##########################  IMPORTANT   #############################################################################
+#####################################################################################################################
+########################## When importing to Tangram play it is necessary                                       #####
+########################## to first load basic Bubble wrap example, then overwrite it with this custom style.   #####
+#####################################################################################################################
+
 import:
     - themes/bubble-wrap-icons.yaml
     - themes/label-5.yaml
@@ -587,7 +594,7 @@ fonts:
 #sources:
 #    mapzen:
 #        type: GeoJSON #TopoJSON
-#        url:  https://tile.nextzen.org/tilezen/vector/v1/all/{z}/{x}/{y}.json
+#        url:  https://tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.json
 #        #url:  https://dev-tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt
 #        #url: http://localhost:8050/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt?api_key=&
 #        #url: https://xyz.api.here.com/tiles/herebase.02/{z}/{x}/{y}/omv
@@ -1952,13 +1959,6 @@ layers:
                             lines:
                                 outline:
                                     color: pink
-                            text-blend-order:
-                                text_wrap: 10
-                                visible: true
-                                font:
-                                    fill: red
-                                    style: italic
-                                    weight: normal
                 labels-secondary-default:
                     draw:
                         text-blend-order:
@@ -4422,6 +4422,12 @@ layers:
                             style: italic
                             fill: '#4ba3c5'
 
+        building-like:
+            filter: { kind: [commercial,residential,warehouse,public,dormitory], osm_relation: false }
+            draw:
+                mapzen_icon_library:
+                    sprite: building
+
         station-train-subway:
             filter: { kind: [station, train_station] }
             draw:
@@ -4730,8 +4736,7 @@ layers:
             filter: { kind: [forest, natural_forest, wood, natural_wood, natural_park], not: { operator: "United States Forest Service" } }
             draw:
                 dots:
-                    order: 200
-                    color: [0.498,1.000,0.851]
+                    color: [0.70,0.990,0.92] #[0.486,0.839,0.722]
                     visible: true
 
         parks-and-national-forests-not-national-park:
@@ -4895,7 +4900,6 @@ layers:
                 kind: [zoo, wildlife_park]
             draw:
                 dots:
-                    order: 200
                     color: [0.498,1.000,0.851]
                     visible: true
                 # Added
