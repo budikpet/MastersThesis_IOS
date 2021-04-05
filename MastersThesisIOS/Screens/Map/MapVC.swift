@@ -8,9 +8,12 @@
 import UIKit
 import TangramMap
 import ReactiveSwift
+import os.log
 
 final class MapVC: BaseViewController {
     private let viewModel: MapViewModeling
+
+    private weak var mapView: TGMapView!
 
     let min_zoom: CGFloat = CGFloat(17)
 
@@ -29,12 +32,10 @@ final class MapVC: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        super.loadView()
 
-        setupBindings()
-
-        navigationItem.title = "Mapa"
+        navigationController?.setNavigationBarHidden(true, animated: false)
 
         // Init from config
         guard let configFile = Bundle.resources.url(forResource: "config", withExtension: "json") else { fatalError("Config file not found.") }
@@ -42,32 +43,47 @@ final class MapVC: BaseViewController {
         let config: Config = try! JSONDecoder().decode(Config.self, from: configData)
         zooPragueBounds = TGCoordinateBounds(sw: CLLocationCoordinate2D(latitude: config.bounds.south, longitude: config.bounds.west), ne: CLLocationCoordinate2D(latitude: config.bounds.north, longitude: config.bounds.east))
 
-        let mapView = self.view as! TGMapView
-
+        let mapView = TGMapView()
+        self.mapView = mapView
+        view.addSubview(mapView)
         mapView.mapViewDelegate = self
         mapView.gestureDelegate = self
-    }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        mapView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
 
-        let apiKey = Bundle.main.infoDictionary?["NextzenApiKey"] as! String
         guard let mbtilesPath = Bundle.resources.path(forResource: "zooPrague", ofType: "mbtiles") else { fatalError("MBTiles file not found.") }
 
         // Updates values inside the scene YAML file
         let sceneUpdates = [
-            TGSceneUpdate(path: "global.sdk_api_key", value: apiKey),
             TGSceneUpdate(path: "global.icon_visible_poi_landuse", value: "true"),
             TGSceneUpdate(path: "sources.mapzen.type", value: "TopoJSON"),
             TGSceneUpdate(path: "sources.mapzen.url", value: mbtilesPath),  // Pass on-device path to mbtiles into the mapView
             TGSceneUpdate(path: "sources.mapzen.maxzoom", value: "18")
         ]
 
-        let mapView = self.view as! TGMapView
-
         guard let sceneUrl = Bundle.resources.url(forResource: "bubble-wrap-style", withExtension: "zip") else { fatalError("Scene file not found.") }
 
         mapView.loadSceneAsync(from: sceneUrl, with: sceneUpdates)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupBindings()
+
+        navigationItem.title = "Mapa"
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
     private func setupBindings() {
