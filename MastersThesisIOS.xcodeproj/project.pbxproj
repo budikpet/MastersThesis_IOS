@@ -640,6 +640,16 @@
 			name = Configs;
 			sourceTree = "<group>";
 		};
+		4BF9A51C261B75D600E98D03 /* Map resources */ = {
+			isa = PBXGroup;
+			children = (
+				4BF9A514261B70C300E98D03 /* defaultZooPrague.mbtiles */,
+				4BF9A4F8261B363F00E98D03 /* bubble-wrap-style.zip */,
+				4BF9A4F9261B363F00E98D03 /* config.json */,
+			);
+			name = "Map resources";
+			sourceTree = "<group>";
+		};
 		4F983D963B00F11AB24FF2A6 /* Build */ = {
 			isa = PBXGroup;
 			children = (
@@ -777,9 +787,7 @@
 		951926522B5F2E641C7205CD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				4BF9A514261B70C300E98D03 /* defaultZooPrague.mbtiles */,
-				4BF9A4F8261B363F00E98D03 /* bubble-wrap-style.zip */,
-				4BF9A4F9261B363F00E98D03 /* config.json */,
+				4BF9A51C261B75D600E98D03 /* Map resources */,
 				D2DFBFBAD406A367C5DBE34A /* Localizable.strings */,
 				71DC1DEB6BB5D6570B1C4787 /* Images.xcassets */,
 				F8E2B3FC0F0D441AE28D9FC7 /* LaunchScreen.storyboard */,
