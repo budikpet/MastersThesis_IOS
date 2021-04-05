@@ -120,6 +120,9 @@ final class LexiconVC: BaseViewController {
         self.viewModel.searchText <~ self.searchBar.reactive.visibility.compactMap { _ in "" }
         self.searchBar.reactive.text <~ self.searchBar.reactive.visibility.compactMap { _ in "" }
 
+        self.filterItem.reactive.isEnabled <~ viewModel.actions.updateLocalDB.isExecuting.map() { return !$0 }
+        self.searchItem.reactive.isEnabled <~ viewModel.actions.updateLocalDB.isExecuting.map() { return !$0 }
+
 //        viewModel.data.signal
 //            .take(during: reactive.lifetime)
 //            .observeValues { [unowned self] _ in
