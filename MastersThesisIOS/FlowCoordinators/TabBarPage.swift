@@ -15,7 +15,7 @@ import UIKit
 enum TabBarPage: CaseIterable {
     /// Animal lexicon tab
     case lexicon
-    
+
     /// Map of the Zoo Prague tab
     case zooMap
 
