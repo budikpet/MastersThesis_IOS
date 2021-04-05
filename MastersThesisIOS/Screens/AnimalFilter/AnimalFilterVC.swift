@@ -35,7 +35,6 @@ final class AnimalFilterVC: BaseViewController {
 
     override func loadView() {
         super.loadView()
-        view.backgroundColor = .white
         view.accessibilityIdentifier = "AnimalFilterVC"
 
         let resetFilter = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(resetFilterTapped))

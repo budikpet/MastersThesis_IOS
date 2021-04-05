@@ -42,7 +42,6 @@ final class AnimalDetailVC: BaseViewController {
 
     override func loadView() {
         super.loadView()
-        view.backgroundColor = .white
         view.accessibilityIdentifier = "AnimalDetailVC"
 
         let scrollView = UIScrollView()

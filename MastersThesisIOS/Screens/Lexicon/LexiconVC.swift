@@ -53,7 +53,6 @@ final class LexiconVC: BaseViewController {
 
     override func loadView() {
         super.loadView()
-        view.backgroundColor = .white
         view.accessibilityIdentifier = "LexiconVC"
 
         searchBar.sizeToFit()

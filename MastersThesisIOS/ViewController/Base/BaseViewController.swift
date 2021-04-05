@@ -11,7 +11,7 @@ class BaseViewController: Base.ViewController, PopupPresenting {
     override func loadView() {
         super.loadView()
 
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.systemBackground
     }
 }
 
