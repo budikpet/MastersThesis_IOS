@@ -24,7 +24,6 @@ protocol AnimalFilterViewModeling {
     func resetFilter()
     func pickValue(at indexPath: IndexPath)
     func getAnimalFilterItemCellVM(at indexPath: IndexPath) -> AnimalFilterItemCellVM
-    func rowHeightAt(_ index: Int) -> CGFloat
 }
 
 extension AnimalFilterViewModeling where Self: AnimalFilterViewModelingActions {
@@ -80,6 +79,9 @@ final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilte
 // MARK: Protocol functions
 
 extension AnimalFilterVM {
+    /**
+     Updates Realm DB with all changes that were made.
+     */
     func persistChanges() {
         realmDbManager.realmEdit { (realm: Realm) in
             for viewedAnimalFilter in viewedAnimalFilters.value {
@@ -88,6 +90,9 @@ extension AnimalFilterVM {
         }
     }
 
+    /**
+     Deselects all filters.
+     */
     func resetFilter() {
         for viewFilter in viewedAnimalFilters.value {
             for (_, checkmarkValue) in viewFilter.cellValues {
@@ -109,10 +114,6 @@ extension AnimalFilterVM {
         let filter = viewedAnimalFilters.value[indexPath.section]
         let cellValue = filter.cellValues[indexPath.row]
         return AnimalFilterItemCellVM(withValue: cellValue.0, checked: cellValue.1)
-    }
-
-    func rowHeightAt(_ index: Int) -> CGFloat {
-        return 30.0
     }
 }
 
@@ -138,7 +139,10 @@ struct ViewedAnimalFilter {
         self.animalFilter = animalFilter
     }
 
-    public func persistChanges(_ realm: Realm) {
+    /**
+     Updates Realm DB with all changes that were made.
+     */
+    fileprivate func persistChanges(_ realm: Realm) {
         for (index, (_, newCheckmarkValue)) in cellValues.enumerated() {
             let checkmarkValue = animalFilter.checkmarkValues[index]
             if(checkmarkValue != newCheckmarkValue.value) {

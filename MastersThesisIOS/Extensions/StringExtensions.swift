@@ -13,6 +13,10 @@ extension String: LocalizedError {
 }
 
 extension String {
+    /**
+     - Returns:
+        A string with only its first letter capitalized.
+     */
     func capitalizingFirstLetter() -> String {
         return prefix(1).capitalized + dropFirst()
     }
@@ -21,6 +25,10 @@ extension String {
         self = self.capitalizingFirstLetter()
     }
 
+    /**
+     - Returns:
+        A constructed URL from this url string which could possibly contain disallowed characters.
+     */
     func getCleanedURL() -> URL? {
         guard self.isEmpty == false else {
             return nil

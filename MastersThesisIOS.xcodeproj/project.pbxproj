@@ -65,7 +65,6 @@
 		4BE756BC26089F1A00DFB440 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756BA26089F1A00DFB440 /* Cartfile */; };
 		4BE756BD26089F1A00DFB440 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756BB26089F1A00DFB440 /* Podfile */; };
 		4BE7570D2608BEE000DFB440 /* LexiconItemCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7570C2608BEE000DFB440 /* LexiconItemCellVC.swift */; };
-		4BE7573C2609F86F00DFB440 /* ImageFetcherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7573B2609F86F00DFB440 /* ImageFetcherService.swift */; };
 		4BF9A4F1261A51F000E98D03 /* OtherExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF9A4F0261A51EF00E98D03 /* OtherExtensions.swift */; };
 		50A1E91FC36763A9AECF3B98 /* GoogleDataTransport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C23BD5EC87B1BD484F2C85C /* GoogleDataTransport.framework */; };
 		5169715030BB735FB138C0B6 /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70F29F4F1802476EDF3FCCED /* environment.plist */; };
@@ -234,7 +233,6 @@
 		4BE756C72608A48100DFB440 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		4BE756C82608A48100DFB440 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		4BE7570C2608BEE000DFB440 /* LexiconItemCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexiconItemCellVC.swift; sourceTree = "<group>"; };
-		4BE7573B2609F86F00DFB440 /* ImageFetcherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetcherService.swift; sourceTree = "<group>"; };
 		4BF9A4F0261A51EF00E98D03 /* OtherExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherExtensions.swift; sourceTree = "<group>"; };
 		4BFE500E9F06CBACF549DDD8 /* FirebaseCrashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCrashlytics.framework; sourceTree = "<group>"; };
 		4CE97500430CBD76773D5A7E /* MastersThesisIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -604,7 +602,6 @@
 		4BADEA1026125B2E004440A6 /* Zoo */ = {
 			isa = PBXGroup;
 			children = (
-				4BE7573B2609F86F00DFB440 /* ImageFetcherService.swift */,
 				4BADE9A8261254C4004440A6 /* ZooAPIService.swift */,
 				4BADEA1926130B03004440A6 /* RealmDBManager.swift */,
 			);
@@ -1289,7 +1286,6 @@
 				4B522E082607A0F300500699 /* LexiconVM.swift in Sources */,
 				12F56DE64448249A6EF9DAB0 /* BaseViewController.swift in Sources */,
 				4B522E3A2607B24400500699 /* StringExtensions.swift in Sources */,
-				4BE7573C2609F86F00DFB440 /* ImageFetcherService.swift in Sources */,
 				4B522E052607A0F300500699 /* MapVC.swift in Sources */,
 				9FB7B455D96DCB81A70D6D40 /* PopupModalAnimation.swift in Sources */,
 				4BE756902607D0C800DFB440 /* LocalizedStrings.swift in Sources */,

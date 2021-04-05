@@ -7,8 +7,16 @@
 
 import UIKit
 
+/**
+ A helper Enum for the main UITabBar modeling.
+ 
+ Each of its cases is a UITabBar item.
+ */
 enum TabBarPage: CaseIterable {
+    /// Animal lexicon tab
     case lexicon
+    
+    /// Map of the Zoo Prague tab
     case zooMap
 
     init?(index: Int) {
@@ -22,6 +30,10 @@ enum TabBarPage: CaseIterable {
         }
     }
 
+    /**
+     - Returns:
+        A localized name of the tab item.
+     */
     func localizedName() -> String {
         switch self {
         case .lexicon:
@@ -31,6 +43,9 @@ enum TabBarPage: CaseIterable {
         }
     }
 
+    /**
+     Decides order of tab items in UITabBar.
+     */
     func pageOrderNumber() -> Int {
         switch self {
         case .lexicon:

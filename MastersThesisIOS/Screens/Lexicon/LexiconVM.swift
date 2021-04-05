@@ -42,6 +42,8 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     // MARK: Internal
     internal var animalData: Results<AnimalData>
     internal var animalFilters: Results<AnimalFilter>
+
+    /// Holds all AnimalData from Realm DB in `TransformedData` structs. All filtering is directly applied on this collection only.
     internal var transformationAnimalData: MutableProperty<[TransformedData]>
 
     private var animalFiltersToken: NotificationToken!
@@ -159,10 +161,12 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
 extension LexiconVM {
 
     /**
+     Applies selected filters to all AnimalData from Realm DB.
      - Parameters:
+        - animalData: All animal data from realm DB
         - animalFilters: Filters that are used on all AnimalData objects received from the database.
      - Returns:
-        New list of AnimalData objects that should be shown. The list is filtered by the given filters.
+        New list of `TransformedData` objects where each objects was had its property `TransformedData.pickedByFilters` modified.
      */
     private func getFilteredAnimals(from animalData: Results<AnimalData>, using animalFilters: Results<AnimalFilter>) -> [TransformedData] {
         // First member of tuple is the type of filter (the filtered property of AnimalData), second member are all picked values
@@ -187,6 +191,13 @@ extension LexiconVM {
             }
     }
 
+    /**
+     Picks only filters that were selected in each category.
+     - Parameters:
+        - allFilters: A list of all possible filters.
+     - Returns:
+        A list of PickedFilters.
+     */
     private func getPickedFilters(allFilters: [AnimalFilter]) -> [PickedFilters] {
         allFilters
             .map { (filter: AnimalFilter) -> PickedFilters in
@@ -199,6 +210,14 @@ extension LexiconVM {
             }
     }
 
+    /**
+     Applies search bar string to the provided `TransformedData`.
+     - Parameters:
+        - data: All transformed data.
+        - partialName: String from search bar. It is used for filtering the provided data by name.
+     - Returns:
+        New list of `TransformedData` objects where each objects was had its property `TransformedData.pickedBySearch` modified.
+     */
     private func getFilteredAnimals(from data: [TransformedData], withSearchString partialName: String) -> [TransformedData] {
         return data.map { currData -> TransformedData in
                 let res = partialName == "" ? true : currData.animalData.name.lowercased().contains(partialName.lowercased())
@@ -232,8 +251,15 @@ private struct PickedFilters {
     public let pickedFilters: [String]
 }
 
+/**
+ Helper struct that holds `AnimalData` value and an information if it was picked by filters or search bar.
+ 
+ Only AnimalData that was picked by both filters and search bar should be visible.
+ */
 public struct TransformedData {
+    /// True if if was filtered by filters and selected as visible.
     fileprivate var pickedByFilters: Bool
+    /// True if if was filtered by search bar and selected as visible.
     fileprivate var pickedBySearch: Bool
     fileprivate var animalData: AnimalData
 }

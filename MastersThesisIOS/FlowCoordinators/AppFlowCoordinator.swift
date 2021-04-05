@@ -26,6 +26,8 @@ final class AppFlowCoordinator: Base.FlowCoordinatorNoDeepLink {
     }
 }
 
+// MARK: LexiconVCFlowDelegate
+
 extension AppFlowCoordinator: LexiconVCFlowDelegate {
     func viewFilters() {
         let vm = AnimalFilterVM(dependencies: appDependencies)
@@ -51,6 +53,8 @@ extension AppFlowCoordinator: LexiconVCFlowDelegate {
         navController.pushViewController(vc, animated: true)
     }
 }
+
+// MARK: AnimalDetailFlowDelegate
 
 extension AppFlowCoordinator: AnimalDetailFlowDelegate {
 

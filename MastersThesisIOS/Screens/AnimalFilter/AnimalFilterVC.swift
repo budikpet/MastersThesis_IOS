@@ -74,21 +74,6 @@ final class AnimalFilterVC: BaseViewController {
 
     private func setupBindings() {
         tableView.reactive.reloadData <~ viewModel.viewedAnimalFilters.signal.map() { _ in }
-
-//        viewModel.data.signal
-//            .take(during: reactive.lifetime)
-//            .observeValues { [unowned self] _ in
-//                self.tableView.reloadData()
-//            }
-//        let res = SignalProducer(value: Change.initial(viewModel.data))
-//        self.reactive.changes <~ res
-
-//        activityIndicator.reactive.isAnimating <~ viewModel.actions.fetchPhoto.isExecuting
-//
-//        viewModel.actions.fetchPhoto <~ reloadButton.reactive.controlEvents(.touchUpInside).map { _ in }
-//
-//        imageView.reactive.image <~ viewModel.photo
-
     }
 
     @objc
@@ -134,8 +119,4 @@ extension AnimalFilterVC: UITableViewDelegate, UITableViewDataSource {
         viewModel.pickValue(at: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return viewModel.rowHeightAt(indexPath.row)
-//    }
 }

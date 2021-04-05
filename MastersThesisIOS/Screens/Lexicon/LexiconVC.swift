@@ -98,6 +98,7 @@ final class LexiconVC: BaseViewController {
     private func setupBindings() {
         tableView.reactive.reloadData <~ viewModel.filteredAnimalData.signal.map() { _ in }
 
+        // Two-way bind for refreshControl and updateLocalDB action
         refreshControl.reactive.isRefreshing <~ viewModel.actions.updateLocalDB.isExecuting
         viewModel.actions.updateLocalDB <~ refreshControl.reactive.controlEvents(.valueChanged).map() { _ in false }
 
@@ -152,6 +153,12 @@ extension LexiconVC {
         flowDelegate?.viewFilters()
     }
 
+    /**
+     - Parameters:
+        - isVisible: True if the search bar should be shown, False otherwise.
+     - Returns:
+        A SignalProducer whose job is to show/hide the search bar.
+     */
     private func searchBarVisibility(isVisible: Bool) -> SignalProducer<Void, Never> {
         SignalProducer<Void, Never> { [weak self] observer, _ in
             guard let self = self else { return }

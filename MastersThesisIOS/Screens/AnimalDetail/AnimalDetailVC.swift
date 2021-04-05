@@ -164,6 +164,9 @@ extension AnimalDetailVC {
         }
     }
 
+    /**
+     Prepare the main text label which is a combination of all big text properties of AnimalData (such as base_summary).
+     */
     private func prepareText() {
         let label = UILabel()
         stackView.addArrangedSubview(label)
@@ -175,6 +178,13 @@ extension AnimalDetailVC {
             }
     }
 
+    /**
+     - Parameters:
+        - a: "Main" string.
+        - b: "Details" string.
+     - Returns:
+        A combined string "main (details)" if detail string isn't empty. Otherwise just returns the main string.
+     */
     private func getCombinedString(_ a: String, _ b: String) -> String {
         let a = a.capitalizingFirstLetter()
         return b == "-" ? a : "\(a) (\(b))"

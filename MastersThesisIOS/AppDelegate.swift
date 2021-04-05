@@ -19,6 +19,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
 
+        // Automatically check if Realm DB needs to be updated
         appDependencies.realmDBManager.actions.updateLocalDB.apply(false).start()
 
         // swiftlint:disable force_unwrapping

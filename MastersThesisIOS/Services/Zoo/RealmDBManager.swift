@@ -63,6 +63,11 @@ final class RealmDBManager: RealmDBManaging, RealmDBManagingActions {
 // MARK: Helpers
 
 extension RealmDBManager {
+    /**
+     Checks whether it is necessary to start an update. If it is necessary then it starts the update.
+     - Returns:
+        A SignalProducer that either returns `UpdateStatus.dataNotUpdated` if it isn't necessary to update or a SignalProducer that handles updating all data.
+     */
     private func runUpdate(forced: Bool = false) -> SignalProducer<UpdateStatus, UpdateError> {
         if let metadata = self.metadata.first, !forced {
             if(metadata.last_update_end < Date()) {
@@ -79,6 +84,10 @@ extension RealmDBManager {
             .flatten(.concat)
     }
 
+    /**
+     - Returns:
+        A SignalProducer that downloads all AnimalData data and stores it in Realm DB, resulting in UpdateStatus.
+     */
     private func updateAnimalData() -> SignalProducer<UpdateStatus, UpdateError> {
         zooApi.getAnimals()
             .mapError() { UpdateError.updateError($0) }
@@ -97,6 +106,10 @@ extension RealmDBManager {
             }
     }
 
+    /**
+     - Returns:
+        A SignalProducer that combines results from all endpoints that contain filters data. Then all results are stored in Realm DB resulting in UpdateStatus.
+     */
     private func updateAnimalFilters() -> SignalProducer<UpdateStatus, UpdateError> {
         SignalProducer([zooApi.getClasses(), zooApi.getFoods(), zooApi.getBiotops()])
             .flatten(.concat)
@@ -108,12 +121,10 @@ extension RealmDBManager {
 
                 os_log("Storing animal filters.")
 
-                if(resultsList.isEmpty) {
-                    return SignalProducer(value: UpdateStatus.dataUpdated)
-                }
+                guard let fetchedMetadata = resultsList.first?.0 else { return SignalProducer(value: UpdateStatus.dataUpdated) }
 
                 self.realmEdit { (realm: Realm) in
-                    realm.add(Metadata(using: resultsList.first!.0), update: .modified)
+                    realm.add(Metadata(using: fetchedMetadata), update: .modified)
                     for (_, filter) in resultsList {
                         realm.add(AnimalFilter(filter), update: .modified)
                     }
@@ -123,6 +134,11 @@ extension RealmDBManager {
             }
     }
 
+    /**
+     Initializes `Realm` instance with all needed configuration
+     - Returns:
+        A new `Realm` instance.
+     */
     private static func initRealm() -> Realm {
         do {
             guard let fileURL = FileManager.default
