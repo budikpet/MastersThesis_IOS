@@ -100,6 +100,7 @@ extension MapVC: TGMapViewDelegate {
     }
 
     func mapView(_ mapView: TGMapView, didSelectFeature feature: [String: String]?, atScreenPosition position: CGPoint) {
+        // It is possible to only pick features explicitly selected with "interactive: true" in the scene file
         print(feature)
     }
 
