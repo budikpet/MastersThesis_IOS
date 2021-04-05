@@ -112,6 +112,13 @@ extension MapVC: TGRecognizerDelegate {
         view.cameraPosition = TGCameraPosition(center: inBoundsCenterCoord, zoom: view.zoom, bearing: view.bearing, pitch: view.pitch)
         return false
     }
+
+    func mapView(_ view: TGMapView!, recognizer: UIGestureRecognizer!, didRecognizeDoubleTapGesture location: CGPoint) {
+        let config = viewModel.mapConfig.value
+        let zoom = view.zoom == CGFloat(config.minZoom) ? config.maxZoom : config.minZoom
+        guard let pos = TGCameraPosition(center: view.coordinate(fromViewPosition: location), zoom: CGFloat(zoom), bearing: view.bearing, pitch: view.pitch) else { return }
+        mapView.setCameraPosition(pos, withDuration: 0.5, easeType: .quint)
+    }
 }
 
 // MARK: Helpers
