@@ -3082,7 +3082,6 @@ layers:
         # set default footprint and extrusion draw properties, but don't draw by default (rules below will turn visibility on)
         draw:
             polygons:
-                interactive: true
                 visible: false
                 order: 329
                 color: global.building2
@@ -3178,6 +3177,7 @@ layers:
                     filter: { not: { landuse_kind: [station, retail, aerodrome, runway, taxiway, park,forest,nature_reserve,conservation,golf_course,garden, university,school, hospital] } }
                     draw:
                         polygons:
+                            interactive: true
                             color: [0.892,0.880,0.878]
 
         # landuse-specific rules

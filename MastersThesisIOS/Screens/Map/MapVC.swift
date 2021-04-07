@@ -39,6 +39,7 @@ final class MapVC: BaseViewController {
         let min_zoom = CGFloat(viewModel.mapConfig.value.minZoom)
         mapView.cameraPosition = TGCameraPosition(center: viewModel.currLocation.value, zoom: min_zoom, bearing: 0, pitch: 0)
         mapView.minimumZoomLevel = min_zoom
+        mapView.setPickRadius(CGFloat(3.0))
 
         mapView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
@@ -101,7 +102,7 @@ extension MapVC: TGMapViewDelegate {
 
     func mapView(_ mapView: TGMapView, didSelectFeature feature: [String: String]?, atScreenPosition position: CGPoint) {
         // It is possible to only pick features explicitly selected with "interactive: true" in the scene file
-        print(feature)
+        print("[\(position)]? \(feature)")
     }
 
 }
