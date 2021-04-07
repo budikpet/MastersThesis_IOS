@@ -47,7 +47,7 @@ final class MapVC: BaseViewController {
 
         // Updates values inside the scene YAML file
         let sceneUpdates = [
-            TGSceneUpdate(path: "global.icon_visible_poi_landuse", value: "true"),
+//            TGSceneUpdate(path: "global.icon_visible_poi_landuse", value: "true"),
             TGSceneUpdate(path: "sources.mapzen.type", value: "GeoJSON"),
             TGSceneUpdate(path: "sources.mapzen.url", value: viewModel.mbtilesPath.value),  // Pass on-device path to mbtiles into the mapView
             TGSceneUpdate(path: "sources.mapzen.maxzoom", value: "\(viewModel.mapConfig.value.maxZoom)")
@@ -102,7 +102,24 @@ extension MapVC: TGMapViewDelegate {
 
     func mapView(_ mapView: TGMapView, didSelectFeature feature: [String: String]?, atScreenPosition position: CGPoint) {
         // It is possible to only pick features explicitly selected with "interactive: true" in the scene file
-        print("[\(position)]? \(feature)")
+        // Able to pick buildings, roads, landuses
+        guard let feature = feature else { print("No feature found"); return }
+
+        print("Feature: [\(position)] == \(feature)")
+    }
+
+    func mapView(_ mapView: TGMapView, didSelectLabel labelPickResult: TGLabelPickResult?, atScreenPosition position: CGPoint) {
+        // It is possible to only pick labels explicitly selected with "interactive: true" in the scene file
+        // Able to pick pois
+        guard let labelPickResult = labelPickResult else { print("No label found"); return }
+
+        print("Label: [\(position)] == \(labelPickResult.properties)")
+    }
+
+    func mapView(_ mapView: TGMapView, didSelectMarker markerPickResult: TGMarkerPickResult?, atScreenPosition position: CGPoint) {
+        guard let markerPickResult = markerPickResult else { print("No marker found"); return }
+
+        print("Marker: [\(position)] == \(markerPickResult.marker)")
     }
 
 }
@@ -131,7 +148,13 @@ extension MapVC: TGRecognizerDelegate {
     }
 
     func mapView(_ view: TGMapView!, recognizer: UIGestureRecognizer!, didRecognizeSingleTapGesture location: CGPoint) {
+//        let coord = CLLocationCoordinate2D(latitude: 50.1159192, longitude: 14.4043440)
+//        let coord = CLLocationCoordinate2D(latitude: 50.1163135, longitude: 14.4041544)
+//        let location = mapView.viewPosition(from: coord, clipToViewport: true)
+        print("\nLocation: \(location)")
         view.pickFeature(at: location)
+        view.pickLabel(at: location)
+        view.pickMarker(at: location)
     }
 }
 

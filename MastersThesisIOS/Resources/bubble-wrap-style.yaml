@@ -4369,6 +4369,7 @@ layers:
                 filter: { $zoom: [9,10,11] }
                 draw: { mapzen_icon_library: { text: { text_source: iata } } }
 
+        # Added
         enclosure-related:
             filter:
                 kind: [enclosure, animal]
@@ -4376,6 +4377,7 @@ layers:
                 mapzen_icon_library:
                     visible: false
                 text-blend-order:
+                    interactive: true
                     text_wrap: 10
                     visible: true
                     font:
