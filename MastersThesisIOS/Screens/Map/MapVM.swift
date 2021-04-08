@@ -43,10 +43,11 @@ final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
     init(dependencies: Dependencies) {
         mapConfig = MutableProperty(MapVM.loadMapConfig())
 
-        guard let sceneUrl = Bundle.resources.url(forResource: "bubbleWrapStyle", withExtension: "zip") else { fatalError("Scene file not found.") }
+//        guard let sceneUrl = Bundle.resources.url(forResource: "bubbleWrapStyle", withExtension: "zip") else { fatalError("Scene file not found.") }
+        guard let sceneUrl = Bundle.main.url(forResource: "bubbleWrapStyle", withExtension: "yaml", subdirectory: "Map/bubbleWrapStyle") else { fatalError("Scene file not found.") }
         self.sceneUrl = MutableProperty(sceneUrl)
 
-        guard let mbtilesPath = Bundle.resources.path(forResource: "defaultZooPrague", ofType: "mbtiles") else { fatalError("MBTiles file not found.") }
+        guard let mbtilesPath = Bundle.main.url(forResource: "defaultZooPrague", withExtension: "mbtiles", subdirectory: "Map")?.path else { fatalError("MBTiles file not found.") }
         self.mbtilesPath = MutableProperty(mbtilesPath)
 
         bounds = Property(initial: TGCoordinateBounds.init(), then: mapConfig.producer.map() {
@@ -69,7 +70,7 @@ final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
 
 extension MapVM {
     private static func loadMapConfig() -> MapConfig {
-        guard let configFile = Bundle.resources.url(forResource: "config", withExtension: "json") else { fatalError("Config file not found.") }
+        guard let configFile = Bundle.resources.url(forResource: "defaultConfig", withExtension: "json", subdirectory: "Map") else { fatalError("Config file not found.") }
 
         do {
             let configData = try Data(contentsOf: configFile)
