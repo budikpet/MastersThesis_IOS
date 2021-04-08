@@ -15,6 +15,8 @@ final class MapVC: BaseViewController {
 
     private weak var mapView: TGMapView!
 
+    private var data: TGMapData!
+
     // MARK: Initializers
 
     init(viewModel: MapViewModeling) {
@@ -37,7 +39,8 @@ final class MapVC: BaseViewController {
         mapView.gestureDelegate = self
 
         let min_zoom = CGFloat(viewModel.mapConfig.value.minZoom)
-        mapView.cameraPosition = TGCameraPosition(center: viewModel.currLocation.value, zoom: min_zoom, bearing: 0, pitch: 0)
+        let coord = CLLocationCoordinate2D(latitude: 37.7736, longitude: -122.4313)
+        mapView.cameraPosition = TGCameraPosition(center: coord, zoom: min_zoom, bearing: 0, pitch: 0)
         mapView.minimumZoomLevel = min_zoom
         mapView.setPickRadius(CGFloat(30.0))
 
@@ -49,20 +52,20 @@ final class MapVC: BaseViewController {
         let sceneUpdates = [
 //            TGSceneUpdate(path: "global.icon_visible_poi_landuse", value: "true"),
             TGSceneUpdate(path: "sources.mapzen.type", value: "GeoJSON"),
-            TGSceneUpdate(path: "sources.mapzen.url", value: viewModel.mbtilesPath.value),  // Pass on-device path to mbtiles into the mapView
+//            TGSceneUpdate(path: "sources.mapzen.url", value: viewModel.mbtilesPath.value),  // Pass on-device path to mbtiles into the mapView
 //            TGSceneUpdate(path: "sources.mapzen.max_zoom", value: "\(viewModel.mapConfig.value.maxZoom)"),
-            TGSceneUpdate(path: "sources.mapzen.min_display_zoom", value: "\(viewModel.mapConfig.value.minZoom)")
+            TGSceneUpdate(path: "sources.mapzen.min_display_zoom", value: "\(viewModel.mapConfig.value.minZoom)"),
+            TGSceneUpdate(path: "sources.mz_search_result.url", value: "https://gist.githubusercontent.com/anonymous/57dc09eeb120919f76de/raw/43426217da3c2bae0522dc4257aaa61e4df3981e/map.geojson")
         ]
 
         mapView.loadSceneAsync(from: viewModel.sceneUrl.value, with: sceneUpdates)
+        data = mapView.addDataLayer("mz_search_result", generateCentroid: true)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupBindings()
-
-        navigationItem.title = "Mapa"
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -93,13 +96,13 @@ extension MapVC: TGMapViewDelegate {
 //        mapView.minimumZoomLevel = min_zoom
 //    }
 
-    func mapView(_ mapView: TGMapView, regionDidChangeAnimated animated: Bool) {
-        // Puts the map back inside bounds in case scrolling animation gets out of them
-        DispatchQueue.main.async { [unowned self] in
-            guard let (_, inBoundsCenterCoord) = self.checkBounds(mapView, mapView.cameraPosition.center) else { return }
-            mapView.cameraPosition = TGCameraPosition(center: inBoundsCenterCoord, zoom: mapView.zoom, bearing: mapView.bearing, pitch: mapView.pitch)
-        }
-    }
+//    func mapView(_ mapView: TGMapView, regionDidChangeAnimated animated: Bool) {
+//        // Puts the map back inside bounds in case scrolling animation gets out of them
+//        DispatchQueue.main.async { [unowned self] in
+//            guard let (_, inBoundsCenterCoord) = self.checkBounds(mapView, mapView.cameraPosition.center) else { return }
+//            mapView.cameraPosition = TGCameraPosition(center: inBoundsCenterCoord, zoom: mapView.zoom, bearing: mapView.bearing, pitch: mapView.pitch)
+//        }
+//    }
 
     func mapView(_ mapView: TGMapView, didSelectFeature feature: [String: String]?, atScreenPosition position: CGPoint) {
         // It is possible to only pick features explicitly selected with "interactive: true" in the scene file
@@ -133,13 +136,13 @@ extension MapVC: TGRecognizerDelegate {
         return false
     }
 
-    func mapView(_ view: TGMapView!, recognizer: UIGestureRecognizer!, shouldRecognizePanGesture displacement: CGPoint) -> Bool {
-        // Coordinates of the center that is closest possible to the map bounds but still inside those bounds
-        guard let (_, inBoundsCenterCoord) = self.checkBounds(view, view.cameraPosition.center) else { return true }
-
-        view.cameraPosition = TGCameraPosition(center: inBoundsCenterCoord, zoom: view.zoom, bearing: view.bearing, pitch: view.pitch)
-        return false
-    }
+//    func mapView(_ view: TGMapView!, recognizer: UIGestureRecognizer!, shouldRecognizePanGesture displacement: CGPoint) -> Bool {
+//        // Coordinates of the center that is closest possible to the map bounds but still inside those bounds
+//        guard let (_, inBoundsCenterCoord) = self.checkBounds(view, view.cameraPosition.center) else { return true }
+//
+//        view.cameraPosition = TGCameraPosition(center: inBoundsCenterCoord, zoom: view.zoom, bearing: view.bearing, pitch: view.pitch)
+//        return false
+//    }
 
     func mapView(_ view: TGMapView!, recognizer: UIGestureRecognizer!, didRecognizeDoubleTapGesture location: CGPoint) {
         let config = viewModel.mapConfig.value
@@ -152,14 +155,34 @@ extension MapVC: TGRecognizerDelegate {
         print("\nLocation: \(location)")
 //        view.pickFeature(at: location)
 //        view.pickLabel(at: location)
-        view.pickMarker(at: location)
+//        view.pickMarker(at: location)
 
-        let style = "{ style: 'points', color: 'white', size: [50px, 50px], order: 2000, collide: false, interactive: true }"
-        let marker = view.markerAdd()
-        marker.stylingString = style
-        marker.point = view.coordinate(fromViewPosition: location)
-        marker.visible = true
-        marker.icon = UIImage(named: "checkmark")!
+        let coord = view.coordinate(fromViewPosition: location)
+
+        let tempDir = FileManager.default.temporaryDirectory
+        let fileUrl = tempDir.appendingPathComponent("test.json")
+
+        var geometry = MapGeometry(type: "Point")
+        geometry.addCoordinate(coord)
+        let feature = MapFeature(geometry: geometry)
+        var collection = MapFeatureCollection()
+        collection.features.append(feature)
+
+        let json = try? JSONEncoder().encode(collection)
+
+        try! json!.write(to: fileUrl)
+
+        print(String(data: json!, encoding: .utf8)!)
+
+        let sceneUpdates = [
+            TGSceneUpdate(path: "sources.mz_search_result.url", value: fileUrl.path),
+//            TGSceneUpdate(path: "sources.mapzen.type", value: "GeoJSON"),
+//            TGSceneUpdate(path: "sources.mapzen.url", value: viewModel.mbtilesPath.value)
+        ]
+
+        mapView.loadScene(from: viewModel.sceneUrl.value, with: sceneUpdates)
+
+        data.setGeoJson(String(data: json!, encoding: .utf8)!)
     }
 }
 
@@ -197,5 +220,32 @@ extension MapVC {
         }
 
         return nil
+    }
+}
+
+struct MapFeatureCollection: Encodable {
+    let type: String = "FeatureCollection"
+    var features: [MapFeature] = []
+}
+
+struct MapFeature: Encodable {
+    let type: String = "Feature"
+    let properties: FeatureProperties = FeatureProperties()
+    let geometry: MapGeometry
+}
+
+struct FeatureProperties: Encodable {
+    let order: Int = 5000
+    let id: Int = -1
+    let kind: String = "Test"
+}
+
+struct MapGeometry: Encodable {
+    let type: String
+    var coordinates: [Double] = []
+
+    mutating func addCoordinate(_ location: CLLocationCoordinate2D) {
+        coordinates.append(location.longitude)
+        coordinates.append(location.latitude)
     }
 }

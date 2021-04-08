@@ -591,25 +591,25 @@ fonts:
           #url: https://fonts.gstatic.com/s/quicksand/v6/sKd0EMYPAh5PYCRKSryvW7O3LdcAZYWl9Si6vvxL-qU.woff
           url: fonts/Quicksand-Regular.woff
 
-#sources:
-#    mapzen:
-#        type: GeoJSON #TopoJSON
-#        url:  https://tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.json
-#        #url:  https://dev-tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt
-#        #url: http://localhost:8050/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt?api_key=&
-#        #url: https://xyz.api.here.com/tiles/herebase.02/{z}/{x}/{y}/omv
-#        url_params:
-#            api_key: global.sdk_api_key
-#        tile_size: 512
-#        max_zoom: 16
+sources:
+    mapzen:
+        type: GeoJSON #TopoJSON
+        url:  https://tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.json
+        #url:  https://dev-tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt
+        #url: http://localhost:8050/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt?api_key=&
+        #url: https://xyz.api.here.com/tiles/herebase.02/{z}/{x}/{y}/omv
+        url_params:
+            api_key: global.sdk_api_key
+        tile_size: 512
+        max_zoom: 16
 
 # Locally stored MBTiles of Prague ZOO
 # Downloaded using: https://github.com/tilezen/tilepacks
-sources:
-    mapzen:
-        type: GeoJSON # The source expects GeoJSON tile data.
-#        url: ... # The MBTiles file is located relative to the scene file. Must be changed in runtime since the file is stored alongside the app.
-        max_zoom: 16 # Other parameters are applied as usual.
+#sources:
+#    mapzen:
+#        type: GeoJSON # The source expects GeoJSON tile data.
+##        url: ... # The MBTiles file is located relative to the scene file. Must be changed in runtime since the file is stored alongside the app.
+#        max_zoom: 16 # Other parameters are applied as usual.
 
 #    # Only enable this for local debug, should not be enabled for prod (app inserts these at runtime)
 #    # These are all in San Francisco, California
@@ -650,8 +650,8 @@ sources:
 #        type: GeoJSON
 #        url: https://gist.githubusercontent.com/anonymous/b9f16bca4a804f50faf71277d52ee4ab/raw/db13e4e765fa1ac8844b8ba02f4a0f66fe772907/map.geojson
 #    # Pins showing search result locations
-#    mz_search_result:
-#        type: GeoJSON
+    mz_search_result:
+        type: GeoJSON
 #        url: https://gist.githubusercontent.com/anonymous/57dc09eeb120919f76de/raw/43426217da3c2bae0522dc4257aaa61e4df3981e/map.geojson
 #    # Default point styling (SDK)
 #    mz_default_point:
@@ -952,236 +952,235 @@ scene:
 
 layers:
     # Map overlays for styling the server response (using special source layer names) for route line, current location, and search result pins
-    interactive_layers:
-        mz_route_line:
-            data: { source: mz_route_line }
-            draw:
-                ux-route-line-overlay:
-                    interactive: global.sdk_interactive
-                    color: '#06a6d4'
-                    order: 500
-                    width: [[0,3.5px],[5,5px],[9,7px],[10,6px],[11,6px],[13,8px],[14,9px],[15,10px],[16,11px],[17,12px],[18,10px]]
-        mz_route_line_dash:
-            data: { source: mz_dash_line }
-            draw:
-                ux-route-line-dash-overlay:
-                    interactive: global.sdk_interactive
-                    color: '#06a6d4'
-                    order: 500
-                    width: [[2,2px],[5,2.5px],[11,3px],[16,7px],[17,9px]]
-        mz_route_line_transit:
-            data: { source: mz_route_line_transit }
-            draw:
-                ux-transit-line-overlay:
-                    # each transit route segment could be a different "line" each with it's own color
-                    # but some transit lines don't define a color, in those cases default to blue
-                    # and since the color is coming from Transit.land they call it "color" instead of "colour"
-                    interactive: global.sdk_interactive
-                    color: function() { return feature.color || '#06a6d4'; }
-                    order: 500
-                    width: [[0,3.5px],[5,5px],[9,7px],[10,6px],[11,6px],[13,8px],[14,9px],[15,10px],[16,11px],[17,12px],[18,10px]]
-        mz_current_location_gem:
-            data: { source: mz_current_location }
-            draw:
-                ux-location-gem-overlay:
-                    interactive: global.sdk_interactive
-                    sprite: ux-current-location
-                    size: 36px
-                    collide: false
-                    transition: { show: { time: 0s }, hide: { time: 0s } }
-        mz_route_location:
-            data: { source: mz_route_location }
-            draw:
-                ux-location-gem-overlay:
-                    interactive: global.sdk_interactive
-                    sprite: ux-route-arrow
-                    size: [60px,60px]
-                    collide: false
-                    transition: { show: { time: 0s }, hide: { time: 0s } }
-        mz_route_start:
-            data: { source: mz_route_start }
-            draw:
-                ux-icons-overlay:
-                    interactive: global.sdk_interactive
-                    priority: 1
-                    sprite: ux-route-start
-                    size: [36px,46px]
-                    collide: false
-                    anchor: top
-                    transition: { show: { time: 0s }, hide: { time: 0s } }
-        mz_route_destination:
-            data: { source: mz_route_destination }
-            draw:
-                ux-icons-overlay:
-                    interactive: global.sdk_interactive
-                    priority: 1
-                    sprite: ux-route-stop
-                    size: [36px,46px]
-                    collide: false
-                    anchor: top
-                    transition: { show: { time: 0s }, hide: { time: 0s } }
-        mz_route_transit_stop:
-            data: { source: mz_route_transit_stop }
-            draw:
-                ux-icons-overlay:
-                    interactive: global.sdk_interactive
-                    sprite: ux-transit-stop
-                    size: [15px,15px]
-                    collide: false
-                    transition: { show: { time: 0s }, hide: { time: 0s } }
-        mz_search_result:
-            data: { source: mz_search_result }
-            draw:
-                ux-icons-overlay:
-                    interactive: global.sdk_interactive
-                    sprite: ux-search-active
-                    size: [36px,54px]
-                    collide: false
-                    anchor: top
-                    transition: { show: { time: 0s }, hide: { time: 0s } }
-            inactive:
-                filter: { state: inactive }
-                draw:
-                    ux-icons-overlay:
-                        sprite: ux-search-inactive
-        mz_dropped_pin:
-            data: { source: mz_dropped_pin }
+    mz_route_line:
+        data: { source: mz_route_line }
+        draw:
+            ux-route-line-overlay:
+                interactive: global.sdk_interactive
+                color: '#06a6d4'
+                order: 500
+                width: [[0,3.5px],[5,5px],[9,7px],[10,6px],[11,6px],[13,8px],[14,9px],[15,10px],[16,11px],[17,12px],[18,10px]]
+    mz_route_line_dash:
+        data: { source: mz_dash_line }
+        draw:
+            ux-route-line-dash-overlay:
+                interactive: global.sdk_interactive
+                color: '#06a6d4'
+                order: 500
+                width: [[2,2px],[5,2.5px],[11,3px],[16,7px],[17,9px]]
+    mz_route_line_transit:
+        data: { source: mz_route_line_transit }
+        draw:
+            ux-transit-line-overlay:
+                # each transit route segment could be a different "line" each with it's own color
+                # but some transit lines don't define a color, in those cases default to blue
+                # and since the color is coming from Transit.land they call it "color" instead of "colour"
+                interactive: global.sdk_interactive
+                color: function() { return feature.color || '#06a6d4'; }
+                order: 500
+                width: [[0,3.5px],[5,5px],[9,7px],[10,6px],[11,6px],[13,8px],[14,9px],[15,10px],[16,11px],[17,12px],[18,10px]]
+    mz_current_location_gem:
+        data: { source: mz_current_location }
+        draw:
+            ux-location-gem-overlay:
+                interactive: global.sdk_interactive
+                sprite: ux-current-location
+                size: 36px
+                collide: false
+                transition: { show: { time: 0s }, hide: { time: 0s } }
+    mz_route_location:
+        data: { source: mz_route_location }
+        draw:
+            ux-location-gem-overlay:
+                interactive: global.sdk_interactive
+                sprite: ux-route-arrow
+                size: [60px,60px]
+                collide: false
+                transition: { show: { time: 0s }, hide: { time: 0s } }
+    mz_route_start:
+        data: { source: mz_route_start }
+        draw:
+            ux-icons-overlay:
+                interactive: global.sdk_interactive
+                priority: 1
+                sprite: ux-route-start
+                size: [36px,46px]
+                collide: false
+                anchor: top
+                transition: { show: { time: 0s }, hide: { time: 0s } }
+    mz_route_destination:
+        data: { source: mz_route_destination }
+        draw:
+            ux-icons-overlay:
+                interactive: global.sdk_interactive
+                priority: 1
+                sprite: ux-route-stop
+                size: [36px,46px]
+                collide: false
+                anchor: top
+                transition: { show: { time: 0s }, hide: { time: 0s } }
+    mz_route_transit_stop:
+        data: { source: mz_route_transit_stop }
+        draw:
+            ux-icons-overlay:
+                interactive: global.sdk_interactive
+                sprite: ux-transit-stop
+                size: [15px,15px]
+                collide: false
+                transition: { show: { time: 0s }, hide: { time: 0s } }
+    mz_search_result:
+        data: { source: mz_search_result }
+        draw:
+            ux-icons-overlay:
+                interactive: global.sdk_interactive
+                sprite: ux-search-active
+                size: [36px,54px]
+                collide: false
+                anchor: top
+                transition: { show: { time: 0s }, hide: { time: 0s } }
+        inactive:
+            filter: { state: inactive }
             draw:
                 ux-icons-overlay:
-                    interactive: global.sdk_interactive
-                    sprite: ux-search-active
-                    size: [36px,54px]
-                    collide: false
-                    anchor: top
-                    transition: { show: { time: 0s }, hide: { time: 0s } }
+                    sprite: ux-search-inactive
+    mz_dropped_pin:
+        data: { source: mz_dropped_pin }
+        draw:
+            ux-icons-overlay:
+                interactive: global.sdk_interactive
+                sprite: ux-search-active
+                size: [36px,54px]
+                collide: false
+                anchor: top
+                transition: { show: { time: 0s }, hide: { time: 0s } }
 
-        # Used by the SDK to place point, line, and polygon overlays on the map
-        mz_default_point:
-            data: { source: mz_default_point }
-            draw:
-                sdk-point-overlay:
-                    interactive: global.sdk_interactive
-                    sprite: ux-search-active
-                    size: [36px,54px]
-                    collide: false
-                    anchor: top
-                    transition: { show: { time: 0s }, hide: { time: 0s } }
-        mz_default_shield:
-            data: { source: mz_default_shield }
-            draw:
-                sdk-shield-overlay:
-                    interactive: global.sdk_interactive
-                    sprite: |
+    # Used by the SDK to place point, line, and polygon overlays on the map
+    mz_default_point:
+        data: { source: mz_default_point }
+        draw:
+            sdk-point-overlay:
+                interactive: global.sdk_interactive
+                sprite: ux-search-active
+                size: [36px,54px]
+                collide: false
+                anchor: top
+                transition: { show: { time: 0s }, hide: { time: 0s } }
+    mz_default_shield:
+        data: { source: mz_default_shield }
+        draw:
+            sdk-shield-overlay:
+                interactive: global.sdk_interactive
+                sprite: |
+                    function() {
+                        if( feature.shield_text ) {
+                            return ('sdk_shield-' + feature.shield_text.length + 'char');
+                        } else {
+                            return ('sdk_shield-' + feature.name.length + 'char');
+                        }
+                    }
+                sprite_default: sdk_shield-1char
+                color: global.sdk_shield_color
+                collide: false
+                transition: { show: { time: 0s }, hide: { time: 0s } }
+                text:
+                    # offset: [0px, -1px]
+                    text_source: |
                         function() {
                             if( feature.shield_text ) {
-                                return ('sdk_shield-' + feature.shield_text.length + 'char');
+                                return feature.shield_text;
                             } else {
-                                return ('sdk_shield-' + feature.name.length + 'char');
+                                return feature.name;
                             }
                         }
-                    sprite_default: sdk_shield-1char
-                    color: global.sdk_shield_color
-                    collide: false
-                    transition: { show: { time: 0s }, hide: { time: 0s } }
-                    text:
-                        # offset: [0px, -1px]
-                        text_source: |
-                            function() {
-                                if( feature.shield_text ) {
-                                    return feature.shield_text;
-                                } else {
-                                    return feature.name;
-                                }
-                            }
-                        anchor: center
-                        font:
-                            family: Montserrat
-                            fill: global.sdk_shield_text_color
-                            style: bold
-                            size: [[7,7px],[12,8px],[16,11px]]
+                    anchor: center
+                    font:
+                        family: Montserrat
+                        fill: global.sdk_shield_text_color
+                        style: bold
+                        size: [[7,7px],[12,8px],[16,11px]]
 
-            width_1char:
-                filter: |
-                    function() {
-                        if( feature.shield_text ) {
-                            return (feature.shield_text.length === 1);
-                        } else {
-                            return (feature.name.length === 1);
-                        }
+        width_1char:
+            filter: |
+                function() {
+                    if( feature.shield_text ) {
+                        return (feature.shield_text.length === 1);
+                    } else {
+                        return (feature.name.length === 1);
                     }
-                draw:
-                    sdk-shield-overlay:
-                        size: [[6,[16px,16px]],[13,[18px,18px]],[16,[21px,21px]]]
-            width_2char:
-                filter: |
-                    function() {
-                        if( feature.shield_text ) {
-                            return (feature.shield_text.length === 2);
-                        } else {
-                            return (feature.name.length === 2);
-                        }
-                    }
-                draw:
-                    sdk-shield-overlay:
-                        size: [[6,[21px,16px]],[13,[24px,18px]],[16,[28px,21px]]]
-            width_3char:
-                filter: |
-                    function() {
-                        if( feature.shield_text ) {
-                            return (feature.shield_text.length === 3);
-                        } else {
-                            return (feature.name.length === 3);
-                        }
-                    }
-                draw:
-                    sdk-shield-overlay:
-                        size: [[6,[27px,16px]],[13,[31px,18px]],[16,[36px,21px]]]
-            width_4char:
-                filter: |
-                    function() {
-                        if( feature.shield_text ) {
-                            return (feature.shield_text.length === 4);
-                        } else {
-                            return (feature.name.length === 4);
-                        }
-                    }
-                draw:
-                    sdk-shield-overlay:
-                        size: [[6,[32px,16px]],[13,[36px,18px]],[16,[41px,21px]]]
-            width_5char:
-                filter: |
-                    function() {
-                        if( feature.shield_text ) {
-                            return (feature.shield_text.length === 5);
-                        } else {
-                            return (feature.name.length === 5);
-                        }
-                    }
-                draw:
-                    sdk-shield-overlay:
-                        size: [[6,[37px,16px]],[13,[41px,18px]],[16,[48px,21px]]]
-            # this is kinda a hack
-            width_longggggg:
-                filter: |
-                    function() {
-                        if( feature.shield_text ) {
-                            return (feature.shield_text.length > 5);
-                        } else {
-                            return (feature.name.length > 5);
-                        }
-                    }
-                draw:
-                    sdk-shield-overlay:
-                        visible: false
-        mz_default_line:
-            data: { source: mz_default_line }
+                }
             draw:
-                sdk-line-overlay:
-                    interactive: global.sdk_interactive
-                    color: '#06a6d4'
-                    order: 503
-                    width: 3px
-        mz_default_polygon:
+                sdk-shield-overlay:
+                    size: [[6,[16px,16px]],[13,[18px,18px]],[16,[21px,21px]]]
+        width_2char:
+            filter: |
+                function() {
+                    if( feature.shield_text ) {
+                        return (feature.shield_text.length === 2);
+                    } else {
+                        return (feature.name.length === 2);
+                    }
+                }
+            draw:
+                sdk-shield-overlay:
+                    size: [[6,[21px,16px]],[13,[24px,18px]],[16,[28px,21px]]]
+        width_3char:
+            filter: |
+                function() {
+                    if( feature.shield_text ) {
+                        return (feature.shield_text.length === 3);
+                    } else {
+                        return (feature.name.length === 3);
+                    }
+                }
+            draw:
+                sdk-shield-overlay:
+                    size: [[6,[27px,16px]],[13,[31px,18px]],[16,[36px,21px]]]
+        width_4char:
+            filter: |
+                function() {
+                    if( feature.shield_text ) {
+                        return (feature.shield_text.length === 4);
+                    } else {
+                        return (feature.name.length === 4);
+                    }
+                }
+            draw:
+                sdk-shield-overlay:
+                    size: [[6,[32px,16px]],[13,[36px,18px]],[16,[41px,21px]]]
+        width_5char:
+            filter: |
+                function() {
+                    if( feature.shield_text ) {
+                        return (feature.shield_text.length === 5);
+                    } else {
+                        return (feature.name.length === 5);
+                    }
+                }
+            draw:
+                sdk-shield-overlay:
+                    size: [[6,[37px,16px]],[13,[41px,18px]],[16,[48px,21px]]]
+        # this is kinda a hack
+        width_longggggg:
+            filter: |
+                function() {
+                    if( feature.shield_text ) {
+                        return (feature.shield_text.length > 5);
+                    } else {
+                        return (feature.name.length > 5);
+                    }
+                }
+            draw:
+                sdk-shield-overlay:
+                    visible: false
+    mz_default_line:
+        data: { source: mz_default_line }
+        draw:
+            sdk-line-overlay:
+                interactive: global.sdk_interactive
+                color: '#06a6d4'
+                order: 503
+                width: 3px
+    mz_default_polygon:
         data: { source: mz_default_polygon }
         draw:
             sdk-polygon-overlay:
