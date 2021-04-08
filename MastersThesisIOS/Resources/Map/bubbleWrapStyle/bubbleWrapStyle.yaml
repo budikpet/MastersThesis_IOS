@@ -4233,68 +4233,6 @@ layers:
                         font:
                             weight: 600
 
-        # source icon sprite from something other than kind
-        sports-pitch:
-            filter: { kind: [grass, pitch] }
-            draw:
-                mapzen_icon_library:
-                    sprite: function() { return feature.kind_detail; }
-                    # needs a better recreation icon, so just use generic (default) for now
-                    #sprite_default: sports
-        place_of_worship:
-            filter:
-                kind: [place_of_worship, wayside_chapel]
-            draw:
-                mapzen_icon_library:
-                    sprite: function() { return feature.religion; }
-                    sprite_default: place_of_worship
-
-        generator:
-            filter: { kind: generator }
-            draw:
-                mapzen_icon_library:
-                    sprite: function() { return 'generator_' + feature.kind_detail; }
-                    sprite_default: generator
-
-        # TODO: some or all of this may be unnecessary for the sprite, but is necessary for the early filter
-        building-icon:
-            filter:
-                kind: [apartments, auditorium, building, hangar, manor, recreation_center, retirement_home, terminal]
-            draw:
-                mapzen_icon_library:
-                    sprite: building
-            early:
-                filter:
-                    any:
-                        # show labels for smaller landuse areas at higher zooms
-                        - { $zoom: [14], area: { max: 200000 } }
-                        - { $zoom: [15], area: { max: 20000 } }
-                        - { $zoom: [16], area: { max: 5000 } }
-                        - { $zoom: [17], area: { max: 1000 } }
-                draw:
-                    mapzen_icon_library:
-                        visible: false
-        #end different icon sprites
-
-        national-park-protected-areas:
-            filter:
-                kind: [national_park, battlefield]
-            draw:
-                mapzen_icon_library:
-                    visible: global.icon_visible_landuse_green
-                    size: global.icon_size_green
-                    sprite: park
-                    text:
-                        visible: global.text_visible_landuse_green
-                        font:
-                            fill: [0.200,0.409,0.398] #*text_fill_park
-                            style: italic
-            z14-parks:
-                filter: { $zoom: { min: 14 } }
-                draw:
-                    mapzen_icon_library:
-                        sprite: park-l
-                        size: global.icon_size_green_l
         # Added
         parking:
             filter:
@@ -4344,30 +4282,6 @@ layers:
                         font:
                             fill: [0.181,0.370,0.361]
                             style: italic
-        beach:
-            filter:
-                kind: [beach]
-            draw:
-                mapzen_icon_library:
-                    visible: global.icon_visible_landuse_green
-                    size: global.icon_size_green
-                    text:
-                        visible: global.text_visible_landuse_green
-                        font:
-                            fill: global.text_fill_beach
-        airport:
-            filter:
-                kind: [airport, aerodrome]
-            draw:
-                mapzen_icon_library:
-                    visible: global.icon_visible_landuse_green
-                    size: global.icon_size_green
-                    text:
-                        visible: global.text_visible_landuse_green
-                        text_source: global.ux_language_text_source_iata
-            early:
-                filter: { $zoom: [9,10,11] }
-                draw: { mapzen_icon_library: { text: { text_source: iata } } }
 
         # Added, animal pens in zoo
         enclosure-related:
@@ -4382,102 +4296,20 @@ layers:
                             fill: grey
                             style: italic
 
-        gate-early:
-            filter: { kind: gate, $zoom: { max: 20 } }
-            draw:
-                mapzen_icon_library:
-                    icon: generic
-        gate-late:
-            filter: { kind: gate, $zoom: { min: 20 } }
-            draw:
-                mapzen_icon_library:
-                    visible: true
+#        gate-early:
+#            filter: { kind: gate, $zoom: { max: 20 } }
+#            draw:
+#                mapzen_icon_library:
+#                    icon: generic
+#        gate-late:
+#            filter: { kind: gate, $zoom: { min: 20 } }
+#            draw:
+#                mapzen_icon_library:
+#                    visible: true
 
-        tree:
-            filter: { kind: tree, $zoom: { min: 18 } }
-            draw:
-                background-icons:
-                    # TODO: put tree icons behind the buildings
-                    # See SF State University #20/37.72314/-122.47772
-                    color: [0.145,0.745,0.643]
-                    visible: true #global.icon_visible_poi_landuse_e
-                    collide: false
-            z18:
-                filter: { $zoom: [18] }
-                draw:
-                    mapzen_icon_library:
-                        color: [0.459,0.765,0.722]
-                        sprite: tree-s
-
-        glacier:
-            filter:
-                kind: glacier
-            draw:
-                mapzen_icon_library:
-                    visible: false
-                    text:
-                        visible: true
-                        text_wrap: 10
-                        font:
-                            weight: normal
-                            style: italic
-                            fill: '#4ba3c5'
-
-        building-like:
-            filter: { kind: [commercial,residential,warehouse,public,dormitory], osm_relation: false }
-            draw:
-                mapzen_icon_library:
-                    sprite: building
-
-        station-train-subway:
-            filter: { kind: [station, train_station] }
-            draw:
-                mapzen_icon_library:
-                    visible: global.icon_visible_station
-                    size: [[13, 60%], [15, 80%], [17, 100%], [18, 110%]]
-                    text:
-                        visible: global.text_visible_station
-            station-early:
-                filter:
-                    $zoom: { max: 11 }
-                draw:
-                    mapzen_icon_library:
-                        visible: false
-            # for a transit style we'd want to see **all**, so don't move this above (it's special to this style)
-            low-priority-early:
-                filter: { kind_tile_rank: { min: 5 }, $zoom: { min: 0, max: 13 } }
-                draw:
-                    mapzen_icon_library:
-                        visible: false
-            low-priority-early-z14-icons:
-                filter: { kind_tile_rank: { min: 50 }, $zoom: [13,14] }
-                draw:
-                    mapzen_icon_library:
-                        visible: false
-            low-priority-early-z13:
-                filter: { kind_tile_rank: { min: 5 }, $zoom: [13] }
-                draw:
-                    mapzen_icon_library:
-                        visible: false
-            low-priority-early-z14:
-                filter: { kind_tile_rank: { min: 7 }, $zoom: [14] }
-                draw:
-                    mapzen_icon_library:
-                        text: { visible: false }
-
-        garden-no-area-early:
-            filter: { kind: [garden, allotments], $zoom: [16], area: false }
-            draw:
-                mapzen_icon_library:
-                    text:  { font: { size: 10px, style: italic } }
-        garden-no-area-later:
-            filter: { kind: [garden, allotments], $zoom: { min: 17 }, area: false }
-            draw:
-                mapzen_icon_library:
-                    text:  { font: { size: 11px, style: italic } }
-        gate:
-            filter: { kind: gate, name: true  }
-            draw: { mapzen_icon_library: { sprite: generic } }
+#        gate:
+#            filter: { kind: gate, name: true  }
+#            draw: { mapzen_icon_library: { sprite: generic } }
 
         parking-labels:
             filter:
@@ -4489,14 +4321,6 @@ layers:
                         visible: global.text_visible_poi_landuse
                         font:
                             size: 10px
-        tower:
-            filter: { kind: [tower], label_placement: true }
-            draw:
-                mapzen_icon_library:
-                    visible: false
-                    text:
-                        font:
-                            style: italic
 
         bus_stop:
             filter:
@@ -4515,57 +4339,6 @@ layers:
                     mapzen_icon_library:
                         text:
                             visible: false
-
-        airport-gate:
-            filter: { kind: aeroway_gate }
-            draw:
-                mapzen_icon_library:
-                    visible: false
-                text-blend-order:
-                    visible: global.text_visible_airport_gate
-                    text_source: ref
-                    font:
-                        fill: global.text_fill_exits
-                        size: [[16,9px],[17,12px],[20,14px]]
-            later:
-                filter: { $zoom: { min: 19 } }
-                draw:
-                    mapzen_icon_library:
-                        text:
-                            font:
-                                weight: 600
-
-        highway-exit:
-            filter: { kind: motorway_junction }
-            draw:
-                mapzen_icon_library:
-                    visible: false
-            z14+:
-                filter: { $zoom: { min: 14, max: 16 } }
-                draw:
-                    text-blend-order:
-                        visible: global.text_visible_exits
-                        text_source: ref
-                        font:
-                            family: Montserrat
-                            fill: global.text_fill_exits
-                            size: [[12,9px],[15,12px],[17,14px]]
-                            stroke: { color: global.text_stroke, width: [[12,2px],[14,3px],[15,3px]] }
-            later:
-                filter: { $zoom: { min: 16 } }
-                draw:
-                    text-blend-order:
-                        visible: false
-                    mapzen_icon_library:
-                        visible: global.text_visible_exits
-                        text:
-                            visible: global.text_visible_exits
-                            text_source: ref
-                            font:
-                                family: Montserrat
-                                fill: global.text_fill_exits
-                                size: [[12,9px],[15,12px],[17,14px]]
-                                stroke: { color: global.text_stroke, width: [[12,2px],[14,3px],[15,3px]] }
 
     earth-labels:
         data: { source: mapzen, layer: earth }
