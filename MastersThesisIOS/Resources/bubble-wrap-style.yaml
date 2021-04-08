@@ -4189,7 +4189,7 @@ layers:
         draw:
             mapzen_icon_library:
                 visible: global.icon_visible_poi_landuse
-                size: [[13, 95%], [16, 100%], [18, 105%]]
+                size: [[13, 195%], [16, 200%], [18, 205%]]
                 sprite: function() { return feature.kind; }
                 sprite_default: generic
                 interactive: global.sdk_interactive
@@ -4369,21 +4369,18 @@ layers:
                 filter: { $zoom: [9,10,11] }
                 draw: { mapzen_icon_library: { text: { text_source: iata } } }
 
-        # Added
+        # Added, animal pens in zoo
         enclosure-related:
             filter:
                 kind: [enclosure, animal]
             draw:
                 mapzen_icon_library:
-                    visible: false
-                text-blend-order:
-                    interactive: true
-                    text_wrap: 10
                     visible: true
-                    font:
-                        fill: gray
-                        style: italic
-                        weight: normal
+                    text:
+                        visible: true
+                        font:
+                            fill: grey
+                            style: italic
 
         gate-early:
             filter: { kind: gate, $zoom: { max: 20 } }

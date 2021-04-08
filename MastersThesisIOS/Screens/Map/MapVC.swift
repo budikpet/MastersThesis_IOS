@@ -39,7 +39,7 @@ final class MapVC: BaseViewController {
         let min_zoom = CGFloat(viewModel.mapConfig.value.minZoom)
         mapView.cameraPosition = TGCameraPosition(center: viewModel.currLocation.value, zoom: min_zoom, bearing: 0, pitch: 0)
         mapView.minimumZoomLevel = min_zoom
-        mapView.setPickRadius(CGFloat(3.0))
+        mapView.setPickRadius(CGFloat(30.0))
 
         mapView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
