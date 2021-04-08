@@ -50,7 +50,8 @@ final class MapVC: BaseViewController {
 //            TGSceneUpdate(path: "global.icon_visible_poi_landuse", value: "true"),
             TGSceneUpdate(path: "sources.mapzen.type", value: "GeoJSON"),
             TGSceneUpdate(path: "sources.mapzen.url", value: viewModel.mbtilesPath.value),  // Pass on-device path to mbtiles into the mapView
-            TGSceneUpdate(path: "sources.mapzen.maxzoom", value: "\(viewModel.mapConfig.value.maxZoom)")
+//            TGSceneUpdate(path: "sources.mapzen.max_zoom", value: "\(viewModel.mapConfig.value.maxZoom)"),
+            TGSceneUpdate(path: "sources.mapzen.min_display_zoom", value: "\(viewModel.mapConfig.value.minZoom)")
         ]
 
         mapView.loadSceneAsync(from: viewModel.sceneUrl.value, with: sceneUpdates)

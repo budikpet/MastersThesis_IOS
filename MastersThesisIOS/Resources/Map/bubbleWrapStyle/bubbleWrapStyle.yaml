@@ -4188,7 +4188,7 @@ layers:
                 - function() { if( feature.kind == 'restaurant' || feature.kind == 'landmark' || feature.kind == 'cafe' ) { return true } else { return feature.min_zoom <= $zoom } }
         draw:
             mapzen_icon_library:
-                visible: global.icon_visible_poi_landuse
+                visible: false
                 size: [[13, 195%], [16, 200%], [18, 205%]]
                 sprite: function() { return feature.kind; }
                 sprite_default: generic
@@ -4197,7 +4197,7 @@ layers:
                 repeat_group: abc
                 buffer: 3px
                 text:
-                    visible: global.text_visible_poi_landuse
+                    visible: false
                     text_source: global.ux_language_text_source
                     buffer: 3px
                     text_wrap: 18
@@ -4208,6 +4208,30 @@ layers:
                         fill: [0.20,0.20,0.20]
                         size: [[13,10px], [17,12px], [19,12px], [20,14px]]
                         stroke: { color: global.text_stroke, width: [[12,2px],[16,4px]] }
+                        
+        food_pois:
+            filter: { kind: [cafe, fast_food, restaurant] }
+            draw:
+                mapzen_icon_library:
+                    visible: true
+                    text:
+                        visible: true
+                        font:
+                            fill: grey
+                            style: italic
+                        
+        # Added, animal pens in zoo
+        animal_pens:
+            filter:
+                kind: [enclosure, animal]
+            draw:
+                mapzen_icon_library:
+                    visible: true
+                    text:
+                        visible: true
+                        font:
+                            fill: grey
+                            style: italic
         # Added
         zoo_parts:
             filter:
@@ -4218,7 +4242,7 @@ layers:
                     text_wrap: 10
                     visible: true
                     font:
-                        fill: yellow
+                        fill: grey
                         style: italic
                         weight: normal
 
@@ -4243,7 +4267,7 @@ layers:
                     text_wrap: 10
                     visible: true
                     font:
-                        fill: blue
+                        fill: grey
                         style: italic
                         weight: normal
         parks:
@@ -4281,19 +4305,6 @@ layers:
                         visible: global.text_visible_landuse_green
                         font:
                             fill: [0.181,0.370,0.361]
-                            style: italic
-
-        # Added, animal pens in zoo
-        enclosure-related:
-            filter:
-                kind: [enclosure, animal]
-            draw:
-                mapzen_icon_library:
-                    visible: true
-                    text:
-                        visible: true
-                        font:
-                            fill: grey
                             style: italic
 
 #        gate-early:
