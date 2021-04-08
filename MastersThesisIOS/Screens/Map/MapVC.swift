@@ -149,13 +149,17 @@ extension MapVC: TGRecognizerDelegate {
     }
 
     func mapView(_ view: TGMapView!, recognizer: UIGestureRecognizer!, didRecognizeSingleTapGesture location: CGPoint) {
-//        let coord = CLLocationCoordinate2D(latitude: 50.1159192, longitude: 14.4043440)
-//        let coord = CLLocationCoordinate2D(latitude: 50.1163135, longitude: 14.4041544)
-//        let location = mapView.viewPosition(from: coord, clipToViewport: true)
         print("\nLocation: \(location)")
-        view.pickFeature(at: location)
-        view.pickLabel(at: location)
+//        view.pickFeature(at: location)
+//        view.pickLabel(at: location)
         view.pickMarker(at: location)
+
+        let style = "{ style: 'points', color: 'white', size: [50px, 50px], order: 2000, collide: false, interactive: true }"
+        let marker = view.markerAdd()
+        marker.stylingString = style
+        marker.point = view.coordinate(fromViewPosition: location)
+        marker.visible = true
+        marker.icon = UIImage(named: "checkmark")!
     }
 }
 
