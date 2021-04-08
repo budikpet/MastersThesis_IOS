@@ -14,6 +14,8 @@ final class MapVC: BaseViewController {
     private let viewModel: MapViewModeling
 
     private weak var mapView: TGMapView!
+    private var customLayer: TGMapData!
+
     // MARK: Initializers
 
     init(viewModel: MapViewModeling) {
@@ -51,10 +53,10 @@ final class MapVC: BaseViewController {
             TGSceneUpdate(path: "sources.mapzen.url", value: viewModel.mbtilesPath.value),  // Pass on-device path to mbtiles into the mapView
 //            TGSceneUpdate(path: "sources.mapzen.max_zoom", value: "\(viewModel.mapConfig.value.maxZoom)"),
             TGSceneUpdate(path: "sources.mapzen.min_display_zoom", value: "\(viewModel.mapConfig.value.minZoom)"),
-            TGSceneUpdate(path: "sources.mz_search_result.url", value: "https://gist.githubusercontent.com/anonymous/57dc09eeb120919f76de/raw/43426217da3c2bae0522dc4257aaa61e4df3981e/map.geojson")
         ]
 
         mapView.loadSceneAsync(from: viewModel.sceneUrl.value, with: sceneUpdates)
+        customLayer = mapView.addDataLayer("mz_search_result", generateCentroid: false)
     }
 
     override func viewDidLoad() {
@@ -145,29 +147,11 @@ extension MapVC: TGRecognizerDelegate {
 //        view.pickMarker(at: location)
 
         let coord = view.coordinate(fromViewPosition: location)
+        let properties = ["type": "point"]
+        let point = TGMapFeature(point: coord, properties: properties)
 
-        let tempDir = FileManager.default.temporaryDirectory
-        let fileUrl = tempDir.appendingPathComponent("test.json")
-
-        var geometry = MapGeometry(type: "Point")
-        geometry.addCoordinate(coord)
-        let feature = MapFeature(geometry: geometry)
-        var collection = MapFeatureCollection()
-        collection.features.append(feature)
-
-        let json = try? JSONEncoder().encode(collection)
-
-        try! json!.write(to: fileUrl)
-
-        print(String(data: json!, encoding: .utf8)!)
-
-        let sceneUpdates = [
-            TGSceneUpdate(path: "sources.mz_search_result.url", value: fileUrl.path),
-            TGSceneUpdate(path: "sources.mapzen.type", value: "GeoJSON"),
-            TGSceneUpdate(path: "sources.mapzen.url", value: viewModel.mbtilesPath.value)
-        ]
-
-        mapView.loadScene(from: viewModel.sceneUrl.value, with: sceneUpdates)
+        customLayer.setFeatures([point])
+        view.requestRender()
     }
 }
 
@@ -205,32 +189,5 @@ extension MapVC {
         }
 
         return nil
-    }
-}
-
-struct MapFeatureCollection: Encodable {
-    let type: String = "FeatureCollection"
-    var features: [MapFeature] = []
-}
-
-struct MapFeature: Encodable {
-    let type: String = "Feature"
-    let properties: FeatureProperties = FeatureProperties()
-    let geometry: MapGeometry
-}
-
-struct FeatureProperties: Encodable {
-    let order: Int = 5000
-    let id: Int = -1
-    let kind: String = "Test"
-}
-
-struct MapGeometry: Encodable {
-    let type: String
-    var coordinates: [Double] = []
-
-    mutating func addCoordinate(_ location: CLLocationCoordinate2D) {
-        coordinates.append(location.longitude)
-        coordinates.append(location.latitude)
     }
 }

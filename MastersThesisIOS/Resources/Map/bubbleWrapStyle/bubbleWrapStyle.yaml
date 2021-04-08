@@ -650,8 +650,8 @@ sources:
 #        type: GeoJSON
 #        url: https://gist.githubusercontent.com/anonymous/b9f16bca4a804f50faf71277d52ee4ab/raw/db13e4e765fa1ac8844b8ba02f4a0f66fe772907/map.geojson
 #    # Pins showing search result locations
-    mz_search_result:
-        type: GeoJSON
+#    mz_search_result:
+#        type: GeoJSON
 #        url: https://gist.githubusercontent.com/anonymous/57dc09eeb120919f76de/raw/43426217da3c2bae0522dc4257aaa61e4df3981e/map.geojson
 #    # Default point styling (SDK)
 #    mz_default_point:
