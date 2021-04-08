@@ -591,25 +591,25 @@ fonts:
           #url: https://fonts.gstatic.com/s/quicksand/v6/sKd0EMYPAh5PYCRKSryvW7O3LdcAZYWl9Si6vvxL-qU.woff
           url: fonts/Quicksand-Regular.woff
 
-sources:
-    mapzen:
-        type: GeoJSON #TopoJSON
-        url:  https://tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.json
-        #url:  https://dev-tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt
-        #url: http://localhost:8050/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt?api_key=&
-        #url: https://xyz.api.here.com/tiles/herebase.02/{z}/{x}/{y}/omv
-        url_params:
-            api_key: global.sdk_api_key
-        tile_size: 512
-        max_zoom: 16
+#sources:
+#    mapzen:
+#        type: GeoJSON #TopoJSON
+#        url:  https://tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.json
+#        #url:  https://dev-tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt
+#        #url: http://localhost:8050/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt?api_key=&
+#        #url: https://xyz.api.here.com/tiles/herebase.02/{z}/{x}/{y}/omv
+#        url_params:
+#            api_key: global.sdk_api_key
+#        tile_size: 512
+#        max_zoom: 16
 
 # Locally stored MBTiles of Prague ZOO
 # Downloaded using: https://github.com/tilezen/tilepacks
-#sources:
-#    mapzen:
-#        type: GeoJSON # The source expects GeoJSON tile data.
-##        url: ... # The MBTiles file is located relative to the scene file. Must be changed in runtime since the file is stored alongside the app.
-#        max_zoom: 16 # Other parameters are applied as usual.
+sources:
+    mapzen:
+        type: GeoJSON # The source expects GeoJSON tile data.
+#        url: ... # The MBTiles file is located relative to the scene file. Must be changed in runtime since the file is stored alongside the app.
+        max_zoom: 16 # Other parameters are applied as usual.
 
 #    # Only enable this for local debug, should not be enabled for prod (app inserts these at runtime)
 #    # These are all in San Francisco, California

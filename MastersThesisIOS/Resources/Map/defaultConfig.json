@@ -5,7 +5,7 @@
         "south": 50.1133,
         "west": 14.3970
     },
-    "minZoom": 1,
+    "minZoom": 16,
     "maxZoom": 18,
     "mbtilesName": "zoo_prague_map"
 }
