@@ -30,7 +30,7 @@ class AnimalData: Object {
     @objc dynamic public var interesting_data: String = "-"
     @objc dynamic public var about_placement_in_zoo_prague: String = "-"
     @objc dynamic public var location_in_zoo: String = "-"
-    public let map_locations = List<Int64>()
+    public let map_locations = List<MapLocation>()
 
     override public static func primaryKey() -> String? {
         return "_id"
@@ -63,7 +63,10 @@ class AnimalData: Object {
         self.interesting_data = fetchedData.interesting_data
         self.about_placement_in_zoo_prague = fetchedData.about_placement_in_zoo_prague
         self.location_in_zoo = fetchedData.location_in_zoo
-        self.map_locations.append(objectsIn: fetchedData.map_locations)
+
+        for fetchedMapLocation in fetchedData.map_locations {
+            map_locations.append(MapLocation(using: fetchedMapLocation))
+        }
     }
 
     public func createShownLocation() -> String {
@@ -104,7 +107,7 @@ struct FetchedAnimalData {
     let interesting_data: String
     let about_placement_in_zoo_prague: String
     let location_in_zoo: String
-    let map_locations: [Int64]
+    var map_locations: [FetchedMapLocation] = []
 
     // swiftlint:disable force_cast
     init(using dict: [String: Any]) {
@@ -127,7 +130,11 @@ struct FetchedAnimalData {
         self.interesting_data = (dict["interesting_data"] as? String) ?? "-"
         self.about_placement_in_zoo_prague = (dict["about_placement_in_zoo_prague"] as? String) ?? "-"
         self.location_in_zoo = (dict["location_in_zoo"] as? String) ?? "-"
-        self.map_locations = (dict["map_locations"] as? [Int64]) ?? []
+
+        let mapLocationDicts = (dict["map_locations"] as? Array<[String: Any]>) ?? []
+        for mapLocationDict in mapLocationDicts {
+            map_locations.append(FetchedMapLocation(using: mapLocationDict))
+        }
 
         if let image_url = (dict["image"] as? String) {
             if(image_url.hasPrefix("https://")) {
