@@ -25,7 +25,7 @@ protocol ZooAPIServicing {
  Each function calls endpoints of the pythons server which provides Zoo Prague data.
  */
 final class ZooAPIService: ZooAPIServicing {
-    typealias Dependencies = HasJSONAPI
+    typealias Dependencies = HasJSONAPI & HasNetwork
 
     private let jsonAPI: JSONAPIServicing
 
@@ -92,4 +92,17 @@ final class ZooAPIService: ZooAPIServicing {
             return (metadata, animalsFilter)
         }
     }
+
+//    func getMapData() -> SignalProducer<(FetchedMetadata, FetchedAnimalFilter), RequestError> {
+//        os_log("Fetching all foods.")
+//        return jsonAPI.request(path: "/api/mapdata").compactMap { response in
+//            guard let responseData = (response.data as? [String: Any]) else { return nil }
+//            guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
+//            guard let values = responseData["data"] as? [String] else { return nil }
+//
+//            let metadata: FetchedMetadata = FetchedMetadata(using: metadataDict)
+//            let animalsFilter: FetchedAnimalFilter = FetchedAnimalFilter(ofType: "food", values)
+//            return (metadata, animalsFilter)
+//        }
+//    }
 }

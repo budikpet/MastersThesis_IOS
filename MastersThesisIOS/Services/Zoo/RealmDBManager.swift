@@ -141,13 +141,14 @@ extension RealmDBManager {
      */
     private static func initRealm() -> Realm {
         do {
-            guard let fileURL = FileManager.default
-                .containerURL(forSecurityApplicationGroupIdentifier: Bundle.main.bundleIdentifier ?? "cz.budikpet.MastersThesisIOS")?
-                .appendingPathComponent("default.realm")
-            else {
-                throw "Could not get fileURL for Realm configuration."
-            }
-            Realm.Configuration.defaultConfiguration = Realm.Configuration(fileURL: fileURL)
+            // TODO: This configuration causes hard crash on start on physical device. Find out why.
+//            guard let fileURL = FileManager.default
+//                .containerURL(forSecurityApplicationGroupIdentifier: Bundle.main.bundleIdentifier ?? "cz.budikpet.MastersThesisIOS")?
+//                .appendingPathComponent("default.realm")
+//            else {
+//                throw "Could not get fileURL for Realm configuration."
+//            }
+//            Realm.Configuration.defaultConfiguration = Realm.Configuration(fileURL: fileURL)
 
             return try Realm()
         } catch {

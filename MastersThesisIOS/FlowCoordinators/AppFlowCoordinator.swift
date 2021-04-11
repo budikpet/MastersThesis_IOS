@@ -20,7 +20,7 @@ final class AppFlowCoordinator: Base.FlowCoordinatorNoDeepLink {
         // Customize TabBarController
         tabBarController.setViewControllers(vcs, animated: true)
         /// Let set index
-        tabBarController.selectedIndex = TabBarPage.lexicon.pageOrderNumber()
+        tabBarController.selectedIndex = TabBarPage.zooMap.pageOrderNumber()
         /// Styling
         tabBarController.tabBar.isTranslucent = false
     }
