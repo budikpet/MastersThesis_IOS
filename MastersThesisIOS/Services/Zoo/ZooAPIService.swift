@@ -15,10 +15,10 @@ protocol HasZooAPI {
 
 protocol ZooAPIServicing {
     func fetchPhoto(_ id: Int) -> SignalProducer<String, RequestError>
-    func getAnimals() -> SignalProducer<(FetchedMetadata, [FetchedAnimalData]), RequestError>
-    func getClasses() -> SignalProducer<(FetchedMetadata, FetchedAnimalFilter), RequestError>
-    func getBiotops() -> SignalProducer<(FetchedMetadata, FetchedAnimalFilter), RequestError>
-    func getFoods() -> SignalProducer<(FetchedMetadata, FetchedAnimalFilter), RequestError>
+    func getAnimals() -> SignalProducer<(DetachedMetadata, [DetachedAnimalData]), RequestError>
+    func getClasses() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError>
+    func getBiotops() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError>
+    func getFoods() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError>
 }
 
 /**
@@ -41,67 +41,67 @@ final class ZooAPIService: ZooAPIServicing {
         }
     }
 
-    func getAnimals() -> SignalProducer<(FetchedMetadata, [FetchedAnimalData]), RequestError> {
+    func getAnimals() -> SignalProducer<(DetachedMetadata, [DetachedAnimalData]), RequestError> {
         os_log("Fetching all animals.")
         return jsonAPI.request(path: "/api/animals").compactMap { response in
             guard let responseData = (response.data as? [String: Any]) else { return nil }
             guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
             guard let animalDict = responseData["data"] as? Array<[String: Any]> else { return nil }
 
-            let metadata: FetchedMetadata = FetchedMetadata(using: metadataDict)
-            let animalData = animalDict.map() { FetchedAnimalData(using: $0) }
+            let metadata: DetachedMetadata = DetachedMetadata(using: metadataDict)
+            let animalData = animalDict.map() { DetachedAnimalData(using: $0) }
             return (metadata, animalData)
         }
     }
 
-    func getClasses() -> SignalProducer<(FetchedMetadata, FetchedAnimalFilter), RequestError> {
+    func getClasses() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError> {
         os_log("Fetching all classes.")
         return jsonAPI.request(path: "/api/classes").compactMap { response in
             guard let responseData = (response.data as? [String: Any]) else { return nil }
             guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
             guard let values = responseData["data"] as? [String] else { return nil }
 
-            let metadata: FetchedMetadata = FetchedMetadata(using: metadataDict)
-            let animalsFilter: FetchedAnimalFilter = FetchedAnimalFilter(ofType: "class_", values)
+            let metadata: DetachedMetadata = DetachedMetadata(using: metadataDict)
+            let animalsFilter: DetachedAnimalFilter = DetachedAnimalFilter(ofType: "class_", values)
             return (metadata, animalsFilter)
         }
     }
 
-    func getBiotops() -> SignalProducer<(FetchedMetadata, FetchedAnimalFilter), RequestError> {
+    func getBiotops() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError> {
         os_log("Fetching all biotops.")
         return jsonAPI.request(path: "/api/biotops").compactMap { response in
             guard let responseData = (response.data as? [String: Any]) else { return nil }
             guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
             guard let values = responseData["data"] as? [String] else { return nil }
 
-            let metadata: FetchedMetadata = FetchedMetadata(using: metadataDict)
-            let animalsFilter: FetchedAnimalFilter = FetchedAnimalFilter(ofType: "biotop", values)
+            let metadata: DetachedMetadata = DetachedMetadata(using: metadataDict)
+            let animalsFilter: DetachedAnimalFilter = DetachedAnimalFilter(ofType: "biotop", values)
             return (metadata, animalsFilter)
         }
     }
 
-    func getFoods() -> SignalProducer<(FetchedMetadata, FetchedAnimalFilter), RequestError> {
+    func getFoods() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError> {
         os_log("Fetching all foods.")
         return jsonAPI.request(path: "/api/foods").compactMap { response in
             guard let responseData = (response.data as? [String: Any]) else { return nil }
             guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
             guard let values = responseData["data"] as? [String] else { return nil }
 
-            let metadata: FetchedMetadata = FetchedMetadata(using: metadataDict)
-            let animalsFilter: FetchedAnimalFilter = FetchedAnimalFilter(ofType: "food", values)
+            let metadata: DetachedMetadata = DetachedMetadata(using: metadataDict)
+            let animalsFilter: DetachedAnimalFilter = DetachedAnimalFilter(ofType: "food", values)
             return (metadata, animalsFilter)
         }
     }
 
-//    func getMapData() -> SignalProducer<(FetchedMetadata, FetchedAnimalFilter), RequestError> {
+//    func getMapData() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError> {
 //        os_log("Fetching all foods.")
 //        return jsonAPI.request(path: "/api/mapdata").compactMap { response in
 //            guard let responseData = (response.data as? [String: Any]) else { return nil }
 //            guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
 //            guard let values = responseData["data"] as? [String] else { return nil }
 //
-//            let metadata: FetchedMetadata = FetchedMetadata(using: metadataDict)
-//            let animalsFilter: FetchedAnimalFilter = FetchedAnimalFilter(ofType: "food", values)
+//            let metadata: DetachedMetadata = DetachedMetadata(using: metadataDict)
+//            let animalsFilter: DetachedAnimalFilter = DetachedAnimalFilter(ofType: "food", values)
 //            return (metadata, animalsFilter)
 //        }
 //    }

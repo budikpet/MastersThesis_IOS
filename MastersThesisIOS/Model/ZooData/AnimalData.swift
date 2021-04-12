@@ -41,7 +41,7 @@ class AnimalData: Object {
         self._id = id
     }
 
-    public convenience init(using fetchedData: FetchedAnimalData) {
+    public convenience init(using fetchedData: DetachedAnimalData) {
         self.init()
         self._id = fetchedData._id
         self.name = fetchedData.name
@@ -86,7 +86,7 @@ class AnimalData: Object {
     }
 }
 
-struct FetchedAnimalData {
+struct DetachedAnimalData {
     let _id: Int64
     let name: String
     let latin_name: String
@@ -107,7 +107,7 @@ struct FetchedAnimalData {
     let interesting_data: String
     let about_placement_in_zoo_prague: String
     let location_in_zoo: String
-    var map_locations: [FetchedMapLocation] = []
+    var map_locations: [DetachedMapLocation] = []
 
     // swiftlint:disable force_cast
     init(using dict: [String: Any]) {
@@ -133,7 +133,7 @@ struct FetchedAnimalData {
 
         let mapLocationDicts = (dict["map_locations"] as? Array<[String: Any]>) ?? []
         for mapLocationDict in mapLocationDicts {
-            map_locations.append(FetchedMapLocation(using: mapLocationDict))
+            map_locations.append(DetachedMapLocation(using: mapLocationDict))
         }
 
         if let image_url = (dict["image"] as? String) {

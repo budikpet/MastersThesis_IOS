@@ -10,7 +10,7 @@ import UIKit
 import ReactiveSwift
 
 protocol AnimalDetailFlowDelegate: class {
-
+    func highlight(locations: [MapLocation])
 }
 
 final class AnimalDetailVC: BaseViewController {
@@ -25,6 +25,7 @@ final class AnimalDetailVC: BaseViewController {
     /** Main stack view. */
     private weak var stackView: UIStackView!
     private weak var characterView: UIStackView!
+    private weak var highlightAnimal: UIBarButtonItem!
 
     // MARK: Initializers
 
@@ -43,6 +44,10 @@ final class AnimalDetailVC: BaseViewController {
     override func loadView() {
         super.loadView()
         view.accessibilityIdentifier = "AnimalDetailVC"
+
+        let highlightAnimal = UIBarButtonItem(image: UIImage(named: "highlightAnimal"), style: .plain, target: self, action: #selector(highlightAnimalTapped))
+        self.highlightAnimal = highlightAnimal
+        navigationItem.rightBarButtonItem = highlightAnimal
 
         let scrollView = UIScrollView()
         self.scrollView = scrollView
@@ -82,6 +87,11 @@ final class AnimalDetailVC: BaseViewController {
 // MARK: Helpers
 
 extension AnimalDetailVC {
+    @objc
+    private func highlightAnimalTapped(_ sender: UIBarButtonItem) {
+        flowDelegate?.highlight(locations: viewModel.getLocations())
+    }
+
     /**
      Prepares the main stack view.
      */

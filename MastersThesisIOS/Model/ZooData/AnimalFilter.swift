@@ -22,7 +22,7 @@ class AnimalFilter: Object {
         return "type"
     }
 
-    public convenience init(_ fetchedAnimalFilter: FetchedAnimalFilter) {
+    public convenience init(_ fetchedAnimalFilter: DetachedAnimalFilter) {
         self.init()
         self.type = fetchedAnimalFilter.type
 
@@ -34,7 +34,7 @@ class AnimalFilter: Object {
     }
 }
 
-struct FetchedAnimalFilter {
+struct DetachedAnimalFilter {
     /** Type name of the filter which says which AnimalData attribute it is supposed to filter (class, continent etc.) */
     let type: String
 

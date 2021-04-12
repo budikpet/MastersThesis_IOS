@@ -17,6 +17,8 @@ protocol AnimalDetailViewModeling {
     var actions: AnimalDetailViewModelingActions { get }
 
     var animal: Property<AnimalData> { get }
+
+    func getLocations() -> [MapLocation]
 }
 
 extension AnimalDetailViewModeling where Self: AnimalDetailViewModelingActions {
@@ -39,5 +41,13 @@ final class AnimalDetailVM: BaseViewModel, AnimalDetailViewModeling, AnimalDetai
 
     private func setupBindings() {
 
+    }
+}
+
+// MARK: Protocol functions
+
+extension AnimalDetailVM {
+    func getLocations() -> [MapLocation] {
+        return Array(animal.value.map_locations)
     }
 }

@@ -22,6 +22,7 @@ protocol MapViewModeling {
     var currLocation: MutableProperty<CLLocationCoordinate2D> { get }
 
     var bounds: Property<TGCoordinateBounds> { get }
+    var highlightedLocations: MutableProperty<[MapLocation]> { get }
 }
 
 extension MapViewModeling where Self: MapViewModelingActions {
@@ -37,10 +38,12 @@ final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
     internal var mapConfig: MutableProperty<MapConfig>
     internal var bounds: Property<TGCoordinateBounds>
     internal var currLocation: MutableProperty<CLLocationCoordinate2D>
+    internal var highlightedLocations: MutableProperty<[MapLocation]>
 
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
+        highlightedLocations = MutableProperty([])
         mapConfig = MutableProperty(MapVM.loadMapConfig())
 
 //        guard let sceneUrl = Bundle.resources.url(forResource: "bubbleWrapStyle", withExtension: "zip") else { fatalError("Scene file not found.") }

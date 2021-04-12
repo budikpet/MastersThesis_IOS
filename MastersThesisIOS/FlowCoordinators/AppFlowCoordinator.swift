@@ -5,6 +5,9 @@ import os.log
 final class AppFlowCoordinator: Base.FlowCoordinatorNoDeepLink {
     private weak var tabBarController: UITabBarController?
 
+    private var lexiconVM: LexiconViewModeling!
+    private var mapVM: MapViewModeling!
+
     override func start(in window: UIWindow) {
         super.start(in: window)
 
@@ -57,7 +60,14 @@ extension AppFlowCoordinator: LexiconVCFlowDelegate {
 // MARK: AnimalDetailFlowDelegate
 
 extension AppFlowCoordinator: AnimalDetailFlowDelegate {
-
+    /**
+     Goes to map and highlights selected locations.
+     */
+    func highlight(locations: [MapLocation]) {
+        guard let tabBarController = tabBarController else { return }
+        tabBarController.selectedIndex = TabBarPage.zooMap.pageOrderNumber()
+        mapVM.highlightedLocations.value = locations
+    }
 }
 
 // MARK: Helpers
@@ -81,11 +91,13 @@ extension AppFlowCoordinator {
         case .lexicon:
             let vm = LexiconVM(dependencies: appDependencies)
             let vc = LexiconVC(viewModel: vm)
+            self.lexiconVM = vm
             vc.flowDelegate = self
             navVC.pushViewController(vc, animated: true)
         case .zooMap:
             let vm = MapVM(dependencies: appDependencies)
             let vc = MapVC(viewModel: vm)
+            self.mapVM = vm
             navVC.pushViewController(vc, animated: true)
         }
 

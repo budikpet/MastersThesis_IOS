@@ -76,7 +76,9 @@ final class MapVC: BaseViewController {
     }
 
     private func setupBindings() {
-
+        viewModel.highlightedLocations.signal.observeValues { (locations: [MapLocation]) in
+            print(locations)
+        }
     }
 
 }
@@ -158,6 +160,10 @@ extension MapVC: TGRecognizerDelegate {
 // MARK: Helpers
 
 extension MapVC {
+    private func highlightAnimals(_ animals: [AnimalData]) {
+        print(animals)
+    }
+
     private func checkBounds(_ view: TGMapView, _ currCenterCoord: CLLocationCoordinate2D) -> (CGPoint, CLLocationCoordinate2D)? {
         let currCenterPos = view.viewPosition(from: view.cameraPosition.center, clipToViewport: false)
         let zooPragueBounds = viewModel.bounds.value

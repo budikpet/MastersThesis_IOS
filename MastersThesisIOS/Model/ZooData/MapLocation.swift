@@ -18,7 +18,7 @@ class MapLocation: Object {
         return "_id"
     }
 
-    public convenience init(using fetchedData: FetchedMapLocation) {
+    public convenience init(using fetchedData: DetachedMapLocation) {
         self.init()
         self._id = fetchedData._id
         self.name = fetchedData.name
@@ -33,7 +33,7 @@ class Geometry: Object {
     @objc dynamic public var _type: String = "Point"
     public let coordinates = List<Coordinates2D>()
 
-    public convenience init(using fetchedGeometry: FetchedGeometry) {
+    public convenience init(using fetchedGeometry: DetachedGeometry) {
         self.init()
         for array2d in fetchedGeometry.coordinates {
             self.coordinates.append(Coordinates2D(using: array2d))
@@ -62,10 +62,10 @@ class Coordinates1D: Object {
     }
 }
 
-struct FetchedMapLocation {
+struct DetachedMapLocation {
     let _id: Int64
     let name: String
-    let geometry: FetchedGeometry?
+    let geometry: DetachedGeometry?
 
     // swiftlint:disable force_cast
     init(using dict: [String: Any]) {
@@ -73,14 +73,14 @@ struct FetchedMapLocation {
         self.name = (dict["name"] as? String) ?? "-"
 
         if let geometryDict = dict["geometry"] as? [String: Any] {
-            self.geometry = FetchedGeometry(using: geometryDict)
+            self.geometry = DetachedGeometry(using: geometryDict)
         } else {
             self.geometry = nil
         }
     }
 }
 
-struct FetchedGeometry {
+struct DetachedGeometry {
     let _type: String
     let coordinates: [[[Double]]]
 

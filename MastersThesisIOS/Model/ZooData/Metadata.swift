@@ -23,7 +23,7 @@ class Metadata: Object {
         self._id = id
     }
 
-    public convenience init(using fetchedMetadata: FetchedMetadata) {
+    public convenience init(using fetchedMetadata: DetachedMetadata) {
         self.init()
         self._id = 0
         self.next_update = fetchedMetadata.next_update
@@ -32,7 +32,7 @@ class Metadata: Object {
     }
 }
 
-struct FetchedMetadata {
+struct DetachedMetadata {
     let next_update: Date
     let last_update_start: Date
     let last_update_end: Date
@@ -45,9 +45,9 @@ struct FetchedMetadata {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
 
         self.scheduler_state = (dict["scheduler_state"] as? Int) ?? 0
-        self.next_update = formatter.date(from: FetchedMetadata.removedMillis(dict["next_update"] as! String)) ?? Date()
-        self.last_update_start = formatter.date(from: FetchedMetadata.removedMillis(dict["last_update_start"] as! String)) ?? Date()
-        self.last_update_end = formatter.date(from: FetchedMetadata.removedMillis(dict["last_update_end"] as! String)) ?? Date()
+        self.next_update = formatter.date(from: DetachedMetadata.removedMillis(dict["next_update"] as! String)) ?? Date()
+        self.last_update_start = formatter.date(from: DetachedMetadata.removedMillis(dict["last_update_start"] as! String)) ?? Date()
+        self.last_update_end = formatter.date(from: DetachedMetadata.removedMillis(dict["last_update_end"] as! String)) ?? Date()
     }
 
     private static func removedMillis(_ dateString: String) -> String {
