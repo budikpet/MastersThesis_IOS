@@ -22,7 +22,9 @@ protocol MapViewModeling {
     var currLocation: MutableProperty<CLLocationCoordinate2D> { get }
 
     var bounds: Property<TGCoordinateBounds> { get }
-    var highlightedLocations: MutableProperty<[MapLocation]> { get }
+    var highlightedLocations: MutableProperty<[TGMapFeature]> { get }
+
+    func highlightLocations(using mapLocations: [MapLocation])
 }
 
 extension MapViewModeling where Self: MapViewModelingActions {
@@ -38,7 +40,7 @@ final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
     internal var mapConfig: MutableProperty<MapConfig>
     internal var bounds: Property<TGCoordinateBounds>
     internal var currLocation: MutableProperty<CLLocationCoordinate2D>
-    internal var highlightedLocations: MutableProperty<[MapLocation]>
+    internal var highlightedLocations: MutableProperty<[TGMapFeature]>
 
     // MARK: Initializers
 
@@ -66,6 +68,41 @@ final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
 
     private func setupBindings() {
 
+    }
+}
+
+// MARK: Protocol
+extension MapVM {
+    /**
+     Constructs `TGMapFeature` objects from `MapLocation` objects.
+     */
+    func highlightLocations(using mapLocations: [MapLocation]) {
+        let features = mapLocations.compactMap() { mapLocation -> TGMapFeature? in
+                guard let geometry = mapLocation.geometry else { return nil }
+                let props = ["name": mapLocation.name, "id": "\(mapLocation._id)"]
+
+                if(geometry._type == "Point") {
+                    let coord = CLLocationCoordinate2D(latitude: geometry.coordinates[0].coordinates[0].coordinates[1], longitude: geometry.coordinates[0].coordinates[0].coordinates[0])
+                    return TGMapFeature(point: coord, properties: props)
+                } else if(geometry._type == "Polygon") {
+                    let rings: [TGGeoPolyline] = geometry.coordinates.map { (coord2d: Coordinates2D) -> TGGeoPolyline in
+                        let coords = Array(coord2d.coordinates).map { (coord1d: Coordinates1D) -> CLLocationCoordinate2D in
+                            return CLLocationCoordinate2D(latitude: coord1d.coordinates[1], longitude: coord1d.coordinates[0])
+                        }
+
+                        return Array(coords).withUnsafeBufferPointer { (ptr) -> TGGeoPolyline in
+                            guard let baseAddress = ptr.baseAddress else { fatalError("Pointer should exist") }
+                            return TGGeoPolyline(coordinates: baseAddress, count: UInt(ptr.count))
+                        }
+                    }
+
+                    return TGMapFeature(polygon: TGGeoPolygon(rings: rings), properties: props)
+                } else {
+                    fatalError("Should never get polyline.")
+                }
+            }
+
+        self.highlightedLocations.value = features
     }
 }
 

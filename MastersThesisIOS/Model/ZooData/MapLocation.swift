@@ -35,6 +35,8 @@ class Geometry: Object {
 
     public convenience init(using fetchedGeometry: DetachedGeometry) {
         self.init()
+
+        self._type = fetchedGeometry._type
         for array2d in fetchedGeometry.coordinates {
             self.coordinates.append(Coordinates2D(using: array2d))
         }
@@ -62,6 +64,9 @@ class Coordinates1D: Object {
     }
 }
 
+/**
+ Data of `MapLocation` realm object which can be use freely outside of Realm.
+ */
 struct DetachedMapLocation {
     let _id: Int64
     let name: String
@@ -78,8 +83,22 @@ struct DetachedMapLocation {
             self.geometry = nil
         }
     }
+
+    init(using mapLocation: MapLocation) {
+        self._id = mapLocation._id
+        self.name = mapLocation.name
+
+        if let geometry = mapLocation.geometry {
+            self.geometry = DetachedGeometry(using: geometry)
+        } else {
+            self.geometry = nil
+        }
+    }
 }
 
+/**
+ Data of `Geometry` realm object which can be use freely outside of Realm.
+ */
 struct DetachedGeometry {
     let _type: String
     let coordinates: [[[Double]]]
@@ -87,5 +106,14 @@ struct DetachedGeometry {
     init(using dict: [String: Any]) {
         self._type = dict["_type"] as! String
         self.coordinates = (dict["coordinates"] as? [[[Double]]]) ?? [[[]]]
+    }
+
+    init(using geometry: Geometry) {
+        self._type = geometry._type
+        self.coordinates = geometry.coordinates.map() { (coordinate2d: Coordinates2D) -> [[Double]] in
+            return coordinate2d.coordinates.map() { (coordinate1d: Coordinates1D) -> [Double] in
+                return Array(coordinate1d.coordinates)
+            }
+        }
     }
 }

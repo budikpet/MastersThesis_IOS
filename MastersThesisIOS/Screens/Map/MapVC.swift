@@ -14,7 +14,8 @@ final class MapVC: BaseViewController {
     private let viewModel: MapViewModeling
 
     private weak var mapView: TGMapView!
-    private var customLayer: TGMapData!
+    private var searchResLayer: TGMapData!
+    private var searchHighlightLayer: TGMapData!
 
     // MARK: Initializers
 
@@ -56,7 +57,8 @@ final class MapVC: BaseViewController {
         ]
 
         mapView.loadSceneAsync(from: viewModel.sceneUrl.value, with: sceneUpdates)
-        customLayer = mapView.addDataLayer("mz_search_result", generateCentroid: false)
+        searchResLayer = mapView.addDataLayer("mz_search_result", generateCentroid: false)
+        searchHighlightLayer = mapView.addDataLayer("highlighted_layer", generateCentroid: false)
     }
 
     override func viewDidLoad() {
@@ -76,8 +78,24 @@ final class MapVC: BaseViewController {
     }
 
     private func setupBindings() {
-        viewModel.highlightedLocations.signal.observeValues { (locations: [MapLocation]) in
-            print(locations)
+        viewModel.highlightedLocations.signal.observeValues { [weak self] (locations: [TGMapFeature]) in
+            guard let self = self else { return }
+
+//            for location in locations {
+//                for array2d in location.geometry. {
+//
+//                }
+//            }
+
+//            let coord = view.coordinate(fromViewPosition: location)
+//            let properties = ["type": "point"]
+//            let point = TGMapFeature(point: coord, properties: properties)
+            
+            // TODO: Create points for searchResLayer. Use highlightLayer only for polygons. Maybe add another layer for highlighting animal pens created as a point with bigcircle size
+
+//            self.searchResLayer.setFeatures(locations)
+            self.searchHighlightLayer.setFeatures(locations)
+            self.mapView.requestRender()
         }
     }
 
@@ -144,7 +162,7 @@ extension MapVC: TGRecognizerDelegate {
 
     func mapView(_ view: TGMapView!, recognizer: UIGestureRecognizer!, didRecognizeSingleTapGesture location: CGPoint) {
         print("\nLocation: \(location)")
-//        view.pickFeature(at: location)
+        view.pickFeature(at: location)
 //        view.pickLabel(at: location)
 //        view.pickMarker(at: location)
 
@@ -152,7 +170,7 @@ extension MapVC: TGRecognizerDelegate {
         let properties = ["type": "point"]
         let point = TGMapFeature(point: coord, properties: properties)
 
-        customLayer.setFeatures([point])
+        searchResLayer.setFeatures([point])
         view.requestRender()
     }
 }

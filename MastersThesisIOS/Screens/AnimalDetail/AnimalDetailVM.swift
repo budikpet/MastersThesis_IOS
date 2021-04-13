@@ -49,5 +49,6 @@ final class AnimalDetailVM: BaseViewModel, AnimalDetailViewModeling, AnimalDetai
 extension AnimalDetailVM {
     func getLocations() -> [MapLocation] {
         return Array(animal.value.map_locations)
+            .filter() { $0.geometry != nil }
     }
 }
