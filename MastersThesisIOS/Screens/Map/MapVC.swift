@@ -101,7 +101,7 @@ final class MapVC: BaseViewController {
 
             // Move camera
             if let point = points.first?.point()?.pointee {
-                let zoom = points.count == 1 ? CGFloat(self.viewModel.mapConfig.value.maxZoom - 1) : CGFloat(self.viewModel.mapConfig.value.minZoom)
+                let zoom = points.count == 1 ? CGFloat(self.viewModel.mapConfig.value.maxZoom - 0.5) : CGFloat(self.viewModel.mapConfig.value.minZoom)
                 if let pos =  TGCameraPosition(center: point, zoom: zoom, bearing: self.mapView.bearing, pitch: self.mapView.pitch) {
                     self.mapView.setCameraPosition(pos, withDuration: 0.25, easeType: .quint)
                 }
@@ -128,7 +128,9 @@ extension MapVC: TGMapViewDelegate {
     func mapView(_ mapView: TGMapView, didSelectFeature feature: [String: String]?, atScreenPosition position: CGPoint) {
         // It is possible to only pick features explicitly selected with "interactive: true" in the scene file
         // Able to pick buildings, roads, landuses
-        guard let feature = feature else { print("No feature found"); return }
+        guard let feature = feature else { os_log("Selected feature is nil"); return }
+        let coord = mapView.coordinate(fromViewPosition: position)
+        viewModel.highlightLocations(using: feature, at: coord)
 
         print("Feature: [\(position)] == \(feature)")
     }
@@ -136,15 +138,10 @@ extension MapVC: TGMapViewDelegate {
     func mapView(_ mapView: TGMapView, didSelectLabel labelPickResult: TGLabelPickResult?, atScreenPosition position: CGPoint) {
         // It is possible to only pick labels explicitly selected with "interactive: true" in the scene file
         // Able to pick pois
-        guard let labelPickResult = labelPickResult else { print("No label found"); return }
+        guard let labelPickResult = labelPickResult else { os_log("Selected label is nil"); return }
+        viewModel.highlightLocations(using: labelPickResult.properties, at: labelPickResult.coordinate)
 
         print("Label: [\(position)] == \(labelPickResult.properties)")
-    }
-
-    func mapView(_ mapView: TGMapView, didSelectMarker markerPickResult: TGMarkerPickResult?, atScreenPosition position: CGPoint) {
-        guard let markerPickResult = markerPickResult else { print("No marker found"); return }
-
-        print("Marker: [\(position)] == \(markerPickResult.marker)")
     }
 
 }
@@ -175,15 +172,8 @@ extension MapVC: TGRecognizerDelegate {
     func mapView(_ view: TGMapView!, recognizer: UIGestureRecognizer!, didRecognizeSingleTapGesture location: CGPoint) {
         print("\nLocation: \(location)")
         view.pickFeature(at: location)
-//        view.pickLabel(at: location)
+        view.pickLabel(at: location)
 //        view.pickMarker(at: location)
-
-        let coord = view.coordinate(fromViewPosition: location)
-        let properties = ["type": "point"]
-        let point = TGMapFeature(point: coord, properties: properties)
-
-        searchResLayer.setFeatures([point])
-        view.requestRender()
     }
 }
 

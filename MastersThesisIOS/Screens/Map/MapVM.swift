@@ -8,6 +8,7 @@
 import UIKit
 import TangramMap
 import ReactiveSwift
+import RealmSwift
 
 protocol MapViewModelingActions {
 
@@ -21,10 +22,11 @@ protocol MapViewModeling {
     var mapConfig: MutableProperty<MapConfig> { get }
     var currLocation: MutableProperty<CLLocationCoordinate2D> { get }
 
-    var bounds: Property<TGCoordinateBounds> { get }
+    var bounds: ReactiveSwift.Property<TGCoordinateBounds> { get }
     var highlightedLocations: MutableProperty<[TGMapFeature]> { get }
 
     func highlightLocations(using mapLocations: [MapLocation])
+    func highlightLocations(using properties: [String: String], at: CLLocationCoordinate2D)
 }
 
 extension MapViewModeling where Self: MapViewModelingActions {
@@ -32,19 +34,28 @@ extension MapViewModeling where Self: MapViewModelingActions {
 }
 
 final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
-    typealias Dependencies = HasNoDependency
+    typealias Dependencies = HasRealmDBManager
+    private let realmDbManager: RealmDBManaging
 
     // MARK: Protocol
     internal var sceneUrl: MutableProperty<URL>
     internal var mbtilesPath: MutableProperty<String>
     internal var mapConfig: MutableProperty<MapConfig>
-    internal var bounds: Property<TGCoordinateBounds>
+    internal var bounds: ReactiveSwift.Property<TGCoordinateBounds>
     internal var currLocation: MutableProperty<CLLocationCoordinate2D>
     internal var highlightedLocations: MutableProperty<[TGMapFeature]>
+
+    // MARK: Local
+    private lazy var locations: [Int64: MapLocation] = {
+        let res = realmDbManager.realm.objects(MapLocation.self)
+        return Dictionary(uniqueKeysWithValues: res.lazy.map { ($0._id, $0) })
+    }()
 
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
+        self.realmDbManager = dependencies.realmDBManager
+
         highlightedLocations = MutableProperty([])
         mapConfig = MutableProperty(MapVM.loadMapConfig())
 
@@ -103,6 +114,17 @@ extension MapVM {
             }
 
         self.highlightedLocations.value = features
+    }
+
+    /**
+     Constructs `TGMapFeature` objects using data from manually picked location.
+     */
+    func highlightLocations(using properties: [String: String], at: CLLocationCoordinate2D) {
+        guard let strId = properties["id"] else { return }
+        guard let id = Int64(strId) else { return }
+        guard let mapLocation = locations[id] else { return }
+
+        highlightLocations(using: [mapLocation])
     }
 }
 
