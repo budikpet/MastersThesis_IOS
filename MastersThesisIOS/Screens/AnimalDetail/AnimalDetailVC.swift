@@ -74,6 +74,8 @@ final class AnimalDetailVC: BaseViewController {
 
         navigationItem.reactive.title <~ viewModel.animal.map() { $0.name }
 
+        highlightAnimal.reactive.isEnabled <~ viewModel.animal.map() { $0.map_locations.count > 0 }
+
 //        activityIndicator.reactive.isAnimating <~ viewModel.actions.fetchPhoto.isExecuting
 //
 //        viewModel.actions.fetchPhoto <~ reloadButton.reactive.controlEvents(.touchUpInside).map { _ in }
