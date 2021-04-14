@@ -56,6 +56,7 @@
 		4B9174D3261776C500946DE8 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 4B9174CF261776C500946DE8 /* .gitkeep */; };
 		4B9174D5261776C500946DE8 /* AnimalFilterItemCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174D2261776C500946DE8 /* AnimalFilterItemCellVC.swift */; };
 		4B9764CE26177EA500F32FA4 /* AnimalFilterItemCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9764CD26177EA500F32FA4 /* AnimalFilterItemCellVM.swift */; };
+		4BA828B02626F2C900B990C0 /* MapExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA828AF2626F2C700B990C0 /* MapExtensions.swift */; };
 		4BADE9A9261254C4004440A6 /* ZooAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADE9A8261254C4004440A6 /* ZooAPIService.swift */; };
 		4BADEA1326127B8E004440A6 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1226127B8E004440A6 /* Metadata.swift */; };
 		4BADEA1A26130B03004440A6 /* RealmDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1926130B03004440A6 /* RealmDBManager.swift */; };
@@ -212,6 +213,7 @@
 		4B9174CF261776C500946DE8 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		4B9174D2261776C500946DE8 /* AnimalFilterItemCellVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimalFilterItemCellVC.swift; sourceTree = "<group>"; };
 		4B9764CD26177EA500F32FA4 /* AnimalFilterItemCellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalFilterItemCellVM.swift; sourceTree = "<group>"; };
+		4BA828AF2626F2C700B990C0 /* MapExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapExtensions.swift; sourceTree = "<group>"; };
 		4BADE9A8261254C4004440A6 /* ZooAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZooAPIService.swift; sourceTree = "<group>"; };
 		4BADE9FF26125988004440A6 /* GoogleService-Info-Beta-Stage.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Beta-Stage.plist"; sourceTree = "<group>"; };
 		4BADEA0026125988004440A6 /* GoogleService-Info-Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Release.plist"; sourceTree = "<group>"; };
@@ -907,6 +909,7 @@
 				F8DBCCF4CC567320FE8C258E /* UIViewController+FrontmostController.swift */,
 				4B522E392607B24400500699 /* StringExtensions.swift */,
 				4BF9A4F0261A51EF00E98D03 /* OtherExtensions.swift */,
+				4BA828AF2626F2C700B990C0 /* MapExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1251,6 +1254,7 @@
 				EE0625AE662CC31AAFA06049 /* UIViewController+FrontmostController.swift in Sources */,
 				9564D632A6035A44065802C3 /* AppFlowCoordinator.swift in Sources */,
 				4BCD257826231FCE003B7251 /* MapLocation.swift in Sources */,
+				4BA828B02626F2C900B990C0 /* MapExtensions.swift in Sources */,
 				5D495379DF9D537E3E9BE41A /* Credentials.swift in Sources */,
 				4B9174B52614E33F00946DE8 /* AnimalFilter.swift in Sources */,
 				69EE4ACDCCCE1E3138D77F61 /* CredentialsProvider.swift in Sources */,

@@ -79,22 +79,34 @@ final class MapVC: BaseViewController {
 
     private func setupBindings() {
         viewModel.highlightedLocations.signal.observeValues { [weak self] (locations: [TGMapFeature]) in
+            /// Show searched map features in the map
+
             guard let self = self else { return }
+            let polygons = locations.filter { $0.polygon() != nil }
+            let points = locations
+                .compactMap { feature -> TGMapFeature? in
+                    if let _ = feature.point() {
+                        return feature
+                    } else if let polygonCoord = feature.polygon()?.getPoint() {
+                        // Get one of polygons points
+                        return TGMapFeature(point: polygonCoord, properties: feature.properties)
+                    }
 
-//            for location in locations {
-//                for array2d in location.geometry. {
-//
-//                }
-//            }
+                    return nil
+                }
 
-//            let coord = view.coordinate(fromViewPosition: location)
-//            let properties = ["type": "point"]
-//            let point = TGMapFeature(point: coord, properties: properties)
-            
-            // TODO: Create points for searchResLayer. Use highlightLayer only for polygons. Maybe add another layer for highlighting animal pens created as a point with bigcircle size
+            // Update layers
+            self.searchHighlightLayer.setFeatures(polygons)
+            self.searchResLayer.setFeatures(points)
 
-//            self.searchResLayer.setFeatures(locations)
-            self.searchHighlightLayer.setFeatures(locations)
+            // Move camera
+            if let point = points.first?.point()?.pointee {
+                let zoom = points.count == 1 ? CGFloat(self.viewModel.mapConfig.value.maxZoom - 1) : CGFloat(self.viewModel.mapConfig.value.minZoom)
+                if let pos =  TGCameraPosition(center: point, zoom: zoom, bearing: self.mapView.bearing, pitch: self.mapView.pitch) {
+                    self.mapView.setCameraPosition(pos, withDuration: 0.25, easeType: .quint)
+                }
+            }
+
             self.mapView.requestRender()
         }
     }
