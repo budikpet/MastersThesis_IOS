@@ -26,7 +26,7 @@ protocol MapViewModeling {
     var highlightedLocations: MutableProperty<[TGMapFeature]> { get }
 
     func highlightLocations(using mapLocations: [MapLocation])
-    func highlightLocations(using properties: [String: String], at: CLLocationCoordinate2D)
+    func highlightLocations(using properties: [String: String]?, at coord: CLLocationCoordinate2D?, canUseNil: Bool)
 }
 
 extension MapViewModeling where Self: MapViewModelingActions {
@@ -119,8 +119,13 @@ extension MapVM {
     /**
      Constructs `TGMapFeature` objects using data from manually picked location.
      */
-    func highlightLocations(using properties: [String: String], at: CLLocationCoordinate2D) {
-        guard let strId = properties["id"] else { return }
+    func highlightLocations(using properties: [String: String]?, at coord: CLLocationCoordinate2D?, canUseNil: Bool = false) {
+        if(canUseNil && properties == nil) {
+            highlightLocations(using: [])
+            return
+        }
+
+        guard let strId = properties?["id"] else { return }
         guard let id = Int64(strId) else { return }
         guard let mapLocation = locations[id] else { return }
 

@@ -125,23 +125,22 @@ extension MapVC: TGMapViewDelegate {
         }
     }
 
+    func mapView(_ mapView: TGMapView, didSelectLabel labelPickResult: TGLabelPickResult?, atScreenPosition position: CGPoint) {
+        // It is possible to only pick labels explicitly selected with "interactive: true" in the scene file
+        // Able to pick pois
+        viewModel.highlightLocations(using: labelPickResult?.properties, at: labelPickResult?.coordinate, canUseNil: true)
+
+        print("Label: [\(position)] == \(labelPickResult?.properties)")
+    }
+
     func mapView(_ mapView: TGMapView, didSelectFeature feature: [String: String]?, atScreenPosition position: CGPoint) {
         // It is possible to only pick features explicitly selected with "interactive: true" in the scene file
         // Able to pick buildings, roads, landuses
         guard let feature = feature else { os_log("Selected feature is nil"); return }
         let coord = mapView.coordinate(fromViewPosition: position)
-        viewModel.highlightLocations(using: feature, at: coord)
+        viewModel.highlightLocations(using: feature, at: coord, canUseNil: false)
 
         print("Feature: [\(position)] == \(feature)")
-    }
-
-    func mapView(_ mapView: TGMapView, didSelectLabel labelPickResult: TGLabelPickResult?, atScreenPosition position: CGPoint) {
-        // It is possible to only pick labels explicitly selected with "interactive: true" in the scene file
-        // Able to pick pois
-        guard let labelPickResult = labelPickResult else { os_log("Selected label is nil"); return }
-        viewModel.highlightLocations(using: labelPickResult.properties, at: labelPickResult.coordinate)
-
-        print("Label: [\(position)] == \(labelPickResult.properties)")
     }
 
 }
@@ -171,8 +170,8 @@ extension MapVC: TGRecognizerDelegate {
 
     func mapView(_ view: TGMapView!, recognizer: UIGestureRecognizer!, didRecognizeSingleTapGesture location: CGPoint) {
         print("\nLocation: \(location)")
-        view.pickFeature(at: location)
         view.pickLabel(at: location)
+        view.pickFeature(at: location)
 //        view.pickMarker(at: location)
     }
 }
