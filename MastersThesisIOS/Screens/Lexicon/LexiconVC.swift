@@ -116,8 +116,8 @@ final class LexiconVC: BaseViewController {
             .compactMap() { return $0 }
 
         // Reset searchText and search bar when the search bar is opened/closed
-        self.viewModel.searchText <~ self.searchBar.reactive.visibility.compactMap { _ in "" }
-        self.searchBar.reactive.text <~ self.searchBar.reactive.visibility.compactMap { _ in "" }
+        self.viewModel.searchText <~ self.searchBar.reactive.cancelButtonClicked.map { _ in "" }
+        self.searchBar.reactive.text <~ self.searchBar.reactive.cancelButtonClicked.map { _ in "" }
 
         self.filterItem.reactive.isEnabled <~ viewModel.actions.updateLocalDB.isExecuting.map() { return !$0 }
         self.searchItem.reactive.isEnabled <~ viewModel.actions.updateLocalDB.isExecuting.map() { return !$0 }
