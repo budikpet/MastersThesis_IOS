@@ -82,32 +82,8 @@ final class MapVC: BaseViewController {
             /// Show searched map features in the map
 
             guard let self = self else { return }
-            let polygons = locations.filter { $0.polygon() != nil }
-            let points = locations
-                .compactMap { feature -> TGMapFeature? in
-                    if let _ = feature.point() {
-                        return feature
-                    } else if let polygonCoord = feature.polygon()?.getPoint() {
-                        // Get one of polygons points
-                        return TGMapFeature(point: polygonCoord, properties: feature.properties)
-                    }
-
-                    return nil
-                }
-
-            // Update layers
-            self.searchHighlightLayer.setFeatures(polygons)
-            self.searchResLayer.setFeatures(points)
-
-            // Move camera
-            if let point = points.first?.point()?.pointee {
-                let zoom = points.count == 1 ? CGFloat(self.viewModel.mapConfig.value.maxZoom - 0.5) : CGFloat(self.viewModel.mapConfig.value.minZoom)
-                if let pos =  TGCameraPosition(center: point, zoom: zoom, bearing: self.mapView.bearing, pitch: self.mapView.pitch) {
-                    self.mapView.setCameraPosition(pos, withDuration: 0.25, easeType: .quint)
-                }
-            }
-
-            self.mapView.requestRender()
+            self.highlight(locationsInMap: locations)
+            self.showHighlightedOptionsView(locations)
         }
     }
 
@@ -179,8 +155,50 @@ extension MapVC: TGRecognizerDelegate {
 // MARK: Helpers
 
 extension MapVC {
-    private func highlightAnimals(_ animals: [AnimalData]) {
-        print(animals)
+    /**
+     Shows a new popup view with options that can be used on highlight features.
+     */
+    private func showHighlightedOptionsView(_ locations: [TGMapFeature]) {
+        let highlightedOptionsView = HighlightedOptionsView(frame: self.view.frame)
+        self.view.addSubview(highlightedOptionsView)
+        highlightedOptionsView.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+    }
+
+    /**
+     Updates layers to highlight locations in the map. Creates search pins and actual highlights of polygons.
+     - Parameters:
+        - locations: A list of locations to be highlighted. Should contain points and/or polygons.
+     */
+    private func highlight(locationsInMap locations: [TGMapFeature]) {
+        let polygons = locations.filter { $0.polygon() != nil }
+        let points = locations
+            .compactMap { feature -> TGMapFeature? in
+                if let _ = feature.point() {
+                    return feature
+                } else if let polygonCoord = feature.polygon()?.getPoint() {
+                    // Get one of polygons points
+                    return TGMapFeature(point: polygonCoord, properties: feature.properties)
+                }
+
+                return nil
+            }
+
+        // Update layers
+        self.searchHighlightLayer.setFeatures(polygons)
+        self.searchResLayer.setFeatures(points)
+
+        // Move camera
+        if let point = points.first?.point()?.pointee {
+            let zoom = points.count == 1 ? CGFloat(self.viewModel.mapConfig.value.maxZoom - 0.5) : CGFloat(self.viewModel.mapConfig.value.minZoom)
+            if let pos =  TGCameraPosition(center: point, zoom: zoom, bearing: self.mapView.bearing, pitch: self.mapView.pitch) {
+                self.mapView.setCameraPosition(pos, withDuration: 0.25, easeType: .quint)
+            }
+        }
+
+        self.mapView.requestRender()
     }
 
     private func checkBounds(_ view: TGMapView, _ currCenterCoord: CLLocationCoordinate2D) -> (CGPoint, CLLocationCoordinate2D)? {
