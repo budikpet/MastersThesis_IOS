@@ -78,7 +78,16 @@ class AnimalData: Object {
         } else if(self.map_locations.count == 0) {
             res = self.location_in_zoo
         } else {
-            res = "\(self.location_in_zoo), \(L10n.Label.externalPen)"
+            let containsAnimalPen = map_locations.contains { $0.is_animal_pen }
+            let containsBuilding = map_locations.contains { $0.is_building }
+
+            if(containsBuilding && containsAnimalPen) {
+                res = "\(self.location_in_zoo), \(L10n.Label.externalPen)"
+            } else if(containsAnimalPen) {
+                res = L10n.Label.externalPen
+            } else {
+                res = self.location_in_zoo
+            }
         }
         res = res.trimmed().lowercased().capitalizingFirstLetter()
 
