@@ -13,6 +13,8 @@ class MapLocation: Object {
     @objc dynamic public var _id: Int64 = -1
     @objc dynamic public var name: String = "-"
     @objc dynamic public var geometry: Geometry? = nil
+    @objc dynamic public var is_animal_pen: Bool = false
+    @objc dynamic public var is_building: Bool = false
 
     override public static func primaryKey() -> String? {
         return "_id"
@@ -22,6 +24,8 @@ class MapLocation: Object {
         self.init()
         self._id = fetchedData._id
         self.name = fetchedData.name
+        self.is_animal_pen = fetchedData.is_animal_pen
+        self.is_building = fetchedData.is_building
 
         if let geometry = fetchedData.geometry {
             self.geometry = Geometry(using: geometry)
@@ -70,12 +74,16 @@ class Coordinates1D: Object {
 struct DetachedMapLocation {
     let _id: Int64
     let name: String
+    let is_animal_pen: Bool
+    let is_building: Bool
     let geometry: DetachedGeometry?
 
     // swiftlint:disable force_cast
     init(using dict: [String: Any]) {
         self._id = dict["_id"] as! Int64
         self.name = (dict["name"] as? String) ?? "-"
+        self.is_animal_pen = (dict["is_animal_pen"] as? Bool) ?? false
+        self.is_building = (dict["is_building"] as? Bool) ?? false
 
         if let geometryDict = dict["geometry"] as? [String: Any] {
             self.geometry = DetachedGeometry(using: geometryDict)
@@ -87,6 +95,8 @@ struct DetachedMapLocation {
     init(using mapLocation: MapLocation) {
         self._id = mapLocation._id
         self.name = mapLocation.name
+        self.is_building = mapLocation.is_building
+        self.is_animal_pen = mapLocation.is_animal_pen
 
         if let geometry = mapLocation.geometry {
             self.geometry = DetachedGeometry(using: geometry)
