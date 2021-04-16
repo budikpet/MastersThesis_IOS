@@ -10,7 +10,7 @@ import Foundation
 import TangramMap
 
 extension TGGeoPolygon {
-    func getPoint() -> CLLocationCoordinate2D? {
+    func getCenterPoint() -> CLLocationCoordinate2D? {
         guard let outerRing = self.rings.first else { return nil }
         let halfIndex = Int(Int(outerRing.count) / 2)
         let firstPoint: CLLocationCoordinate2D = outerRing.coordinates.pointee

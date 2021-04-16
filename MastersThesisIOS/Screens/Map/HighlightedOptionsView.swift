@@ -15,6 +15,9 @@ protocol HighlightedOptionsViewDelegate: class {
     func showAnimalsClicked(highlightedOptionsView view: HighlightedOptionsView)
 }
 
+/**
+ A menu view that shows when features are highlighted in the map.
+ */
 class HighlightedOptionsView: UIView {
     private let viewModel: MapViewModeling
     public weak var delegate: HighlightedOptionsViewDelegate?
@@ -70,6 +73,27 @@ class HighlightedOptionsView: UIView {
         self.roundCorners(corners: [.topLeft, .topRight], radius: 12)
     }
 
+    private func setupBindings() {
+        self.navButton.reactive.isEnabled <~ viewModel.highlightedLocations.map { $0.count == 1 }
+
+        self.nameLabel.reactive.text <~ viewModel.highlightedLocations.producer.compactMap { (features: [TGMapFeature]) -> String? in
+            if(features.count == 1) {
+                return features.first?.properties["name"]?.capitalizingFirstLetter()
+            } else if(features.count > 1) {
+                return "Selected \(features.count) features"
+            } else {
+                return nil
+            }
+        }
+    }
+}
+
+// MARK: Helpers
+
+extension HighlightedOptionsView {
+    /**
+     Animate the view opening from bottom to top.
+     */
     private func animateIn() {
         self.transform = CGAffineTransform(translationX: 0, y: self.frame.height)
         self.alpha = 1
@@ -80,6 +104,9 @@ class HighlightedOptionsView: UIView {
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn, animations: animations)
     }
 
+    /**
+     Animate the view closing from top to bottom.
+     */
     func closeView() {
         let animations: () -> Void = { self.transform = CGAffineTransform(translationX: 0, y: self.frame.height) }
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn, animations: animations) { (complete: Bool) in
@@ -87,22 +114,6 @@ class HighlightedOptionsView: UIView {
         }
     }
 
-    private func setupBindings() {
-        self.navButton.reactive.isEnabled <~ viewModel.highlightedLocations.map { $0.count == 1 }
-
-        self.nameLabel.reactive.text <~ viewModel.highlightedLocations.producer.compactMap { (features: [TGMapFeature]) -> String? in
-            if(features.count == 1) {
-                return features.first?.properties["name"]?.capitalizingFirstLetter()
-            } else {
-                return "Selected \(features.count) features"
-            }
-        }
-    }
-}
-
-// MARK: Helpers
-
-extension HighlightedOptionsView {
     @objc
     private func navButtonTapped(_ sender: UIBarButtonItem) {
         delegate?.navigateClicked(highlightedOptionsView: self)

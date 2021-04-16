@@ -40,11 +40,6 @@ final class MapLexiconVM: BaseViewModel, MapLexiconViewModeling {
     }
 }
 
-// MARK: Helpers
-
-extension MapLexiconVM {
-}
-
 // MARK: VC Delegate/DataSource helpers
 
 extension MapLexiconVM {

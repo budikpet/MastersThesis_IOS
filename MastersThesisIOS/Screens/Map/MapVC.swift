@@ -219,7 +219,7 @@ extension MapVC {
             .compactMap { feature -> TGMapFeature? in
                 if let _ = feature.point() {
                     return feature
-                } else if let polygonCoord = feature.polygon()?.getPoint() {
+                } else if let polygonCoord = feature.polygon()?.getCenterPoint() {
                     // Get one of polygons points
                     return TGMapFeature(point: polygonCoord, properties: feature.properties)
                 }

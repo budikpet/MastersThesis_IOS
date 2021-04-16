@@ -12,6 +12,9 @@ protocol MapLexiconVCFlowDelegate: class {
     func viewAnimalFromMap(using animal: AnimalData)
 }
 
+/**
+ A lexicon VC that is supposed to be used to show animals highlighted from the map directly.
+ */
 final class MapLexiconVC: BaseViewController {
     // MARK: Dependencies
 
