@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  MastersThesisIOS
+
+  Created by Petr Budík on 16/04/2021.
+  Copyright © 2021 Petr Budík. All rights reserved.
+*/
+
+NSLocationWhenInUseUsageDescription = "Location is used for map navigation in the Zoo Prague area.";

@@ -60,6 +60,7 @@
 		4BA828B826286E5A00B990C0 /* HighlightedOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA828B726286E5A00B990C0 /* HighlightedOptionsView.swift */; };
 		4BA828BF2629EEC200B990C0 /* MapLexiconVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA828BD2629EEC000B990C0 /* MapLexiconVC.swift */; };
 		4BA828C02629EEC200B990C0 /* MapLexiconVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA828BE2629EEC000B990C0 /* MapLexiconVM.swift */; };
+		4BA828D4262A25BA00B990C0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4BA828D6262A25BA00B990C0 /* InfoPlist.strings */; };
 		4BADE9A9261254C4004440A6 /* ZooAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADE9A8261254C4004440A6 /* ZooAPIService.swift */; };
 		4BADEA1326127B8E004440A6 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1226127B8E004440A6 /* Metadata.swift */; };
 		4BADEA1A26130B03004440A6 /* RealmDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1926130B03004440A6 /* RealmDBManager.swift */; };
@@ -220,6 +221,8 @@
 		4BA828B726286E5A00B990C0 /* HighlightedOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedOptionsView.swift; sourceTree = "<group>"; };
 		4BA828BD2629EEC000B990C0 /* MapLexiconVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapLexiconVC.swift; sourceTree = "<group>"; };
 		4BA828BE2629EEC000B990C0 /* MapLexiconVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapLexiconVM.swift; sourceTree = "<group>"; };
+		4BA828D5262A25BA00B990C0 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4BA828D8262A25D700B990C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4BADE9A8261254C4004440A6 /* ZooAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZooAPIService.swift; sourceTree = "<group>"; };
 		4BADE9FF26125988004440A6 /* GoogleService-Info-Beta-Stage.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Beta-Stage.plist"; sourceTree = "<group>"; };
 		4BADEA0026125988004440A6 /* GoogleService-Info-Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Release.plist"; sourceTree = "<group>"; };
@@ -797,6 +800,7 @@
 			children = (
 				4BCD2574261F32E6003B7251 /* Map */,
 				D2DFBFBAD406A367C5DBE34A /* Localizable.strings */,
+				4BA828D6262A25BA00B990C0 /* InfoPlist.strings */,
 				71DC1DEB6BB5D6570B1C4787 /* Images.xcassets */,
 				F8E2B3FC0F0D441AE28D9FC7 /* LaunchScreen.storyboard */,
 			);
@@ -1054,6 +1058,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DCE3DF97E5AFF581BF6F976 /* GoogleService-Info.plist in Resources */,
+				4BA828D4262A25BA00B990C0 /* InfoPlist.strings in Resources */,
 				5169715030BB735FB138C0B6 /* environment.plist in Resources */,
 				4BCD2575261F32E6003B7251 /* Map in Resources */,
 				4BE756BC26089F1A00DFB440 /* Cartfile in Resources */,
@@ -1360,6 +1365,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4BA828D6262A25BA00B990C0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4BA828D5262A25BA00B990C0 /* cs */,
+				4BA828D8262A25D700B990C0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		D2DFBFBAD406A367C5DBE34A /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
