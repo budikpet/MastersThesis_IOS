@@ -57,6 +57,8 @@ class HighlightedOptionsView: UIView {
         }
 
         setupBindings()
+
+        animateIn()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -68,8 +70,21 @@ class HighlightedOptionsView: UIView {
         self.roundCorners(corners: [.topLeft, .topRight], radius: 12)
     }
 
+    private func animateIn() {
+        self.transform = CGAffineTransform(translationX: 0, y: self.frame.height)
+        self.alpha = 1
+        let animations: () -> Void = {
+            self.transform = .identity
+            self.alpha = 1
+        }
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn, animations: animations)
+    }
+
     func closeView() {
-        self.removeFromSuperview()
+        let animations: () -> Void = { self.transform = CGAffineTransform(translationX: 0, y: self.frame.height) }
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn, animations: animations) { (complete: Bool) in
+            self.removeFromSuperview()
+        }
     }
 
     private func setupBindings() {
