@@ -170,7 +170,9 @@ extension MapVC: HighlightedOptionsViewDelegate {
     /**
      Run navigation service to show shortest path to the highlighted feature.
      */
-    func navigateClicked(highlightedOptionsView view: HighlightedOptionsView, feature: TGMapFeature) {
+    func navigateClicked(highlightedOptionsView view: HighlightedOptionsView) {
+        guard let feature = viewModel.highlightedLocations.value.first else { return }
+
         os_log("Navigating to feature with properties: %@", feature.properties)
         view.closeView()
     }
@@ -178,8 +180,8 @@ extension MapVC: HighlightedOptionsViewDelegate {
     /**
      View details of animals that belong into the selected feature (either animal pen or house).
      */
-    func showAnimalsClicked(highlightedOptionsView view: HighlightedOptionsView, features: [TGMapFeature]) {
-        let animals = viewModel.getAnimals(fromFeatures: features)
+    func showAnimalsClicked(highlightedOptionsView view: HighlightedOptionsView) {
+        let animals = viewModel.getAnimals(fromFeatures: viewModel.highlightedLocations.value)
         flowDelegate?.viewAnimals(animals)
     }
 }
@@ -191,12 +193,11 @@ extension MapVC {
      Shows a new popup view with options that can be used on highlight features.
      */
     private func showHighlightedOptionsView(_ locations: [TGMapFeature]) {
-        if let oldHighlightedOptionsView = self.highlightedOptionsView{
-            oldHighlightedOptionsView.updateFeature(locations)
+        if let _ = self.highlightedOptionsView{
             return
         }
 
-        let highlightedOptionsView = HighlightedOptionsView(frame: self.view.frame, features: locations)
+        let highlightedOptionsView = HighlightedOptionsView(frame: self.view.frame, viewModel: viewModel)
         self.highlightedOptionsView = highlightedOptionsView
         highlightedOptionsView.delegate = self
 

@@ -11,24 +11,23 @@ import TangramMap
 import ReactiveSwift
 
 protocol HighlightedOptionsViewDelegate: class {
-    func navigateClicked(highlightedOptionsView view: HighlightedOptionsView, feature: TGMapFeature)
-    func showAnimalsClicked(highlightedOptionsView view: HighlightedOptionsView, features: [TGMapFeature])
+    func navigateClicked(highlightedOptionsView view: HighlightedOptionsView)
+    func showAnimalsClicked(highlightedOptionsView view: HighlightedOptionsView)
 }
 
 class HighlightedOptionsView: UIView {
+    private let viewModel: MapViewModeling
+    public weak var delegate: HighlightedOptionsViewDelegate?
+
     private weak var stackView: UIStackView!
     private weak var navButton: UIButton!
     private weak var showAnimalsButton: UIButton!
     private weak var nameLabel: UILabel!
 
-    public weak var delegate: HighlightedOptionsViewDelegate?
-
-    private let features: MutableProperty<[TGMapFeature]>
-
     // MARK: Initializers
 
-    init(frame: CGRect, features: [TGMapFeature]) {
-        self.features = MutableProperty(features)
+    init(frame: CGRect, viewModel: MapViewModeling) {
+        self.viewModel = viewModel
         super.init(frame: frame)
 
         self.backgroundColor = UIColor.systemBackground
@@ -69,18 +68,14 @@ class HighlightedOptionsView: UIView {
         self.roundCorners(corners: [.topLeft, .topRight], radius: 12)
     }
 
-    func updateFeature(_ features: [TGMapFeature]) {
-        self.features.value = features
-    }
-
     func closeView() {
         self.removeFromSuperview()
     }
 
     private func setupBindings() {
-        self.navButton.reactive.isEnabled <~ features.map { $0.count == 1 }
+        self.navButton.reactive.isEnabled <~ viewModel.highlightedLocations.map { $0.count == 1 }
 
-        self.nameLabel.reactive.text <~ features.producer.compactMap { (features: [TGMapFeature]) -> String? in
+        self.nameLabel.reactive.text <~ viewModel.highlightedLocations.producer.compactMap { (features: [TGMapFeature]) -> String? in
             if(features.count == 1) {
                 return features.first?.properties["name"]?.capitalizingFirstLetter()
             } else {
@@ -95,14 +90,12 @@ class HighlightedOptionsView: UIView {
 extension HighlightedOptionsView {
     @objc
     private func navButtonTapped(_ sender: UIBarButtonItem) {
-        guard let feature = features.value.first else { return }
-
-        delegate?.navigateClicked(highlightedOptionsView: self, feature: feature)
+        delegate?.navigateClicked(highlightedOptionsView: self)
     }
 
     @objc
     private func showAnimalsButtonTapped(_ sender: UIBarButtonItem) {
-        delegate?.showAnimalsClicked(highlightedOptionsView: self, features: features.value)
+        delegate?.showAnimalsClicked(highlightedOptionsView: self)
     }
 
     private func prepareButton(withText text: String) -> UIButton {
