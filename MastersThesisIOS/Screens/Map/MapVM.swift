@@ -47,6 +47,10 @@ final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
     internal var highlightedLocations: MutableProperty<[TGMapFeature]>
 
     // MARK: Local
+    private lazy var animalData: Results<AnimalData> = {
+        return realmDbManager.realm.objects(AnimalData.self)
+    }()
+
     private lazy var locations: [Int64: MapLocation] = {
         let res = realmDbManager.realm.objects(MapLocation.self)
         return Dictionary(uniqueKeysWithValues: res.lazy.map { ($0._id, $0) })
@@ -134,7 +138,19 @@ extension MapVM {
     }
 
     func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData] {
-        return []
+        let featureIds = Set(
+            features
+                .compactMap { $0.properties["id"] }
+                .compactMap { strId in Int64(strId) }
+        )
+
+        let res = animalData.filter { (animalData: AnimalData) -> Bool in
+            let dataIds = Set(animalData.map_locations.map { $0._id })
+
+            return dataIds.intersection(featureIds).isNotEmpty
+        }
+
+        return Array(res)
     }
 }
 

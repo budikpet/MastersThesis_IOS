@@ -20,17 +20,19 @@ final class AnimalDetailVC: BaseViewController {
     private let viewModel: AnimalDetailViewModeling
     public weak var flowDelegate: AnimalDetailFlowDelegate?
 
-    private weak var scrollView: UIScrollView!
-
-    /** Main stack view. */
+    /// Main stack view.
     private weak var stackView: UIStackView!
     private weak var characterView: UIStackView!
     private weak var highlightAnimal: UIBarButtonItem!
+    private weak var scrollView: UIScrollView!
+
+    private let createdFromMap: Bool
 
     // MARK: Initializers
 
-    init(viewModel: AnimalDetailViewModeling) {
+    init(viewModel: AnimalDetailViewModeling, createdFromMap: Bool = false) {
         self.viewModel = viewModel
+        self.createdFromMap = createdFromMap
 
         super.init()
     }
@@ -45,9 +47,11 @@ final class AnimalDetailVC: BaseViewController {
         super.loadView()
         view.accessibilityIdentifier = "AnimalDetailVC"
 
-        let highlightAnimal = UIBarButtonItem(image: UIImage(named: "highlightAnimal"), style: .plain, target: self, action: #selector(highlightAnimalTapped))
-        self.highlightAnimal = highlightAnimal
-        navigationItem.rightBarButtonItem = highlightAnimal
+        if(!createdFromMap) {
+            let highlightAnimal = UIBarButtonItem(image: UIImage(named: "highlightAnimal"), style: .plain, target: self, action: #selector(highlightAnimalTapped))
+            self.highlightAnimal = highlightAnimal
+            navigationItem.rightBarButtonItem = highlightAnimal
+        }
 
         let scrollView = UIScrollView()
         self.scrollView = scrollView
@@ -74,7 +78,9 @@ final class AnimalDetailVC: BaseViewController {
 
         navigationItem.reactive.title <~ viewModel.animal.map() { $0.name }
 
-        highlightAnimal.reactive.isEnabled <~ viewModel.animal.map() { $0.map_locations.count > 0 }
+        if(!createdFromMap) {
+            highlightAnimal.reactive.isEnabled <~ viewModel.animal.map() { $0.map_locations.count > 0 }
+        }
 
 //        activityIndicator.reactive.isAnimating <~ viewModel.actions.fetchPhoto.isExecuting
 //

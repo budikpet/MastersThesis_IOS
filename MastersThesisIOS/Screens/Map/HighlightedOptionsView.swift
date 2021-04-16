@@ -44,6 +44,7 @@ class HighlightedOptionsView: UIView {
 
         let showAnimalsButton = prepareButton(withText: "View animals")
         self.showAnimalsButton = showAnimalsButton
+        showAnimalsButton.addTarget(self, action: #selector(showAnimalsButtonTapped(_:)), for: .touchUpInside)
 
         let stackView = UIStackView(arrangedSubviews: [nameLabel, navButton, showAnimalsButton])
         self.stackView = stackView
