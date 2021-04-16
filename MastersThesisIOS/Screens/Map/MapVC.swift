@@ -159,7 +159,9 @@ extension MapVC {
      Shows a new popup view with options that can be used on highlight features.
      */
     private func showHighlightedOptionsView(_ locations: [TGMapFeature]) {
-        let highlightedOptionsView = HighlightedOptionsView(frame: self.view.frame)
+        guard let feature = locations.first else { return }
+
+        let highlightedOptionsView = HighlightedOptionsView(frame: self.view.frame, feature: feature)
         self.view.addSubview(highlightedOptionsView)
         highlightedOptionsView.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview()
@@ -192,7 +194,7 @@ extension MapVC {
 
         // Move camera
         if let point = points.first?.point()?.pointee {
-            let zoom = points.count == 1 ? CGFloat(self.viewModel.mapConfig.value.maxZoom - 0.5) : CGFloat(self.viewModel.mapConfig.value.minZoom)
+            let zoom = points.count == 1 ? CGFloat(self.viewModel.mapConfig.value.maxZoom) : CGFloat(self.viewModel.mapConfig.value.minZoom)
             if let pos =  TGCameraPosition(center: point, zoom: zoom, bearing: self.mapView.bearing, pitch: self.mapView.pitch) {
                 self.mapView.setCameraPosition(pos, withDuration: 0.25, easeType: .quint)
             }
