@@ -74,7 +74,8 @@ class HighlightedOptionsView: UIView {
     }
 
     private func setupBindings() {
-        self.navButton.reactive.isEnabled <~ viewModel.highlightedLocations.map { $0.count == 1 }
+        self.navButton.reactive.isEnabled <~ SignalProducer.combineLatest(viewModel.highlightedLocations.map { $0.count == 1 }, viewModel.locationServiceAvailable.producer)
+            .map { return $0.0 && $0.1 }
 
         self.nameLabel.reactive.text <~ viewModel.highlightedLocations.producer.compactMap { (features: [TGMapFeature]) -> String? in
             if(features.count == 1) {
