@@ -82,6 +82,10 @@
             ReferencedContainer = "container:MastersThesisIOS.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <LocationScenarioReference
+         identifier = "../MastersThesisIOS/Resources/Map/zoo_prague_location.gpx"
+         referenceType = "0">
+      </LocationScenarioReference>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

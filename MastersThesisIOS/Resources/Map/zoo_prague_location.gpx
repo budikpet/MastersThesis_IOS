@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.topografix.com/GPX/1/1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" version="1.1" creator="Open GPX Tracker for iOS">
+  <wpt lat="50.116899" lon="14.410552">
+    <time>2021-04-61T14:19:25Z</time>
+    <name>Starting Zoo Prague Location</name>
+    <desc>Default starting position</desc>
+  </wpt>
+<!--  <wpt lat="50.116998416039465" lon="14.4101435006763">-->
+<!--    <time>2021-04-61T14:20:25Z</time>-->
+<!--    <name>WP1</name>-->
+<!--    <desc>WP1</desc>-->
+<!--  </wpt>-->
+<!--  <wpt lat="50.11705173264425" lon="14.409831693878319">-->
+<!--    <time>2021-04-61T14:23:25Z</time>-->
+<!--    <name>WP2</name>-->
+<!--    <desc>WP2</desc>-->
+<!--  </wpt>-->
+<!--  <wpt lat="50.11707925086865" lon="14.409275806059982">-->
+<!--    <time>2021-04-61T14:26:25Z</time>-->
+<!--    <name>WP3</name>-->
+<!--    <desc>WP3</desc>-->
+<!--  </wpt>-->
+<!--  <wpt lat="50.11696917787616" lon="14.407849541416313">-->
+<!--    <time>2021-04-61T14:27:00Z</time>-->
+<!--    <name>WP4</name>-->
+<!--    <desc>WP4</desc>-->
+<!--  </wpt>-->
+<!--  <wpt lat="50.11688148007494" lon="14.407741582503464">-->
+<!--    <time>2021-04-61T14:27:25Z</time>-->
+<!--    <name>WP5</name>-->
+<!--    <desc>WP5</desc>-->
+<!--  </wpt>-->
+<!--  <wpt lat="50.116853" lon="14.407783">-->
+<!--    <time>2021-04-61T14:27:45Z</time>-->
+<!--    <name>Endpoint</name>-->
+<!--    <desc>Endpoint</desc>-->
+<!--  </wpt>-->
+</gpx>

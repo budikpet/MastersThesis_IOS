@@ -104,7 +104,6 @@ extension MapVM {
         guard let feature = highlightedLocations.value.first else { return }
         let destination = getDestinationPoint(using: feature)
         os_log("Navigating to feature at [lon: %f, lat: %f]", destination.longitude, destination.latitude)
-        print(self.isLocationServiceAvailable())
     }
 
     /**
@@ -177,8 +176,9 @@ extension MapVM {
 extension MapVM: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let first = locations.first else { return }
+        currLocation.value = first.coordinate
 
-        print("Coord: [\(first.coordinate.longitude), \(first.coordinate.latitude)]")
+        os_log("Current coordinates: [lon: %f, lat: %f]", log: Logger.appLog(), type: .info, first.coordinate.longitude, first.coordinate.latitude)
     }
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -201,7 +201,7 @@ extension MapVM {
         case .authorizedAlways, .authorizedWhenInUse:
             return true
         @unknown default:
-            os_log("Unknown location authorization status used.", log: Logger.appLog(), type: .info, "\(self)")
+            os_log("Unknown location authorization status used.", log: Logger.appLog(), type: .info)
             return false
         }
     }

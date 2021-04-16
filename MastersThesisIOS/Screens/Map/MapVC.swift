@@ -21,8 +21,11 @@ final class MapVC: BaseViewController {
     private weak var mapView: TGMapView!
     private var searchResLayer: TGMapData!
     private var searchHighlightLayer: TGMapData!
+    private var currentLocationLayer: TGMapData!
 
     public weak var flowDelegate: MapFlowDelegate?
+
+    let compositeDisposable = CompositeDisposable()
 
     // MARK: Initializers
 
@@ -34,6 +37,10 @@ final class MapVC: BaseViewController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        compositeDisposable.dispose()
     }
 
     override func loadView() {
@@ -66,6 +73,7 @@ final class MapVC: BaseViewController {
         mapView.loadSceneAsync(from: viewModel.sceneUrl.value, with: sceneUpdates)
         searchResLayer = mapView.addDataLayer("mz_search_result", generateCentroid: false)
         searchHighlightLayer = mapView.addDataLayer("highlighted_layer", generateCentroid: false)
+        currentLocationLayer = mapView.addDataLayer("mz_current_location", generateCentroid: false)
     }
 
     override func viewDidLoad() {
@@ -96,6 +104,12 @@ final class MapVC: BaseViewController {
             } else {
                 self.showHighlightedOptionsView(locations)
             }
+        }
+
+        self.compositeDisposable += viewModel.currLocation.producer.startWithValues { [weak self] (coord: CLLocationCoordinate2D) in
+            guard let self = self else { return }
+            self.currentLocationLayer.setFeatures([TGMapFeature(point: coord, properties: ["name": "current_location"])])
+            self.mapView.requestRender()
         }
     }
 
