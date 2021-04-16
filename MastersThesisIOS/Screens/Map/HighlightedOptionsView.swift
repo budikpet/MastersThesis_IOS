@@ -53,7 +53,7 @@ class HighlightedOptionsView: UIView {
         stackView.spacing = 8
         stackView.axis = .vertical
         stackView.snp.makeConstraints { (make) in
-            make.top.left.equalToSuperview().offset(8)
+            make.top.left.equalToSuperview().offset(16)
             make.bottom.right.equalToSuperview().inset(8)
         }
 

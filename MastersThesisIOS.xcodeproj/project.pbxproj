@@ -58,6 +58,8 @@
 		4B9764CE26177EA500F32FA4 /* AnimalFilterItemCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9764CD26177EA500F32FA4 /* AnimalFilterItemCellVM.swift */; };
 		4BA828B02626F2C900B990C0 /* MapExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA828AF2626F2C700B990C0 /* MapExtensions.swift */; };
 		4BA828B826286E5A00B990C0 /* HighlightedOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA828B726286E5A00B990C0 /* HighlightedOptionsView.swift */; };
+		4BA828BF2629EEC200B990C0 /* MapLexiconVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA828BD2629EEC000B990C0 /* MapLexiconVC.swift */; };
+		4BA828C02629EEC200B990C0 /* MapLexiconVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA828BE2629EEC000B990C0 /* MapLexiconVM.swift */; };
 		4BADE9A9261254C4004440A6 /* ZooAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADE9A8261254C4004440A6 /* ZooAPIService.swift */; };
 		4BADEA1326127B8E004440A6 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1226127B8E004440A6 /* Metadata.swift */; };
 		4BADEA1A26130B03004440A6 /* RealmDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1926130B03004440A6 /* RealmDBManager.swift */; };
@@ -216,6 +218,8 @@
 		4B9764CD26177EA500F32FA4 /* AnimalFilterItemCellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalFilterItemCellVM.swift; sourceTree = "<group>"; };
 		4BA828AF2626F2C700B990C0 /* MapExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapExtensions.swift; sourceTree = "<group>"; };
 		4BA828B726286E5A00B990C0 /* HighlightedOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedOptionsView.swift; sourceTree = "<group>"; };
+		4BA828BD2629EEC000B990C0 /* MapLexiconVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapLexiconVC.swift; sourceTree = "<group>"; };
+		4BA828BE2629EEC000B990C0 /* MapLexiconVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapLexiconVM.swift; sourceTree = "<group>"; };
 		4BADE9A8261254C4004440A6 /* ZooAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZooAPIService.swift; sourceTree = "<group>"; };
 		4BADE9FF26125988004440A6 /* GoogleService-Info-Beta-Stage.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Beta-Stage.plist"; sourceTree = "<group>"; };
 		4BADEA0026125988004440A6 /* GoogleService-Info-Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Release.plist"; sourceTree = "<group>"; };
@@ -434,6 +438,7 @@
 				4B7FB08A261099740086A057 /* AnimalDetail */,
 				4B522E022607A0F300500699 /* Lexicon */,
 				4B522DFF2607A0F200500699 /* Map */,
+				4BA828BC2629EEC000B990C0 /* MapLexicon */,
 				4B3421C8260766A8004B042E /* Example */,
 			);
 			path = Screens;
@@ -551,6 +556,15 @@
 				4B7FB07B26108E1D0086A057 /* LexiconItemCellVM.swift */,
 			);
 			path = "TableView cells";
+			sourceTree = "<group>";
+		};
+		4BA828BC2629EEC000B990C0 /* MapLexicon */ = {
+			isa = PBXGroup;
+			children = (
+				4BA828BD2629EEC000B990C0 /* MapLexiconVC.swift */,
+				4BA828BE2629EEC000B990C0 /* MapLexiconVM.swift */,
+			);
+			path = MapLexicon;
 			sourceTree = "<group>";
 		};
 		4BADE9FD26125988004440A6 /* Stage */ = {
@@ -1273,7 +1287,9 @@
 				E216BE29264187D393D10067 /* AppDependency.swift in Sources */,
 				15C14FFD4DFAFB298700B002 /* ExampleAPIService.swift in Sources */,
 				4B522DE02607943E00500699 /* TabBarPage.swift in Sources */,
+				4BA828C02629EEC200B990C0 /* MapLexiconVM.swift in Sources */,
 				4BADE9A9261254C4004440A6 /* ZooAPIService.swift in Sources */,
+				4BA828BF2629EEC200B990C0 /* MapLexiconVC.swift in Sources */,
 				4BADEA1A26130B03004440A6 /* RealmDBManager.swift in Sources */,
 				4BF9A4F1261A51F000E98D03 /* OtherExtensions.swift in Sources */,
 				42837B520CFC6E74B49E9087 /* FirebasePushObserver.swift in Sources */,

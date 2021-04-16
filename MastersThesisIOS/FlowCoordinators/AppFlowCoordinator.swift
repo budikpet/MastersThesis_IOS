@@ -80,9 +80,8 @@ extension AppFlowCoordinator: MapFlowDelegate {
 
         if(animals.count > 1) {
             // Show Lexicon with selected animals
-            let vm = LexiconVM(dependencies: appDependencies)
-            let vc = LexiconVC(viewModel: vm)
-            self.lexiconVM = vm
+            let vm = MapLexiconVM(dependencies: appDependencies, dataToShow: animals)
+            let vc = MapLexiconVC(viewModel: vm)
             vc.flowDelegate = self
             navVC.pushViewController(vc, animated: true)
         } else {
@@ -92,6 +91,20 @@ extension AppFlowCoordinator: MapFlowDelegate {
             let vc = AnimalDetailVC(viewModel: vm, createdFromMap: true)
             navVC.pushViewController(vc, animated: true)
         }
+    }
+}
+
+extension AppFlowCoordinator: MapLexiconVCFlowDelegate {
+    func viewAnimalFromMap(using animal: AnimalData) {
+        let vm = AnimalDetailVM(dependencies: appDependencies, using: animal)
+        let vc = AnimalDetailVC(viewModel: vm, createdFromMap: true)
+        vc.flowDelegate = self
+
+        guard let navController = self.navigationController(for: .zooMap) as? UINavigationController else {
+            fatalError("Did not get UINavigationController from the root TabBar.")
+        }
+
+        navController.pushViewController(vc, animated: true)
     }
 }
 
