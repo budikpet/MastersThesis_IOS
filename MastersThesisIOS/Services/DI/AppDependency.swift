@@ -1,10 +1,11 @@
 import Foundation
 import RealmSwift
+import CoreLocation
 
 typealias HasBaseAPIDependecies = HasNetwork & HasJSONAPI & HasAuthenticatedJSONAPI & HasAuthHandler
 typealias HasAPIDependencies = HasPushAPI & HasFetcher & HasExampleAPI & HasZooAPI
 typealias HasCredentialsDependencies = HasCredentialsProvider & HasCredentialsStore
-typealias HasManagerDependencies = HasPushManager & HasUserManager & HasFirebasePushObserver & HasVersionUpdateManager & HasRealmDBManager
+typealias HasManagerDependencies = HasPushManager & HasUserManager & HasFirebasePushObserver & HasVersionUpdateManager & HasRealmDBManager & HasLocationManager
 
 /// Container for all app dependencies
 final class AppDependency: HasBaseAPIDependecies, HasCredentialsDependencies, HasManagerDependencies, HasAPIDependencies {
@@ -27,6 +28,13 @@ final class AppDependency: HasBaseAPIDependecies, HasCredentialsDependencies, Ha
     lazy var userManager: UserManaging = UserManager()
     lazy var versionUpdateManager: VersionUpdateManaging = VersionUpdateManager(dependencies: self)
     lazy var realmDBManager: RealmDBManaging = RealmDBManager(dependencies: self)
+    lazy var locationManager: CLLocationManager = {
+        let manager = CLLocationManager()
+        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        manager.requestWhenInUseAuthorization()
+
+        return manager
+    }()
 
     // MARK: - Initializers
 
@@ -34,6 +42,10 @@ final class AppDependency: HasBaseAPIDependecies, HasCredentialsDependencies, Ha
     fileprivate init() {
 
     }
+}
+
+protocol HasLocationManager {
+    var locationManager: CLLocationManager { get }
 }
 
 protocol HasNoDependency { }

@@ -171,7 +171,7 @@ extension MapVC: HighlightedOptionsViewDelegate {
      Run navigation service to show shortest path to the highlighted feature.
      */
     func navigateClicked(highlightedOptionsView view: HighlightedOptionsView) {
-
+        viewModel.startNavigating()
         view.closeView()
     }
 

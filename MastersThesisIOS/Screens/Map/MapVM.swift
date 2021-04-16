@@ -25,6 +25,7 @@ protocol MapViewModeling {
 
     var bounds: ReactiveSwift.Property<TGCoordinateBounds> { get }
     var highlightedLocations: MutableProperty<[TGMapFeature]> { get }
+    var locationServiceAvailable: MutableProperty<Bool> { get }
 
     func highlightLocations(using mapLocations: [MapLocation])
     func highlightLocations(using properties: [String: String]?, at coord: CLLocationCoordinate2D?, canUseNil: Bool)
@@ -36,9 +37,10 @@ extension MapViewModeling where Self: MapViewModelingActions {
     var actions: MapViewModelingActions { self }
 }
 
-final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
-    typealias Dependencies = HasRealmDBManager
+final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
+    typealias Dependencies = HasRealmDBManager & HasLocationManager
     private let realmDbManager: RealmDBManaging
+    private let locationManager: CLLocationManager
 
     // MARK: Protocol
     internal var sceneUrl: MutableProperty<URL>
@@ -47,6 +49,7 @@ final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
     internal var bounds: ReactiveSwift.Property<TGCoordinateBounds>
     internal var currLocation: MutableProperty<CLLocationCoordinate2D>
     internal var highlightedLocations: MutableProperty<[TGMapFeature]>
+    internal var locationServiceAvailable: MutableProperty<Bool>
 
     // MARK: Local
     private lazy var animalData: Results<AnimalData> = {
@@ -62,8 +65,10 @@ final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
 
     init(dependencies: Dependencies) {
         self.realmDbManager = dependencies.realmDBManager
+        self.locationManager = dependencies.locationManager
 
         highlightedLocations = MutableProperty([])
+        locationServiceAvailable = MutableProperty(false)
         mapConfig = MutableProperty(MapVM.loadMapConfig())
 
 //        guard let sceneUrl = Bundle.resources.url(forResource: "bubbleWrapStyle", withExtension: "zip") else { fatalError("Scene file not found.") }
@@ -81,6 +86,10 @@ final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
         currLocation = MutableProperty(CLLocationCoordinate2D(latitude: 50.117001, longitude: 14.406395))
 
         super.init()
+        self.locationManager.delegate = self
+        self.locationManager.startUpdatingLocation()
+        self.locationServiceAvailable.value = self.isLocationServiceAvailable()
+
         setupBindings()
     }
 
@@ -93,7 +102,9 @@ final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
 extension MapVM {
     func startNavigating() {
         guard let feature = highlightedLocations.value.first else { return }
-        os_log("Navigating to feature with properties: %@", feature.properties)
+        let destination = getDestinationPoint(using: feature)
+        os_log("Navigating to feature at [lon: %f, lat: %f]", destination.longitude, destination.latitude)
+        print(self.isLocationServiceAvailable())
     }
 
     /**
@@ -161,9 +172,50 @@ extension MapVM {
     }
 }
 
+// MARK: CLLocationManagerDelegate
+
+extension MapVM: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let first = locations.first else { return }
+
+        print("Coord: [\(first.coordinate.longitude), \(first.coordinate.latitude)]")
+    }
+
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        // Change in permissions occured.
+        self.locationServiceAvailable.value = self.isLocationServiceAvailable()
+    }
+}
+
 // MARK: Helpers
 
 extension MapVM {
+    private func isLocationServiceAvailable() -> Bool {
+        if(!CLLocationManager.locationServicesEnabled()) {
+            return false
+        }
+
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined, .restricted, .denied:
+            return false
+        case .authorizedAlways, .authorizedWhenInUse:
+            return true
+        @unknown default:
+            os_log("Unknown location authorization status used.", log: Logger.appLog(), type: .info, "\(self)")
+            return false
+        }
+    }
+
+    private func getDestinationPoint(using feature: TGMapFeature) -> CLLocationCoordinate2D {
+        if let point = feature.point()?.pointee {
+            return point
+        } else if let polygonCenter = feature.polygon()?.getCenterPoint() {
+            return polygonCenter
+        } else {
+            fatalError("Was unable to get destination point from the feature with properties: \(feature.properties)")
+        }
+    }
+
     private static func loadMapConfig() -> MapConfig {
         guard let configFile = Bundle.resources.url(forResource: "defaultConfig", withExtension: "json", subdirectory: "Map") else { fatalError("Config file not found.") }
 

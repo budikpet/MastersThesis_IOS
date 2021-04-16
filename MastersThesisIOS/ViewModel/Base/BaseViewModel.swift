@@ -25,3 +25,22 @@ class BaseViewModel {
         }
     }
 }
+
+/// Base class for all view models contained in app.
+class NSBaseViewModel: NSObject {
+
+    static var logEnabled: Bool = true
+
+    override init() {
+        super.init()
+        if BaseViewModel.logEnabled {
+            os_log("🧠 👶 %@", log: Logger.lifecycleLog(), type: .info, "\(self)")
+        }
+    }
+
+    deinit {
+        if BaseViewModel.logEnabled {
+            os_log("🧠 ⚰️ %@", log: Logger.lifecycleLog(), type: .info, "\(self)")
+        }
+    }
+}
