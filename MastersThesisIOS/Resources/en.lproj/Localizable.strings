@@ -22,3 +22,7 @@
 "animalFilter.class_" = "Class";
 "animalFilter.biotop" = "Biotop";
 "animalFilter.food" = "Food";
+"map.buttonDirections" = "Directions";
+"map.selectedFeatures" = "Selected %d features";
+"map.selectedFeaturesMultiple" = "Selected %d features";
+"map.buttonViewAnimals" = "View animals";

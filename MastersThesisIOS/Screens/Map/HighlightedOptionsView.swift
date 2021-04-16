@@ -40,11 +40,11 @@ class HighlightedOptionsView: UIView {
         self.nameLabel = nameLabel
         nameLabel.font = UIFont.boldSystemFont(ofSize: 25)
 
-        let navButton = prepareButton(withText: "Directions")
+        let navButton = prepareButton(withText: L10n.Map.buttonDirections)
         self.navButton = navButton
         navButton.addTarget(self, action: #selector(navButtonTapped(_:)), for: .touchUpInside)
 
-        let showAnimalsButton = prepareButton(withText: "View animals")
+        let showAnimalsButton = prepareButton(withText: L10n.Map.buttonViewAnimals)
         self.showAnimalsButton = showAnimalsButton
         showAnimalsButton.addTarget(self, action: #selector(showAnimalsButtonTapped(_:)), for: .touchUpInside)
 
@@ -80,7 +80,7 @@ class HighlightedOptionsView: UIView {
             if(features.count == 1) {
                 return features.first?.properties["name"]?.capitalizingFirstLetter()
             } else if(features.count > 1) {
-                return "Selected \(features.count) features"
+                return features.count < 5 ? L10n.Map.selectedFeatures(features.count) : L10n.Map.selectedFeaturesMultiple(features.count)
             } else {
                 return nil
             }

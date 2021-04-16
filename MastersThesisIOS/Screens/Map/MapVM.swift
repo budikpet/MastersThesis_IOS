@@ -9,6 +9,7 @@ import UIKit
 import TangramMap
 import ReactiveSwift
 import RealmSwift
+import os.log
 
 protocol MapViewModelingActions {
 
@@ -28,6 +29,7 @@ protocol MapViewModeling {
     func highlightLocations(using mapLocations: [MapLocation])
     func highlightLocations(using properties: [String: String]?, at coord: CLLocationCoordinate2D?, canUseNil: Bool)
     func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData]
+    func startNavigating()
 }
 
 extension MapViewModeling where Self: MapViewModelingActions {
@@ -89,6 +91,11 @@ final class MapVM: BaseViewModel, MapViewModeling, MapViewModelingActions {
 
 // MARK: Protocol
 extension MapVM {
+    func startNavigating() {
+        guard let feature = highlightedLocations.value.first else { return }
+        os_log("Navigating to feature with properties: %@", feature.properties)
+    }
+
     /**
      Constructs `TGMapFeature` objects from `MapLocation` objects.
      */
