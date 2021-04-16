@@ -480,9 +480,9 @@
 		4B522DFF2607A0F200500699 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				4BA828B726286E5A00B990C0 /* HighlightedOptionsView.swift */,
 				4B522E002607A0F200500699 /* MapVC.swift */,
 				4B522E012607A0F200500699 /* MapVM.swift */,
-				4BA828B726286E5A00B990C0 /* HighlightedOptionsView.swift */,
 			);
 			name = Map;
 			path = MastersThesisIOS/Screens/Map;

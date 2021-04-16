@@ -10,12 +10,19 @@ import TangramMap
 import ReactiveSwift
 import os.log
 
+protocol MapFlowDelegate: class {
+    func viewAnimals(_ animals: [AnimalData])
+}
+
 final class MapVC: BaseViewController {
     private let viewModel: MapViewModeling
 
+    private weak var highlightedOptionsView: HighlightedOptionsView?
     private weak var mapView: TGMapView!
     private var searchResLayer: TGMapData!
     private var searchHighlightLayer: TGMapData!
+
+    public weak var flowDelegate: MapFlowDelegate?
 
     // MARK: Initializers
 
@@ -80,10 +87,15 @@ final class MapVC: BaseViewController {
     private func setupBindings() {
         viewModel.highlightedLocations.signal.observeValues { [weak self] (locations: [TGMapFeature]) in
             /// Show searched map features in the map
-
             guard let self = self else { return }
             self.highlight(locationsInMap: locations)
-            self.showHighlightedOptionsView(locations)
+
+            if(locations.isEmpty) {
+                self.highlightedOptionsView?.closeView()
+                self.highlightedOptionsView = nil
+            } else {
+                self.showHighlightedOptionsView(locations)
+            }
         }
     }
 
@@ -152,6 +164,25 @@ extension MapVC: TGRecognizerDelegate {
     }
 }
 
+// MARK: HighlightedOptionsViewDelegate
+
+extension MapVC: HighlightedOptionsViewDelegate {
+    /**
+     Run navigation service to show shortest path to the highlighted feature.
+     */
+    func navigateClicked(highlightedOptionsView view: HighlightedOptionsView, feature: TGMapFeature) {
+        view.closeView()
+    }
+
+    /**
+     View details of animals that belong into the selected feature (either animal pen or house).
+     */
+    func showAnimalsClicked(highlightedOptionsView view: HighlightedOptionsView, features: [TGMapFeature]) {
+        let animals = viewModel.getAnimals(fromFeatures: features)
+        flowDelegate?.viewAnimals(animals)
+    }
+}
+
 // MARK: Helpers
 
 extension MapVC {
@@ -159,9 +190,15 @@ extension MapVC {
      Shows a new popup view with options that can be used on highlight features.
      */
     private func showHighlightedOptionsView(_ locations: [TGMapFeature]) {
-        guard let feature = locations.first else { return }
+        if let oldHighlightedOptionsView = self.highlightedOptionsView{
+            oldHighlightedOptionsView.updateFeature(locations)
+            return
+        }
 
-        let highlightedOptionsView = HighlightedOptionsView(frame: self.view.frame, feature: feature)
+        let highlightedOptionsView = HighlightedOptionsView(frame: self.view.frame, features: locations)
+        self.highlightedOptionsView = highlightedOptionsView
+        highlightedOptionsView.delegate = self
+
         self.view.addSubview(highlightedOptionsView)
         highlightedOptionsView.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview()

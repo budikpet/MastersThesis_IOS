@@ -27,6 +27,7 @@ protocol MapViewModeling {
 
     func highlightLocations(using mapLocations: [MapLocation])
     func highlightLocations(using properties: [String: String]?, at coord: CLLocationCoordinate2D?, canUseNil: Bool)
+    func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData]
 }
 
 extension MapViewModeling where Self: MapViewModelingActions {
@@ -130,6 +131,10 @@ extension MapVM {
         guard let mapLocation = locations[id] else { return }
 
         highlightLocations(using: [mapLocation])
+    }
+
+    func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData] {
+        return []
     }
 }
 
