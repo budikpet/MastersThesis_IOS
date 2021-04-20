@@ -14,11 +14,11 @@ protocol HasZooAPI {
 }
 
 protocol ZooAPIServicing {
-    func fetchPhoto(_ id: Int) -> SignalProducer<String, RequestError>
     func getAnimals() -> SignalProducer<(DetachedMetadata, [DetachedAnimalData]), RequestError>
     func getClasses() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError>
     func getBiotops() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError>
     func getFoods() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError>
+    func getMapMetadata() -> SignalProducer<MapMetadata, RequestError>
 }
 
 /**
@@ -35,14 +35,8 @@ final class ZooAPIService: ZooAPIServicing {
         self.jsonAPI = dependencies.jsonAPI
     }
 
-    func fetchPhoto(_ id: Int) -> SignalProducer<String, RequestError> {
-        jsonAPI.request(path: "photos/\(id)").compactMap { response in
-            (response.data as? [String: Any])?["url"] as? String
-        }
-    }
-
     func getAnimals() -> SignalProducer<(DetachedMetadata, [DetachedAnimalData]), RequestError> {
-        os_log("Fetching all animals.")
+        os_log("Fetching all animals.", log: Logger.networkingLog(), type: .info)
         return jsonAPI.request(path: "/api/animals").compactMap { response in
             guard let responseData = (response.data as? [String: Any]) else { return nil }
             guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
@@ -55,7 +49,7 @@ final class ZooAPIService: ZooAPIServicing {
     }
 
     func getClasses() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError> {
-        os_log("Fetching all classes.")
+        os_log("Fetching all classes.", log: Logger.networkingLog(), type: .info)
         return jsonAPI.request(path: "/api/classes").compactMap { response in
             guard let responseData = (response.data as? [String: Any]) else { return nil }
             guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
@@ -68,7 +62,7 @@ final class ZooAPIService: ZooAPIServicing {
     }
 
     func getBiotops() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError> {
-        os_log("Fetching all biotops.")
+        os_log("Fetching all biotops.", log: Logger.networkingLog(), type: .info)
         return jsonAPI.request(path: "/api/biotops").compactMap { response in
             guard let responseData = (response.data as? [String: Any]) else { return nil }
             guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
@@ -81,7 +75,7 @@ final class ZooAPIService: ZooAPIServicing {
     }
 
     func getFoods() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError> {
-        os_log("Fetching all foods.")
+        os_log("Fetching all foods.", log: Logger.networkingLog(), type: .info)
         return jsonAPI.request(path: "/api/foods").compactMap { response in
             guard let responseData = (response.data as? [String: Any]) else { return nil }
             guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
@@ -93,9 +87,19 @@ final class ZooAPIService: ZooAPIServicing {
         }
     }
 
+    func getMapMetadata() -> SignalProducer<MapMetadata, RequestError> {
+        os_log("Fetching map metadata.", log: Logger.networkingLog(), type: .info)
+        return jsonAPI.request(path: "/api/map/metadata").compactMap { response in
+            guard let responseData = (response.data as? [String: Any]) else { return nil }
+
+            let mapMetadata: MapMetadata = MapMetadata(using: responseData)
+            return mapMetadata
+        }
+    }
+
 //    func getMapData() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError> {
-//        os_log("Fetching all foods.")
-//        return jsonAPI.request(path: "/api/mapdata").compactMap { response in
+//        os_log("Fetching all foods.", log: Logger.networkingLog(), type: .info)
+//        return jsonAPI.request(path: "/api/map/data").compactMap { response in
 //            guard let responseData = (response.data as? [String: Any]) else { return nil }
 //            guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
 //            guard let values = responseData["data"] as? [String] else { return nil }

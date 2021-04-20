@@ -138,7 +138,7 @@ extension MapVC: TGMapViewDelegate {
     func mapView(_ mapView: TGMapView, didSelectFeature feature: [String: String]?, atScreenPosition position: CGPoint) {
         // It is possible to only pick features explicitly selected with "interactive: true" in the scene file
         // Able to pick buildings, roads, landuses
-        guard let feature = feature else { os_log("Selected feature is nil"); return }
+        guard let feature = feature else { os_log("Selected feature is nil", log: Logger.appLog(), type: .info); return }
         let coord = mapView.coordinate(fromViewPosition: position)
         viewModel.highlightLocations(using: feature, at: coord, canUseNil: false)
 

@@ -72,15 +72,15 @@ extension RealmDBManager {
         if let metadata = self.metadata.first, !forced {
             if(metadata.last_update_end < Date()) {
                 // If the end of the last update happened before today then no data is probably there
-                os_log("Update not needed.")
+                os_log("Update not needed.", log: Logger.networkingLog(), type: .info)
                 return SignalProducer<UpdateStatus, UpdateError>(value: .dataNotUpdated)
                     .delay(1.0, on: QueueScheduler.main)
             }
         }
 
-        os_log("Update required.")
+        os_log("Update required.", log: Logger.networkingLog(), type: .info)
 
-        return SignalProducer([updateAnimalData(), updateAnimalFilters()])
+        return SignalProducer([updateAnimalData(), updateAnimalFilters(), updateMapMetadata()])
             .flatten(.concat)
     }
 
@@ -95,7 +95,7 @@ extension RealmDBManager {
             .flatMap(.concat) { [weak self] (metadata, animals) -> SignalProducer<UpdateStatus, UpdateError> in
                 guard let self = self else { return SignalProducer(error: UpdateError.realmError) }
 
-                os_log("Storing animal data.")
+                os_log("Storing animal data.", log: Logger.appLog(), type: .info)
 
                 self.realmEdit { (realm: Realm) in
                     realm.add(Metadata(using: metadata), update: .modified)
@@ -119,7 +119,7 @@ extension RealmDBManager {
             .flatMap(.concat) { [weak self] resultsList -> SignalProducer<UpdateStatus, UpdateError> in
                 guard let self = self else { return SignalProducer(error: UpdateError.realmError) }
 
-                os_log("Storing animal filters.")
+                os_log("Storing animal filters.", log: Logger.appLog(), type: .info)
 
                 guard let fetchedMetadata = resultsList.first?.0 else { return SignalProducer(value: UpdateStatus.dataUpdated) }
 
@@ -128,6 +128,29 @@ extension RealmDBManager {
                     for (_, filter) in resultsList {
                         realm.add(AnimalFilter(filter), update: .modified)
                     }
+                }
+
+                return SignalProducer(value: UpdateStatus.dataUpdated)
+            }
+    }
+
+    /**
+     - Returns:
+        A SignalProducer that downloads map metadata and stores it in Realm DB, resulting in UpdateStatus.
+     */
+    private func updateMapMetadata() -> SignalProducer<UpdateStatus, UpdateError> {
+        zooApi.getMapMetadata()
+            .mapError() { UpdateError.updateError($0) }
+            .observe(on: QueueScheduler.main)
+            .flatMap(.concat) { [weak self] (mapMetadata: MapMetadata) -> SignalProducer<UpdateStatus, UpdateError> in
+                guard let self = self else { return SignalProducer(error: UpdateError.realmError) }
+
+                os_log("Storing map metadata.", log: Logger.appLog(), type: .info)
+
+                self.realmEdit { (realm: Realm) in
+                    realm.add(Metadata(using: mapMetadata.metadata), update: .modified)
+                    realm.add(mapMetadata.roadNodes.map() { RoadNode($0) }, update: .modified)
+                    realm.add(mapMetadata.roads.map() { Road($0) }, update: .modified)
                 }
 
                 return SignalProducer(value: UpdateStatus.dataUpdated)

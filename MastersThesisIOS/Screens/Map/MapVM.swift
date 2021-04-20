@@ -103,7 +103,7 @@ extension MapVM {
     func startNavigating() {
         guard let feature = highlightedLocations.value.first else { return }
         let destination = getDestinationPoint(using: feature)
-        os_log("Navigating to feature at [lon: %f, lat: %f]", destination.longitude, destination.latitude)
+        os_log("Navigating to feature at [lon: %f, lat: %f]", log: Logger.appLog(), type: .info, destination.longitude, destination.latitude)
     }
 
     /**
