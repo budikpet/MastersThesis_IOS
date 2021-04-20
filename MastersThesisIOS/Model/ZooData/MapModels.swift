@@ -13,6 +13,10 @@ class Road: Object {
     @objc dynamic public var _id: Int64 = -1
     public let nodes = List<RoadNode>()
 
+    override public static func primaryKey() -> String? {
+        return "_id"
+    }
+
     public convenience init(_ detachedRoad: DetachedRoad) {
         self.init()
         self._id = detachedRoad._id
@@ -45,13 +49,18 @@ struct DetachedRoad {
 
 class RoadNode: Object {
     @objc dynamic public var _id: Int64 = -1
-    @objc dynamic public var lon: Float = -1
-    @objc dynamic public var lat: Float = -1
+    @objc dynamic public var lon: Double = -1
+    @objc dynamic public var lat: Double = -1
     @objc dynamic public var is_connector: Bool = false
     public let road_ids = List<Int64>()
 
+    override public static func primaryKey() -> String? {
+        return "_id"
+    }
+
     public convenience init(_ detachedRoadNode: DetachedRoadNode) {
         self.init()
+        self._id = detachedRoadNode._id
         self.lon = detachedRoadNode.lon
         self.lat = detachedRoadNode.lat
         self.is_connector = detachedRoadNode.is_connector
@@ -65,16 +74,16 @@ class RoadNode: Object {
 
 struct DetachedRoadNode {
     let _id: Int64
-    let lon: Float
-    let lat: Float
+    let lon: Double
+    let lat: Double
     let is_connector: Bool
     var road_ids: [Int64] = []
 
     // swiftlint:disable force_cast
     init(using dict: [String: Any]) {
         self._id = dict["_id"] as! Int64
-        self.lon = (dict["lon"] as? Float) ?? -1
-        self.lat = (dict["lat"] as? Float) ?? -1
+        self.lon = (dict["lon"] as? Double) ?? -1.0
+        self.lat = (dict["lat"] as? Double) ?? -1.0
         self.is_connector = (dict["is_connector"] as? Bool) ?? false
         self.road_ids = (dict["road_ids"] as? Array<Int64>) ?? []
     }
