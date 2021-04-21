@@ -27,6 +27,8 @@ protocol RealmDBManaging {
 
     func loadLocalMapConfig() -> MapConfig
     func loadMapMetadata() -> MapMetadata
+    func loadAnimalData() -> [DetachedAnimalData]
+    func loadAnimalFilters() -> [DetachedAnimalFilter]
 }
 
 /**
@@ -161,8 +163,8 @@ extension RealmDBManager {
                     realm.delete(realm.objects(RoadNode.self))
 
                     realm.add(Metadata(using: mapMetadata.metadata), update: .modified)
-                    realm.add(mapMetadata.roadNodes.map() { RoadNode($0) })
-                    realm.add(mapMetadata.roads.map() { Road($0) })
+                    realm.add(mapMetadata.roadNodes.map() { RoadNode($0) }, update: .modified)
+                    realm.add(mapMetadata.roads.map() { Road($0) }, update: .modified)
                 }
 
                 return SignalProducer(value: UpdateStatus.dataUpdated)
@@ -183,10 +185,14 @@ extension RealmDBManager {
             }
 
             self.realmEdit { (realm: Realm) in
-                let mapMetadata = self.loadMapMetadata()
-                realm.add(Metadata(using: mapMetadata.metadata), update: .modified)
-                realm.add(mapMetadata.roadNodes.map() { RoadNode($0) }, update: .modified)
-                realm.add(mapMetadata.roads.map() { Road($0) }, update: .modified)
+//                let mapMetadata = self.loadMapMetadata()
+//                realm.add(Metadata(using: mapMetadata.metadata), update: .modified)
+//                realm.add(mapMetadata.roadNodes.map() { RoadNode($0) }, update: .modified)
+//                realm.add(mapMetadata.roads.map() { Road($0) }, update: .modified)
+                let animalData = self.loadAnimalData()
+                realm.add(animalData.map { AnimalData(using: $0) }, update: .modified)
+                let animalFilters = self.loadAnimalFilters()
+                realm.add(animalFilters.map { AnimalFilter($0) }, update: .modified)
             }
 
             observer.send(value: UpdateStatus.dataUpdated)
@@ -206,14 +212,49 @@ extension RealmDBManager {
     }
 
     internal func loadMapMetadata() -> MapMetadata {
-        guard let configFile = Bundle.resources.url(forResource: "map_metadata", withExtension: "json", subdirectory: "Map") else { fatalError("Map metadata file not found.") }
+        guard let configFile = Bundle.resources.url(forResource: "defaultMapMetadata", withExtension: "json", subdirectory: "Map") else { fatalError("Map metadata file not found.") }
 
         do {
             let data = try Data(contentsOf: configFile)
             if let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                 return MapMetadata(using: dict)
             } else {
-                throw "Could not parse file map metadata file into JSON."
+                throw "Could not parse map metadata file into JSON."
+            }
+        } catch {
+            fatalError("Could not load map config.")
+        }
+    }
+
+    internal func loadAnimalData() -> [DetachedAnimalData] {
+        guard let configFile = Bundle.resources.url(forResource: "defaultAnimalData", withExtension: "json", subdirectory: "Map") else { fatalError("Animal data file not found.") }
+
+        do {
+            let data = try Data(contentsOf: configFile)
+            if let dicts = try JSONSerialization.jsonObject(with: data, options: []) as? Array<[String: Any]> {
+                return dicts.map { DetachedAnimalData(using: $0) }
+            } else {
+                throw "Could not parse animal data file into JSON."
+            }
+        } catch {
+            fatalError("Could not load map config.")
+        }
+    }
+
+    internal func loadAnimalFilters() -> [DetachedAnimalFilter] {
+        guard let configFile = Bundle.resources.url(forResource: "defaultFilters", withExtension: "json", subdirectory: "Map") else { fatalError("Filters file not found.") }
+
+        do {
+            let data = try Data(contentsOf: configFile)
+            if let dicts = try JSONSerialization.jsonObject(with: data, options: []) as? [String: [String]] {
+                guard let classes = dicts["classes"],
+                      let biotops = dicts["biotops"],
+                      let foods = dicts["foods"] else {
+                    fatalError("Filters could not be loaded into dictionaries.")
+                }
+                return [DetachedAnimalFilter(ofType: "classes", classes), DetachedAnimalFilter(ofType: "biotops", biotops), DetachedAnimalFilter(ofType: "foods", foods)]
+            } else {
+                throw "Could not parse animal data file into JSON."
             }
         } catch {
             fatalError("Could not load map config.")

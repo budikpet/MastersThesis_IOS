@@ -1,0 +1,40 @@
+{
+   "classes":[
+      "Hmyz",
+      "Mnohonožky",
+      "Měkkýši",
+      "Obojživelníci",
+      "Ostatní bezobratlí",
+      "Paryby",
+      "Pavoukovci",
+      "Plazi",
+      "Ptáci",
+      "Ryby paprskoploutvé",
+      "Savci",
+      "Stonožky"
+   ],
+   "biotops":[
+      "Hory",
+      "Jehličnatý les",
+      "Kamenité stepi a polopouště",
+      "Křovinaté oblasti a mokřady",
+      "Listnatý a smíšený les",
+      "Moře",
+      "Poušť a polopoušť",
+      "Sladké vody",
+      "Travnaté území",
+      "Tropický les",
+      "Tundra"
+   ],
+   "foods":[
+      "Bezobratlí",
+      "Obratlovci",
+      "Plankton",
+      "Plody",
+      "Rostliny i živočichové",
+      "Ryby",
+      "Semena",
+      "Zdechliny",
+      "Části rostlin"
+   ]
+}

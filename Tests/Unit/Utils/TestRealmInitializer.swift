@@ -33,6 +33,12 @@ final class TestRealmInitializer {
             realm.add(Metadata(using: mapMetadata.metadata), update: .modified)
             realm.add(mapMetadata.roadNodes.map() { RoadNode($0) }, update: .modified)
             realm.add(mapMetadata.roads.map() { Road($0) }, update: .modified)
+
+            let animalData = realmDbManager.loadAnimalData()
+            realm.add(animalData.map { AnimalData(using: $0) }, update: .modified)
+
+            let animalFilters = realmDbManager.loadAnimalFilters()
+            realm.add(animalFilters.map { AnimalFilter($0) }, update: .modified)
         }
     }
 }
