@@ -24,13 +24,16 @@ protocol RealmDBManaging {
     var realm: Realm { get }
 
     func realmEdit(_ editClosure: (Realm) -> ())
+
+    func loadLocalMapConfig() -> MapConfig
+    func loadMapMetadata() -> MapMetadata
 }
 
 /**
  Handles updating of local Realm DB.
  */
 final class RealmDBManager: RealmDBManaging, RealmDBManagingActions {
-    typealias Dependencies = HasZooAPI
+    typealias Dependencies = HasZooAPI & HasRealm
     private let zooApi: ZooAPIServicing
 
     // MARK: Actions
@@ -45,7 +48,7 @@ final class RealmDBManager: RealmDBManaging, RealmDBManagingActions {
 
     init(dependencies: Dependencies) {
         self.zooApi = dependencies.zooAPI
-        self.realm = RealmDBManager.initRealm()
+        self.realm = dependencies.realm
         self.metadata = realm.objects(Metadata.self).filter("_id == 0")
     }
 
@@ -58,11 +61,7 @@ final class RealmDBManager: RealmDBManaging, RealmDBManagingActions {
             fatalError("Error occured when writing to realm: \(e)")
         }
     }
-}
 
-// MARK: Helpers
-
-extension RealmDBManager {
     /**
      Checks whether it is necessary to start an update. If it is necessary then it starts the update.
      - Returns:
@@ -79,11 +78,21 @@ extension RealmDBManager {
         }
 
         os_log("Update required.", log: Logger.networkingLog(), type: .info)
+        var producers = [updateAnimalData(), updateAnimalFilters(), updateMapMetadata()]
 
-        return SignalProducer([updateAnimalData(), updateAnimalFilters(), updateMapMetadata()])
+        if(realm.isEmpty) {
+            // If realm is empty, first download data from local files
+            producers.insert(runUpdateFromLocalFiles(), at: 0)
+        }
+
+        return SignalProducer(producers)
             .flatten(.concat)
     }
+}
 
+// MARK: Helper functions for update from remote DB
+
+extension RealmDBManager {
     /**
      - Returns:
         A SignalProducer that downloads all AnimalData data and stores it in Realm DB, resulting in UpdateStatus.
@@ -148,34 +157,66 @@ extension RealmDBManager {
                 os_log("Storing map metadata.", log: Logger.appLog(), type: .info)
 
                 self.realmEdit { (realm: Realm) in
+                    realm.delete(realm.objects(Road.self))
+                    realm.delete(realm.objects(RoadNode.self))
+
                     realm.add(Metadata(using: mapMetadata.metadata), update: .modified)
-                    realm.add(mapMetadata.roadNodes.map() { RoadNode($0) }, update: .modified)
-                    realm.add(mapMetadata.roads.map() { Road($0) }, update: .modified)
+                    realm.add(mapMetadata.roadNodes.map() { RoadNode($0) })
+                    realm.add(mapMetadata.roads.map() { Road($0) })
                 }
 
                 return SignalProducer(value: UpdateStatus.dataUpdated)
             }
     }
+}
 
-    /**
-     Initializes `Realm` instance with all needed configuration
-     - Returns:
-        A new `Realm` instance.
-     */
-    private static func initRealm() -> Realm {
+// MARK: Helper functions for update from local files
+
+extension RealmDBManager {
+    internal func runUpdateFromLocalFiles() -> SignalProducer<UpdateStatus, UpdateError> {
+        SignalProducer { [weak self] observer, lifetime in
+            os_log("Updating from local files.", log: Logger.appLog(), type: .info)
+
+            guard let self = self else {
+                observer.send(error: UpdateError.realmError)
+                return
+            }
+
+            self.realmEdit { (realm: Realm) in
+                let mapMetadata = self.loadMapMetadata()
+                realm.add(Metadata(using: mapMetadata.metadata), update: .modified)
+                realm.add(mapMetadata.roadNodes.map() { RoadNode($0) }, update: .modified)
+                realm.add(mapMetadata.roads.map() { Road($0) }, update: .modified)
+            }
+
+            observer.send(value: UpdateStatus.dataUpdated)
+            observer.sendCompleted()
+        }
+    }
+
+    internal func loadLocalMapConfig() -> MapConfig {
+        guard let configFile = Bundle.resources.url(forResource: "defaultConfig", withExtension: "json", subdirectory: "Map") else { fatalError("Config file not found.") }
+
         do {
-            // TODO: This configuration causes hard crash on start on physical device. Find out why.
-//            guard let fileURL = FileManager.default
-//                .containerURL(forSecurityApplicationGroupIdentifier: Bundle.main.bundleIdentifier ?? "cz.budikpet.MastersThesisIOS")?
-//                .appendingPathComponent("default.realm")
-//            else {
-//                throw "Could not get fileURL for Realm configuration."
-//            }
-//            Realm.Configuration.defaultConfiguration = Realm.Configuration(fileURL: fileURL)
-
-            return try Realm()
+            let data = try Data(contentsOf: configFile)
+            return try JSONDecoder().decode(MapConfig.self, from: data)
         } catch {
-            fatalError("Error initializing new Realm for the first time: \(error)")
+            fatalError("Could not load map config.")
+        }
+    }
+
+    internal func loadMapMetadata() -> MapMetadata {
+        guard let configFile = Bundle.resources.url(forResource: "map_metadata", withExtension: "json", subdirectory: "Map") else { fatalError("Map metadata file not found.") }
+
+        do {
+            let data = try Data(contentsOf: configFile)
+            if let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                return MapMetadata(using: dict)
+            } else {
+                throw "Could not parse file map metadata file into JSON."
+            }
+        } catch {
+            fatalError("Could not load map config.")
         }
     }
 }

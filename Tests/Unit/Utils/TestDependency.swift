@@ -1,17 +1,13 @@
 import Foundation
 import RealmSwift
 import CoreLocation
-
-typealias HasBaseAPIDependecies = HasNetwork & HasJSONAPI & HasAuthenticatedJSONAPI & HasAuthHandler & HasRealm
-typealias HasAPIDependencies = HasPushAPI & HasFetcher & HasExampleAPI & HasZooAPI
-typealias HasCredentialsDependencies = HasCredentialsProvider & HasCredentialsStore
-typealias HasManagerDependencies = HasPushManager & HasUserManager & HasFirebasePushObserver & HasVersionUpdateManager & HasRealmDBManager & HasLocationManager
+@testable import MastersThesisIOS
 
 /// Container for all app dependencies
-final class AppDependency: HasBaseAPIDependecies, HasCredentialsDependencies, HasManagerDependencies, HasAPIDependencies {
+final class TestAppDependency: HasBaseAPIDependecies, HasCredentialsDependencies, HasManagerDependencies, HasAPIDependencies {
     lazy var network: Networking = Network()
     lazy var authHandler: AuthHandling = AuthHandler()
-    lazy var realm: Realm = self.initRealm()
+    lazy var realm: Realm = self.createEmptyRealm()
 
     lazy var credentialsProvider: CredentialsProvider = UserDefaults.credentials
     lazy var credentialsStore: CredentialsStore = UserDefaults.credentials
@@ -37,6 +33,8 @@ final class AppDependency: HasBaseAPIDependecies, HasCredentialsDependencies, Ha
         return manager
     }()
 
+    lazy var testRealmInitializer: TestRealmInitializer = TestRealmInitializer(dependencies: self)
+
     // MARK: - Initializers
 
     /// This class is not supposed to be instantiated elsewhere
@@ -49,28 +47,22 @@ final class AppDependency: HasBaseAPIDependecies, HasCredentialsDependencies, Ha
      - Returns:
         A new `Realm` instance.
      */
-    private func initRealm() -> Realm {
+    func createEmptyRealm() -> Realm {
         do {
-            return try Realm()
+            let realmConfig: Realm.Configuration = Realm.Configuration(inMemoryIdentifier: UUID().uuidString, encryptionKey: nil, readOnly: false, schemaVersion: 0, migrationBlock: nil, objectTypes: nil)
+            let realm = try Realm(configuration: realmConfig)
+
+            try! realm.write { () -> Void in
+                realm.deleteAll()
+            }
+
+            return realm
         } catch {
             fatalError("Error initializing new Realm for the first time: \(error)")
         }
     }
 }
 
-// MARK: Other protocols
-
-protocol HasLocationManager {
-    var locationManager: CLLocationManager { get }
-}
-
-protocol HasRealm {
-    var realm: Realm { get }
-}
-
-protocol HasNoDependency { }
-extension AppDependency: HasNoDependency { }
-
 // MARK: Singleton
 
-let appDependencies = AppDependency()
+let testDependencies = TestAppDependency()

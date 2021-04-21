@@ -66,6 +66,9 @@
 		4BADEA1A26130B03004440A6 /* RealmDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADEA1926130B03004440A6 /* RealmDBManager.swift */; };
 		4BCD2575261F32E6003B7251 /* Map in Resources */ = {isa = PBXBuildFile; fileRef = 4BCD2574261F32E6003B7251 /* Map */; };
 		4BCD257826231FCE003B7251 /* MapLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCD257726231FCD003B7251 /* MapLocation.swift */; };
+		4BCFBEC226304AA30006C089 /* ZooNavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCFBEC126304AA30006C089 /* ZooNavigationService.swift */; };
+		4BCFBECE26306A880006C089 /* TestDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCFBEC6263057950006C089 /* TestDependency.swift */; };
+		4BCFBED026306A8E0006C089 /* TestRealmInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCFBECA263064530006C089 /* TestRealmInitializer.swift */; };
 		4BE756902607D0C800DFB440 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */; };
 		4BE756A52607D7A600DFB440 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756A42607D7A600DFB440 /* README.md */; };
 		4BE756AB26089B1C00DFB440 /* AnimalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE756AA26089B1C00DFB440 /* AnimalData.swift */; };
@@ -121,7 +124,7 @@
 		F4036BB1669A257AF85979B9 /* Pods_MastersThesisIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AFB3087E4EB64FA06AB4B63 /* Pods_MastersThesisIOS.framework */; };
 		F47DC00F059B4DDABBE2F386 /* XCTestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814157CA305815C47B75A188 /* XCTestExtensions.swift */; };
 		F5A2602D3DBC683053A48B4D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863174C24BD2DBD99904394C /* main.swift */; };
-		F867F005A7D56EAC5E01079C /* UnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A3A6A16E9599E2943E76AC /* UnitTests.swift */; };
+		F867F005A7D56EAC5E01079C /* ZooNavigatorServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A3A6A16E9599E2943E76AC /* ZooNavigatorServiceTests.swift */; };
 		F951FA3A3320057927FDEE83 /* TestingAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11F04A59E33B0A7079DFC98 /* TestingAppDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -159,7 +162,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		00A3A6A16E9599E2943E76AC /* UnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTests.swift; sourceTree = "<group>"; };
+		00A3A6A16E9599E2943E76AC /* ZooNavigatorServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZooNavigatorServiceTests.swift; sourceTree = "<group>"; };
 		01D8BF3C3B70789A526FF85B /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleToolboxForMac.framework; sourceTree = "<group>"; };
 		0308B0DCE5FD80EE6D6CCC2D /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = nanopb.framework; sourceTree = "<group>"; };
 		05DCA311AAD7A01333B12091 /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
@@ -240,6 +243,9 @@
 		4BADEA1926130B03004440A6 /* RealmDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDBManager.swift; sourceTree = "<group>"; };
 		4BCD2574261F32E6003B7251 /* Map */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Map; sourceTree = "<group>"; };
 		4BCD257726231FCD003B7251 /* MapLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLocation.swift; sourceTree = "<group>"; };
+		4BCFBEC126304AA30006C089 /* ZooNavigationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZooNavigationService.swift; sourceTree = "<group>"; };
+		4BCFBEC6263057950006C089 /* TestDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDependency.swift; sourceTree = "<group>"; };
+		4BCFBECA263064530006C089 /* TestRealmInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestRealmInitializer.swift; sourceTree = "<group>"; };
 		4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		4BE756982607D59400DFB440 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4BE756A42607D7A600DFB440 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -405,9 +411,8 @@
 		2D32EE98D63954B0BB5D3F55 /* Unit */ = {
 			isa = PBXGroup;
 			children = (
-				B11F04A59E33B0A7079DFC98 /* TestingAppDelegate.swift */,
-				00A3A6A16E9599E2943E76AC /* UnitTests.swift */,
-				814157CA305815C47B75A188 /* XCTestExtensions.swift */,
+				4BCFBEC92630640C0006C089 /* Utils */,
+				00A3A6A16E9599E2943E76AC /* ZooNavigatorServiceTests.swift */,
 			);
 			path = Unit;
 			sourceTree = "<group>";
@@ -630,10 +635,22 @@
 		4BADEA1026125B2E004440A6 /* Zoo */ = {
 			isa = PBXGroup;
 			children = (
-				4BADE9A8261254C4004440A6 /* ZooAPIService.swift */,
 				4BADEA1926130B03004440A6 /* RealmDBManager.swift */,
+				4BADE9A8261254C4004440A6 /* ZooAPIService.swift */,
+				4BCFBEC126304AA30006C089 /* ZooNavigationService.swift */,
 			);
 			path = Zoo;
+			sourceTree = "<group>";
+		};
+		4BCFBEC92630640C0006C089 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				4BCFBEC6263057950006C089 /* TestDependency.swift */,
+				B11F04A59E33B0A7079DFC98 /* TestingAppDelegate.swift */,
+				4BCFBECA263064530006C089 /* TestRealmInitializer.swift */,
+				814157CA305815C47B75A188 /* XCTestExtensions.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		4BE756A926089AEF00DFB440 /* ZooData */ = {
@@ -1294,6 +1311,7 @@
 				4B522DE02607943E00500699 /* TabBarPage.swift in Sources */,
 				4BA828C02629EEC200B990C0 /* MapLexiconVM.swift in Sources */,
 				4BADE9A9261254C4004440A6 /* ZooAPIService.swift in Sources */,
+				4BCFBEC226304AA30006C089 /* ZooNavigationService.swift in Sources */,
 				4BA828BF2629EEC200B990C0 /* MapLexiconVC.swift in Sources */,
 				4BADEA1A26130B03004440A6 /* RealmDBManager.swift in Sources */,
 				4BF9A4F1261A51F000E98D03 /* OtherExtensions.swift in Sources */,
@@ -1347,9 +1365,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BCFBED026306A8E0006C089 /* TestRealmInitializer.swift in Sources */,
+				4BCFBECE26306A880006C089 /* TestDependency.swift in Sources */,
 				F951FA3A3320057927FDEE83 /* TestingAppDelegate.swift in Sources */,
-				F867F005A7D56EAC5E01079C /* UnitTests.swift in Sources */,
 				F47DC00F059B4DDABBE2F386 /* XCTestExtensions.swift in Sources */,
+				F867F005A7D56EAC5E01079C /* ZooNavigatorServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

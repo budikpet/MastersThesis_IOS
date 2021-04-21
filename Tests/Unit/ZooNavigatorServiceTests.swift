@@ -2,16 +2,21 @@
 //  UnitTests.swift
 //  UnitTests
 //
-//  Created by Jakub Olejník on 09/10/2017.
+//  Created by Petr Budík on 21/04/2021.
 //
 
 import XCTest
+import ReactiveSwift
 @testable import MastersThesisIOS
 
-class ProjectTemplateTests: XCTestCase {
+class ZooNavigatorServiceTests: XCTestCase {
+
+    let testRealmDbManager: RealmDBManaging = testDependencies.realmDBManager
 
     override func setUp() {
         super.setUp()
+        testDependencies.testRealmInitializer.updateRealm()
+        print("Test")
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
