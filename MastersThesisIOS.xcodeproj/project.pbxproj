@@ -124,7 +124,7 @@
 		F4036BB1669A257AF85979B9 /* Pods_MastersThesisIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AFB3087E4EB64FA06AB4B63 /* Pods_MastersThesisIOS.framework */; };
 		F47DC00F059B4DDABBE2F386 /* XCTestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814157CA305815C47B75A188 /* XCTestExtensions.swift */; };
 		F5A2602D3DBC683053A48B4D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863174C24BD2DBD99904394C /* main.swift */; };
-		F867F005A7D56EAC5E01079C /* ZooNavigatorServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A3A6A16E9599E2943E76AC /* ZooNavigatorServiceTests.swift */; };
+		F867F005A7D56EAC5E01079C /* ZooNavigationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A3A6A16E9599E2943E76AC /* ZooNavigationServiceTests.swift */; };
 		F951FA3A3320057927FDEE83 /* TestingAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11F04A59E33B0A7079DFC98 /* TestingAppDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -162,7 +162,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		00A3A6A16E9599E2943E76AC /* ZooNavigatorServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZooNavigatorServiceTests.swift; sourceTree = "<group>"; };
+		00A3A6A16E9599E2943E76AC /* ZooNavigationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZooNavigationServiceTests.swift; sourceTree = "<group>"; };
 		01D8BF3C3B70789A526FF85B /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleToolboxForMac.framework; sourceTree = "<group>"; };
 		0308B0DCE5FD80EE6D6CCC2D /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = nanopb.framework; sourceTree = "<group>"; };
 		05DCA311AAD7A01333B12091 /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
@@ -412,7 +412,7 @@
 			isa = PBXGroup;
 			children = (
 				4BCFBEC92630640C0006C089 /* Utils */,
-				00A3A6A16E9599E2943E76AC /* ZooNavigatorServiceTests.swift */,
+				00A3A6A16E9599E2943E76AC /* ZooNavigationServiceTests.swift */,
 			);
 			path = Unit;
 			sourceTree = "<group>";
@@ -1369,7 +1369,7 @@
 				4BCFBECE26306A880006C089 /* TestDependency.swift in Sources */,
 				F951FA3A3320057927FDEE83 /* TestingAppDelegate.swift in Sources */,
 				F47DC00F059B4DDABBE2F386 /* XCTestExtensions.swift in Sources */,
-				F867F005A7D56EAC5E01079C /* ZooNavigatorServiceTests.swift in Sources */,
+				F867F005A7D56EAC5E01079C /* ZooNavigationServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

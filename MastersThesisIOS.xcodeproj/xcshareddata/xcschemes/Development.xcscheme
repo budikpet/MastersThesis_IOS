@@ -56,6 +56,11 @@
                BlueprintName = "MastersThesisIOSTests"
                ReferencedContainer = "container:MastersThesisIOS.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "ProjectTemplateTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

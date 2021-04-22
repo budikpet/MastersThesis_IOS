@@ -5,7 +5,7 @@ import CoreLocation
 typealias HasBaseAPIDependecies = HasNetwork & HasJSONAPI & HasAuthenticatedJSONAPI & HasAuthHandler & HasRealm
 typealias HasAPIDependencies = HasPushAPI & HasFetcher & HasExampleAPI & HasZooAPI
 typealias HasCredentialsDependencies = HasCredentialsProvider & HasCredentialsStore
-typealias HasManagerDependencies = HasPushManager & HasUserManager & HasFirebasePushObserver & HasVersionUpdateManager & HasRealmDBManager & HasLocationManager
+typealias HasManagerDependencies = HasPushManager & HasUserManager & HasFirebasePushObserver & HasVersionUpdateManager & HasRealmDBManager & HasLocationManager & HasZooNavigationService
 
 /// Container for all app dependencies
 final class AppDependency: HasBaseAPIDependecies, HasCredentialsDependencies, HasManagerDependencies, HasAPIDependencies {
@@ -29,6 +29,7 @@ final class AppDependency: HasBaseAPIDependecies, HasCredentialsDependencies, Ha
     lazy var userManager: UserManaging = UserManager()
     lazy var versionUpdateManager: VersionUpdateManaging = VersionUpdateManager(dependencies: self)
     lazy var realmDBManager: RealmDBManaging = RealmDBManager(dependencies: self)
+    lazy var zooNavigationService: ZooNavigationServicing = ZooNavigationService(dependencies: self)
     lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters

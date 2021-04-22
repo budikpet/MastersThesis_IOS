@@ -25,6 +25,7 @@ final class TestAppDependency: HasBaseAPIDependecies, HasCredentialsDependencies
     lazy var userManager: UserManaging = UserManager()
     lazy var versionUpdateManager: VersionUpdateManaging = VersionUpdateManager(dependencies: self)
     lazy var realmDBManager: RealmDBManaging = RealmDBManager(dependencies: self)
+    lazy var zooNavigationService: ZooNavigationServicing = ZooNavigationService(dependencies: self)
     lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
