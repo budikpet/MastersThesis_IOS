@@ -10,6 +10,122 @@ import ReactiveSwift
 import RealmSwift
 @testable import MastersThesisIOS
 
+class CreateFullShortestPathTests: XCTestCase {
+
+    let realm: Realm = testDependencies.realm
+    let zooNavigationService: ZooNavigationService = ZooNavigationService(dependencies: testDependencies)
+
+    lazy var roadNodes: Results<RoadNode> = {
+        return realm.objects(RoadNode.self)
+    }()
+    lazy var roads: Results<Road> = {
+        return realm.objects(Road.self)
+    }()
+
+    override class func setUp() {
+        super.setUp()
+        testDependencies.testRealmInitializer.updateRealm()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+
+    override func setUp() {
+        super.setUp()
+        self.continueAfterFailure = false
+    }
+
+    override class func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
+
+    //swiftlint:disable trailing_whitespace
+    func testNoNewNodes() {
+        // Prepare
+        let shortestPath: [RoadNode] = [531401381, 382975826, 436123425, 168300856, 520661986, 999606680, 703121452, 971219131, 957693158, 501460275, 900690472, 141267973, 281647716]
+            .map { [weak self] id in
+                guard let self = self else { fatalError("Self is nil") }
+                guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
+                return node
+            }
+        guard let originRoad = roads.first(where: {$0._id == 355534568}) else { fatalError("Origin road must exist.") }
+        let originPoint = RoadPoint(lon: 14.40966, lat: 50.11594, road: originRoad)
+        
+        guard let destRoad = roads.first(where: {$0._id == 318760846}) else { fatalError("Destination road must exist.") }
+        let destPoint = RoadPoint(lon: 14.40849, lat: 50.11531, road: destRoad)
+        
+        // Do
+        let result = zooNavigationService.createFullShortestPath(originPoint: originPoint, destinationPoint: destPoint, shortestPath)
+        
+        // Assert
+        let expectedResults: [(Double, Double)] = [originPoint.coords()] + shortestPath.map { return ($0.lon, $0.lat) } + [destPoint.coords()]
+        
+        XCTAssertEqual(result.count, expectedResults.count)
+        XCTAssertTrue(coordinatesEqual(result, expectedResults))
+    }
+    
+    func testOneAdditionalNodePerPoint() {
+        // Prepare
+        let shortestPath: [RoadNode] = [531401381, 382975826, 436123425, 168300856, 520661986, 999606680, 703121452, 971219131, 957693158, 501460275, 900690472, 141267973, 281647716]
+            .map { [weak self] id in
+                guard let self = self else { fatalError("Self is nil") }
+                guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
+                return node
+            }
+        guard let originRoad = roads.first(where: {$0._id == 355534568}) else { fatalError("Origin road must exist.") }
+        let originPoint = RoadPoint(lon: 14.40954, lat: 50.11596, road: originRoad)
+        
+        guard let destRoad = roads.first(where: {$0._id == 318760846}) else { fatalError("Destination road must exist.") }
+        let destPoint = RoadPoint(lon: 14.40844, lat: 50.11523, road: destRoad)
+        
+        // Do
+        let result = zooNavigationService.createFullShortestPath(originPoint: originPoint, destinationPoint: destPoint, shortestPath)
+        
+        // Assert
+        let expectedResults: [(Double, Double)] = [originPoint.coords(), (14.4095969, 50.11595227)] + shortestPath.map { return ($0.lon, $0.lat) } + [(14.40845542, 50.11526707), destPoint.coords()]
+        
+        XCTAssertEqual(result.count, expectedResults.count)
+        XCTAssertTrue(coordinatesEqual(result, expectedResults))
+    }
+    
+    func testPointsCloseToWrongNode() {
+        // Prepare
+        let shortestPath: [RoadNode] = [531401381, 382975826, 436123425, 168300856, 520661986, 999606680, 703121452, 971219131, 957693158, 501460275, 900690472, 141267973, 281647716]
+            .map { [weak self] id in
+                guard let self = self else { fatalError("Self is nil") }
+                guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
+                return node
+            }
+        guard let originRoad = roads.first(where: {$0._id == 355534568}) else { fatalError("Origin road must exist.") }
+        let originPoint = RoadPoint(lon: 14.40962, lat: 50.11595, road: originRoad)
+        
+        guard let destRoad = roads.first(where: {$0._id == 318760846}) else { fatalError("Destination road must exist.") }
+        let destPoint = RoadPoint(lon: 14.40848, lat: 50.11528, road: destRoad)
+        
+        // Do
+        let result = zooNavigationService.createFullShortestPath(originPoint: originPoint, destinationPoint: destPoint, shortestPath)
+        
+        // Assert
+        let expectedResults: [(Double, Double)] = [originPoint.coords()] + shortestPath.map { return ($0.lon, $0.lat) } + [destPoint.coords()]
+        
+        XCTAssertEqual(result.count, expectedResults.count)
+        XCTAssertTrue(coordinatesEqual(result, expectedResults))
+    }
+    
+    private func coordinatesEqual(_ a: [(Double, Double)], _ b: [(Double, Double)]) -> Bool {
+        if(a.count != b.count) {
+             return false
+        }
+        
+        for index in 0..<a.count {
+            if(a[index].0 != b[index].0 || a[index].1 != b[index].1) {
+                return false
+            }
+        }
+        
+        return true
+    }
+}
+
 class PopulateShortestPathTests: XCTestCase {
 
     let realm: Realm = testDependencies.realm
@@ -22,14 +138,18 @@ class PopulateShortestPathTests: XCTestCase {
         return realm.objects(Road.self)
     }()
 
-    override func setUp() {
+    override class func setUp() {
         super.setUp()
         testDependencies.testRealmInitializer.updateRealm()
-        self.continueAfterFailure = false
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
+    
+    override func setUp() {
+        super.setUp()
+        self.continueAfterFailure = false
+    }
 
-    override func tearDown() {
+    override class func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
@@ -105,14 +225,18 @@ class ComputeShortestPathTests: XCTestCase {
         return realm.objects(Road.self)
     }()
 
-    override func setUp() {
+    override class func setUp() {
         super.setUp()
         testDependencies.testRealmInitializer.updateRealm()
-        self.continueAfterFailure = false
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
+    
+    override func setUp() {
+        super.setUp()
+        self.continueAfterFailure = false
+    }
 
-    override func tearDown() {
+    override class func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }

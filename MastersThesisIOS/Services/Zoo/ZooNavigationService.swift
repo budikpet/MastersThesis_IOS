@@ -47,6 +47,30 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
         self.roadConnectorNodes = roadNodes.filter({ $0.is_connector })
     }
 
+    /// Joins paths from originPoint and destinationPoint to computed shortest path.
+    /// - Parameters:
+    ///   - originPoint: An origin point that is situated on the first road.
+    ///   - destinationPoint: A destination point that is situated on the last road.
+    ///   - shortestPath: The non-empty shortest found path made up of road nodes.
+    /// - Returns: A list of tuples (longitude, latitude) that make up the shortest path between given origin point and destination point.
+    internal func createFullShortestPath(originPoint: RoadPoint, destinationPoint: RoadPoint, _ shortestPath: [RoadNode]) -> [(Double, Double)] {
+        guard let firstConnector = shortestPath.first,
+              let lastConnector = shortestPath.last
+        else {
+            fatalError("Computed shortest paths cannot be empty.")
+        }
+
+        let closestNodeToOrigin = self.getClosestNode(to: originPoint, thatsConnectedTo: firstConnector)
+        let closestNodeToDest = self.getClosestNode(to: destinationPoint, thatsConnectedTo: lastConnector)
+        let nodesFromOrigin: [RoadNode] = self.getNodesBetween(closestNodeToOrigin, firstConnector, on: originPoint.road)
+        let nodesToDest: [RoadNode] = self.getNodesBetween(closestNodeToDest, lastConnector, on: destinationPoint.road)
+
+        let connectedRoad = (nodesFromOrigin + shortestPath + nodesToDest)
+            .map { ($0.lon, $0.lat) }
+
+        return [originPoint.coords()] + connectedRoad + [destinationPoint.coords()]
+    }
+
     /// Fills all nodes between separate connector nodes that make the shortest path.
     /// - Parameter connectorsPath: The shortest found path made up of connector nodes only.
     /// - Returns: A list of all RoadNodes that make up the shortest path between origin connector node and destination connection node.
@@ -57,14 +81,7 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
         for connector in connectorsPath {
             if(connector != lastConnector) {
                 let sharedRoad = getSharedRoad(connector, lastConnector)
-                let (firstIndex, lastIndex) = getRoadIndexes(road: sharedRoad, connector, lastConnector)
-                var nodesBetween: [RoadNode] = Array(sharedRoad.nodes[firstIndex...lastIndex])
-
-                if(sharedRoad.nodes[firstIndex]._id != lastConnector._id()) {
-                    nodesBetween.reverse()
-                }
-
-                nodesBetween.popLast()
+                var nodesBetween: [RoadNode] = getNodesBetween(lastConnector.node, connector.node, on: sharedRoad)
                 res.append(contentsOf: nodesBetween)
             }
 
@@ -115,9 +132,9 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
                         // This node was already checked
                         continue
                     } else {
-                        neighbour.distanceFromDestination = calculateDistanceBetween(a: neighbour.getCoords(), b: destinationPoint)
+                        neighbour.distanceFromDestination = computeDistanceBetween(a: neighbour.getCoords(), b: destinationPoint)
                         neighbour.lastNode = currGraphNode
-                        neighbour.distanceFromOrigin = currGraphNode.distanceFromOrigin + calculateDistanceBetween(a: neighbour.getCoords(), b: currGraphNode.getCoords())
+                        neighbour.distanceFromOrigin = currGraphNode.distanceFromOrigin + computeDistanceBetween(a: neighbour.getCoords(), b: currGraphNode.getCoords())
 
                         if(openedNodes.contains(neighbour)) {
                             // Neighbour has already been opened, update values if needed
@@ -147,6 +164,44 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
 
 extension ZooNavigationService {
 
+    /// Computes all nodes between two given connector nodes.
+    /// - Parameters:
+    ///   - startingNode: The starting node.
+    ///   - endingNode: The ending node.
+    ///   - road: A road which contains both
+    /// - Returns: A list of RoadNodes that starts with startingNode and ends with endingNode.
+    private func getNodesBetween(_ startingNode: RoadNode, _ endingNode: RoadNode, on road: Road) -> [RoadNode] {
+        let (firstIndex, lastIndex) = getRoadIndexes(road: road, startingNode, endingNode)
+        var nodesBetween: [RoadNode] = Array(road.nodes[firstIndex...lastIndex])
+
+        if(road.nodes[firstIndex]._id != startingNode._id) {
+            nodesBetween.reverse()
+        }
+
+        nodesBetween.popLast()
+        return nodesBetween
+    }
+
+    private func getClosestNode(to point: RoadPoint, thatsConnectedTo connector: RoadNode) -> RoadNode {
+        let res = point.road.nodes
+            .map { [weak self] roadNode -> (Double, RoadNode) in
+                guard let self = self else { fatalError("Self must not be nil.") }
+                let dist = self.computeDistanceBetween(a: point.coords(), b: (roadNode.lon, roadNode.lat))
+                return (dist, roadNode)
+            }
+            .min { (first, second) -> Bool in
+                return first.0 < second.0
+            }
+
+        guard let node = res?.1 else { fatalError("Closest node must exist") }
+
+        return node
+    }
+
+    /// - Parameters:
+    ///   - a: GraphNode A
+    ///   - b: GraphNode B
+    /// - Returns: A road which contains both node A and node B.
     private func getSharedRoad(_ a: GraphNode, _ b: GraphNode) -> Road {
         guard let roadId = Set(a.node.road_ids).intersection(b.node.road_ids).first else { fatalError("Two adjacent connector nodes must have a shared road") }
         guard let road = roads.first(where: {$0._id == roadId}) else { fatalError("Found road must exist.") }
@@ -169,21 +224,21 @@ extension ZooNavigationService {
     }
 
     private func getDistanceBetweenConnectorNodes(road: Road, a: GraphNode, b: GraphNode) -> Double {
-        let (firstIndex, lastIndex) = getRoadIndexes(road: road, a, b)
+        let (firstIndex, lastIndex) = getRoadIndexes(road: road, a.node, b.node)
 
         var distance: Double = 0.0
         var lastNode = road.nodes[firstIndex]
         for currNode in road.nodes[(firstIndex+1)...lastIndex] {
-            distance += calculateDistanceBetween(a: (currNode.lon, currNode.lat), b: (lastNode.lon, lastNode.lat))
+            distance += computeDistanceBetween(a: (currNode.lon, currNode.lat), b: (lastNode.lon, lastNode.lat))
             lastNode = currNode
         }
 
         return distance
     }
 
-    private func getRoadIndexes(road: Road, _ a: GraphNode, _ b: GraphNode) -> (Int, Int) {
-        guard let aIndex = road.nodes.index(of: a.node),
-              let bIndex = road.nodes.index(of: b.node)
+    private func getRoadIndexes(road: Road, _ a: RoadNode, _ b: RoadNode) -> (Int, Int) {
+        guard let aIndex = road.nodes.index(of: a),
+              let bIndex = road.nodes.index(of: b)
         else {
             fatalError("Picked nodes have to be part of the rode.")
         }
@@ -198,7 +253,7 @@ extension ZooNavigationService {
     /// - Parameter other: A tuple (longitude, latitude) of point B.
     /// - Parameter currNode: A tuple (longitude, latitude) of point A.
     /// - Returns: Distance between this and the given point in meters.
-    private func calculateDistanceBetween(a: (Double, Double), b: (Double, Double)) -> Double {
+    private func computeDistanceBetween(a: (Double, Double), b: (Double, Double)) -> Double {
         /// approximate radius of earth in km
         let earthRadius = 6378.14
         let lon1 = radians(a.0)
@@ -263,5 +318,18 @@ class GraphNode: Equatable, Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(node._id)
+    }
+}
+
+/*
+ A point situated on a road but it isn't one of the road nodes.
+ */
+struct RoadPoint {
+    let lon: Double
+    let lat: Double
+    let road: Road
+
+    public func coords() -> (Double, Double) {
+        return (lon, lat)
     }
 }
