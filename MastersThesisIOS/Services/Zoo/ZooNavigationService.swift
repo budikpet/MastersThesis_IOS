@@ -21,7 +21,7 @@ protocol ZooNavigationServiceActions {
 protocol ZooNavigationServicing {
     var actions: ZooNavigationServiceActions { get }
 
-    func computeShortestPath(origins: [RoadNode], destinations: [RoadNode]) -> [GraphNode]?
+    func computeShortestPath(origins: [RoadNode], destinations: [RoadNode], destinationPoint: (Double, Double)) -> [GraphNode]?
 }
 
 /**
@@ -53,8 +53,9 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
     /// - Parameters:
     ///   - origins: A list of connector nodes that are immediately available from the origin point.
     ///   - destinations: A list of connector nodes that are immediately available from the destinaton point.
+    ///   - destinationPoint: A tuple (longitude, latitude) of the destination point.
     /// - Returns: A list of connector nodes that make up the shortest path between an origin and a destination connector node.
-    internal func computeShortestPath(origins: [RoadNode], destinations: [RoadNode]) -> [GraphNode]? {
+    internal func computeShortestPath(origins: [RoadNode], destinations: [RoadNode], destinationPoint: (Double, Double)) -> [GraphNode]? {
         var openedNodes: Set<GraphNode> = Set(origins.map { GraphNode(roadNode: $0) })
         var closedNodes: Set<GraphNode> = Set()
 
@@ -86,13 +87,25 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
                     if(closedNodes.contains(neighbour)) {
                         // This node was already checked
                         continue
-                    } else if(openedNodes.contains(neighbour)) {
-                        // Neighbour has already been opened, update values if needed
-                        let openedNeighbour = openedNodes.first(where: {$0 == neighbour})
-                        // TODO: update distances if needed
                     } else {
-                        // Open the neighbour
-                        // TODO: add distances, add into opened
+                        neighbour.distanceFromDestination = calculateDistanceBetween(a: neighbour.getCoords(), b: destinationPoint)
+                        neighbour.lastNode = currGraphNode
+                        neighbour.distanceFromOrigin = currGraphNode.distanceFromOrigin + calculateDistanceBetween(a: neighbour.getCoords(), b: currGraphNode.getCoords())
+
+                        if(openedNodes.contains(neighbour)) {
+                            // Neighbour has already been opened, update values if needed
+                            guard let openedNeighbour = openedNodes.first(where: {$0 == neighbour}) else { fatalError("Opened node must exist here") }
+
+                            if(neighbour.getValue() < openedNeighbour.getValue()) {
+                                // Current neighbour is better, use it to update openedNeighbours values
+                                openedNeighbour.lastNode = neighbour.lastNode
+                                openedNeighbour.distanceFromDestination = neighbour.distanceFromDestination
+                                openedNeighbour.distanceFromOrigin = neighbour.distanceFromOrigin
+                            }
+                        } else {
+                            // Neighbour is not open
+                            openedNodes.insert(neighbour)
+                        }
                     }
                 }
             }
@@ -106,19 +119,19 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
 // MARK: Helpers
 
 extension ZooNavigationService {
-    
+
     /// Constructs path of connector nodes between origin and destination.
     /// - Parameter destination: The last GraphNode of the found path.
     /// - Returns: GraphNodes list of connector nodes from origin to destination.
     private func constructPath(from destination: GraphNode) -> [GraphNode] {
         var res: [GraphNode] = [destination]
         var node = destination
-        
+
         while let lastNode = node.lastNode {
             res.append(lastNode)
             node = lastNode
         }
-        
+
         return res.reversed()
     }
 
@@ -135,7 +148,7 @@ extension ZooNavigationService {
         var distance: Double = 0.0
         var lastNode = (aIndex < bIndex ? a : b).currNode
         for currNode in road.nodes[(firstIndex+1)...lastIndex] {
-            distance += calculateDistanceBetween(currNode: currNode, other: lastNode)
+            distance += calculateDistanceBetween(a: (currNode.lon, currNode.lat), b: (lastNode.lon, lastNode.lat))
             lastNode = currNode
         }
 
@@ -143,15 +156,16 @@ extension ZooNavigationService {
     }
 
     /// Calculates approximate distance between this and the given point. Uses haversine formula.
-    /// - Parameter other: Other point.
+    /// - Parameter other: A tuple (longitude, latitude) of point B.
+    /// - Parameter currNode: A tuple (longitude, latitude) of point A.
     /// - Returns: Distance between this and the given point in meters.
-    private func calculateDistanceBetween(currNode: RoadNode, other: RoadNode) -> Double {
+    private func calculateDistanceBetween(a: (Double, Double), b: (Double, Double)) -> Double {
         /// approximate radius of earth in km
         let earthRadius = 6378.14
-        let lon1 = radians(currNode.lon)
-        let lat1 = radians(currNode.lat)
-        let lon2 = radians(other.lon)
-        let lat2 = radians(other.lat)
+        let lon1 = radians(a.0)
+        let lat1 = radians(a.1)
+        let lon2 = radians(b.0)
+        let lat2 = radians(b.1)
 
         // haversine formula
         let dlon = lon2 - lon1
@@ -197,6 +211,11 @@ class GraphNode: Equatable, Hashable {
 
     public func _id() -> Int64 {
         return currNode._id
+    }
+
+    /// - Returns: A tuple (longitude, latitude).
+    public func getCoords() -> (Double, Double) {
+        return (currNode.lon, currNode.lat)
     }
 
     static func == (lhs: GraphNode, rhs: GraphNode) -> Bool {

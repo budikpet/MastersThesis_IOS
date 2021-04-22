@@ -47,14 +47,14 @@ class ZooNavigationServiceTests: XCTestCase {
 //        let origin = GraphNode(roadNode: originNode, destination: destinationNode)
 
         // Do
-        let result = zooNavigationService.computeShortestPath(origins: [originNode], destinations: [destinationNode])
+        let result = zooNavigationService.computeShortestPath(origins: [originNode], destinations: [destinationNode], destinationPoint: (14.40813, 50.11502))
         
         // Assert
         XCTAssertNotNil(result)
         
         // swiftlint:disable force_unwrapping
         let resultPathIds: [Int64] = result!.map { $0.currNode._id }
-        let expectedResults: [Int64] = [531401381, 999606680, 999606680, 141267973, 281647716]
+        let expectedResults: [Int64] = [531401381, 999606680, 281647716]
         
         XCTAssertEqual(resultPathIds.count, expectedResults.count)
         XCTAssertTrue(expectedResults.elementsEqual(resultPathIds))
