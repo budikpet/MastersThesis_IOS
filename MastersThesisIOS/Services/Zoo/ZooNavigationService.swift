@@ -20,8 +20,6 @@ protocol ZooNavigationServiceActions {
 
 protocol ZooNavigationServicing {
     var actions: ZooNavigationServiceActions { get }
-
-    func computeShortestPath(origins: [RoadNode], destinations: [RoadNode], destinationPoint: (Double, Double)) -> [GraphNode]?
 }
 
 /**
@@ -49,6 +47,35 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
         self.roadConnectorNodes = roadNodes.filter({ $0.is_connector })
     }
 
+    /// Fills all nodes between separate connector nodes that make the shortest path.
+    /// - Parameter connectorsPath: The shortest found path made up of connector nodes only.
+    /// - Returns: A list of all RoadNodes that make up the shortest path between origin connector node and destination connection node.
+    internal func populateShortestPath(connectorsPath: [GraphNode]) -> [RoadNode] {
+        var lastConnector: GraphNode = connectorsPath[0]
+        var res: [RoadNode] = []
+
+        for connector in connectorsPath {
+            if(connector != lastConnector) {
+                let sharedRoad = getSharedRoad(connector, lastConnector)
+                let (firstIndex, lastIndex) = getRoadIndexes(road: sharedRoad, connector, lastConnector)
+                var nodesBetween: [RoadNode] = Array(sharedRoad.nodes[firstIndex...lastIndex])
+
+                if(sharedRoad.nodes[firstIndex]._id != lastConnector._id()) {
+                    nodesBetween.reverse()
+                }
+
+                nodesBetween.popLast()
+                res.append(contentsOf: nodesBetween)
+            }
+
+            lastConnector = connector
+        }
+
+        res.append(lastConnector.node)
+
+        return res
+    }
+
     /// Finds shortest path between the origin and destination nodes.
     /// - Parameters:
     ///   - origins: A list of connector nodes that are immediately available from the origin point.
@@ -65,14 +92,14 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
             openedNodes.remove(currGraphNode)
             closedNodes.insert(currGraphNode)
 
-            if(destinations.contains(currGraphNode.currNode)) {
+            if(destinations.contains(currGraphNode.node)) {
                 // Path found, reconstruct it into a list
                 return constructPath(from: currGraphNode)
             }
 
             // Find all connector nodes in same roads as the current node
 
-            for roadId in currGraphNode.currNode.road_ids {
+            for roadId in currGraphNode.node.road_ids {
                 guard let road = self.roads.first(where: {$0._id == roadId}) else { fatalError("Node's road has to exist.") }
 
                 for neighbour in road.nodes {
@@ -120,6 +147,12 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
 
 extension ZooNavigationService {
 
+    private func getSharedRoad(_ a: GraphNode, _ b: GraphNode) -> Road {
+        guard let roadId = Set(a.node.road_ids).intersection(b.node.road_ids).first else { fatalError("Two adjacent connector nodes must have a shared road") }
+        guard let road = roads.first(where: {$0._id == roadId}) else { fatalError("Found road must exist.") }
+        return road
+    }
+
     /// Constructs path of connector nodes between origin and destination.
     /// - Parameter destination: The last GraphNode of the found path.
     /// - Returns: GraphNodes list of connector nodes from origin to destination.
@@ -136,8 +169,21 @@ extension ZooNavigationService {
     }
 
     private func getDistanceBetweenConnectorNodes(road: Road, a: GraphNode, b: GraphNode) -> Double {
-        guard let aIndex = road.nodes.index(of: a.currNode),
-              let bIndex = road.nodes.index(of: b.currNode)
+        let (firstIndex, lastIndex) = getRoadIndexes(road: road, a, b)
+
+        var distance: Double = 0.0
+        var lastNode = road.nodes[firstIndex]
+        for currNode in road.nodes[(firstIndex+1)...lastIndex] {
+            distance += calculateDistanceBetween(a: (currNode.lon, currNode.lat), b: (lastNode.lon, lastNode.lat))
+            lastNode = currNode
+        }
+
+        return distance
+    }
+
+    private func getRoadIndexes(road: Road, _ a: GraphNode, _ b: GraphNode) -> (Int, Int) {
+        guard let aIndex = road.nodes.index(of: a.node),
+              let bIndex = road.nodes.index(of: b.node)
         else {
             fatalError("Picked nodes have to be part of the rode.")
         }
@@ -145,14 +191,7 @@ extension ZooNavigationService {
         let firstIndex = min(aIndex, bIndex)
         let lastIndex = max(aIndex, bIndex)
 
-        var distance: Double = 0.0
-        var lastNode = (aIndex < bIndex ? a : b).currNode
-        for currNode in road.nodes[(firstIndex+1)...lastIndex] {
-            distance += calculateDistanceBetween(a: (currNode.lon, currNode.lat), b: (lastNode.lon, lastNode.lat))
-            lastNode = currNode
-        }
-
-        return distance
+        return (firstIndex, lastIndex)
     }
 
     /// Calculates approximate distance between this and the given point. Uses haversine formula.
@@ -185,7 +224,7 @@ extension ZooNavigationService {
  A structure representing a node in the road graph used for finding the shortest path.
  */
 class GraphNode: Equatable, Hashable {
-    let currNode: RoadNode
+    let node: RoadNode
 
     /// Previous node in the path i. e. the node between origin and this node that is the fastest to go through to this node
     var lastNode: GraphNode? = nil
@@ -197,7 +236,7 @@ class GraphNode: Equatable, Hashable {
     var distanceFromDestination: Double = 0
 
     init(roadNode: RoadNode, lastNode: GraphNode? = nil, distanceFromOrigin: Double = 0, distanceFromDestination: Double = 0) {
-        self.currNode = roadNode
+        self.node = roadNode
         self.lastNode = lastNode
         self.distanceFromOrigin = distanceFromOrigin
         self.distanceFromDestination = distanceFromDestination
@@ -210,19 +249,19 @@ class GraphNode: Equatable, Hashable {
     }
 
     public func _id() -> Int64 {
-        return currNode._id
+        return node._id
     }
 
     /// - Returns: A tuple (longitude, latitude).
     public func getCoords() -> (Double, Double) {
-        return (currNode.lon, currNode.lat)
+        return (node.lon, node.lat)
     }
 
     static func == (lhs: GraphNode, rhs: GraphNode) -> Bool {
-        return lhs.currNode._id == rhs.currNode._id
+        return lhs.node._id == rhs.node._id
     }
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(currNode._id)
+        hasher.combine(node._id)
     }
 }

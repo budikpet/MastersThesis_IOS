@@ -10,10 +10,94 @@ import ReactiveSwift
 import RealmSwift
 @testable import MastersThesisIOS
 
-class ZooNavigationServiceTests: XCTestCase {
+class PopulateShortestPathTests: XCTestCase {
 
     let realm: Realm = testDependencies.realm
-    let zooNavigationService: ZooNavigationServicing = testDependencies.zooNavigationService
+    let zooNavigationService: ZooNavigationService = ZooNavigationService(dependencies: testDependencies)
+
+    lazy var roadNodes: Results<RoadNode> = {
+        return realm.objects(RoadNode.self)
+    }()
+    lazy var roads: Results<Road> = {
+        return realm.objects(Road.self)
+    }()
+
+    override func setUp() {
+        super.setUp()
+        testDependencies.testRealmInitializer.updateRealm()
+        self.continueAfterFailure = false
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
+
+    //swiftlint:disable trailing_whitespace
+    func testShortPath() {
+        // Prepare
+        let connectorNodesPath: [GraphNode] = [531401381, 999606680, 281647716]
+            .map { [weak self] id in
+                guard let self = self else { fatalError("Self is nil") }
+                guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
+                return node
+            }
+            .map { GraphNode(roadNode: $0) }
+
+//        let destination = GraphNode(roadNode: destinationNode)
+//        let origin = GraphNode(roadNode: originNode, destination: destinationNode)
+
+        // Do
+        let result = zooNavigationService.populateShortestPath(connectorsPath: connectorNodesPath)
+        
+        // Assert
+        let resultPathIds: [Int64] = result.map { $0._id }
+        let expectedResults: [Int64] = [531401381, 382975826, 436123425, 168300856, 520661986, 999606680, 703121452, 971219131, 957693158, 501460275, 900690472, 141267973, 281647716]
+        
+        XCTAssertEqual(resultPathIds.count, expectedResults.count)
+        XCTAssertTrue(expectedResults.elementsEqual(resultPathIds))
+    }
+    
+    //swiftlint:disable trailing_whitespace
+    func testMediumPath() {
+        // Prepare
+        let connectorNodesPath: [GraphNode] = [784448524, 590844987, 524226363, 269005178, 739676219, 190907276]
+            .map { [weak self] id in
+                guard let self = self else { fatalError("Self is nil") }
+                guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
+                return node
+            }
+            .map { GraphNode(roadNode: $0) }
+
+//        let destination = GraphNode(roadNode: destinationNode)
+//        let origin = GraphNode(roadNode: originNode, destination: destinationNode)
+
+        // Do
+        let result = zooNavigationService.populateShortestPath(connectorsPath: connectorNodesPath)
+        
+        // Assert
+        let resultPathIds: [Int64] = result.map { $0._id }
+        let expectedResults: [Int64] = [784448524, 520984713, 893256765, 887511548, 590844987, 223488993, 843346703, 329154370, 336872439, 524226363, 269005178, 739676219, 669070785, 35708408, 190907276]
+        
+        XCTAssertEqual(resultPathIds.count, expectedResults.count)
+        XCTAssertTrue(expectedResults.elementsEqual(resultPathIds))
+    }
+
+//    func testPerformanceExample() {
+//        // This is an example of a performance test case.
+//        self.measure {
+//            // Put the code you want to measure the time of here.
+//        }
+//    }
+
+}
+
+class ComputeShortestPathTests: XCTestCase {
+
+    let realm: Realm = testDependencies.realm
+    let zooNavigationService: ZooNavigationService = ZooNavigationService(dependencies: testDependencies)
+    
     lazy var roadNodes: Results<RoadNode> = {
         return realm.objects(RoadNode.self)
     }()
@@ -56,7 +140,7 @@ class ZooNavigationServiceTests: XCTestCase {
         XCTAssertNotNil(result)
         
         // swiftlint:disable force_unwrapping
-        let resultPathIds: [Int64] = result!.map { $0.currNode._id }
+        let resultPathIds: [Int64] = result!.map { $0.node._id }
         let expectedResults: [Int64] = [531401381, 999606680, 281647716]
         
         XCTAssertEqual(resultPathIds.count, expectedResults.count)
@@ -86,7 +170,7 @@ class ZooNavigationServiceTests: XCTestCase {
         XCTAssertNotNil(result)
         
         // swiftlint:disable force_unwrapping
-        let resultPathIds: [Int64] = result!.map { $0.currNode._id }
+        let resultPathIds: [Int64] = result!.map { $0.node._id }
         let expectedResults: [Int64] = [784448524, 590844987, 524226363, 269005178, 739676219, 190907276]
         
         XCTAssertEqual(resultPathIds.count, expectedResults.count)
@@ -113,7 +197,7 @@ class ZooNavigationServiceTests: XCTestCase {
         XCTAssertNotNil(result)
         
         // swiftlint:disable force_unwrapping
-        let resultPathIds: [Int64] = result!.map { $0.currNode._id }
+        let resultPathIds: [Int64] = result!.map { $0.node._id }
         let expectedResults: [Int64] = [292562085, 763606006, 190907276, 204519474]
         
         XCTAssertEqual(resultPathIds.count, expectedResults.count)
