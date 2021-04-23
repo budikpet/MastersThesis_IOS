@@ -60,10 +60,10 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
             fatalError("Computed shortest paths cannot be empty.")
         }
 
-        let closestNodeToOrigin = self.getClosestNode(to: originPoint, thatsConnectedTo: firstConnector)
-        let closestNodeToDest = self.getClosestNode(to: destinationPoint, thatsConnectedTo: lastConnector)
-        let nodesFromOrigin: [RoadNode] = self.getNodesBetween(closestNodeToOrigin, firstConnector, on: originPoint.road)
-        let nodesToDest: [RoadNode] = self.getNodesBetween(closestNodeToDest, lastConnector, on: destinationPoint.road)
+        let nodeConnectedToOrigin = self.getFirstNodeConnected(to: originPoint, thatsConnectedTo: firstConnector)
+        let nodeConnectedToDest = self.getFirstNodeConnected(to: destinationPoint, thatsConnectedTo: lastConnector)
+        let nodesFromOrigin: [RoadNode] = self.getNodesBetween(nodeConnectedToOrigin, firstConnector, on: originPoint.road)
+        let nodesToDest: [RoadNode] = self.getNodesBetween(nodeConnectedToDest, lastConnector, on: destinationPoint.road)
 
         let connectedRoad = (nodesFromOrigin + shortestPath + nodesToDest)
             .map { ($0.lon, $0.lat) }
@@ -182,20 +182,33 @@ extension ZooNavigationService {
         return nodesBetween
     }
 
-    private func getClosestNode(to point: RoadPoint, thatsConnectedTo connector: RoadNode) -> RoadNode {
-        let res = point.road.nodes
-            .map { [weak self] roadNode -> (Double, RoadNode) in
-                guard let self = self else { fatalError("Self must not be nil.") }
-                let dist = self.computeDistanceBetween(a: point.coords(), b: (roadNode.lon, roadNode.lat))
-                return (dist, roadNode)
-            }
-            .min { (first, second) -> Bool in
-                return first.0 < second.0
-            }
+    /// Finds the first RoadNode that the given point uses to connect to the connector node.
+    /// - Parameters:
+    ///   - point: A road point that is not part of RoadNodes.
+    ///   - connector: A connector node that marks a start/end of the computed shortest path.
+    /// - Returns: The first RoadNode that the point connects to to get to the connector node.
+    private func getFirstNodeConnected(to point: RoadPoint, thatsConnectedTo connector: RoadNode) -> RoadNode {
+        let nodes = point.road.nodes
 
-        guard let node = res?.1 else { fatalError("Closest node must exist") }
+        for (curr, next) in zip(nodes, nodes.dropFirst()) {
+            let currCoords = (curr.lon, curr.lat)
+            let nextCoords = (next.lon, next.lat)
+            let currPointDiff = (currCoords.0 < point.coords().0, currCoords.1 < point.coords().1)
+            let nextPointDiff = (nextCoords.0 < point.coords().0, nextCoords.1 < point.coords().1)
+            print("(\(curr._id), \(next._id)): \(currPointDiff) | \(nextPointDiff)")
 
-        return node
+            if(currPointDiff != nextPointDiff) {
+                // The point is between curr and next road node
+                let (firstIndex, secondIndex) = getRoadIndexes(road: point.road, curr, next)
+                guard let connectorIndex = point.road.nodes.index(of: connector) else { fatalError("Connector index must exist in the road") }
+
+                return secondIndex <= connectorIndex ? nodes[secondIndex] : nodes[firstIndex]
+            }
+        }
+
+        guard let lastNode = point.road.nodes.last else { fatalError("Last node has to exist.") }
+
+        return lastNode
     }
 
     /// - Parameters:
