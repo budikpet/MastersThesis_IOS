@@ -39,23 +39,31 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
     private let roads: Results<Road>
     /// All road nodes, used primarily to find the closest point to the non-road point.
     private let roadNodes: Results<RoadNode>
-    /// Only connector road nodes, used primarily to find the shortest path.
-    private let roadConnectorNodes: LazyFilterSequence<Results<RoadNode>>
 
     init(dependencies: Dependencies) {
         self.realmDbManager = dependencies.realmDBManager
         self.roads = realmDbManager.realm.objects(Road.self)
         self.roadNodes = realmDbManager.realm.objects(RoadNode.self)
-        self.roadConnectorNodes = roadNodes.filter({ $0.is_connector })
     }
 
     /// Runs the find shortest path algorithm between two points.
     /// - Parameters:
     ///   - origin: Possibly off-road origin point, a tuple (longitude, latitude)
     ///   - dest: Possibly off-road destination point, a tuple (longitude, latitude)
-    internal func findShortestPath(betweenOrigin origin: (Double, Double), andDestination dest: (Double, Double)) {
-        let roadOrigin = findClosestRoadPoint(fromPoint: origin)
-        let roadDest = findClosestRoadPoint(fromPoint: dest)
+    internal func findShortestPath(betweenOrigin origin: (Double, Double), andDestination dest: (Double, Double)) -> [(Double, Double)]? {
+        let roadOrigin: RoadPoint = findClosestRoadPoint(fromPoint: origin)
+        let roadDest: RoadPoint = findClosestRoadPoint(fromPoint: dest)
+        let origins = roadOrigin.road.nodes.filter { $0.is_connector }
+        let dests = roadDest.road.nodes.filter { $0.is_connector }
+
+        guard let connectorsPath = computeShortestPath(origins: Array(origins), destinations: Array(dests), destinationPoint: dest)
+        else {
+            return nil
+        }
+
+        let populatedShortestPath = populateShortestPath(connectorsPath: connectorsPath)
+
+        return createFullShortestPath(originPoint: roadOrigin, destinationPoint: roadDest, populatedShortestPath)
     }
 
     /// Joins paths from originPoint and destinationPoint to computed shortest path.
@@ -75,6 +83,7 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
         let nodeConnectedToDest = self.getFirstNodeConnected(to: destinationPoint, thatsConnectedTo: lastConnector)
         let nodesFromOrigin: [RoadNode] = self.getNodesBetween(nodeConnectedToOrigin, firstConnector, on: originPoint.road)
         let nodesToDest: [RoadNode] = self.getNodesBetween(nodeConnectedToDest, lastConnector, on: destinationPoint.road)
+            .reversed()
 
         let connectedRoad = (nodesFromOrigin + shortestPath + nodesToDest)
             .map { ($0.lon, $0.lat) }
@@ -174,16 +183,16 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
 // MARK: Helpers
 
 extension ZooNavigationService {
-    
+
     /// Finds closest point on a road for the given point.
     /// Firstly looks through all nodes and finds the closest one to the point. Then uses Turf for Swift to find the closest non-node point.
-    /// - Parameter origin: Possibly off-road point as a tuple (longitude, latitude).
-    /// - Returns: Closest point on a road for the given point as a tuple (longitude, latitude).
-    private func findClosestRoadPoint(fromPoint origin: (Double, Double)) -> (Double, Double) {
+    /// - Parameter point: Possibly off-road point as a tuple (longitude, latitude).
+    /// - Returns: Closest point on a road.
+    private func findClosestRoadPoint(fromPoint point: (Double, Double)) -> RoadPoint {
         // Find the closest road node.
         let closestNode = roadNodes.map { [weak self] (node) -> (Double, RoadNode) in
             guard let self = self else { fatalError("Self must exist") }
-            let distance = self.computeDistanceBetween(a: origin, b: (node.lon, node.lat))
+            let distance = self.computeDistanceBetween(a: point, b: (node.lon, node.lat))
             return (distance, node)
         }
 //        .sorted(by: { $0.0 < $1.0 } )
@@ -192,20 +201,17 @@ extension ZooNavigationService {
         guard let road_ids = closestNode?.1.road_ids else { fatalError("Closest node must exist.") }
 
         // Find the closest road point using Turf for Swift
-        let closestRoadPoint = Array(road_ids).map { [weak self] roadId -> LineString.IndexedCoordinate?  in
+        let closestRoadPoint = Array(road_ids).map { [weak self] roadId -> RoadPoint  in
             guard let self = self else { fatalError("Self must exist") }
             guard let road = self.roads.filter({ $0._id == roadId }).first else { fatalError("Closest road must exist") }
             let coords = Array(road.nodes.map { CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lon) })
-            return LineString(coords).closestCoordinate(to: CLLocationCoordinate2D(latitude: origin.1, longitude: origin.0))
+            guard let closestCoord = LineString(coords).closestCoordinate(to: CLLocationCoordinate2D(latitude: point.1, longitude: point.0))?.coordinate else { fatalError("Closest coordinates must exist.") }
+            return RoadPoint(lon: closestCoord.longitude, lat: closestCoord.latitude, road: road)
         }
-        .compactMap { (coord: LineString.IndexedCoordinate?) -> CLLocationCoordinate2D? in
-            return coord?.coordinate
-        }
-        .map { [weak self] (node) -> (Double, (Double, Double)) in
+        .map { [weak self] (roadPoint) -> (Double, RoadPoint) in
             guard let self = self else { fatalError("Self must exist") }
-            let coords = (node.longitude, node.latitude)
-            let distance = self.computeDistanceBetween(a: origin, b: coords)
-            return (distance, coords)
+            let distance = self.computeDistanceBetween(a: point, b: roadPoint.coords())
+            return (distance, roadPoint)
         }
         .min { $0.0 < $1.0 }
 
@@ -244,7 +250,7 @@ extension ZooNavigationService {
             let nextCoords = (next.lon, next.lat)
             let currPointDiff = (currCoords.0 < point.coords().0, currCoords.1 < point.coords().1)
             let nextPointDiff = (nextCoords.0 < point.coords().0, nextCoords.1 < point.coords().1)
-            print("(\(curr._id), \(next._id)): \(currPointDiff) | \(nextPointDiff)")
+//            print("(\(curr._id), \(next._id)): \(currPointDiff) | \(nextPointDiff)")
 
             if(currPointDiff != nextPointDiff) {
                 // The point is between curr and next road node

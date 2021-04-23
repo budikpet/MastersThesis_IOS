@@ -10,6 +10,117 @@ import ReactiveSwift
 import RealmSwift
 @testable import MastersThesisIOS
 
+class FindShortestPathTests: XCTestCase {
+
+    let realm: Realm = testDependencies.realm
+    let zooNavigationService: ZooNavigationService = ZooNavigationService(dependencies: testDependencies)
+
+    lazy var roadNodes: Results<RoadNode> = {
+        return realm.objects(RoadNode.self)
+    }()
+    lazy var roads: Results<Road> = {
+        return realm.objects(Road.self)
+    }()
+
+    override class func setUp() {
+        super.setUp()
+        testDependencies.testRealmInitializer.updateRealm()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+
+    override func setUp() {
+        super.setUp()
+        self.continueAfterFailure = false
+    }
+
+    override class func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
+
+    //swiftlint:disable trailing_whitespace
+    //swiftlint:disable force_unwrapping
+    func testNoNewNodes() {
+        // Prepare
+        let origin = (14.40966, 50.11594)
+        let dest = (14.40849, 50.11531)
+        
+        // Do
+        let result = zooNavigationService.findShortestPath(betweenOrigin: origin, andDestination: dest)
+        
+        // Assert
+        XCTAssertNotNil(result)
+        
+        let expectedResults: [(Double, Double)] = [531401381, 382975826, 436123425, 168300856, 520661986, 999606680, 703121452, 971219131, 957693158, 501460275, 900690472, 141267973, 281647716]
+            .map { [weak self] id in
+                guard let self = self else { fatalError("Self is nil") }
+                guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
+                return (node.lon, node.lat)
+            }
+        
+        // Remove first and last point since these are difficult to predict
+        let preparedResult = Array(result![1..<(result!.endIndex)-1])
+        
+        XCTAssertEqual(preparedResult.count, expectedResults.count)
+        XCTAssertTrue(coordinatesEqual(preparedResult, expectedResults))
+    }
+    
+    //swiftlint:disable trailing_whitespace
+    //swiftlint:disable force_unwrapping
+    func testOneAdditionalNodePerPoint() {
+        // Prepare
+        let origin = (14.40954, 50.11596)
+        let dest = (14.40844, 50.11523)
+        
+        // Do
+        let result = zooNavigationService.findShortestPath(betweenOrigin: origin, andDestination: dest)
+        
+        // Assert
+        XCTAssertNotNil(result)
+        
+        var expectedResults: [(Double, Double)] = [531401381, 382975826, 436123425, 168300856, 520661986, 999606680, 703121452, 971219131, 957693158, 501460275, 900690472, 141267973, 281647716]
+            .map { [weak self] id in
+                guard let self = self else { fatalError("Self is nil") }
+                guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
+                return (node.lon, node.lat)
+            }
+        expectedResults = [(14.4095969, 50.11595227)] + expectedResults + [(14.40845542, 50.11526707)]
+        
+        // Remove first and last point since these are difficult to predict
+        let preparedResult = Array(result![1..<(result!.endIndex)-1])
+        
+        XCTAssertEqual(preparedResult.count, expectedResults.count)
+        XCTAssertTrue(coordinatesEqual(preparedResult, expectedResults))
+    }
+    
+    //swiftlint:disable trailing_whitespace
+    //swiftlint:disable force_unwrapping
+    func testPointsCloseToWrongNode() {
+        // Prepare
+        let origin = (14.40962, 50.11595)
+        let dest = (14.40848, 50.11528)
+        
+        // Do
+        let result = zooNavigationService.findShortestPath(betweenOrigin: origin, andDestination: dest)
+        
+        // Assert
+        XCTAssertNotNil(result)
+        
+        let expectedResults: [(Double, Double)] = [531401381, 382975826, 436123425, 168300856, 520661986, 999606680, 703121452, 971219131, 957693158, 501460275, 900690472, 141267973, 281647716]
+            .map { [weak self] id in
+                guard let self = self else { fatalError("Self is nil") }
+                guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
+                return (node.lon, node.lat)
+            }
+        
+        // Remove first and last point since these are difficult to predict
+        let preparedResult = Array(result![1..<(result!.endIndex)-1])
+        
+        XCTAssertEqual(preparedResult.count, expectedResults.count)
+        XCTAssertTrue(coordinatesEqual(preparedResult, expectedResults))
+    }
+}
+
 class CreateFullShortestPathTests: XCTestCase {
 
     let realm: Realm = testDependencies.realm
@@ -41,7 +152,7 @@ class CreateFullShortestPathTests: XCTestCase {
     //swiftlint:disable trailing_whitespace
     func testNoNewNodes() {
         // Prepare
-        let shortestPath: [RoadNode] = [531401381, 382975826, 436123425, 168300856, 520661986, 999606680, 703121452, 971219131, 957693158, 501460275, 900690472, 141267973, 281647716]
+        let shortestPath: [RoadNode] = [531401381, 382975826, 436123425, 168300856, 520661986, 999606680]
             .map { [weak self] id in
                 guard let self = self else { fatalError("Self is nil") }
                 guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
@@ -57,7 +168,13 @@ class CreateFullShortestPathTests: XCTestCase {
         let result = zooNavigationService.createFullShortestPath(originPoint: originPoint, destinationPoint: destPoint, shortestPath)
         
         // Assert
-        let expectedResults: [(Double, Double)] = [originPoint.coords()] + shortestPath.map { return ($0.lon, $0.lat) } + [destPoint.coords()]
+        let remainder: [RoadNode] = [703121452, 971219131, 957693158, 501460275, 900690472, 141267973, 281647716]
+            .map { [weak self] id in
+                guard let self = self else { fatalError("Self is nil") }
+                guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
+                return node
+            }
+        let expectedResults: [(Double, Double)] = [originPoint.coords()] + (shortestPath + remainder).map { return ($0.lon, $0.lat) } + [destPoint.coords()]
         
         XCTAssertEqual(result.count, expectedResults.count)
         XCTAssertTrue(coordinatesEqual(result, expectedResults))
@@ -65,7 +182,7 @@ class CreateFullShortestPathTests: XCTestCase {
     
     func testOneAdditionalNodePerPoint() {
         // Prepare
-        let shortestPath: [RoadNode] = [531401381, 382975826, 436123425, 168300856, 520661986, 999606680, 703121452, 971219131, 957693158, 501460275, 900690472, 141267973, 281647716]
+        let shortestPath: [RoadNode] = [531401381, 382975826, 436123425, 168300856, 520661986, 999606680]
             .map { [weak self] id in
                 guard let self = self else { fatalError("Self is nil") }
                 guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
@@ -81,7 +198,13 @@ class CreateFullShortestPathTests: XCTestCase {
         let result = zooNavigationService.createFullShortestPath(originPoint: originPoint, destinationPoint: destPoint, shortestPath)
         
         // Assert
-        let expectedResults: [(Double, Double)] = [originPoint.coords(), (14.4095969, 50.11595227)] + shortestPath.map { return ($0.lon, $0.lat) } + [(14.40845542, 50.11526707), destPoint.coords()]
+        let remainder: [RoadNode] = [703121452, 971219131, 957693158, 501460275, 900690472, 141267973, 281647716]
+            .map { [weak self] id in
+                guard let self = self else { fatalError("Self is nil") }
+                guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
+                return node
+            }
+        let expectedResults: [(Double, Double)] = [originPoint.coords(), (14.4095969, 50.11595227)] + (shortestPath + remainder).map { return ($0.lon, $0.lat) } + [(14.40845542, 50.11526707), destPoint.coords()]
         
         XCTAssertEqual(result.count, expectedResults.count)
         XCTAssertTrue(coordinatesEqual(result, expectedResults))
@@ -109,20 +232,6 @@ class CreateFullShortestPathTests: XCTestCase {
         
         XCTAssertEqual(result.count, expectedResults.count)
         XCTAssertTrue(coordinatesEqual(result, expectedResults))
-    }
-    
-    private func coordinatesEqual(_ a: [(Double, Double)], _ b: [(Double, Double)]) -> Bool {
-        if(a.count != b.count) {
-             return false
-        }
-        
-        for index in 0..<a.count {
-            if(a[index].0 != b[index].0 || a[index].1 != b[index].1) {
-                return false
-            }
-        }
-        
-        return true
     }
 }
 
@@ -354,4 +463,18 @@ class ComputeShortestPathTests: XCTestCase {
 //        }
 //    }
 
+}
+
+private func coordinatesEqual(_ a: [(Double, Double)], _ b: [(Double, Double)]) -> Bool {
+    if(a.count != b.count) {
+         return false
+    }
+    
+    for index in 0..<a.count {
+        if(a[index].0 != b[index].0 || a[index].1 != b[index].1) {
+            return false
+        }
+    }
+    
+    return true
 }
