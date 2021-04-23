@@ -9,6 +9,8 @@
 import Foundation
 import RealmSwift
 import ReactiveSwift
+import Turf
+import CoreLocation
 import os.log
 
 protocol HasZooNavigationService {
@@ -45,6 +47,15 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
         self.roads = realmDbManager.realm.objects(Road.self)
         self.roadNodes = realmDbManager.realm.objects(RoadNode.self)
         self.roadConnectorNodes = roadNodes.filter({ $0.is_connector })
+    }
+
+    /// Runs the find shortest path algorithm between two points.
+    /// - Parameters:
+    ///   - origin: Possibly off-road origin point, a tuple (longitude, latitude)
+    ///   - dest: Possibly off-road destination point, a tuple (longitude, latitude)
+    internal func findShortestPath(betweenOrigin origin: (Double, Double), andDestination dest: (Double, Double)) {
+        let roadOrigin = findClosestRoadPoint(fromPoint: origin)
+        let roadDest = findClosestRoadPoint(fromPoint: dest)
     }
 
     /// Joins paths from originPoint and destinationPoint to computed shortest path.
@@ -163,6 +174,44 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
 // MARK: Helpers
 
 extension ZooNavigationService {
+    
+    /// Finds closest point on a road for the given point.
+    /// Firstly looks through all nodes and finds the closest one to the point. Then uses Turf for Swift to find the closest non-node point.
+    /// - Parameter origin: Possibly off-road point as a tuple (longitude, latitude).
+    /// - Returns: Closest point on a road for the given point as a tuple (longitude, latitude).
+    private func findClosestRoadPoint(fromPoint origin: (Double, Double)) -> (Double, Double) {
+        // Find the closest road node.
+        let closestNode = roadNodes.map { [weak self] (node) -> (Double, RoadNode) in
+            guard let self = self else { fatalError("Self must exist") }
+            let distance = self.computeDistanceBetween(a: origin, b: (node.lon, node.lat))
+            return (distance, node)
+        }
+//        .sorted(by: { $0.0 < $1.0 } )
+        .min { $0.0 < $1.0 }
+
+        guard let road_ids = closestNode?.1.road_ids else { fatalError("Closest node must exist.") }
+
+        // Find the closest road point using Turf for Swift
+        let closestRoadPoint = Array(road_ids).map { [weak self] roadId -> LineString.IndexedCoordinate?  in
+            guard let self = self else { fatalError("Self must exist") }
+            guard let road = self.roads.filter({ $0._id == roadId }).first else { fatalError("Closest road must exist") }
+            let coords = Array(road.nodes.map { CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lon) })
+            return LineString(coords).closestCoordinate(to: CLLocationCoordinate2D(latitude: origin.1, longitude: origin.0))
+        }
+        .compactMap { (coord: LineString.IndexedCoordinate?) -> CLLocationCoordinate2D? in
+            return coord?.coordinate
+        }
+        .map { [weak self] (node) -> (Double, (Double, Double)) in
+            guard let self = self else { fatalError("Self must exist") }
+            let coords = (node.longitude, node.latitude)
+            let distance = self.computeDistanceBetween(a: origin, b: coords)
+            return (distance, coords)
+        }
+        .min { $0.0 < $1.0 }
+
+        guard let res = closestRoadPoint?.1 else { fatalError("Closest point on the road must exist.") }
+        return res
+    }
 
     /// Computes all nodes between two given connector nodes.
     /// - Parameters:

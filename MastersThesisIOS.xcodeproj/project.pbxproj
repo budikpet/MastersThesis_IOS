@@ -69,6 +69,8 @@
 		4BCFBEC226304AA30006C089 /* ZooNavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCFBEC126304AA30006C089 /* ZooNavigationService.swift */; };
 		4BCFBECE26306A880006C089 /* TestDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCFBEC6263057950006C089 /* TestDependency.swift */; };
 		4BCFBED026306A8E0006C089 /* TestRealmInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCFBECA263064530006C089 /* TestRealmInitializer.swift */; };
+		4BCFBED7263320040006C089 /* Turf.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BCFBED626331FFF0006C089 /* Turf.xcframework */; };
+		4BCFBED8263320050006C089 /* Turf.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4BCFBED626331FFF0006C089 /* Turf.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4BE756902607D0C800DFB440 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */; };
 		4BE756A52607D7A600DFB440 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4BE756A42607D7A600DFB440 /* README.md */; };
 		4BE756AB26089B1C00DFB440 /* AnimalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE756AA26089B1C00DFB440 /* AnimalData.swift */; };
@@ -154,6 +156,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4BCFBED8263320050006C089 /* Turf.xcframework in Embed Frameworks */,
 				4B7FB076261082F00086A057 /* SDWebImage.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -246,6 +249,7 @@
 		4BCFBEC126304AA30006C089 /* ZooNavigationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZooNavigationService.swift; sourceTree = "<group>"; };
 		4BCFBEC6263057950006C089 /* TestDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDependency.swift; sourceTree = "<group>"; };
 		4BCFBECA263064530006C089 /* TestRealmInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestRealmInitializer.swift; sourceTree = "<group>"; };
+		4BCFBED626331FFF0006C089 /* Turf.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Turf.xcframework; path = Carthage/Build/Turf.xcframework; sourceTree = "<group>"; };
 		4BE7568F2607D0C800DFB440 /* LocalizedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		4BE756982607D59400DFB440 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4BE756A42607D7A600DFB440 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -363,6 +367,7 @@
 				A256162302E6EBEAC633CE16 /* GoogleToolboxForMac.framework in Frameworks */,
 				2622E8235FE7E1BC65895716 /* GoogleUtilities.framework in Frameworks */,
 				AC3B5DAA2EAD37CD75D1A554 /* PromisesObjC.framework in Frameworks */,
+				4BCFBED7263320040006C089 /* Turf.xcframework in Frameworks */,
 				1B89D9D1A717C2D890536DEA /* Protobuf.framework in Frameworks */,
 				F0826F5F4762D9FE34BCC48C /* nanopb.framework in Frameworks */,
 				F4036BB1669A257AF85979B9 /* Pods_MastersThesisIOS.framework in Frameworks */,
@@ -883,6 +888,7 @@
 		B7D9687AAE4679F1AAF5ADC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4BCFBED626331FFF0006C089 /* Turf.xcframework */,
 				4B8B3D96260FE6B8000B1E92 /* SDWebImage.xcframework */,
 				4BE756C72608A48100DFB440 /* Realm.framework */,
 				4BE756C82608A48100DFB440 /* RealmSwift.framework */,
