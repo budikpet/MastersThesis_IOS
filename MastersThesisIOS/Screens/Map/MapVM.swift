@@ -12,7 +12,7 @@ import RealmSwift
 import os.log
 
 protocol MapViewModelingActions {
-
+    var findShortestPath: Action<(CLLocationCoordinate2D, CLLocationCoordinate2D), ShortestPath, NavigationError> { get }
 }
 
 protocol MapViewModeling {
@@ -31,6 +31,7 @@ protocol MapViewModeling {
     func highlightLocations(using properties: [String: String]?, at coord: CLLocationCoordinate2D?, canUseNil: Bool)
     func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData]
     func startNavigating()
+    func getPolyline(_ coordinates: [CLLocationCoordinate2D]) -> TGMapFeature
 }
 
 extension MapViewModeling where Self: MapViewModelingActions {
@@ -38,9 +39,14 @@ extension MapViewModeling where Self: MapViewModelingActions {
 }
 
 final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
-    typealias Dependencies = HasRealmDBManager & HasLocationManager
+    typealias Dependencies = HasRealmDBManager & HasLocationManager & HasZooNavigationService
     private let realmDbManager: RealmDBManaging
     private let locationManager: CLLocationManager
+    private let zooNavigationService: ZooNavigationServicing
+
+    // MARK: Actions
+    internal var actions: MapViewModelingActions { self }
+    internal lazy var findShortestPath: Action<(CLLocationCoordinate2D, CLLocationCoordinate2D), ShortestPath, NavigationError> = zooNavigationService.actions.findShortestPath
 
     // MARK: Protocol
     internal var sceneUrl: MutableProperty<URL>
@@ -61,11 +67,14 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
         return Dictionary(uniqueKeysWithValues: res.lazy.map { ($0._id, $0) })
     }()
 
+    private let compositeDisposable = CompositeDisposable()
+
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
         self.realmDbManager = dependencies.realmDBManager
         self.locationManager = dependencies.locationManager
+        self.zooNavigationService = dependencies.zooNavigationService
 
         highlightedLocations = MutableProperty([])
         locationServiceAvailable = MutableProperty(false)
@@ -93,6 +102,10 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
         setupBindings()
     }
 
+    deinit {
+        compositeDisposable.dispose()
+    }
+
     private func setupBindings() {
 
     }
@@ -103,7 +116,9 @@ extension MapVM {
     func startNavigating() {
         guard let feature = highlightedLocations.value.first else { return }
         let destination = getDestinationPoint(using: feature)
+        let origin = currLocation.value
         os_log("Navigating to feature at [lon: %f, lat: %f]", log: Logger.appLog(), type: .info, destination.longitude, destination.latitude)
+        self.compositeDisposable += findShortestPath.apply((origin, destination)).start()
     }
 
     /**
@@ -136,6 +151,14 @@ extension MapVM {
             }
 
         self.highlightedLocations.value = features
+    }
+
+    func getPolyline(_ coordinates: [CLLocationCoordinate2D]) -> TGMapFeature {
+        return coordinates.withUnsafeBufferPointer { (ptr) -> TGMapFeature in
+            guard let baseAddress = ptr.baseAddress else { fatalError("Pointer should exist") }
+            let polyline = TGGeoPolyline(coordinates: baseAddress, count: UInt(ptr.count))
+            return TGMapFeature(polyline: polyline, properties: ["type": "shortestPath"])
+        }
     }
 
     /**

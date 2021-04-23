@@ -13,11 +13,14 @@ import Turf
 import CoreLocation
 import os.log
 
+typealias ShortestPath = [CLLocationCoordinate2D]
+
 protocol HasZooNavigationService {
     var zooNavigationService: ZooNavigationServicing { get }
 }
 
 protocol ZooNavigationServiceActions {
+    var findShortestPath: Action<(CLLocationCoordinate2D, CLLocationCoordinate2D), ShortestPath, NavigationError> { get }
 }
 
 protocol ZooNavigationServicing {
@@ -33,6 +36,24 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
 
     // MARK: Actions
     internal var actions: ZooNavigationServiceActions { self }
+
+    /// An action that requires (origin, destination) points, returns shortest path
+    internal lazy var findShortestPath: Action<(CLLocationCoordinate2D, CLLocationCoordinate2D), ShortestPath, NavigationError> = Action { [unowned self] (origin, dest) in
+        SignalProducer<ShortestPath, NavigationError> { sink, _ in
+            let path = self.findShortestPath(betweenOrigin: (origin.longitude, origin.latitude), andDestination: (dest.longitude, dest.latitude))?
+                .map({ (lon, lat) -> CLLocationCoordinate2D in
+                    return CLLocationCoordinate2D(latitude: lat, longitude: lon)
+                })
+
+            if let path = path {
+                sink.send(value: path)
+            } else {
+                sink.send(error: .notFound)
+            }
+
+            sink.sendCompleted()
+        }
+    }
 
     // MARK: Local
 
@@ -51,6 +72,7 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
     ///   - origin: Possibly off-road origin point, a tuple (longitude, latitude)
     ///   - dest: Possibly off-road destination point, a tuple (longitude, latitude)
     internal func findShortestPath(betweenOrigin origin: (Double, Double), andDestination dest: (Double, Double)) -> [(Double, Double)]? {
+        os_log("Starting finding shortest path between [%f, %f] and [%f, %f]", log: Logger.appLog(), type: .info, origin.0, origin.1, dest.0, dest.1)
         let roadOrigin: RoadPoint = findClosestRoadPoint(fromPoint: origin)
         let roadDest: RoadPoint = findClosestRoadPoint(fromPoint: dest)
         let origins = roadOrigin.road.nodes.filter { $0.is_connector }
@@ -58,8 +80,11 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
 
         guard let connectorsPath = computeShortestPath(origins: Array(origins), destinations: Array(dests), destinationPoint: dest)
         else {
+            os_log("Found no path between [%f, %f] and [%f, %f]", log: Logger.appLog(), type: .info, origin.0, origin.1, dest.0, dest.1)
             return nil
         }
+
+        os_log("Found path between [%f, %f] and [%f, %f] as follows: [%s]", log: Logger.appLog(), type: .info, origin.0, origin.1, dest.0, dest.1, connectorsPath.map({ "\($0._id())" }).joined(separator: ","))
 
         let populatedShortestPath = populateShortestPath(connectorsPath: connectorsPath)
 
@@ -84,6 +109,9 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
         let nodesFromOrigin: [RoadNode] = self.getNodesBetween(nodeConnectedToOrigin, firstConnector, on: originPoint.road)
         let nodesToDest: [RoadNode] = self.getNodesBetween(nodeConnectedToDest, lastConnector, on: destinationPoint.road)
             .reversed()
+
+        os_log("Origin point [%f, %f] on road %d connected to a node %d.", log: Logger.appLog(), type: .info, originPoint.lon, originPoint.lat, originPoint.road._id, nodeConnectedToOrigin._id)
+        os_log("Dest point [%f, %f] on road %d connected to a node %d.", log: Logger.appLog(), type: .info, destinationPoint.lon, destinationPoint.lat, destinationPoint.road._id, nodeConnectedToDest._id)
 
         let connectedRoad = (nodesFromOrigin + shortestPath + nodesToDest)
             .map { ($0.lon, $0.lat) }
@@ -400,4 +428,8 @@ struct RoadPoint {
     public func coords() -> (Double, Double) {
         return (lon, lat)
     }
+}
+
+enum NavigationError: Error {
+    case notFound
 }

@@ -22,6 +22,7 @@ final class MapVC: BaseViewController {
     private var searchResLayer: TGMapData!
     private var searchHighlightLayer: TGMapData!
     private var currentLocationLayer: TGMapData!
+    private var routeLayer: TGMapData!
 
     public weak var flowDelegate: MapFlowDelegate?
 
@@ -74,6 +75,7 @@ final class MapVC: BaseViewController {
         searchResLayer = mapView.addDataLayer("mz_search_result", generateCentroid: false)
         searchHighlightLayer = mapView.addDataLayer("highlighted_layer", generateCentroid: false)
         currentLocationLayer = mapView.addDataLayer("mz_current_location", generateCentroid: false)
+        routeLayer = mapView.addDataLayer("mz_route_line", generateCentroid: false)
     }
 
     override func viewDidLoad() {
@@ -111,6 +113,15 @@ final class MapVC: BaseViewController {
             self.currentLocationLayer.setFeatures([TGMapFeature(point: coord, properties: ["name": "current_location"])])
             self.mapView.requestRender()
         }
+
+        self.compositeDisposable += viewModel.actions.findShortestPath.values
+            .observeValues { [weak self] (shortestPath: ShortestPath) in
+                guard let self = self else { return }
+                let polyline = self.viewModel.getPolyline(shortestPath)
+
+                self.routeLayer.setFeatures([polyline])
+                self.mapView.requestRender()
+            }
     }
 
 }
