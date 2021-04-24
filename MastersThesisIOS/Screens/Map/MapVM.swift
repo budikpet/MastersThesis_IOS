@@ -22,6 +22,7 @@ protocol MapViewModeling {
     var mbtilesPath: MutableProperty<String> { get }
     var mapConfig: MutableProperty<MapConfig> { get }
     var currLocation: MutableProperty<CLLocationCoordinate2D> { get }
+    var navigatedPath: ReactiveSwift.Property<[CLLocationCoordinate2D]?> { get }
 
     var bounds: ReactiveSwift.Property<TGCoordinateBounds> { get }
     var highlightedLocations: MutableProperty<[TGMapFeature]> { get }
@@ -56,6 +57,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
     internal var currLocation: MutableProperty<CLLocationCoordinate2D>
     internal var highlightedLocations: MutableProperty<[TGMapFeature]>
     internal var locationServiceAvailable: MutableProperty<Bool>
+    internal lazy var navigatedPath: ReactiveSwift.Property<[CLLocationCoordinate2D]?> = ReactiveSwift.Property(initial: nil, then: findShortestPath.values)
 
     // MARK: Local
     private lazy var animalData: Results<AnimalData> = {
@@ -200,19 +202,27 @@ extension MapVM: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let first = locations.first else { return }
         currLocation.value = first.coordinate
+        locationServiceAvailable.value = self.isLocationServiceAvailable() && self.isUserInMap()
 
         os_log("Current coordinates: [lon: %f, lat: %f]", log: Logger.appLog(), type: .info, first.coordinate.longitude, first.coordinate.latitude)
     }
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         // Change in permissions occured.
-        self.locationServiceAvailable.value = self.isLocationServiceAvailable()
+        self.locationServiceAvailable.value = self.isLocationServiceAvailable() && self.isUserInMap()
     }
 }
 
 // MARK: Helpers
 
 extension MapVM {
+    private func isUserInMap() -> Bool {
+        let bounds = mapConfig.value.bounds
+        let location = self.currLocation.value
+
+        return location.latitude < bounds.north && location.latitude > bounds.south && location.longitude < bounds.east && location.longitude > bounds.west
+    }
+
     private func isLocationServiceAvailable() -> Bool {
         if(!CLLocationManager.locationServicesEnabled()) {
             return false
