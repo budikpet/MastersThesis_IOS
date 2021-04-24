@@ -40,6 +40,33 @@ class FindShortestPathTests: XCTestCase {
 
     //swiftlint:disable trailing_whitespace
     //swiftlint:disable force_unwrapping
+    func testSameRoad() {
+        // Prepare
+        let origin = (14.40461, 50.11837)
+        let dest = (14.40217, 50.11876)
+        
+        // Do
+        let result = zooNavigationService.findShortestPath(betweenOrigin: origin, andDestination: dest)
+        
+        // Assert
+        XCTAssertNotNil(result)
+        
+        let expectedResults: [(Double, Double)] = [360405165, 664050358, 678731707, 154637248, 941428227, 594941651, 969285398, 254636480, 933734346, 295169626, 151508718, 746480045, 871118945]
+            .map { [weak self] id in
+                guard let self = self else { fatalError("Self is nil") }
+                guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
+                return (node.lon, node.lat)
+            }
+        
+        // Remove first and last point since these are difficult to predict
+        let preparedResult = Array(result![1..<(result!.endIndex)-1])
+        
+        XCTAssertEqual(preparedResult.count, expectedResults.count)
+        XCTAssertTrue(coordinatesEqual(preparedResult, expectedResults))
+    }
+
+    //swiftlint:disable trailing_whitespace
+    //swiftlint:disable force_unwrapping
     func testNoNewNodes() {
         // Prepare
         let origin = (14.40966, 50.11594)

@@ -75,6 +75,12 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
         os_log("Starting finding shortest path between [%f, %f] and [%f, %f]", log: Logger.appLog(), type: .info, origin.0, origin.1, dest.0, dest.1)
         let roadOrigin: RoadPoint = findClosestRoadPoint(fromPoint: origin)
         let roadDest: RoadPoint = findClosestRoadPoint(fromPoint: dest)
+
+        if(roadOrigin.road._id == roadDest.road._id) {
+            // User and destination are on the same road
+            return createFullShortestPath(originPoint: roadOrigin, destinationPoint: roadDest, [])
+        }
+
         let origins = roadOrigin.road.nodes.filter { $0.is_connector }
         let dests = roadDest.road.nodes.filter { $0.is_connector }
 
@@ -95,13 +101,14 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
     /// - Parameters:
     ///   - originPoint: An origin point that is situated on the first road.
     ///   - destinationPoint: A destination point that is situated on the last road.
-    ///   - shortestPath: The non-empty shortest found path made up of road nodes.
+    ///   - shortestPath: The shortest found path made up of road nodes. It may be empty (for example if origin & destination are on the same road)
     /// - Returns: A list of tuples (longitude, latitude) that make up the shortest path between given origin point and destination point.
     internal func createFullShortestPath(originPoint: RoadPoint, destinationPoint: RoadPoint, _ shortestPath: [RoadNode]) -> [(Double, Double)] {
         guard let firstConnector = shortestPath.first,
               let lastConnector = shortestPath.last
         else {
-            fatalError("Computed shortest paths cannot be empty.")
+            // User and destination are on the same road
+            return constructPath(betweenStart: originPoint.coords(), andEnd: destinationPoint.coords(), on: originPoint.road)
         }
 
         // Create connected line from points to connector nodes.
@@ -130,7 +137,7 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
         for connector in connectorsPath {
             if(connector != lastConnector) {
                 let sharedRoad = getSharedRoad(connector, lastConnector)
-                var nodesBetween: [RoadNode] = getNodesBetween(lastConnector.node, connector.node, on: sharedRoad)
+                let nodesBetween: [RoadNode] = getNodesBetween(lastConnector.node, connector.node, on: sharedRoad)
                 res.append(contentsOf: nodesBetween)
             }
 
