@@ -87,11 +87,13 @@ final class MapVC: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        viewModel.shouldLocationUpdate.value = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
+        viewModel.shouldLocationUpdate.value = false
     }
 
     private func setupBindings() {
@@ -197,7 +199,6 @@ extension MapVC: HighlightedOptionsViewDelegate {
      */
     func navigateClicked(highlightedOptionsView view: HighlightedOptionsView) {
         viewModel.startNavigating()
-        view.closeView()
     }
 
     /**

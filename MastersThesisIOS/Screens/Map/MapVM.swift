@@ -28,6 +28,7 @@ protocol MapViewModeling {
     var bounds: ReactiveSwift.Property<TGCoordinateBounds> { get }
     var highlightedLocations: MutableProperty<[TGMapFeature]> { get }
     var locationServiceAvailable: MutableProperty<Bool> { get }
+    var shouldLocationUpdate: MutableProperty<Bool> { get }
 
     func highlightLocations(using mapLocations: [MapLocation])
     func highlightLocations(using properties: [String: String]?, at coord: CLLocationCoordinate2D?, canUseNil: Bool)
@@ -59,6 +60,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
     internal var destLocation: MutableProperty<CLLocationCoordinate2D?>
     internal var highlightedLocations: MutableProperty<[TGMapFeature]>
     internal var locationServiceAvailable: MutableProperty<Bool>
+    internal var shouldLocationUpdate: MutableProperty<Bool>
     internal lazy var navigatedPath: ReactiveSwift.Property<[CLLocationCoordinate2D]?> = ReactiveSwift.Property(initial: nil, then: findShortestPath.values)
 
     // MARK: Local
@@ -81,6 +83,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
         self.zooNavigationService = dependencies.zooNavigationService
 
         highlightedLocations = MutableProperty([])
+        shouldLocationUpdate = MutableProperty(true)
         locationServiceAvailable = MutableProperty(false)
         mapConfig = MutableProperty(MapVM.loadMapConfig())
 
@@ -101,7 +104,6 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
 
         super.init()
         self.locationManager.delegate = self
-        self.locationManager.startUpdatingLocation()
         self.locationServiceAvailable.value = self.isLocationServiceAvailable()
 
         setupBindings()
@@ -126,6 +128,15 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
                 return self.findShortestPath.apply((origin, destination)).ignoreError()
             }
             .start()
+
+        compositeDisposable += self.shouldLocationUpdate.signal.observeValues { [weak self] (shouldObserve) in
+            guard let self = self else { return }
+            if(shouldObserve == true) {
+                self.locationManager.startUpdatingLocation()
+            } else {
+                self.locationManager.stopUpdatingLocation()
+            }
+        }
     }
 }
 
@@ -136,8 +147,6 @@ extension MapVM {
         let destination = getDestinationPoint(using: feature)
         self.destLocation.value = destination
         os_log("Navigating to feature at [lon: %f, lat: %f]", log: Logger.appLog(), type: .info, destination.longitude, destination.latitude)
-//        let origin = currLocation.value
-//        self.compositeDisposable += findShortestPath.apply((origin, destination)).start()
     }
 
     /**
