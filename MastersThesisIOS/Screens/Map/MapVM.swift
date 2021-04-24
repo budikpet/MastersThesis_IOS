@@ -22,6 +22,7 @@ protocol MapViewModeling {
     var mbtilesPath: MutableProperty<String> { get }
     var mapConfig: MutableProperty<MapConfig> { get }
     var currLocation: MutableProperty<CLLocationCoordinate2D> { get }
+    var destLocation: MutableProperty<CLLocationCoordinate2D?> { get }
     var navigatedPath: ReactiveSwift.Property<[CLLocationCoordinate2D]?> { get }
 
     var bounds: ReactiveSwift.Property<TGCoordinateBounds> { get }
@@ -55,6 +56,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
     internal var mapConfig: MutableProperty<MapConfig>
     internal var bounds: ReactiveSwift.Property<TGCoordinateBounds>
     internal var currLocation: MutableProperty<CLLocationCoordinate2D>
+    internal var destLocation: MutableProperty<CLLocationCoordinate2D?>
     internal var highlightedLocations: MutableProperty<[TGMapFeature]>
     internal var locationServiceAvailable: MutableProperty<Bool>
     internal lazy var navigatedPath: ReactiveSwift.Property<[CLLocationCoordinate2D]?> = ReactiveSwift.Property(initial: nil, then: findShortestPath.values)
@@ -95,6 +97,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
         })
 
         currLocation = MutableProperty(CLLocationCoordinate2D(latitude: 50.117001, longitude: 14.406395))
+        destLocation = MutableProperty(nil)
 
         super.init()
         self.locationManager.delegate = self
@@ -109,7 +112,19 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
     }
 
     private func setupBindings() {
-
+        compositeDisposable += currLocation.producer
+            .throttle(2.0, on: QueueScheduler.main)
+            .compactMap { [weak self] (currLocation) -> (CLLocationCoordinate2D, CLLocationCoordinate2D)? in
+                if self?.locationServiceAvailable.value == true, let dest = self?.destLocation.value {
+                    return (currLocation, dest)
+                } else {
+                    return nil
+                }
+            }
+            .flatMap(.concat) { (origin, destination) -> SignalProducer<ShortestPath, Never> in
+                return self.findShortestPath.apply((origin, destination)).ignoreError()
+            }
+            .start()
     }
 }
 
@@ -118,9 +133,10 @@ extension MapVM {
     func startNavigating() {
         guard let feature = highlightedLocations.value.first else { return }
         let destination = getDestinationPoint(using: feature)
-        let origin = currLocation.value
+        self.destLocation.value = destination
         os_log("Navigating to feature at [lon: %f, lat: %f]", log: Logger.appLog(), type: .info, destination.longitude, destination.latitude)
-        self.compositeDisposable += findShortestPath.apply((origin, destination)).start()
+//        let origin = currLocation.value
+//        self.compositeDisposable += findShortestPath.apply((origin, destination)).start()
     }
 
     /**
