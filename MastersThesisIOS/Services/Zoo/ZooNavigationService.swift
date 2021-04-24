@@ -104,8 +104,12 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
             fatalError("Computed shortest paths cannot be empty.")
         }
 
-        let lineFromOrigin = constructPath(betweenStart: originPoint.coords(), andEnd: firstConnector.coords(), on: originPoint.road)
-        let lineToDest = constructPath(betweenStart: lastConnector.coords(), andEnd: destinationPoint.coords(), on: destinationPoint.road)
+        // Create connected line from points to connector nodes.
+        var lineFromOrigin = constructPath(betweenStart: originPoint.coords(), andEnd: firstConnector.coords(), on: originPoint.road)
+        lineFromOrigin.removeLast()
+
+        var lineToDest = constructPath(betweenStart: lastConnector.coords(), andEnd: destinationPoint.coords(), on: destinationPoint.road)
+        lineToDest.removeFirst()
 
 //        os_log("Origin point [%f, %f] on road %d connected to a node %d.", log: Logger.appLog(), type: .info, originPoint.lon, originPoint.lat, originPoint.road._id, nodeConnectedToOrigin._id)
 //        os_log("Dest point [%f, %f] on road %d connected to a node %d.", log: Logger.appLog(), type: .info, destinationPoint.lon, destinationPoint.lat, destinationPoint.road._id, nodeConnectedToDest._id)
@@ -262,6 +266,12 @@ extension ZooNavigationService {
         return nodesBetween
     }
 
+    /// Constructs path on the given road between two points. These points do not need to be road nodes, but need to be somewhere on the road.
+    /// - Parameters:
+    ///   - origin: A tuple (longitude, latitude) of origin point.
+    ///   - dest: A tuple (longitude, latitude) of destination point.
+    ///   - road: Road both origin and dest points are part of.
+    /// - Returns: A list of tuples (longitude, latitude) that is the path on the given road between two points. First/last member of the list match origin/dest points.
     internal func constructPath(betweenStart origin: (Double, Double), andEnd dest: (Double, Double), on road: Road) -> [(Double, Double)] {
         let coords = road.nodes
             .map { CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lon) }
@@ -273,8 +283,14 @@ extension ZooNavigationService {
         guard let slicedLine = line.sliced(from: start, to: end) else { fatalError("Road must exist") }
         var res = slicedLine.coordinates.map { (Double($0.longitude), Double($0.latitude)) }
 
-        if let first = res.first, first != origin {
-            res.reverse()
+        if let first = res.first, let last = res.last, (first != origin && last != dest) {
+            // If both values are not equal then the list might be reversed
+            let firstDist = computeDistanceBetween(a: first, b: origin)
+            let lastDist = computeDistanceBetween(a: last, b: origin)
+            if(firstDist > lastDist) {
+                // First value is further from the origin than the last value meaning that the list is reversed.
+                res.reverse()
+            }
         }
 
         return res
