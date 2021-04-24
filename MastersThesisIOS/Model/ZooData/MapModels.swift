@@ -45,6 +45,13 @@ struct DetachedRoad {
             }
         }
     }
+
+    init(using road: Road) {
+        self._id = road._id
+        for node in road.nodes {
+            self.nodes.append(DetachedRoadNode(using: node))
+        }
+    }
 }
 
 class RoadNode: Object {
@@ -76,7 +83,7 @@ class RoadNode: Object {
     }
 }
 
-struct DetachedRoadNode {
+struct DetachedRoadNode: Equatable {
     let _id: Int64
     let lon: Double
     let lat: Double
@@ -90,6 +97,25 @@ struct DetachedRoadNode {
         self.lat = (dict["lat"] as? Double) ?? -1.0
         self.is_connector = (dict["is_connector"] as? Bool) ?? false
         self.road_ids = (dict["road_ids"] as? Array<Int64>) ?? []
+    }
+
+    init(using node: RoadNode) {
+        self._id = node._id
+        self.lon = node.lon
+        self.lat = node.lat
+        self.is_connector = node.is_connector
+
+        for road_id in node.road_ids {
+            self.road_ids.append(road_id)
+        }
+    }
+
+    public func coords() -> (Double, Double) {
+        return (lon, lat)
+    }
+
+    static func == (lhs: DetachedRoadNode, rhs: DetachedRoadNode) -> Bool {
+        return lhs._id == rhs._id
     }
 }
 

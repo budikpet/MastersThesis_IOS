@@ -121,6 +121,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
                     return nil
                 }
             }
+            .observe(on: QueueScheduler())
             .flatMap(.concat) { (origin, destination) -> SignalProducer<ShortestPath, Never> in
                 return self.findShortestPath.apply((origin, destination)).ignoreError()
             }
