@@ -190,6 +190,9 @@
 		4376B33743F0EE65C98188DE /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Protobuf.framework; sourceTree = "<group>"; };
 		43971ADE5937356B4E48B925 /* PushManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushManager.swift; sourceTree = "<group>"; };
 		49831CE6F46A8F75345370C6 /* Pods-MastersThesisIOS-MastersThesisIOSTests.beta-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MastersThesisIOS-MastersThesisIOSTests.beta-production.xcconfig"; path = "Target Support Files/Pods-MastersThesisIOS-MastersThesisIOSTests/Pods-MastersThesisIOS-MastersThesisIOSTests.beta-production.xcconfig"; sourceTree = "<group>"; };
+		4B2C727E263491740098FBD0 /* staticZooLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = staticZooLocation.gpx; sourceTree = "<group>"; };
+		4B2C727F263491740098FBD0 /* zakazankaNormalSpeed.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = zakazankaNormalSpeed.gpx; sourceTree = "<group>"; };
+		4B2C7281263492D90098FBD0 /* zakazankaVeryFastSpeed.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = zakazankaVeryFastSpeed.gpx; sourceTree = "<group>"; };
 		4B3421462603961C004B042E /* ReactiveMapKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ReactiveMapKit.xcframework; path = Carthage/Build/ReactiveMapKit.xcframework; sourceTree = "<group>"; };
 		4B3421472603961C004B042E /* SnapKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SnapKit.xcframework; path = Carthage/Build/SnapKit.xcframework; sourceTree = "<group>"; };
 		4B3421482603961C004B042E /* ACKategories.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ACKategories.xcframework; path = Carthage/Build/ACKategories.xcframework; sourceTree = "<group>"; };
@@ -464,6 +467,16 @@
 				4B522DDF2607943E00500699 /* TabBarPage.swift */,
 			);
 			path = FlowCoordinators;
+			sourceTree = "<group>";
+		};
+		4B2C727B263491180098FBD0 /* GPX files */ = {
+			isa = PBXGroup;
+			children = (
+				4B2C727F263491740098FBD0 /* zakazankaNormalSpeed.gpx */,
+				4B2C727E263491740098FBD0 /* staticZooLocation.gpx */,
+				4B2C7281263492D90098FBD0 /* zakazankaVeryFastSpeed.gpx */,
+			);
+			path = "GPX files";
 			sourceTree = "<group>";
 		};
 		4B3421BE2603A589004B042E /* .github */ = {
@@ -820,6 +833,7 @@
 		951926522B5F2E641C7205CD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4B2C727B263491180098FBD0 /* GPX files */,
 				4BCD2574261F32E6003B7251 /* Map */,
 				D2DFBFBAD406A367C5DBE34A /* Localizable.strings */,
 				4BA828D6262A25BA00B990C0 /* InfoPlist.strings */,
