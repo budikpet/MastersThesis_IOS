@@ -104,19 +104,16 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
             fatalError("Computed shortest paths cannot be empty.")
         }
 
-        let nodeConnectedToOrigin = self.getFirstNodeConnected(to: originPoint, thatsConnectedTo: firstConnector)
-        let nodeConnectedToDest = self.getFirstNodeConnected(to: destinationPoint, thatsConnectedTo: lastConnector)
-        let nodesFromOrigin: [RoadNode] = self.getNodesBetween(nodeConnectedToOrigin, firstConnector, on: originPoint.road)
-        let nodesToDest: [RoadNode] = self.getNodesBetween(nodeConnectedToDest, lastConnector, on: destinationPoint.road)
-            .reversed()
+        let lineFromOrigin = constructPath(betweenStart: originPoint.coords(), andEnd: firstConnector.coords(), on: originPoint.road)
+        let lineToDest = constructPath(betweenStart: lastConnector.coords(), andEnd: destinationPoint.coords(), on: destinationPoint.road)
 
-        os_log("Origin point [%f, %f] on road %d connected to a node %d.", log: Logger.appLog(), type: .info, originPoint.lon, originPoint.lat, originPoint.road._id, nodeConnectedToOrigin._id)
-        os_log("Dest point [%f, %f] on road %d connected to a node %d.", log: Logger.appLog(), type: .info, destinationPoint.lon, destinationPoint.lat, destinationPoint.road._id, nodeConnectedToDest._id)
+//        os_log("Origin point [%f, %f] on road %d connected to a node %d.", log: Logger.appLog(), type: .info, originPoint.lon, originPoint.lat, originPoint.road._id, nodeConnectedToOrigin._id)
+//        os_log("Dest point [%f, %f] on road %d connected to a node %d.", log: Logger.appLog(), type: .info, destinationPoint.lon, destinationPoint.lat, destinationPoint.road._id, nodeConnectedToDest._id)
 
-        let connectedRoad = (nodesFromOrigin + shortestPath + nodesToDest)
+        let connectedRoad = shortestPath
             .map { ($0.lon, $0.lat) }
 
-        return [originPoint.coords()] + connectedRoad + [destinationPoint.coords()]
+        return lineFromOrigin + connectedRoad + lineToDest
     }
 
     /// Fills all nodes between separate connector nodes that make the shortest path.
@@ -265,33 +262,22 @@ extension ZooNavigationService {
         return nodesBetween
     }
 
-    /// Finds the first RoadNode that the given point uses to connect to the connector node.
-    /// - Parameters:
-    ///   - point: A road point that is not part of RoadNodes.
-    ///   - connector: A connector node that marks a start/end of the computed shortest path.
-    /// - Returns: The first RoadNode that the point connects to to get to the connector node.
-    private func getFirstNodeConnected(to point: RoadPoint, thatsConnectedTo connector: RoadNode) -> RoadNode {
-        let nodes = point.road.nodes
+    internal func constructPath(betweenStart origin: (Double, Double), andEnd dest: (Double, Double), on road: Road) -> [(Double, Double)] {
+        let coords = road.nodes
+            .map { CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lon) }
 
-        for (curr, next) in zip(nodes, nodes.dropFirst()) {
-            let currCoords = (curr.lon, curr.lat)
-            let nextCoords = (next.lon, next.lat)
-            let currPointDiff = (currCoords.0 < point.coords().0, currCoords.1 < point.coords().1)
-            let nextPointDiff = (nextCoords.0 < point.coords().0, nextCoords.1 < point.coords().1)
-//            print("(\(curr._id), \(next._id)): \(currPointDiff) | \(nextPointDiff)")
+        let line = LineString(Array(coords))
+        let start = CLLocationCoordinate2D(latitude: origin.1, longitude: origin.0)
+        let end = CLLocationCoordinate2D(latitude: dest.1, longitude: dest.0)
 
-            if(currPointDiff != nextPointDiff) {
-                // The point is between curr and next road node
-                let (firstIndex, secondIndex) = getRoadIndexes(road: point.road, curr, next)
-                guard let connectorIndex = point.road.nodes.index(of: connector) else { fatalError("Connector index must exist in the road") }
+        guard let slicedLine = line.sliced(from: start, to: end) else { fatalError("Road must exist") }
+        var res = slicedLine.coordinates.map { (Double($0.longitude), Double($0.latitude)) }
 
-                return secondIndex <= connectorIndex ? nodes[secondIndex] : nodes[firstIndex]
-            }
+        if let first = res.first, first != origin {
+            res.reverse()
         }
 
-        guard let lastNode = point.road.nodes.last else { fatalError("Last node has to exist.") }
-
-        return lastNode
+        return res
     }
 
     /// - Parameters:
@@ -424,6 +410,18 @@ struct RoadPoint {
     let lon: Double
     let lat: Double
     let road: Road
+
+    public init(coords: (Double, Double), road: Road) {
+        self.lon = coords.0
+        self.lat = coords.1
+        self.road = road
+    }
+
+    public init(lon: Double, lat: Double, road: Road) {
+        self.lon = lon
+        self.lat = lat
+        self.road = road
+    }
 
     public func coords() -> (Double, Double) {
         return (lon, lat)

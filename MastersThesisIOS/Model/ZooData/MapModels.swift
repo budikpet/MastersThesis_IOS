@@ -70,6 +70,10 @@ class RoadNode: Object {
         }
 
     }
+
+    public func coords() -> (Double, Double) {
+        return (lon, lat)
+    }
 }
 
 struct DetachedRoadNode {
