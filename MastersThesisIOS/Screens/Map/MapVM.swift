@@ -35,6 +35,7 @@ protocol MapViewModeling {
     func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData]
     func startNavigating()
     func getPolyline(_ coordinates: [CLLocationCoordinate2D]) -> TGMapFeature
+    func shouldHandleTap() -> Bool
 }
 
 extension MapViewModeling where Self: MapViewModelingActions {
@@ -173,6 +174,10 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
 
 // MARK: Protocol
 extension MapVM {
+    func shouldHandleTap() -> Bool {
+        return self.destLocation.value == nil
+    }
+
     func startNavigating() {
         guard let feature = highlightedLocations.value.first else { return }
         let destination = getDestinationPoint(using: feature)

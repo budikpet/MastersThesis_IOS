@@ -98,6 +98,7 @@ final class MapVC: BaseViewController {
             self.mapView.requestRender()
         }
 
+        // Observe shortest path changes to update the map
         self.compositeDisposable += viewModel.actions.findShortestPath.values
             .observeValues { [weak self] (shortestPath: ShortestPath) in
                 guard let self = self else { return }
@@ -170,9 +171,11 @@ extension MapVC: TGRecognizerDelegate {
 
     func mapView(_ view: TGMapView!, recognizer: UIGestureRecognizer!, didRecognizeSingleTapGesture location: CGPoint) {
         print("\nLocation: \(location)")
-        view.pickLabel(at: location)
-        view.pickFeature(at: location)
-//        view.pickMarker(at: location)
+        if(viewModel.shouldHandleTap()) {
+            view.pickLabel(at: location)
+            view.pickFeature(at: location)
+    //        view.pickMarker(at: location)
+        }
     }
 }
 
