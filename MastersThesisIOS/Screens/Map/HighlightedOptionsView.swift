@@ -13,6 +13,7 @@ import ReactiveSwift
 protocol HighlightedOptionsViewDelegate: class {
     func navigateClicked(highlightedOptionsView view: HighlightedOptionsView)
     func showAnimalsClicked(highlightedOptionsView view: HighlightedOptionsView)
+    func hideClicked(highlightedOptionsView view: HighlightedOptionsView)
 }
 
 /**
@@ -23,6 +24,7 @@ class HighlightedOptionsView: UIView {
     public weak var delegate: HighlightedOptionsViewDelegate?
 
     private weak var stackView: UIStackView!
+    private weak var hideButton: UIButton!
     private weak var navButton: UIButton!
     private weak var showAnimalsButton: UIButton!
     private weak var nameLabel: UILabel!
@@ -36,10 +38,6 @@ class HighlightedOptionsView: UIView {
         self.backgroundColor = UIColor.systemBackground
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        let nameLabel = UILabel()
-        self.nameLabel = nameLabel
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 25)
-
         let navButton = prepareButton(withText: L10n.Map.buttonDirections)
         self.navButton = navButton
         navButton.addTarget(self, action: #selector(navButtonTapped(_:)), for: .touchUpInside)
@@ -48,11 +46,36 @@ class HighlightedOptionsView: UIView {
         self.showAnimalsButton = showAnimalsButton
         showAnimalsButton.addTarget(self, action: #selector(showAnimalsButtonTapped(_:)), for: .touchUpInside)
 
-        let stackView = UIStackView(arrangedSubviews: [nameLabel, navButton, showAnimalsButton])
+        let titleView = UIView()
+
+        let nameLabel = UILabel()
+        self.nameLabel = nameLabel
+        titleView.addSubview(nameLabel)
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 25)
+
+        nameLabel.snp.makeConstraints { (make) in
+            make.centerY.leading.equalToSuperview()
+        }
+
+        let hideButton = UIButton()
+        self.hideButton = hideButton
+        titleView.addSubview(hideButton)
+        hideButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        hideButton.tintColor = .darkGray
+        hideButton.backgroundColor = UIColor(red: 218/255, green: 228/255, blue: 242/255, alpha: 0.5)
+        hideButton.layer.masksToBounds = true
+        hideButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        hideButton.addTarget(self, action: #selector(hideButtonTapped(_:)), for: .touchUpInside)
+
+        hideButton.snp.makeConstraints { (make) in
+            make.centerY.trailing.equalToSuperview()
+        }
+
+        let stackView = UIStackView(arrangedSubviews: [titleView, navButton, showAnimalsButton])
         self.stackView = stackView
         self.addSubview(stackView)
         stackView.distribution = .fillEqually
-        stackView.spacing = 8
+        stackView.spacing = 16
         stackView.axis = .vertical
         stackView.snp.makeConstraints { (make) in
             make.top.left.equalToSuperview().offset(16)
@@ -68,9 +91,10 @@ class HighlightedOptionsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: layer)
         self.roundCorners(corners: [.topLeft, .topRight], radius: 12)
+        self.hideButton.layer.cornerRadius = self.hideButton.frame.width / 2.0
     }
 
     private func setupBindings() {
@@ -125,6 +149,11 @@ extension HighlightedOptionsView {
         delegate?.showAnimalsClicked(highlightedOptionsView: self)
     }
 
+    @objc
+    private func hideButtonTapped(_ sender: UIBarButtonItem) {
+        delegate?.hideClicked(highlightedOptionsView: self)
+    }
+
     private func prepareButton(withText text: String) -> UIButton {
         let res = UIButton()
         res.setTitle(text, for: [])
@@ -134,6 +163,7 @@ extension HighlightedOptionsView {
         res.setBackgroundColor(color: .systemBlue, forState: .normal)
         res.setBackgroundColor(color: .lightGray, forState: .disabled)
         res.layer.cornerRadius = 12
+        res.contentEdgeInsets = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
 
         return res
     }

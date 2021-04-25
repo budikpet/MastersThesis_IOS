@@ -208,6 +208,12 @@ extension MapVC: HighlightedOptionsViewDelegate {
         let animals = viewModel.getAnimals(fromFeatures: viewModel.highlightedLocations.value)
         flowDelegate?.viewAnimals(animals)
     }
+
+    /// Hide button was clicked, hide the view and reset highlighted locations.
+    /// - Parameter view: Current HighlightedOptionsView
+    func hideClicked(highlightedOptionsView view: HighlightedOptionsView) {
+        print("Hide btn tapped.")
+    }
 }
 
 // MARK: Helpers
