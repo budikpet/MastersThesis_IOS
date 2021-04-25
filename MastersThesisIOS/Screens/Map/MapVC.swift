@@ -17,7 +17,7 @@ protocol MapFlowDelegate: class {
 final class MapVC: BaseViewController {
     private let viewModel: MapViewModeling
 
-    private weak var highlightedOptionsView: HighlightedOptionsView?
+    private weak var highlightedOptionsView: MapOptionsPanelView?
     private weak var mapView: TGMapView!
     private var searchResLayer: TGMapData!
     private var searchHighlightLayer: TGMapData!
@@ -49,7 +49,7 @@ final class MapVC: BaseViewController {
 
         self.prepareMapView()
 
-        let highlightedOptionsView = HighlightedOptionsView(frame: self.view.frame, viewModel: viewModel)
+        let highlightedOptionsView = MapOptionsPanelView(frame: self.view.frame, viewModel: viewModel)
         self.highlightedOptionsView = highlightedOptionsView
         self.view.addSubview(highlightedOptionsView)
         highlightedOptionsView.delegate = self
@@ -179,27 +179,27 @@ extension MapVC: TGRecognizerDelegate {
     }
 }
 
-// MARK: HighlightedOptionsViewDelegate
+// MARK: MapOptionsPanelViewDelegate
 
-extension MapVC: HighlightedOptionsViewDelegate {
+extension MapVC: MapOptionsPanelViewDelegate {
     /**
      Run navigation service to show shortest path to the highlighted feature.
      */
-    func navigateClicked(highlightedOptionsView view: HighlightedOptionsView) {
+    func navigateClicked(highlightedOptionsView view: MapOptionsPanelView) {
         viewModel.startNavigating()
     }
 
     /**
      View details of animals that belong into the selected feature (either animal pen or house).
      */
-    func showAnimalsClicked(highlightedOptionsView view: HighlightedOptionsView) {
+    func showAnimalsClicked(highlightedOptionsView view: MapOptionsPanelView) {
         let animals = viewModel.getAnimals(fromFeatures: viewModel.highlightedLocations.value)
         flowDelegate?.viewAnimals(animals)
     }
 
     /// Hide button was clicked, hide the view and reset highlighted locations.
-    /// - Parameter view: Current HighlightedOptionsView
-    func hideClicked(highlightedOptionsView view: HighlightedOptionsView) {
+    /// - Parameter view: Current MapOptionsPanelView
+    func hideClicked(highlightedOptionsView view: MapOptionsPanelView) {
         self.highlightedOptionsView?.hideView()
         self.viewModel.highlightedLocations.value = []
     }

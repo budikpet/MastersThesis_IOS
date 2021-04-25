@@ -1,5 +1,5 @@
 //
-//  HighlightedOptionsView.swift
+//  MapOptionsPanelView.swift
 //  MastersThesisIOS
 //
 //  Created by Petr Budík on 15/04/2021.
@@ -10,18 +10,18 @@ import UIKit
 import TangramMap
 import ReactiveSwift
 
-protocol HighlightedOptionsViewDelegate: class {
-    func navigateClicked(highlightedOptionsView view: HighlightedOptionsView)
-    func showAnimalsClicked(highlightedOptionsView view: HighlightedOptionsView)
-    func hideClicked(highlightedOptionsView view: HighlightedOptionsView)
+protocol MapOptionsPanelViewDelegate: class {
+    func navigateClicked(highlightedOptionsView view: MapOptionsPanelView)
+    func showAnimalsClicked(highlightedOptionsView view: MapOptionsPanelView)
+    func hideClicked(highlightedOptionsView view: MapOptionsPanelView)
 }
 
 /**
- A menu view that shows when features are highlighted in the map.
+ A map panel view that shows when features are highlighted in the map and/or navigation is happening.
  */
-class HighlightedOptionsView: UIView {
+class MapOptionsPanelView: UIView {
     private let viewModel: MapViewModeling
-    public weak var delegate: HighlightedOptionsViewDelegate?
+    public weak var delegate: MapOptionsPanelViewDelegate?
 
     private weak var stackView: UIStackView!
     private weak var hideButton: UIButton!
@@ -113,7 +113,7 @@ class HighlightedOptionsView: UIView {
 
 // MARK: Helpers
 
-extension HighlightedOptionsView {
+extension MapOptionsPanelView {
     /**
      Animate the view opening from bottom to top.
      */
