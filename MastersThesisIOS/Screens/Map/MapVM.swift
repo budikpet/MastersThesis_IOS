@@ -30,6 +30,7 @@ protocol MapViewModeling {
     var locationServiceAvailable: MutableProperty<Bool> { get }
     var shouldLocationUpdate: MutableProperty<Bool> { get }
     var selectedProperties: MutableProperty<SelectedMapObjects> { get }
+    var dbUpdating: ReactiveSwift.Property<Bool> { get }
 
     func prepareHighlightedLocations(using mapLocations: [MapLocation]) -> [TGMapFeature]
     func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData]
@@ -63,6 +64,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
     internal var locationServiceAvailable: MutableProperty<Bool>
     internal var shouldLocationUpdate: MutableProperty<Bool>
     internal var selectedProperties: MutableProperty<SelectedMapObjects>
+    internal var dbUpdating: ReactiveSwift.Property<Bool>
     internal lazy var navigatedPath: ReactiveSwift.Property<[CLLocationCoordinate2D]?> = ReactiveSwift.Property(initial: nil, then: findShortestPath.values)
 
     // MARK: Local
@@ -88,6 +90,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
         shouldLocationUpdate = MutableProperty(true)
         selectedProperties = MutableProperty(SelectedMapObjects())
         locationServiceAvailable = MutableProperty(false)
+        dbUpdating = realmDbManager.actions.updateLocalDB.isExecuting
         mapConfig = MutableProperty(MapVM.loadMapConfig())
 
 //        guard let sceneUrl = Bundle.resources.url(forResource: "bubbleWrapStyle", withExtension: "zip") else { fatalError("Scene file not found.") }

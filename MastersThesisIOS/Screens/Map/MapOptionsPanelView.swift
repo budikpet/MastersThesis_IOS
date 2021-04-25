@@ -98,8 +98,8 @@ class MapOptionsPanelView: UIView {
 
     private func setupBindings() {
         // Nav button is enabled when there is exactly 1 highlighted location and location of the user is available
-        self.navButton.reactive.isEnabled <~ SignalProducer.combineLatest(viewModel.highlightedLocations.map { $0.count == 1 }, viewModel.locationServiceAvailable.producer)
-            .map { return $0.0 && $0.1 }
+        self.navButton.reactive.isEnabled <~ SignalProducer.combineLatest(viewModel.highlightedLocations.map { $0.count == 1 }, viewModel.locationServiceAvailable.producer, viewModel.dbUpdating.producer)
+            .map { return $0.0 && $0.1 && !$0.2 }
 
         // Bind nameLabel text to the name of the first highlighted location or number of locations if multiple are selected
         self.nameLabel.reactive.text <~ viewModel.highlightedLocations.producer.compactMap { (features: [TGMapFeature]) -> String? in
