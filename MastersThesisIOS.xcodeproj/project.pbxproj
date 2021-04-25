@@ -193,6 +193,7 @@
 		4B2C727E263491740098FBD0 /* staticZooLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = staticZooLocation.gpx; sourceTree = "<group>"; };
 		4B2C727F263491740098FBD0 /* zakazankaNormalSpeed.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = zakazankaNormalSpeed.gpx; sourceTree = "<group>"; };
 		4B2C7281263492D90098FBD0 /* zakazankaVeryFastSpeed.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = zakazankaVeryFastSpeed.gpx; sourceTree = "<group>"; };
+		4B2C728626356A2F0098FBD0 /* zooPragueArrival.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = zooPragueArrival.gpx; sourceTree = "<group>"; };
 		4B3421462603961C004B042E /* ReactiveMapKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ReactiveMapKit.xcframework; path = Carthage/Build/ReactiveMapKit.xcframework; sourceTree = "<group>"; };
 		4B3421472603961C004B042E /* SnapKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SnapKit.xcframework; path = Carthage/Build/SnapKit.xcframework; sourceTree = "<group>"; };
 		4B3421482603961C004B042E /* ACKategories.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ACKategories.xcframework; path = Carthage/Build/ACKategories.xcframework; sourceTree = "<group>"; };
@@ -475,6 +476,7 @@
 				4B2C727F263491740098FBD0 /* zakazankaNormalSpeed.gpx */,
 				4B2C727E263491740098FBD0 /* staticZooLocation.gpx */,
 				4B2C7281263492D90098FBD0 /* zakazankaVeryFastSpeed.gpx */,
+				4B2C728626356A2F0098FBD0 /* zooPragueArrival.gpx */,
 			);
 			path = "GPX files";
 			sourceTree = "<group>";

@@ -13,7 +13,7 @@ import RealmSwift
 class FindShortestPathTests: XCTestCase {
 
     let realm: Realm = testDependencies.realm
-    let zooNavigationService: ZooNavigationService = ZooNavigationService(dependencies: testDependencies)
+    lazy var zooNavigationService: ZooNavigationService = ZooNavigationService(dependencies: testDependencies)
 
     lazy var roadNodes: Results<RoadNode> = {
         return realm.objects(RoadNode.self)
@@ -151,7 +151,7 @@ class FindShortestPathTests: XCTestCase {
 class PopulateShortestPathTests: XCTestCase {
 
     let realm: Realm = testDependencies.realm
-    let zooNavigationService: ZooNavigationService = ZooNavigationService(dependencies: testDependencies)
+    lazy var zooNavigationService: ZooNavigationService = ZooNavigationService(dependencies: testDependencies)
 
     lazy var roadNodes: Results<RoadNode> = {
         return realm.objects(RoadNode.self)
@@ -183,7 +183,7 @@ class PopulateShortestPathTests: XCTestCase {
             .map { [weak self] id in
                 guard let self = self else { fatalError("Self is nil") }
                 guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
-                return node
+                return DetachedRoadNode(using: node)
             }
             .map { GraphNode(roadNode: $0) }
 
@@ -208,7 +208,7 @@ class PopulateShortestPathTests: XCTestCase {
             .map { [weak self] id in
                 guard let self = self else { fatalError("Self is nil") }
                 guard let node = self.roadNodes.first(where: {$0._id == id}) else { fatalError("Test node not found.") }
-                return node
+                return DetachedRoadNode(using: node)
             }
             .map { GraphNode(roadNode: $0) }
 
@@ -238,7 +238,7 @@ class PopulateShortestPathTests: XCTestCase {
 class ComputeShortestPathTests: XCTestCase {
 
     let realm: Realm = testDependencies.realm
-    let zooNavigationService: ZooNavigationService = ZooNavigationService(dependencies: testDependencies)
+    lazy var zooNavigationService: ZooNavigationService = ZooNavigationService(dependencies: testDependencies)
     
     lazy var roadNodes: Results<RoadNode> = {
         return realm.objects(RoadNode.self)
@@ -280,7 +280,7 @@ class ComputeShortestPathTests: XCTestCase {
 //        let origin = GraphNode(roadNode: originNode, destination: destinationNode)
 
         // Do
-        let result = zooNavigationService.computeShortestPath(origins: [originNode], destinations: [destinationNode], destinationPoint: (14.40813, 50.11502))
+        let result = zooNavigationService.computeShortestPath(origins: [DetachedRoadNode(using: originNode)], destinations: [DetachedRoadNode(using: destinationNode)], destinationPoint: (14.40813, 50.11502))
         
         // Assert
         XCTAssertNotNil(result)
@@ -310,7 +310,7 @@ class ComputeShortestPathTests: XCTestCase {
 //        let origin = GraphNode(roadNode: originNode, destination: destinationNode)
 
         // Do
-        let result = zooNavigationService.computeShortestPath(origins: [originNode], destinations: [destinationNode], destinationPoint: (14.40362, 50.11675))
+        let result = zooNavigationService.computeShortestPath(origins: [DetachedRoadNode(using: originNode)], destinations: [DetachedRoadNode(using: destinationNode)], destinationPoint: (14.40362, 50.11675))
         
         // Assert
         XCTAssertNotNil(result)
@@ -329,9 +329,12 @@ class ComputeShortestPathTests: XCTestCase {
         // Prepare
         let destinationConnectors: [Int64] = [204519474, 771864649]
         let destinations = Array(roadNodes.filter({ (node: RoadNode) in destinationConnectors.contains(node._id) }))
+            .map { DetachedRoadNode(using: $0) }
         
         let originConnectors: [Int64] = [986638646, 24689895, 2374223, 292562085]
-        let origins = Array(roadNodes.filter({ (node: RoadNode) in originConnectors.contains(node._id) }))
+        let origins = Array(roadNodes)
+            .filter({ (node: RoadNode) in originConnectors.contains(node._id) })
+            .map { DetachedRoadNode(using: $0) }
 
 //        let destination = GraphNode(roadNode: destinationNode)
 //        let origin = GraphNode(roadNode: originNode, destination: destinationNode)
@@ -354,10 +357,14 @@ class ComputeShortestPathTests: XCTestCase {
         // Trying to navigate to the other side of Vltava which is not possible
         // Prepare
         let destinationConnectors: [Int64] = [420903310]
-        let destinations = Array(roadNodes.filter({ (node: RoadNode) in destinationConnectors.contains(node._id) }))
+        let destinations = Array(roadNodes)
+            .filter({ (node: RoadNode) in destinationConnectors.contains(node._id) })
+            .map { DetachedRoadNode(using: $0) }
         
         let originConnectors: [Int64] = [986638646, 24689895, 2374223, 292562085]
-        let origins = Array(roadNodes.filter({ (node: RoadNode) in originConnectors.contains(node._id) }))
+        let origins = Array(roadNodes)
+            .filter({ (node: RoadNode) in originConnectors.contains(node._id) })
+            .map { DetachedRoadNode(using: $0) }
 
 //        let destination = GraphNode(roadNode: destinationNode)
 //        let origin = GraphNode(roadNode: originNode, destination: destinationNode)
