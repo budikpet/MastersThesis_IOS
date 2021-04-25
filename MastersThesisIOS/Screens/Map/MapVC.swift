@@ -17,8 +17,10 @@ protocol MapFlowDelegate: class {
 final class MapVC: BaseViewController {
     private let viewModel: MapViewModeling
 
-    private weak var highlightedOptionsView: MapOptionsPanelView?
+    private weak var highlightedOptionsView: MapOptionsPanelView!
     private weak var mapView: TGMapView!
+    private weak var cameraToUserButton: UIButton!
+
     private var searchResLayer: TGMapData!
     private var searchHighlightLayer: TGMapData!
     private var currentLocationLayer: TGMapData!
@@ -59,6 +61,26 @@ final class MapVC: BaseViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
+
+        let cameraToUserButton = UIButton()
+        self.cameraToUserButton = cameraToUserButton
+        self.view.addSubview(cameraToUserButton)
+        cameraToUserButton.setBackgroundColor(color: .lightGray, forState: .disabled)
+        cameraToUserButton.setImage(UIImage(systemName: "location"), for: .normal)
+        cameraToUserButton.tintColor = .systemBlue
+        cameraToUserButton.backgroundColor = .white
+        cameraToUserButton.layer.masksToBounds = true
+        cameraToUserButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+
+        cameraToUserButton.snp.makeConstraints { (make) in
+            make.trailing.equalToSuperview().inset(8)
+            make.top.equalToSuperview().offset(64)
+        }
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.cameraToUserButton.layer.cornerRadius = self.cameraToUserButton.frame.width / 2.0
     }
 
     override func viewDidLoad() {
@@ -80,7 +102,7 @@ final class MapVC: BaseViewController {
     }
 
     private func setupBindings() {
-        viewModel.highlightedLocations.signal.observeValues { [weak self] (locations: [TGMapFeature]) in
+        self.compositeDisposable += viewModel.highlightedLocations.signal.observeValues { [weak self] (locations: [TGMapFeature]) in
             /// Show searched map features in the map
             guard let self = self else { return }
             self.highlight(locationsInMap: locations)
@@ -115,14 +137,17 @@ final class MapVC: BaseViewController {
                 guard let self = self else { return }
                 if(dest != nil) {
                     // A new destination picked, routing is starting, move camera to the user's position
-                    let userPos = self.viewModel.currLocation.value
-                    let zoom = self.viewModel.mapConfig.value.maxZoom - 0.5
-                    guard let pos = TGCameraPosition(center: userPos, zoom: CGFloat(zoom), bearing: self.mapView.bearing, pitch: self.mapView.pitch) else { return }
-                    self.mapView.setCameraPosition(pos, withDuration: 0.5, easeType: .quint)
+                    self.moveCameraToUser()
                 } else {
                     self.routeLayer.setFeatures([])
                     self.mapView.requestRender()
                 }
+        }
+
+        cameraToUserButton.reactive.isEnabled <~ viewModel.locationServiceAvailable.producer
+
+        cameraToUserButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.moveCameraToUser()
         }
     }
 
@@ -247,6 +272,13 @@ extension MapVC {
 // MARK: Helpers
 
 extension MapVC {
+    private func moveCameraToUser() {
+        let userPos = self.viewModel.currLocation.value
+        let zoom = self.viewModel.mapConfig.value.maxZoom - 0.5
+        guard let pos = TGCameraPosition(center: userPos, zoom: CGFloat(zoom), bearing: self.mapView.bearing, pitch: self.mapView.pitch) else { return }
+        self.mapView.setCameraPosition(pos, withDuration: 0.5, easeType: .quint)
+    }
+
     /**
      Updates layers to highlight locations in the map. Creates search pins and actual highlights of polygons.
      - Parameters:

@@ -48,15 +48,6 @@ class MapOptionsPanelView: UIView {
 
         let titleView = UIView()
 
-        let nameLabel = UILabel()
-        self.nameLabel = nameLabel
-        titleView.addSubview(nameLabel)
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 25)
-
-        nameLabel.snp.makeConstraints { (make) in
-            make.centerY.leading.equalToSuperview()
-        }
-
         let hideButton = UIButton()
         self.hideButton = hideButton
         titleView.addSubview(hideButton)
@@ -69,6 +60,16 @@ class MapOptionsPanelView: UIView {
 
         hideButton.snp.makeConstraints { (make) in
             make.centerY.trailing.equalToSuperview()
+        }
+
+        let nameLabel = UILabel()
+        self.nameLabel = nameLabel
+        titleView.addSubview(nameLabel)
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 25)
+
+        nameLabel.snp.makeConstraints { (make) in
+            make.centerY.leading.equalToSuperview()
+            make.trailing.equalTo(hideButton.snp.leading)
         }
 
         let stackView = UIStackView(arrangedSubviews: [titleView, navButton, showAnimalsButton])
