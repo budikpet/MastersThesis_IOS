@@ -116,6 +116,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
     }
 
     private func setupBindings() {
+        // Bind changes to current location & destination to the findShortestPath action
         self.findShortestPath <~ currLocation.producer
             .throttle(2.0, on: QueueScheduler.main)
             .compactMap { [weak self] (currLocation) -> (CLLocationCoordinate2D, CLLocationCoordinate2D)? in
@@ -127,6 +128,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
             }
             .observe(on: QueueScheduler())
 
+        // Observe changes in shouldLocationUpdate property, start/stop updating location accordingly
         compositeDisposable += self.shouldLocationUpdate.signal.observeValues { [weak self] (shouldObserve) in
             guard let self = self else { return }
             if(shouldObserve == true) {
@@ -136,6 +138,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
             }
         }
 
+        // Bind changes in highlighted locations to its property
         self.highlightedLocations.bindingTarget <~ self.selectedProperties.signal
             .filter { $0.allValuesWereChecked() }
             .flatMap(.concat) { (selectedMapObjects: SelectedMapObjects) -> SignalProducer<[TGMapFeature], Never> in
@@ -159,6 +162,12 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
                     }
 
             }
+
+        // Bind reseting of highlighted location to reseting destination
+        self.destLocation.bindingTarget <~ self.highlightedLocations.signal
+            .filter { (highlightedLocations: [TGMapFeature]) in highlightedLocations.isEmpty }
+            .map { _ in return nil }
+
     }
 }
 

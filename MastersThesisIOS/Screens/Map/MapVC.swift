@@ -106,6 +106,14 @@ final class MapVC: BaseViewController {
                 self.routeLayer.setFeatures([polyline])
                 self.mapView.requestRender()
             }
+
+        // Observe reseting of destination location to reset the map
+        self.compositeDisposable += viewModel.destLocation.signal
+            .filter { $0 == nil }
+            .observeValues { _ in
+                self.routeLayer.setFeatures([])
+                self.mapView.requestRender()
+            }
     }
 
 }
