@@ -83,8 +83,6 @@ class HighlightedOptionsView: UIView {
         }
 
         setupBindings()
-
-        animateIn()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -119,7 +117,8 @@ extension HighlightedOptionsView {
     /**
      Animate the view opening from bottom to top.
      */
-    private func animateIn() {
+    func showView() {
+        self.isHidden = false
         self.transform = CGAffineTransform(translationX: 0, y: self.frame.height)
         self.alpha = 1
         let animations: () -> Void = {
@@ -132,10 +131,10 @@ extension HighlightedOptionsView {
     /**
      Animate the view closing from top to bottom.
      */
-    func closeView() {
+    func hideView() {
         let animations: () -> Void = { self.transform = CGAffineTransform(translationX: 0, y: self.frame.height) }
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn, animations: animations) { (complete: Bool) in
-            self.removeFromSuperview()
+            self.isHidden = true
         }
     }
 

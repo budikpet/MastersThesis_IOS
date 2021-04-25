@@ -47,35 +47,18 @@ final class MapVC: BaseViewController {
     override func loadView() {
         super.loadView()
 
-        let mapView = TGMapView()
-        self.mapView = mapView
-        view.addSubview(mapView)
-        mapView.mapViewDelegate = self
-        mapView.gestureDelegate = self
+        self.prepareMapView()
 
-        let min_zoom = CGFloat(viewModel.mapConfig.value.minZoom)
-        mapView.cameraPosition = TGCameraPosition(center: viewModel.currLocation.value, zoom: min_zoom, bearing: 0, pitch: 0)
-        mapView.minimumZoomLevel = min_zoom
-        mapView.setPickRadius(CGFloat(30.0))
+        let highlightedOptionsView = HighlightedOptionsView(frame: self.view.frame, viewModel: viewModel)
+        self.highlightedOptionsView = highlightedOptionsView
+        self.view.addSubview(highlightedOptionsView)
+        highlightedOptionsView.delegate = self
+        highlightedOptionsView.isHidden = true
 
-        mapView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+        highlightedOptionsView.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
-
-        // Updates values inside the scene YAML file
-        let sceneUpdates = [
-//            TGSceneUpdate(path: "global.icon_visible_poi_landuse", value: "true"),
-            TGSceneUpdate(path: "sources.mapzen.type", value: "GeoJSON"),
-            TGSceneUpdate(path: "sources.mapzen.url", value: viewModel.mbtilesPath.value),  // Pass on-device path to mbtiles into the mapView
-//            TGSceneUpdate(path: "sources.mapzen.max_zoom", value: "\(viewModel.mapConfig.value.maxZoom)"),
-            TGSceneUpdate(path: "sources.mapzen.min_display_zoom", value: "\(viewModel.mapConfig.value.minZoom)"),
-        ]
-
-        mapView.loadSceneAsync(from: viewModel.sceneUrl.value, with: sceneUpdates)
-        searchResLayer = mapView.addDataLayer("mz_search_result", generateCentroid: false)
-        searchHighlightLayer = mapView.addDataLayer("highlighted_layer", generateCentroid: false)
-        currentLocationLayer = mapView.addDataLayer("mz_current_location", generateCentroid: false)
-        routeLayer = mapView.addDataLayer("mz_route_line", generateCentroid: false)
     }
 
     override func viewDidLoad() {
@@ -102,11 +85,8 @@ final class MapVC: BaseViewController {
             guard let self = self else { return }
             self.highlight(locationsInMap: locations)
 
-            if(locations.isEmpty) {
-                self.highlightedOptionsView?.closeView()
-                self.highlightedOptionsView = nil
-            } else {
-                self.showHighlightedOptionsView(locations)
+            if(locations.isNotEmpty) {
+                self.highlightedOptionsView?.showView()
             }
         }
 
@@ -212,32 +192,51 @@ extension MapVC: HighlightedOptionsViewDelegate {
     /// Hide button was clicked, hide the view and reset highlighted locations.
     /// - Parameter view: Current HighlightedOptionsView
     func hideClicked(highlightedOptionsView view: HighlightedOptionsView) {
-        print("Hide btn tapped.")
+        self.highlightedOptionsView?.hideView()
+        self.viewModel.highlightedLocations.value = []
+    }
+}
+
+// MARK: UI helpers
+
+extension MapVC {
+    /// Prepares TGMapView, map layers and other map related variables.
+    private func prepareMapView() {
+        let mapView = TGMapView()
+        self.mapView = mapView
+        view.addSubview(mapView)
+        mapView.mapViewDelegate = self
+        mapView.gestureDelegate = self
+
+        let min_zoom = CGFloat(viewModel.mapConfig.value.minZoom)
+        mapView.cameraPosition = TGCameraPosition(center: viewModel.currLocation.value, zoom: min_zoom, bearing: 0, pitch: 0)
+        mapView.minimumZoomLevel = min_zoom
+        mapView.setPickRadius(CGFloat(30.0))
+
+        mapView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+
+        // Updates values inside the scene YAML file
+        let sceneUpdates = [
+//            TGSceneUpdate(path: "global.icon_visible_poi_landuse", value: "true"),
+            TGSceneUpdate(path: "sources.mapzen.type", value: "GeoJSON"),
+            TGSceneUpdate(path: "sources.mapzen.url", value: viewModel.mbtilesPath.value),  // Pass on-device path to mbtiles into the mapView
+//            TGSceneUpdate(path: "sources.mapzen.max_zoom", value: "\(viewModel.mapConfig.value.maxZoom)"),
+            TGSceneUpdate(path: "sources.mapzen.min_display_zoom", value: "\(viewModel.mapConfig.value.minZoom)"),
+        ]
+
+        mapView.loadSceneAsync(from: viewModel.sceneUrl.value, with: sceneUpdates)
+        searchResLayer = mapView.addDataLayer("mz_search_result", generateCentroid: false)
+        searchHighlightLayer = mapView.addDataLayer("highlighted_layer", generateCentroid: false)
+        currentLocationLayer = mapView.addDataLayer("mz_current_location", generateCentroid: false)
+        routeLayer = mapView.addDataLayer("mz_route_line", generateCentroid: false)
     }
 }
 
 // MARK: Helpers
 
 extension MapVC {
-    /**
-     Shows a new popup view with options that can be used on highlight features.
-     */
-    private func showHighlightedOptionsView(_ locations: [TGMapFeature]) {
-        if let _ = self.highlightedOptionsView{
-            return
-        }
-
-        let highlightedOptionsView = HighlightedOptionsView(frame: self.view.frame, viewModel: viewModel)
-        self.highlightedOptionsView = highlightedOptionsView
-        highlightedOptionsView.delegate = self
-
-        self.view.addSubview(highlightedOptionsView)
-        highlightedOptionsView.snp.makeConstraints { (make) in
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
-        }
-    }
-
     /**
      Updates layers to highlight locations in the map. Creates search pins and actual highlights of polygons.
      - Parameters:
