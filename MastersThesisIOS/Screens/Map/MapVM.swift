@@ -30,7 +30,7 @@ protocol MapViewModeling {
     var locationServiceAvailable: MutableProperty<Bool> { get }
     var shouldLocationUpdate: MutableProperty<Bool> { get }
     var selectedProperties: MutableProperty<SelectedMapObjects> { get }
-    var dbUpdating: ReactiveSwift.Property<Bool> { get }
+    var dbUpdating: ReactiveSwift.Property<Bool> { get }
 
     func prepareHighlightedLocations(using mapLocations: [MapLocation]) -> [TGMapFeature]
     func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData]

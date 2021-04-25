@@ -20,6 +20,7 @@ final class MapVC: BaseViewController {
     private weak var highlightedOptionsView: MapOptionsPanelView!
     private weak var mapView: TGMapView!
     private weak var cameraToUserButton: UIButton!
+    private weak var infoLabel: UILabel!
 
     private var searchResLayer: TGMapData!
     private var searchHighlightLayer: TGMapData!
@@ -76,6 +77,28 @@ final class MapVC: BaseViewController {
             make.trailing.equalToSuperview().inset(8)
             make.top.equalToSuperview().offset(64)
         }
+
+//        let infoView = UIView()
+//        self.view.addSubview(infoView)
+//        infoView.backgroundColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 0.95)
+//        infoView.layer.cornerRadius = 10
+//
+//        infoView.snp.makeConstraints { (make) in
+//            let offset = self.view.frame.width / 8
+//            make.leading.equalToSuperview().offset(offset)
+//            make.trailing.equalToSuperview().inset(offset)
+//            make.top.equalToSuperview()
+//        }
+//
+//        let infoLabel = UILabel()
+//        self.infoLabel = infoLabel
+//        infoView.addSubview(infoLabel)
+//
+//        infoLabel.snp.makeConstraints { (make) in
+//            make.top.equalToSuperview().offset(16)
+//            make.leading.equalToSuperview().offset(8)
+//            make.bottom.trailing.equalToSuperview().inset(8)
+//        }
     }
 
     override func viewDidLayoutSubviews() {
