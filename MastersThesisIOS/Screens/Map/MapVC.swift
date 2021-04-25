@@ -87,6 +87,8 @@ final class MapVC: BaseViewController {
 
             if(locations.isNotEmpty) {
                 self.highlightedOptionsView?.showView()
+            } else {
+                self.highlightedOptionsView?.hideView()
             }
         }
 
@@ -123,19 +125,14 @@ extension MapVC: TGMapViewDelegate {
     func mapView(_ mapView: TGMapView, didSelectLabel labelPickResult: TGLabelPickResult?, atScreenPosition position: CGPoint) {
         // It is possible to only pick labels explicitly selected with "interactive: true" in the scene file
         // Able to pick pois
-        viewModel.highlightLocations(using: labelPickResult?.properties, at: labelPickResult?.coordinate, canUseNil: true)
-
-        print("Label: [\(position)] == \(labelPickResult?.properties)")
+        viewModel.selectedProperties.value.updateMapObject(ofType: .label, withLocation: labelPickResult?.coordinate, properties: labelPickResult?.properties)
     }
 
     func mapView(_ mapView: TGMapView, didSelectFeature feature: [String: String]?, atScreenPosition position: CGPoint) {
         // It is possible to only pick features explicitly selected with "interactive: true" in the scene file
         // Able to pick buildings, roads, landuses
-        guard let feature = feature else { os_log("Selected feature is nil", log: Logger.appLog(), type: .info); return }
         let coord = mapView.coordinate(fromViewPosition: position)
-        viewModel.highlightLocations(using: feature, at: coord, canUseNil: false)
-
-        print("Feature: [\(position)] == \(feature)")
+        viewModel.selectedProperties.value.updateMapObject(ofType: .feature, withLocation: coord, properties: feature)
     }
 
 }

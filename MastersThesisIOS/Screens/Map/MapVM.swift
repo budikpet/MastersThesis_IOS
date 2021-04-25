@@ -29,9 +29,9 @@ protocol MapViewModeling {
     var highlightedLocations: MutableProperty<[TGMapFeature]> { get }
     var locationServiceAvailable: MutableProperty<Bool> { get }
     var shouldLocationUpdate: MutableProperty<Bool> { get }
+    var selectedProperties: MutableProperty<SelectedMapObjects> { get }
 
-    func highlightLocations(using mapLocations: [MapLocation])
-    func highlightLocations(using properties: [String: String]?, at coord: CLLocationCoordinate2D?, canUseNil: Bool)
+    func prepareHighlightedLocations(using mapLocations: [MapLocation]) -> [TGMapFeature]
     func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData]
     func startNavigating()
     func getPolyline(_ coordinates: [CLLocationCoordinate2D]) -> TGMapFeature
@@ -61,6 +61,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
     internal var highlightedLocations: MutableProperty<[TGMapFeature]>
     internal var locationServiceAvailable: MutableProperty<Bool>
     internal var shouldLocationUpdate: MutableProperty<Bool>
+    internal var selectedProperties: MutableProperty<SelectedMapObjects>
     internal lazy var navigatedPath: ReactiveSwift.Property<[CLLocationCoordinate2D]?> = ReactiveSwift.Property(initial: nil, then: findShortestPath.values)
 
     // MARK: Local
@@ -84,6 +85,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
 
         highlightedLocations = MutableProperty([])
         shouldLocationUpdate = MutableProperty(true)
+        selectedProperties = MutableProperty(SelectedMapObjects())
         locationServiceAvailable = MutableProperty(false)
         mapConfig = MutableProperty(MapVM.loadMapConfig())
 
@@ -114,7 +116,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
     }
 
     private func setupBindings() {
-        compositeDisposable += currLocation.producer
+        self.findShortestPath <~ currLocation.producer
             .throttle(2.0, on: QueueScheduler.main)
             .compactMap { [weak self] (currLocation) -> (CLLocationCoordinate2D, CLLocationCoordinate2D)? in
                 if self?.locationServiceAvailable.value == true, let dest = self?.destLocation.value {
@@ -124,10 +126,6 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
                 }
             }
             .observe(on: QueueScheduler())
-            .flatMap(.concat) { (origin, destination) -> SignalProducer<ShortestPath, Never> in
-                return self.findShortestPath.apply((origin, destination)).ignoreError()
-            }
-            .start()
 
         compositeDisposable += self.shouldLocationUpdate.signal.observeValues { [weak self] (shouldObserve) in
             guard let self = self else { return }
@@ -137,6 +135,30 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
                 self.locationManager.stopUpdatingLocation()
             }
         }
+
+        self.highlightedLocations.bindingTarget <~ self.selectedProperties.signal
+            .filter { $0.allValuesWereChecked() }
+            .flatMap(.concat) { (selectedMapObjects: SelectedMapObjects) -> SignalProducer<[TGMapFeature], Never> in
+                guard let selectedMapObject = selectedMapObjects.getSelectedMapObject()
+                else {
+                    return SignalProducer(value: [])
+                }
+
+                return SignalProducer(value: selectedMapObject)
+                    .compactMap { [weak self] (location, properties) -> [TGMapFeature]? in
+                        guard let self = self,
+                              let strId = properties["id"],
+                              let id = Int64(strId),
+                              let mapLocation = self.locations[id]
+                        else {
+                            return nil
+
+                        }
+
+                        return self.prepareHighlightedLocations(using: [mapLocation])
+                    }
+
+            }
     }
 }
 
@@ -152,7 +174,7 @@ extension MapVM {
     /**
      Constructs `TGMapFeature` objects from `MapLocation` objects.
      */
-    func highlightLocations(using mapLocations: [MapLocation]) {
+    func prepareHighlightedLocations(using mapLocations: [MapLocation]) -> [TGMapFeature] {
         let features = mapLocations.compactMap() { mapLocation -> TGMapFeature? in
                 guard let geometry = mapLocation.geometry else { return nil }
                 let props = ["name": mapLocation.name, "id": "\(mapLocation._id)"]
@@ -178,7 +200,7 @@ extension MapVM {
                 }
             }
 
-        self.highlightedLocations.value = features
+        return features
     }
 
     func getPolyline(_ coordinates: [CLLocationCoordinate2D]) -> TGMapFeature {
@@ -187,22 +209,6 @@ extension MapVM {
             let polyline = TGGeoPolyline(coordinates: baseAddress, count: UInt(ptr.count))
             return TGMapFeature(polyline: polyline, properties: ["type": "shortestPath"])
         }
-    }
-
-    /**
-     Constructs `TGMapFeature` objects using data from manually picked location.
-     */
-    func highlightLocations(using properties: [String: String]?, at coord: CLLocationCoordinate2D?, canUseNil: Bool = false) {
-        if(canUseNil && properties == nil) {
-            highlightLocations(using: [])
-            return
-        }
-
-        guard let strId = properties?["id"] else { return }
-        guard let id = Int64(strId) else { return }
-        guard let mapLocation = locations[id] else { return }
-
-        highlightLocations(using: [mapLocation])
     }
 
     func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData] {
@@ -285,4 +291,71 @@ extension MapVM {
             fatalError("Could not load map config.")
         }
     }
+}
+
+/**
+ Holds properties of selected map objects. It allows us to work with selected map objects as if they came out of one function instead of separate functions.
+ The struct is fully populated when properties of all stored map objects are not nil.
+ */
+struct SelectedMapObjects {
+    /// Location and properties of the selected label map object.
+    private var label: (CLLocationCoordinate2D?, [String: String]?)
+
+    /// Location and properties of the selected feature map object.
+    private var feature: (CLLocationCoordinate2D?, [String: String]?)
+
+    private var allValuesWereEmpty: Bool = false
+
+    /// Check whether all types of map objects were checked.
+    /// - Returns: True if all types of map objects were stored in their properties, otherwise false.
+    func allValuesWereChecked() -> Bool {
+        return (label.1 != nil && feature.1 != nil) || allValuesWereEmpty
+    }
+
+    /// Check whether there was any map object selected. Should be called after `SelectedMapObjects.isReadyForHighlighting().`
+    /// - Returns: The selected map object or nil if there was no map object selected.
+    func getSelectedMapObject() -> (CLLocationCoordinate2D, [String: String])? {
+
+        if let labelProps = label.1, let labelCoord = label.0, label.1.isNotEmpty {
+            return (labelCoord, labelProps)
+        } else if let featureProps = feature.1, let featureCoord = feature.0, feature.1.isNotEmpty {
+            return (featureCoord, featureProps)
+        } else {
+            return nil
+        }
+    }
+
+    mutating func resetMapObject() {
+        self.label = (nil, nil)
+        self.feature = (nil, nil)
+    }
+
+    mutating func updateMapObject(ofType type: SelectedMapObjectType, withLocation location: CLLocationCoordinate2D?, properties: [String: String]?) {
+        let properties = properties == nil ? [String: String]() : properties
+
+        if(self.allValuesWereChecked()) {
+            // Previous values are still set, reset
+            self.resetMapObject()
+            self.allValuesWereEmpty = false
+        }
+
+        switch type {
+        case .label:
+            self.label = (location, properties)
+        case .feature:
+            self.feature = (location, properties)
+        }
+
+        // Check if all properties are set and if all are empty
+        if(self.allValuesWereChecked() && self.getSelectedMapObject() == nil) {
+            // We have all values and all are empty, reset
+            self.resetMapObject()
+            self.allValuesWereEmpty = true
+        }
+    }
+}
+
+enum SelectedMapObjectType {
+    case label
+    case feature
 }

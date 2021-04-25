@@ -66,7 +66,7 @@ extension AppFlowCoordinator: AnimalDetailFlowDelegate {
     func highlight(locations: [MapLocation]) {
         guard let tabBarController = tabBarController else { return }
         tabBarController.selectedIndex = TabBarPage.zooMap.pageOrderNumber()
-        mapVM.highlightLocations(using: locations)
+        mapVM.highlightedLocations.value = mapVM.prepareHighlightedLocations(using: locations)
     }
 }
 
