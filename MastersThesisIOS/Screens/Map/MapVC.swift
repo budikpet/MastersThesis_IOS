@@ -108,13 +108,22 @@ final class MapVC: BaseViewController {
                 self.mapView.requestRender()
             }
 
-        // Observe reseting of destination location to reset the map
-        self.compositeDisposable += viewModel.destLocation.signal
-            .filter { $0 == nil }
-            .observeValues { _ in
-                self.routeLayer.setFeatures([])
-                self.mapView.requestRender()
-            }
+        // Observe changes in destination location to reset the map or move camera to the users location
+        self.compositeDisposable += self.viewModel.destLocation.signal
+            .debounce(0.5, on: QueueScheduler.main)
+            .observeValues { [weak self] dest in
+                guard let self = self else { return }
+                if(dest != nil) {
+                    // A new destination picked, routing is starting, move camera to the user's position
+                    let userPos = self.viewModel.currLocation.value
+                    let zoom = self.viewModel.mapConfig.value.maxZoom - 0.5
+                    guard let pos = TGCameraPosition(center: userPos, zoom: CGFloat(zoom), bearing: self.mapView.bearing, pitch: self.mapView.pitch) else { return }
+                    self.mapView.setCameraPosition(pos, withDuration: 0.5, easeType: .quint)
+                } else {
+                    self.routeLayer.setFeatures([])
+                    self.mapView.requestRender()
+                }
+        }
     }
 
 }
