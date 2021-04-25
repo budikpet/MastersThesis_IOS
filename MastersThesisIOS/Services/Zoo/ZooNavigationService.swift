@@ -57,14 +57,48 @@ final class ZooNavigationService: ZooNavigationServicing, ZooNavigationServiceAc
 
     // MARK: Local
 
-    private let roads: [DetachedRoad]
+    private var roadsToken: NotificationToken!
+    private var roadNodesToken: NotificationToken!
+
+    private var roads: [DetachedRoad]
     /// All road nodes, used primarily to find the closest point to the non-road point.
-    private let roadNodes: [DetachedRoadNode]
+    private var roadNodes: [DetachedRoadNode]
 
     init(dependencies: Dependencies) {
         self.realm = dependencies.realm
         self.roads = Array(realm.objects(Road.self).map { DetachedRoad(using: $0) })
         self.roadNodes = Array(realm.objects(RoadNode.self).map { DetachedRoadNode(using: $0) })
+
+        roadsToken = realm.objects(Road.self).observe { [weak self] (changes: RealmCollectionChange) in
+            guard let self = self else { return }
+            switch changes {
+            case .initial:
+                break
+            case .update(let updatedValues, _, _, _):
+                self.roads = Array(updatedValues).map { DetachedRoad(using: $0) }
+                break
+            case .error:
+                fatalError("Error occured during observation.")
+            }
+        }
+
+        roadNodesToken = realm.objects(RoadNode.self).observe { [weak self] (changes: RealmCollectionChange) in
+            guard let self = self else { return }
+            switch changes {
+            case .initial:
+                break
+            case .update(let updatedValues, _, _, _):
+                self.roadNodes = Array(updatedValues).map { DetachedRoadNode(using: $0) }
+                break
+            case .error:
+                fatalError("Error occured during observation.")
+            }
+        }
+    }
+
+    deinit {
+        roadsToken.invalidate()
+        roadNodesToken.invalidate()
     }
 
     /// Runs the find shortest path algorithm between two points.

@@ -252,7 +252,7 @@ extension RealmDBManager {
                       let foods = dicts["foods"] else {
                     fatalError("Filters could not be loaded into dictionaries.")
                 }
-                return [DetachedAnimalFilter(ofType: "classes", classes), DetachedAnimalFilter(ofType: "biotops", biotops), DetachedAnimalFilter(ofType: "foods", foods)]
+                return [DetachedAnimalFilter(ofType: "class_", classes), DetachedAnimalFilter(ofType: "biotop", biotops), DetachedAnimalFilter(ofType: "food", foods)]
             } else {
                 throw "Could not parse animal data file into JSON."
             }
