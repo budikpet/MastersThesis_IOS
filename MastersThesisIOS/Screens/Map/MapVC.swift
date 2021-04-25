@@ -183,13 +183,6 @@ extension MapVC: TGRecognizerDelegate {
 
 extension MapVC: MapOptionsPanelViewDelegate {
     /**
-     Run navigation service to show shortest path to the highlighted feature.
-     */
-    func navigateClicked(highlightedOptionsView view: MapOptionsPanelView) {
-        viewModel.startNavigating()
-    }
-
-    /**
      View details of animals that belong into the selected feature (either animal pen or house).
      */
     func showAnimalsClicked(highlightedOptionsView view: MapOptionsPanelView) {

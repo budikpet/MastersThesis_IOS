@@ -11,7 +11,6 @@ import TangramMap
 import ReactiveSwift
 
 protocol MapOptionsPanelViewDelegate: class {
-    func navigateClicked(highlightedOptionsView view: MapOptionsPanelView)
     func showAnimalsClicked(highlightedOptionsView view: MapOptionsPanelView)
     func hideClicked(highlightedOptionsView view: MapOptionsPanelView)
 }
@@ -38,12 +37,13 @@ class MapOptionsPanelView: UIView {
         self.backgroundColor = UIColor.systemBackground
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        let navButton = prepareButton(withText: L10n.Map.buttonDirections)
+        let navButton = prepareButton()
         self.navButton = navButton
         navButton.addTarget(self, action: #selector(navButtonTapped(_:)), for: .touchUpInside)
 
         let showAnimalsButton = prepareButton(withText: L10n.Map.buttonViewAnimals)
         self.showAnimalsButton = showAnimalsButton
+        showAnimalsButton.setBackgroundColor(color: .systemBlue, forState: .normal)
         showAnimalsButton.addTarget(self, action: #selector(showAnimalsButtonTapped(_:)), for: .touchUpInside)
 
         let titleView = UIView()
@@ -96,9 +96,11 @@ class MapOptionsPanelView: UIView {
     }
 
     private func setupBindings() {
+        // Nav button is enabled when there is exactly 1 highlighted location and location of the user is available
         self.navButton.reactive.isEnabled <~ SignalProducer.combineLatest(viewModel.highlightedLocations.map { $0.count == 1 }, viewModel.locationServiceAvailable.producer)
             .map { return $0.0 && $0.1 }
 
+        // Bind nameLabel text to the name of the first highlighted location or number of locations if multiple are selected
         self.nameLabel.reactive.text <~ viewModel.highlightedLocations.producer.compactMap { (features: [TGMapFeature]) -> String? in
             if(features.count == 1) {
                 return features.first?.properties["name"]?.capitalizingFirstLetter()
@@ -108,6 +110,14 @@ class MapOptionsPanelView: UIView {
                 return nil
             }
         }
+
+        // Bind properties of navButton to different states
+
+        self.navButton.reactive.title <~ viewModel.destLocation.producer
+            .map { return $0 == nil ? L10n.Map.ButtonDirections.start : L10n.Map.ButtonDirections.stop }
+
+        self.navButton.reactive.backgroundColor <~ viewModel.destLocation.producer
+            .map { $0 == nil ? .systemBlue : .systemRed }
     }
 }
 
@@ -140,7 +150,7 @@ extension MapOptionsPanelView {
 
     @objc
     private func navButtonTapped(_ sender: UIBarButtonItem) {
-        delegate?.navigateClicked(highlightedOptionsView: self)
+        viewModel.navButtonClicked()
     }
 
     @objc
@@ -153,13 +163,12 @@ extension MapOptionsPanelView {
         delegate?.hideClicked(highlightedOptionsView: self)
     }
 
-    private func prepareButton(withText text: String) -> UIButton {
+    private func prepareButton(withText text: String = "tmp") -> UIButton {
         let res = UIButton()
         res.setTitle(text, for: [])
         res.setTitleColor(UIColor.white, for: [])
 //        res.setBackgroundColor(color: UIColor(red: 3/255, green: 165/255, blue: 252/255, alpha: 1), forState: .highlighted)
 //        res.setBackgroundColor(color: .systemBlue, forState: .highlighted)
-        res.setBackgroundColor(color: .systemBlue, forState: .normal)
         res.setBackgroundColor(color: .lightGray, forState: .disabled)
         res.layer.cornerRadius = 12
         res.contentEdgeInsets = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)

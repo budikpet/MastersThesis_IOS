@@ -22,7 +22,8 @@
 "animalFilter.class_" = "Třída";
 "animalFilter.biotop" = "Biotop";
 "animalFilter.food" = "Potrava";
-"map.buttonDirections" = "Trasa";
+"map.buttonDirections.start" = "Trasa";
+"map.buttonDirections.stop" = "Ukončit navigaci";
 "map.selectedFeatures" = "Vybrány %d lokace";
 "map.selectedFeaturesMultiple" = "Vybráno %d lokací";
 "map.buttonViewAnimals" = "Zobrazit zvířata";

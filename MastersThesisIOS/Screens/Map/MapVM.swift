@@ -33,7 +33,7 @@ protocol MapViewModeling {
 
     func prepareHighlightedLocations(using mapLocations: [MapLocation]) -> [TGMapFeature]
     func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData]
-    func startNavigating()
+    func navButtonClicked()
     func getPolyline(_ coordinates: [CLLocationCoordinate2D]) -> TGMapFeature
     func shouldHandleTap() -> Bool
 }
@@ -178,11 +178,20 @@ extension MapVM {
         return self.destLocation.value == nil
     }
 
-    func startNavigating() {
-        guard let feature = highlightedLocations.value.first else { return }
-        let destination = getDestinationPoint(using: feature)
-        self.destLocation.value = destination
-        os_log("Navigating to feature at [lon: %f, lat: %f]", log: Logger.appLog(), type: .info, destination.longitude, destination.latitude)
+    /// Navigation button of `MapOptionsPanelView` was clicked.
+    /// Starts/stops navigation according to current state.
+    func navButtonClicked() {
+        if(destLocation.value != nil) {
+            // We are currently navigating, stop
+            self.destLocation.value = nil
+            os_log("Navigation stopped.", log: Logger.appLog(), type: .info)
+        } else {
+            // Start navigating
+            guard let feature = highlightedLocations.value.first else { return }
+            let destination = getDestinationPoint(using: feature)
+            self.destLocation.value = destination
+            os_log("Navigating to feature at [lon: %f, lat: %f]", log: Logger.appLog(), type: .info, destination.longitude, destination.latitude)
+        }
     }
 
     /**
