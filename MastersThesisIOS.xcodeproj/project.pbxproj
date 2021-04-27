@@ -1546,7 +1546,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOS.stage.beta;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.ZooPrague.stage.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = ADHOC;
@@ -1561,7 +1561,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 634A34CZA9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1602,7 +1602,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSTests;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.ZooPrague;
 				PRODUCT_NAME = MastersThesisIOSTests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -1704,7 +1704,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOS.development.beta;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.ZooPrague.development.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = ADHOC;
@@ -1728,7 +1728,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSTests;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.ZooPrague;
 				PRODUCT_NAME = MastersThesisIOSTests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -1759,7 +1759,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSTests;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.ZooPrague;
 				PRODUCT_NAME = MastersThesisIOSTests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -1861,7 +1861,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOS;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.ZooPrague;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
@@ -1885,7 +1885,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSTests;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.ZooPrague;
 				PRODUCT_NAME = MastersThesisIOSTests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -1916,7 +1916,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSTests;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.ZooPrague;
 				PRODUCT_NAME = MastersThesisIOSTests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -1985,7 +1985,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOS.production.beta;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.ZooPrague.production.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = ADHOC;
@@ -2054,7 +2054,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOS.debug;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.ZooPrague.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

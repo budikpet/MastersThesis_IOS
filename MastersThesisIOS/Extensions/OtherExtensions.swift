@@ -23,7 +23,7 @@ extension Bundle {
      A resources bundle used by this application.
      */
     public static let resources: Bundle = {
-        guard let bundle = Bundle(identifier: Bundle.main.bundleIdentifier ?? "cz.budikpet.MastersThesisIOS") else {
+        guard let bundle = Bundle(identifier: Bundle.main.bundleIdentifier ?? "cz.budikpet.ZooPrague") else {
             fatalError("Resources bundle must exist.")
         }
 

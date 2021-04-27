@@ -9,7 +9,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // TODO: Uncomment this line when your Google plists are ready!
-        // FirebaseApp.configure()
+        FirebaseApp.configure()
 
         // Clear launch screen cache on app launch (debug and beta configurations only)
         #if DEBUG || ADHOC

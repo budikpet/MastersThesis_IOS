@@ -2,7 +2,33 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>This is placeholder file</key>
-	<string>Download your plist from FIrebase Console!</string>
+	<key>CLIENT_ID</key>
+	<string>554120975533-0fcamp0it6hanqiknilgpsh1jhjvba3j.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.554120975533-0fcamp0it6hanqiknilgpsh1jhjvba3j</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC_b5KfjW9NIfsgT5RzhDSX-uHPP-sFo-0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>554120975533</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>cz.budikpet.ZooPrague</string>
+	<key>PROJECT_ID</key>
+	<string>ios-zooprague</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ios-zooprague.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:554120975533:ios:0b5f0f63baece168436224</string>
 </dict>
 </plist>
