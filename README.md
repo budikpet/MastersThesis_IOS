@@ -1,9 +1,13 @@
 # Zoo Prague iOS application
 An iOS application for visitors of Zoo Prague which is part of my Master's thesis. It uses data collected by the [created server](https://github.com/budikpet/MastersThesis_Server).
 
-Launch screen             |  Lexicon view | Lexicon view - search bar | Filters view
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![alt text][launchScreen]       |  ![alt text][lexiconView] | ![alt text][lexiconView_Search] | ![alt text][filtersView] 
+Launch screen             |  Lexicon view 
+:-------------------------:|:-------------------------:
+![alt text][launchScreen]       |  ![alt text][lexiconView]
+
+Lexicon view - search bar | Filters view
+:-------------------------:|:-------------------------:
+![alt text][lexiconView_Search] | ![alt text][filtersView]
 
 Animal detail view 1             |  Animal detail view 2
 :-------------------------:|:-------------------------:
