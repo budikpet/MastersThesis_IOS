@@ -1,9 +1,9 @@
 # Zoo Prague iOS application
 An iOS application for visitors of Zoo Prague which is part of my Master's thesis. It uses data collected by the [created server](https://github.com/budikpet/MastersThesis_Server).
 
-Launch screen             |  Lexicon view | Lexicon view - search bar
-:-------------------------:|:-------------------------:|:-------------------------:
-![alt text][launchScreen]       |  ![alt text][lexiconView] | ![alt text][lexiconView_Search]
+Launch screen             |  Lexicon view | Lexicon view - search bar | Filters view
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![alt text][launchScreen]       |  ![alt text][lexiconView] | ![alt text][lexiconView_Search] | ![alt text][filtersView] 
 
 Animal detail view 1             |  Animal detail view 2
 :-------------------------:|:-------------------------:
@@ -18,13 +18,14 @@ Map view - highlighted animal pen | Map view - navigation
 ![alt text][mapView_Highlighted] | ![alt text][mapView_Navigation]
 
 [launchScreen]: DocumentationImages/LaunchScreen.png?raw=true "Launch screen"
-[lexiconView]: DocumentationImages/LexiconView.png?raw=true "Launch screen"
-[lexiconView_Search]: DocumentationImages/LexiconView_Search.png?raw=true "Launch screen"
-[animalDetailView_1]: DocumentationImages/AnimalDetailView_1.png?raw=true "Launch screen"
-[animalDetailView_2]: DocumentationImages/AnimalDetailView_2.png?raw=true "Launch screen"
-[mapView]: DocumentationImages/MapView.png?raw=true "Launch screen"
-[mapView_Highlighted]: DocumentationImages/MapView_Highlighted.png?raw=true "Launch screen"
-[mapView_Navigation]: DocumentationImages/MapView_Navigation.png?raw=true "Launch screen"
+[lexiconView]: DocumentationImages/LexiconView.png?raw=true "Lexicon"
+[lexiconView_Search]: DocumentationImages/LexiconView_Search.png?raw=true "Lexicon - Search"
+[animalDetailView_1]: DocumentationImages/AnimalDetailView_1.png?raw=true "Animal detail 1"
+[animalDetailView_2]: DocumentationImages/AnimalDetailView_2.png?raw=true "Animal detail 2"
+[mapView]: DocumentationImages/MapView.png?raw=true "MapView"
+[mapView_Highlighted]: DocumentationImages/MapView_Highlighted.png?raw=true "MapView - Highlighted"
+[mapView_Navigation]: DocumentationImages/MapView_Navigation.png?raw=true "MapView - Navigation"
+[filtersView]: DocumentationImages/FiltersView.png?raw=true "Filters view"
 
 ## Features
 - Zoo Prague lexicon which contains information about all animals here
