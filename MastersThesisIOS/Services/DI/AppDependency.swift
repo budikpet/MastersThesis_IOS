@@ -33,7 +33,6 @@ final class AppDependency: HasBaseAPIDependecies, HasCredentialsDependencies, Ha
     lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        manager.requestWhenInUseAuthorization()
 
         return manager
     }()

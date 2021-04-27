@@ -32,6 +32,7 @@ protocol MapViewModeling {
     var selectedProperties: MutableProperty<SelectedMapObjects> { get }
     var dbUpdating: ReactiveSwift.Property<Bool> { get }
 
+    func viewWillAppear()
     func prepareHighlightedLocations(using mapLocations: [MapLocation]) -> [TGMapFeature]
     func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData]
     func navButtonClicked()
@@ -177,6 +178,13 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
 
 // MARK: Protocol
 extension MapVM {
+    func viewWillAppear() {
+        if(!self.isLocationServiceAuthorized()) {
+            self.locationManager.requestWhenInUseAuthorization()
+        }
+        self.shouldLocationUpdate.value = true
+    }
+
     func shouldHandleTap() -> Bool {
         return self.destLocation.value == nil
     }
@@ -286,6 +294,10 @@ extension MapVM {
             return false
         }
 
+        return self.isLocationServiceAuthorized()
+    }
+
+    private func isLocationServiceAuthorized() -> Bool {
         switch CLLocationManager.authorizationStatus() {
         case .notDetermined, .restricted, .denied:
             return false
