@@ -7,23 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		042201D69B9F206E8A18AEBD /* PushAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D89919997817157F48C3F46 /* PushAPIService.swift */; };
 		062DEA9F64DA2F11A7A97BF6 /* FirebaseCoreDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9785C3684D174ABDC9EE9418 /* FirebaseCoreDiagnostics.framework */; };
 		0C85129A81E42E95D9C7CB1F /* FirebasePerformance.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B9A6FC2D12888F11859DA8 /* FirebasePerformance.framework */; };
 		0D3A14F6563214839ECE7F71 /* DebugAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47DE13B70F286FD90C097B /* DebugAlertController.swift */; };
 		12F56DE64448249A6EF9DAB0 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F998C3B3ADDF5339666EA1B /* BaseViewController.swift */; };
 		1B89D9D1A717C2D890536DEA /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4376B33743F0EE65C98188DE /* Protobuf.framework */; };
 		1D4E2E6BE45AF34EDE075E6B /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6452F63DBA15C4CC7F458F0E /* Fetcher.swift */; };
-		1EF08B269DDA230663028E28 /* APIFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133FD978072A4CAB0BCF3BDA /* APIFetcher.swift */; };
 		2622E8235FE7E1BC65895716 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF133F0880B0F0A9E2601A49 /* GoogleUtilities.framework */; };
 		26D15B4F4B6435CBCF9F3618 /* Bundle+MastersThesisIOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976C67478F69EA176C5F7E3A /* Bundle+MastersThesisIOS.swift */; };
 		3086F555D508B50B4B3DEC1F /* UIElements+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A162687900210114D0A297 /* UIElements+Theme.swift */; };
 		3DCE3DF97E5AFF581BF6F976 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB4F1452B132A26B9C2FE706 /* GoogleService-Info.plist */; };
 		3E47A031D6CB09F918A7F27D /* NetworkUploadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD386541E2549B2E514D63B /* NetworkUploadable.swift */; };
-		3EE12907E60CDACDDB3B6866 /* VersionUpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6E12A550EFABEC895053339 /* VersionUpdateManager.swift */; };
 		417060A89002220CC931FA9B /* ThemeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5544ED9E8E71BF2886327A8A /* ThemeProvider.swift */; };
-		42837B520CFC6E74B49E9087 /* FirebasePushObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E857ECF275060A4A1513325 /* FirebasePushObserver.swift */; };
-		44AF8F9F303D783912865A7C /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43971ADE5937356B4E48B925 /* PushManager.swift */; };
 		4AC446CB1ABEA23F2F490EB7 /* FirebaseFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4240B73DD5F2989377796AAA /* FirebaseFetcher.swift */; };
 		4B34214F2603961D004B042E /* SnapKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B3421472603961C004B042E /* SnapKit.xcframework */; };
 		4B3421512603961D004B042E /* ACKategories.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B3421482603961C004B042E /* ACKategories.xcframework */; };
@@ -162,12 +157,10 @@
 		12A18B13445F34935F1DB0D0 /* GTMSessionFetcher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GTMSessionFetcher.framework; sourceTree = "<group>"; };
 		12ECCBB49C4443845AAB39E9 /* FirebaseABTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseABTesting.framework; sourceTree = "<group>"; };
 		133F80E91B4D9A2B0A948B92 /* UIView+Spacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Spacer.swift"; sourceTree = "<group>"; };
-		133FD978072A4CAB0BCF3BDA /* APIFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIFetcher.swift; sourceTree = "<group>"; };
 		14B9A6FC2D12888F11859DA8 /* FirebasePerformance.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebasePerformance.framework; sourceTree = "<group>"; };
 		15D734BB476651D65D8F4DC2 /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseAnalytics.framework; sourceTree = "<group>"; };
 		1C4C8C8DC47E1E60ED657EF9 /* PopupPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupPresenting.swift; sourceTree = "<group>"; };
 		28B9CF4BAE1E3FECB1A82BF8 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper.cfbundle; path = Settings.bundle; sourceTree = "<group>"; };
-		2D89919997817157F48C3F46 /* PushAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAPIService.swift; sourceTree = "<group>"; };
 		2E47DE13B70F286FD90C097B /* DebugAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugAlertController.swift; sourceTree = "<group>"; };
 		2EF1E5AC15A0B34CFC82CC80 /* MastersThesisIOSTests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = MastersThesisIOSTests.plist; sourceTree = "<group>"; };
 		35DC37E16C61A0FAE4EB8765 /* JSONAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONAPIService.swift; sourceTree = "<group>"; };
@@ -175,7 +168,6 @@
 		400C971EF0E0D6A5FE76998D /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MastersThesisIOS_MastersThesisIOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4240B73DD5F2989377796AAA /* FirebaseFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFetcher.swift; sourceTree = "<group>"; };
 		4376B33743F0EE65C98188DE /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Protobuf.framework; sourceTree = "<group>"; };
-		43971ADE5937356B4E48B925 /* PushManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushManager.swift; sourceTree = "<group>"; };
 		49831CE6F46A8F75345370C6 /* Pods-MastersThesisIOS-MastersThesisIOSTests.beta-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MastersThesisIOS-MastersThesisIOSTests.beta-production.xcconfig"; path = "Target Support Files/Pods-MastersThesisIOS-MastersThesisIOSTests/Pods-MastersThesisIOS-MastersThesisIOSTests.beta-production.xcconfig"; sourceTree = "<group>"; };
 		4B2C727E263491740098FBD0 /* staticZooLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = staticZooLocation.gpx; sourceTree = "<group>"; };
 		4B2C727F263491740098FBD0 /* zakazankaNormalSpeed.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = zakazankaNormalSpeed.gpx; sourceTree = "<group>"; };
@@ -283,7 +275,6 @@
 		8BA68E09BE27342A5D25D811 /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseInstanceID.framework; sourceTree = "<group>"; };
 		8C23BD5EC87B1BD484F2C85C /* GoogleDataTransport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleDataTransport.framework; sourceTree = "<group>"; };
 		8CD386541E2549B2E514D63B /* NetworkUploadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkUploadable.swift; sourceTree = "<group>"; };
-		8E857ECF275060A4A1513325 /* FirebasePushObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebasePushObserver.swift; sourceTree = "<group>"; };
 		970FCCBD8A3241DACA4E50D5 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		976C67478F69EA176C5F7E3A /* Bundle+MastersThesisIOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+MastersThesisIOS.swift"; sourceTree = "<group>"; };
 		9785C3684D174ABDC9EE9418 /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
@@ -303,7 +294,6 @@
 		D900C1F2E82CC1D2963EB2C0 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		D97767315D6CAA5B7617C421 /* Aliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aliases.swift; sourceTree = "<group>"; };
 		DD027E4B3712029398C8787D /* AppFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowCoordinator.swift; sourceTree = "<group>"; };
-		E6E12A550EFABEC895053339 /* VersionUpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionUpdateManager.swift; sourceTree = "<group>"; };
 		EB3BC3F1B674D7D62C38158F /* Pods-MastersThesisIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MastersThesisIOS.debug.xcconfig"; path = "Target Support Files/Pods-MastersThesisIOS/Pods-MastersThesisIOS.debug.xcconfig"; sourceTree = "<group>"; };
 		EF4150A9916A2C6DCD42004D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F08A4514ADB85AD661BD8799 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
@@ -676,10 +666,8 @@
 		4FB85A81794FC9E565C69424 /* VersionUpdate */ = {
 			isa = PBXGroup;
 			children = (
-				133FD978072A4CAB0BCF3BDA /* APIFetcher.swift */,
 				6452F63DBA15C4CC7F458F0E /* Fetcher.swift */,
 				4240B73DD5F2989377796AAA /* FirebaseFetcher.swift */,
-				E6E12A550EFABEC895053339 /* VersionUpdateManager.swift */,
 			);
 			path = VersionUpdate;
 			sourceTree = "<group>";
@@ -789,10 +777,6 @@
 				D8D2EA463F3FD1F64E3600EC /* Network */,
 				4FB85A81794FC9E565C69424 /* VersionUpdate */,
 				4BADEA1026125B2E004440A6 /* Zoo */,
-				35DC37E16C61A0FAE4EB8765 /* JSONAPIService.swift */,
-				8E857ECF275060A4A1513325 /* FirebasePushObserver.swift */,
-				2D89919997817157F48C3F46 /* PushAPIService.swift */,
-				43971ADE5937356B4E48B925 /* PushManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -907,6 +891,7 @@
 		D8D2EA463F3FD1F64E3600EC /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				35DC37E16C61A0FAE4EB8765 /* JSONAPIService.swift */,
 				970FCCBD8A3241DACA4E50D5 /* Network.swift */,
 				B0B4B29DAFC598FB41293217 /* NetworkStructs.swift */,
 				8CD386541E2549B2E514D63B /* NetworkUploadable.swift */,
@@ -1286,22 +1271,17 @@
 				4BA828BF2629EEC200B990C0 /* MapLexiconVC.swift in Sources */,
 				4BADEA1A26130B03004440A6 /* RealmDBManager.swift in Sources */,
 				4BF9A4F1261A51F000E98D03 /* OtherExtensions.swift in Sources */,
-				42837B520CFC6E74B49E9087 /* FirebasePushObserver.swift in Sources */,
 				4BADEA1326127B8E004440A6 /* Metadata.swift in Sources */,
 				9ABD1C3092517F1F202CB067 /* Network.swift in Sources */,
 				CC74F05EB137F28A38431A0E /* NetworkStructs.swift in Sources */,
 				3E47A031D6CB09F918A7F27D /* NetworkUploadable.swift in Sources */,
 				4BE756AB26089B1C00DFB440 /* AnimalData.swift in Sources */,
-				042201D69B9F206E8A18AEBD /* PushAPIService.swift in Sources */,
-				44AF8F9F303D783912865A7C /* PushManager.swift in Sources */,
 				4B9174AD261362E000946DE8 /* ReactiveSwiftExtensions.swift in Sources */,
 				4B7FB07C26108E1D0086A057 /* LexiconItemCellVM.swift in Sources */,
-				1EF08B269DDA230663028E28 /* APIFetcher.swift in Sources */,
 				4B7FB08C2610998E0086A057 /* AnimalDetailVC.swift in Sources */,
 				4B522E062607A0F300500699 /* MapVM.swift in Sources */,
 				1D4E2E6BE45AF34EDE075E6B /* Fetcher.swift in Sources */,
 				4AC446CB1ABEA23F2F490EB7 /* FirebaseFetcher.swift in Sources */,
-				3EE12907E60CDACDDB3B6866 /* VersionUpdateManager.swift in Sources */,
 				417060A89002220CC931FA9B /* ThemeProvider.swift in Sources */,
 				BB0EF8151C5F21B8CCD3EFAB /* UIColor+Theme.swift in Sources */,
 				4B522E342607AE0C00500699 /* Assets.swift in Sources */,

@@ -3,8 +3,8 @@ import RealmSwift
 import CoreLocation
 
 typealias HasBaseAPIDependecies = HasNetwork & HasJSONAPI & HasRealm
-typealias HasAPIDependencies = HasPushAPI & HasFetcher & HasZooAPI
-typealias HasManagerDependencies = HasPushManager & HasFirebasePushObserver & HasVersionUpdateManager & HasRealmDBManager & HasLocationManager & HasZooNavigationService
+typealias HasAPIDependencies = HasFetcher & HasZooAPI
+typealias HasManagerDependencies = HasRealmDBManager & HasLocationManager & HasZooNavigationService
 
 /// Container for all app dependencies
 final class AppDependency: HasBaseAPIDependecies, HasManagerDependencies, HasAPIDependencies {
@@ -12,14 +12,10 @@ final class AppDependency: HasBaseAPIDependecies, HasManagerDependencies, HasAPI
     lazy var realm: Realm = self.initRealm()
 
     lazy var jsonAPI: JSONAPIServicing = JSONAPIService(dependencies: self)
-    lazy var pushAPI: PushAPIServicing = PushAPIService(dependencies: self)
     lazy var zooAPI: ZooAPIServicing = ZooAPIService(dependencies: self)
 
     lazy var fetcher: Fetcher = FirebaseFetcher(key: "min_version")
-    lazy var firebasePushObserver: FirebasePushObserving = FirebasePushObserver(dependencies: self)
 
-    lazy var pushManager: PushManaging = PushManager(dependencies: self)
-    lazy var versionUpdateManager: VersionUpdateManaging = VersionUpdateManager(dependencies: self)
     lazy var realmDBManager: RealmDBManaging = RealmDBManager(dependencies: self)
     lazy var zooNavigationService: ZooNavigationServicing = ZooNavigationService(dependencies: self)
     lazy var locationManager: CLLocationManager = {
