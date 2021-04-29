@@ -20,7 +20,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
 
         // Automatically check if Realm DB needs to be updated
-        appDependencies.realmDBManager.actions.updateLocalDB.apply(false).start()
+        appDependencies.storageManager.actions.updateLocalDB.apply(false).start()
 
         // swiftlint:disable force_unwrapping
         appFlowCoordinator.start(in: window!)

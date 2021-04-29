@@ -16,15 +16,15 @@ import os.log
  Handles updating of local Realm DB.
  */
 final class TestRealmInitializer {
-    typealias Dependencies = HasRealm & HasRealmDBManager
+    typealias Dependencies = HasRealm & HasStorageManager
 
     // MARK: Local
     internal var realm: Realm
-    internal var realmDbManager: RealmDBManaging
+    internal var realmDbManager: StorageManaging
 
     init(dependencies: Dependencies) {
         self.realm = dependencies.realm
-        self.realmDbManager = dependencies.realmDBManager
+        self.realmDbManager = dependencies.storageManager
     }
 
     public func updateRealm() {

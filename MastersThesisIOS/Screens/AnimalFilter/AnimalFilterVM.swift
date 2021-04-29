@@ -31,8 +31,8 @@ extension AnimalFilterViewModeling where Self: AnimalFilterViewModelingActions {
 }
 
 final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilterViewModelingActions {
-    typealias Dependencies = HasNetwork & HasRealmDBManager
-    let realmDbManager: RealmDBManaging
+    typealias Dependencies = HasNetwork & HasStorageManager
+    let realmDbManager: StorageManaging
 
     // MARK: Protocol
     internal var updateLocalDB: Action<Bool, UpdateStatus, UpdateError>
@@ -46,7 +46,7 @@ final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilte
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
-        realmDbManager = dependencies.realmDBManager
+        realmDbManager = dependencies.storageManager
         updateLocalDB = realmDbManager.actions.updateLocalDB
 
         animalFilters = realmDbManager.realm.objects(AnimalFilter.self)

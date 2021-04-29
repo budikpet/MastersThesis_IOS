@@ -30,8 +30,8 @@ extension LexiconViewModeling where Self: LexiconViewModelingActions {
 }
 
 final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingActions {
-    typealias Dependencies = HasNetwork & HasRealmDBManager
-    let realmDbManager: RealmDBManaging
+    typealias Dependencies = HasNetwork & HasStorageManager
+    let realmDbManager: StorageManaging
 
     // MARK: Protocol
     internal var updateLocalDB: Action<Bool, UpdateStatus, UpdateError>
@@ -91,7 +91,7 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
-        realmDbManager = dependencies.realmDBManager
+        realmDbManager = dependencies.storageManager
         updateLocalDB = realmDbManager.actions.updateLocalDB
 
         animalData = realmDbManager.realm.objects(AnimalData.self)

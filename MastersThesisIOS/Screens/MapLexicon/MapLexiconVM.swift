@@ -18,8 +18,8 @@ protocol MapLexiconViewModeling {
 }
 
 final class MapLexiconVM: BaseViewModel, MapLexiconViewModeling {
-    typealias Dependencies = HasNetwork & HasRealmDBManager
-    let realmDbManager: RealmDBManaging
+    typealias Dependencies = HasNetwork & HasStorageManager
+    let realmDbManager: StorageManaging
 
     // MARK: Internal
     internal var animalData: MutableProperty<[AnimalData]>
@@ -27,7 +27,7 @@ final class MapLexiconVM: BaseViewModel, MapLexiconViewModeling {
     // MARK: Initializers
 
     init(dependencies: Dependencies, dataToShow animalData: [AnimalData]) {
-        realmDbManager = dependencies.realmDBManager
+        realmDbManager = dependencies.storageManager
 
         self.animalData = MutableProperty(animalData)
 

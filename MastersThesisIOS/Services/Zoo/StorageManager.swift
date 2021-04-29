@@ -1,5 +1,5 @@
 //
-//  RealmDBManager.swift
+//  StorageManager.swift
 //  MastersThesisIOS
 //
 //  Created by Petr Budík on 30/03/2021.
@@ -11,16 +11,16 @@ import RealmSwift
 import ReactiveSwift
 import os.log
 
-protocol HasRealmDBManager {
-    var realmDBManager: RealmDBManaging { get }
+protocol HasStorageManager {
+    var storageManager: StorageManaging { get }
 }
 
-protocol RealmDBManagingActions {
+protocol StorageManagingActions {
     var updateLocalDB: Action<Bool, UpdateStatus, UpdateError> { get }
 }
 
-protocol RealmDBManaging {
-    var actions: RealmDBManagingActions { get }
+protocol StorageManaging {
+    var actions: StorageManagingActions { get }
     var realm: Realm { get }
 
     func realmEdit(_ editClosure: (Realm) -> ())
@@ -34,12 +34,12 @@ protocol RealmDBManaging {
 /**
  Handles updating of local Realm DB.
  */
-final class RealmDBManager: RealmDBManaging, RealmDBManagingActions {
+final class StorageManager: StorageManaging, StorageManagingActions {
     typealias Dependencies = HasZooAPI & HasRealm
     private let zooApi: ZooAPIServicing
 
     // MARK: Actions
-    internal var actions: RealmDBManagingActions { self }
+    internal var actions: StorageManagingActions { self }
     internal lazy var updateLocalDB: Action<Bool, UpdateStatus, UpdateError> = Action { [unowned self] isForced in
         self.runUpdate(forced: isForced)
     }
@@ -94,7 +94,7 @@ final class RealmDBManager: RealmDBManaging, RealmDBManagingActions {
 
 // MARK: Helper functions for update from remote DB
 
-extension RealmDBManager {
+extension StorageManager {
     /**
      - Returns:
         A SignalProducer that downloads all AnimalData data and stores it in Realm DB, resulting in UpdateStatus.
@@ -174,7 +174,7 @@ extension RealmDBManager {
 
 // MARK: Helper functions for update from local files
 
-extension RealmDBManager {
+extension StorageManager {
     internal func runUpdateFromLocalFiles() -> SignalProducer<UpdateStatus, UpdateError> {
         SignalProducer { [weak self] observer, lifetime in
             os_log("Updating from local files.", log: Logger.appLog(), type: .info)

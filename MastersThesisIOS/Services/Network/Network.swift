@@ -63,6 +63,9 @@ final class Network: Networking {
 }
 
 private extension DataRequest {
+    /**
+     Handle base response from AlamoFire in reactive manner. Pass results through ReactiveSwift observer.
+     */
     @discardableResult
     func handleResponse(observer: Signal<DataResponse, RequestError>.Observer) -> Self {
         return responseData(queue: Network.networkCallbackQueue) { response in

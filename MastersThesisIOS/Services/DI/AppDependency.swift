@@ -4,7 +4,7 @@ import CoreLocation
 
 typealias HasBaseAPIDependecies = HasNetwork & HasJSONAPI & HasRealm
 typealias HasAPIDependencies = HasFetcher & HasZooAPI
-typealias HasManagerDependencies = HasRealmDBManager & HasLocationManager & HasZooNavigationService
+typealias HasManagerDependencies = HasStorageManager & HasLocationManager & HasZooNavigationService
 
 /// Container for all app dependencies
 final class AppDependency: HasBaseAPIDependecies, HasManagerDependencies, HasAPIDependencies {
@@ -16,7 +16,7 @@ final class AppDependency: HasBaseAPIDependecies, HasManagerDependencies, HasAPI
 
     lazy var fetcher: Fetcher = FirebaseFetcher(key: "min_version")
 
-    lazy var realmDBManager: RealmDBManaging = RealmDBManager(dependencies: self)
+    lazy var storageManager: StorageManaging = StorageManager(dependencies: self)
     lazy var zooNavigationService: ZooNavigationServicing = ZooNavigationService(dependencies: self)
     lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()

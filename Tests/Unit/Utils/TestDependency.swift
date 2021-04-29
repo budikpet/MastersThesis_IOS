@@ -13,7 +13,7 @@ final class TestAppDependency: HasBaseAPIDependecies, HasManagerDependencies, Ha
 
     lazy var fetcher: Fetcher = FirebaseFetcher(key: "min_version")
 
-    lazy var realmDBManager: RealmDBManaging = RealmDBManager(dependencies: self)
+    lazy var storageManager: StorageManaging = StorageManager(dependencies: self)
     lazy var zooNavigationService: ZooNavigationServicing = ZooNavigationService(dependencies: self)
     lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()

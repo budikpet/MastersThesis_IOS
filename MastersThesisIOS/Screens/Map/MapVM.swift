@@ -45,8 +45,8 @@ extension MapViewModeling where Self: MapViewModelingActions {
 }
 
 final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
-    typealias Dependencies = HasRealmDBManager & HasLocationManager & HasZooNavigationService
-    private let realmDbManager: RealmDBManaging
+    typealias Dependencies = HasStorageManager & HasLocationManager & HasZooNavigationService
+    private let realmDbManager: StorageManaging
     private let locationManager: CLLocationManager
     private let zooNavigationService: ZooNavigationServicing
 
@@ -83,7 +83,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
-        self.realmDbManager = dependencies.realmDBManager
+        self.realmDbManager = dependencies.storageManager
         self.locationManager = dependencies.locationManager
         self.zooNavigationService = dependencies.zooNavigationService
 
