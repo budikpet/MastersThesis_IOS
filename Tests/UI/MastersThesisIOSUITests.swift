@@ -26,8 +26,8 @@ class MastersThesisIOSUITests: XCTestCase {
         app.launchArguments.append("--uitesting")
     }
 
-    func testFilterIconsChanged() throws {
-        // UI tests must launch the application that they test.
+    func testFilterSelectedFlow() throws {
+        // Check picking a filter
         app.launch()
 
         let lexiconTable = app.tables["LexiconVC_TableView"]
@@ -42,25 +42,47 @@ class MastersThesisIOSUITests: XCTestCase {
 
         // Check if in filters view and if filters exist
         XCTAssertTrue(filtersTable.exists)
-//        XCTAssert(filtersTable.staticTexts.count > 0)
 
         // Tap one of the filters
-        let filterItem = filtersTable.staticTexts.containing(NSPredicate(format: "label == %@", "Paryby")).firstMatch
-        let filterItemCheckmark = filterItem.images["FilterItemCell_CheckMark"]
+        let filterItem = filtersTable.cells.containing(NSPredicate(format: "label == %@", "Paryby")).firstMatch
         XCTAssertTrue(filterItem.exists)
-//        XCTAssertTrue(filterItemCheckmark.exists)
-//        XCTAssertFalse(filterItemCheckmark.isEnabled)
 
         filterItem.tap()
 
-//        XCTAssertTrue(filterItemCheckmark.isEnabled)
-
         // Go back to lexicon view
         app.navigationBars.buttons.element(boundBy: 0).tap()
-//
+
         XCTAssertTrue(lexiconTable.exists)
         XCTAssertTrue(filtersItem.exists)
         XCTAssertEqual(lexiconTable.cells.count, 1)
+
+    }
+
+    func testGoToMapFromDetailFlow() throws {
+        // Check go to map button
+        app.launch()
+
+        let lexiconTable = app.tables["LexiconVC_TableView"]
+        let goToMapItem = app.navigationBars.buttons["AnimalDetail_HighlightAnimal"]
+        let interactiveMap = app.otherElements["MapVC_InteractiveMap"]
+        let animal = lexiconTable.cells.containing(NSPredicate(format: "label == %@", "Adax")).firstMatch
+
+        // Check if in lexicon view
+        XCTAssertTrue(lexiconTable.exists)
+        XCTAssertTrue(animal.exists)
+        XCTAssertFalse(goToMapItem.exists)
+        XCTAssertFalse(interactiveMap.exists)
+
+        animal.tap()
+
+        // Check if in animal detail view
+        XCTAssertTrue(app.images["AnimalDetail_MainImage"].exists)
+        XCTAssertTrue(goToMapItem.exists)
+
+        // Go to map
+        goToMapItem.tap()
+
+        XCTAssertTrue(interactiveMap.exists)
 
     }
 

@@ -50,6 +50,7 @@ final class AnimalDetailVC: BaseViewController {
         if(!createdFromMap) {
             let highlightAnimal = UIBarButtonItem(image: UIImage(named: "highlightAnimal"), style: .plain, target: self, action: #selector(highlightAnimalTapped))
             self.highlightAnimal = highlightAnimal
+            highlightAnimal.accessibilityIdentifier = "AnimalDetail_HighlightAnimal"
             navigationItem.rightBarButtonItem = highlightAnimal
         }
 
@@ -123,6 +124,7 @@ extension AnimalDetailVC {
         guard let imageUrlString = viewModel.animal.value.image_url else { return }
 
         let imageAnimal = UIImageView()
+        imageAnimal.accessibilityIdentifier = "AnimalDetail_MainImage"
         stackView.addArrangedSubview(imageAnimal)
         imageAnimal.sd_setImage(with: imageUrlString.getCleanedURL(),
                                 placeholderImage: LexiconItemCellVM.placeholder_image,

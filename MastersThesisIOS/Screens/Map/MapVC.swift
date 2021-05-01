@@ -263,6 +263,7 @@ extension MapVC {
         let mapView = TGMapView()
         self.mapView = mapView
         view.addSubview(mapView)
+        mapView.accessibilityIdentifier = "MapVC_InteractiveMap"
         mapView.mapViewDelegate = self
         mapView.gestureDelegate = self
 
