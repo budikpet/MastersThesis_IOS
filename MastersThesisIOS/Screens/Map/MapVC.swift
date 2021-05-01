@@ -167,7 +167,8 @@ final class MapVC: BaseViewController {
                 }
         }
 
-        cameraToUserButton.reactive.isEnabled <~ viewModel.locationServiceAvailable.producer
+        cameraToUserButton.reactive.isEnabled <~ SignalProducer.combineLatest(viewModel.locationServiceAvailable.producer, viewModel.isUserInMap.producer)
+            .map { return $0.0 && $0.1 }
 
         cameraToUserButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
             self.moveCameraToUser()

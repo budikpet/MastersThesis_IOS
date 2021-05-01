@@ -27,3 +27,7 @@
 "map.selectedFeatures" = "Vybrány %d lokace";
 "map.selectedFeaturesMultiple" = "Vybráno %d lokací";
 "map.buttonViewAnimals" = "Zobrazit zvířata";
+"map.tooManyValues" = "Příliš mnoho zvýrazněno";
+"map.locationUnavailable" = "Lokalizace není zapnuta";
+"map.notInMap" = "Uživatel je mimo mapu";
+"map.isUpdating" = "Databáze je aktualizována...";

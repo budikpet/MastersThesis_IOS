@@ -39,6 +39,8 @@ class MapOptionsPanelView: UIView {
 
         let navButton = prepareButton()
         self.navButton = navButton
+        navButton.titleLabel?.numberOfLines = 2
+        navButton.titleLabel?.textAlignment = .center
         navButton.addTarget(self, action: #selector(navButtonTapped(_:)), for: .touchUpInside)
 
         let showAnimalsButton = prepareButton(withText: L10n.Map.buttonViewAnimals)
@@ -97,10 +99,6 @@ class MapOptionsPanelView: UIView {
     }
 
     private func setupBindings() {
-        // Nav button is enabled when there is exactly 1 highlighted location and location of the user is available
-        self.navButton.reactive.isEnabled <~ SignalProducer.combineLatest(viewModel.highlightedLocations.map { $0.count == 1 }, viewModel.locationServiceAvailable.producer, viewModel.dbUpdating.producer)
-            .map { return $0.0 && $0.1 && !$0.2 }
-
         // Bind nameLabel text to the name of the first highlighted location or number of locations if multiple are selected
         self.nameLabel.reactive.text <~ viewModel.highlightedLocations.producer.compactMap { (features: [TGMapFeature]) -> String? in
             if(features.count == 1) {
@@ -114,11 +112,37 @@ class MapOptionsPanelView: UIView {
 
         // Bind properties of navButton to different states
 
-        self.navButton.reactive.title <~ viewModel.destLocation.producer
-            .map { return $0 == nil ? L10n.Map.ButtonDirections.start : L10n.Map.ButtonDirections.stop }
+//        self.navButton.reactive.title <~ viewModel.destLocation.producer
+//            .map { return $0 == nil ? L10n.Map.ButtonDirections.start : L10n.Map.ButtonDirections.stop }
+
+        // Change title of nav button
+        self.navButton.reactive.title <~ SignalProducer.combineLatest(viewModel.highlightedLocations.map { $0.count }, viewModel.locationServiceAvailable.producer, viewModel.dbUpdating.producer, viewModel.isUserInMap.producer, viewModel.destLocation.producer)
+            .map({ (numOfHighlightedLocations, isLocationAvailable, isDBUpdating, isInMap, destinations) -> String in
+                if(numOfHighlightedLocations > 1) {
+                    return "\(L10n.Map.ButtonDirections.start)\n\(L10n.Map.tooManyValues)"
+                }
+
+                if(!isLocationAvailable) {
+                    return "\(L10n.Map.ButtonDirections.start)\n\(L10n.Map.locationUnavailable)"
+                }
+
+                if(isDBUpdating) {
+                    return "\(L10n.Map.ButtonDirections.start)\n\(L10n.Map.isUpdating)"
+                }
+
+                if(!isInMap) {
+                    return "\(L10n.Map.ButtonDirections.start)\n\(L10n.Map.notInMap)"
+                }
+
+                return destinations == nil ? L10n.Map.ButtonDirections.start : L10n.Map.ButtonDirections.stop
+            })
 
         self.navButton.reactive.backgroundColor <~ viewModel.destLocation.producer
             .map { $0 == nil ? .systemBlue : .systemRed }
+
+        // Nav button is enabled when there is exactly 1 highlighted location and location of the user is available
+        self.navButton.reactive.isEnabled <~ SignalProducer.combineLatest(viewModel.highlightedLocations.map { $0.count == 1 }, viewModel.locationServiceAvailable.producer, viewModel.dbUpdating.producer, viewModel.isUserInMap.producer)
+            .map { return $0.0 && $0.1 && !$0.2 && $0.3 }
     }
 }
 

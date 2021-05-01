@@ -28,6 +28,7 @@ protocol MapViewModeling {
     var bounds: ReactiveSwift.Property<TGCoordinateBounds> { get }
     var highlightedLocations: MutableProperty<[TGMapFeature]> { get }
     var locationServiceAvailable: MutableProperty<Bool> { get }
+    var isUserInMap: MutableProperty<Bool> { get }
     var shouldLocationUpdate: MutableProperty<Bool> { get }
     var selectedProperties: MutableProperty<SelectedMapObjects> { get }
     var dbUpdating: ReactiveSwift.Property<Bool> { get }
@@ -63,6 +64,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
     internal var destLocation: MutableProperty<CLLocationCoordinate2D?>
     internal var highlightedLocations: MutableProperty<[TGMapFeature]>
     internal var locationServiceAvailable: MutableProperty<Bool>
+    internal var isUserInMap: MutableProperty<Bool>
     internal var shouldLocationUpdate: MutableProperty<Bool>
     internal var selectedProperties: MutableProperty<SelectedMapObjects>
     internal var dbUpdating: ReactiveSwift.Property<Bool>
@@ -91,6 +93,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
         shouldLocationUpdate = MutableProperty(true)
         selectedProperties = MutableProperty(SelectedMapObjects())
         locationServiceAvailable = MutableProperty(false)
+        isUserInMap = MutableProperty(false)
         dbUpdating = realmDbManager.actions.updateLocalDB.isExecuting
         mapConfig = MutableProperty(MapVM.loadMapConfig())
 
@@ -112,6 +115,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
         super.init()
         self.locationManager.delegate = self
         self.locationServiceAvailable.value = self.isLocationServiceAvailable()
+        self.isUserInMap.value = self.isUserInMapFunc()
 
         setupBindings()
     }
@@ -268,21 +272,22 @@ extension MapVM: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let first = locations.first else { return }
         currLocation.value = first.coordinate
-        locationServiceAvailable.value = self.isLocationServiceAvailable() && self.isUserInMap()
+        locationServiceAvailable.value = self.isLocationServiceAvailable()
+        isUserInMap.value = self.isUserInMapFunc()
 
         os_log("Current coordinates: [lon: %f, lat: %f]", log: Logger.appLog(), type: .info, first.coordinate.longitude, first.coordinate.latitude)
     }
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         // Change in permissions occured.
-        self.locationServiceAvailable.value = self.isLocationServiceAvailable() && self.isUserInMap()
+        self.locationServiceAvailable.value = self.isLocationServiceAvailable()
     }
 }
 
 // MARK: Helpers
 
 extension MapVM {
-    private func isUserInMap() -> Bool {
+    private func isUserInMapFunc() -> Bool {
         let bounds = mapConfig.value.bounds
         let location = self.currLocation.value
 
