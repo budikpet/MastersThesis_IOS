@@ -28,6 +28,6 @@
 "map.selectedFeaturesMultiple" = "Selected %d features";
 "map.buttonViewAnimals" = "View animals";
 "map.tooManyValues" = "Too many selected";
-"map.locationUnavailable" = "Location services not available";
+"map.locationUnavailable" = "GPS location services not available";
 "map.notInMap" = "User is outside of the map";
 "map.isUpdating" = "Database is being updated...";
