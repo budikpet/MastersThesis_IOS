@@ -1,5 +1,4 @@
 import UIKit
-@testable import MastersThesisIOS
 
 final class TestingAppDelegate: NSObject, UIApplicationDelegate {
     var window: UIWindow?
