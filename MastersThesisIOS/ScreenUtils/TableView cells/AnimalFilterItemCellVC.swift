@@ -38,6 +38,7 @@ class AnimalFilterItemCellVC: UITableViewCell {
         self.imageCheckmark = imageCheckmark
         imageCheckmark.contentMode = .scaleAspectFit
         imageCheckmark.image = UIImage(cgImage: AnimalFilterItemCellVM.checkmarkImg.cgImage!)
+        imageCheckmark.accessibilityIdentifier = "FilterItemCell_CheckMark"
 
         // Constraints
 

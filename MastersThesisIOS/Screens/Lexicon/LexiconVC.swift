@@ -64,6 +64,7 @@ final class LexiconVC: BaseViewController {
 
         let filterItem = UIBarButtonItem(image: UIImage(named: "animalFilter"), style: .plain, target: self, action: #selector(self.filterTapped))
         self.filterItem = filterItem
+        filterItem.accessibilityIdentifier = "Filters_NavItem"
 
         let searchItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: nil)
         self.searchItem = searchItem
