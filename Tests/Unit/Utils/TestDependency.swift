@@ -4,7 +4,7 @@ import CoreLocation
 @testable import MastersThesisIOS
 
 /// Container for all app dependencies
-final class TestAppDependency: HasBaseAPIDependecies, HasManagerDependencies, HasAPIDependencies {
+final class TestAppDependency: HasAllDependencies {
     lazy var network: Networking = Network()
     lazy var realm: Realm = self.createEmptyRealm()
 

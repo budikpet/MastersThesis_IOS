@@ -3,10 +3,17 @@ import ACKategories
 import os.log
 
 final class AppFlowCoordinator: Base.FlowCoordinatorNoDeepLink {
+    typealias Dependencies = HasAllDependencies
+    private let dependencies: Dependencies
+
     private weak var tabBarController: UITabBarController?
 
     private var lexiconVM: LexiconViewModeling!
     private var mapVM: MapViewModeling!
+
+    init(dependencies: Dependencies) {
+        self.dependencies = dependencies
+    }
 
     override func start(in window: UIWindow) {
         super.start(in: window)
@@ -33,7 +40,7 @@ final class AppFlowCoordinator: Base.FlowCoordinatorNoDeepLink {
 
 extension AppFlowCoordinator: LexiconVCFlowDelegate {
     func viewFilters() {
-        let vm = AnimalFilterVM(dependencies: appDependencies)
+        let vm = AnimalFilterVM(dependencies: dependencies)
         let vc = AnimalFilterVC(viewModel: vm)
 //        vc.flowDelegate = self
 
@@ -45,7 +52,7 @@ extension AppFlowCoordinator: LexiconVCFlowDelegate {
     }
 
     func viewAnimal(using animal: AnimalData) {
-        let vm = AnimalDetailVM(dependencies: appDependencies, using: animal)
+        let vm = AnimalDetailVM(dependencies: dependencies, using: animal)
         let vc = AnimalDetailVC(viewModel: vm)
         vc.flowDelegate = self
 
@@ -80,14 +87,14 @@ extension AppFlowCoordinator: MapFlowDelegate {
 
         if(animals.count > 1) {
             // Show Lexicon with selected animals
-            let vm = MapLexiconVM(dependencies: appDependencies, dataToShow: animals)
+            let vm = MapLexiconVM(dependencies: dependencies, dataToShow: animals)
             let vc = MapLexiconVC(viewModel: vm)
             vc.flowDelegate = self
             navVC.pushViewController(vc, animated: true)
         } else {
             // Show AnimalDetail with the selected animal
             guard let animal = animals.first else { return }
-            let vm = AnimalDetailVM(dependencies: appDependencies, using: animal)
+            let vm = AnimalDetailVM(dependencies: dependencies, using: animal)
             let vc = AnimalDetailVC(viewModel: vm, createdFromMap: true)
             navVC.pushViewController(vc, animated: true)
         }
@@ -96,7 +103,7 @@ extension AppFlowCoordinator: MapFlowDelegate {
 
 extension AppFlowCoordinator: MapLexiconVCFlowDelegate {
     func viewAnimalFromMap(using animal: AnimalData) {
-        let vm = AnimalDetailVM(dependencies: appDependencies, using: animal)
+        let vm = AnimalDetailVM(dependencies: dependencies, using: animal)
         let vc = AnimalDetailVC(viewModel: vm, createdFromMap: true)
         vc.flowDelegate = self
 
@@ -127,13 +134,13 @@ extension AppFlowCoordinator {
 
         switch page {
         case .lexicon:
-            let vm = LexiconVM(dependencies: appDependencies)
+            let vm = LexiconVM(dependencies: dependencies)
             let vc = LexiconVC(viewModel: vm)
             self.lexiconVM = vm
             vc.flowDelegate = self
             navVC.pushViewController(vc, animated: true)
         case .zooMap:
-            let vm = MapVM(dependencies: appDependencies)
+            let vm = MapVM(dependencies: dependencies)
             let vc = MapVC(viewModel: vm)
             self.mapVM = vm
             vc.flowDelegate = self

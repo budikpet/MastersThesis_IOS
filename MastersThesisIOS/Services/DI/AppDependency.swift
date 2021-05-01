@@ -2,12 +2,16 @@ import Foundation
 import RealmSwift
 import CoreLocation
 
+protocol HasNoDependency { }
+
 typealias HasBaseAPIDependecies = HasNetwork & HasJSONAPI & HasRealm
 typealias HasAPIDependencies = HasFetcher & HasZooAPI
 typealias HasManagerDependencies = HasStorageManager & HasLocationManager & HasZooNavigationService
 
+typealias HasAllDependencies = HasBaseAPIDependecies & HasManagerDependencies & HasAPIDependencies & HasNoDependency
+
 /// Container for all app dependencies
-final class AppDependency: HasBaseAPIDependecies, HasManagerDependencies, HasAPIDependencies {
+final class AppDependency: HasAllDependencies {
     lazy var network: Networking = Network()
     lazy var realm: Realm = self.initRealm()
 
@@ -55,9 +59,6 @@ protocol HasLocationManager {
 protocol HasRealm {
     var realm: Realm { get }
 }
-
-protocol HasNoDependency { }
-extension AppDependency: HasNoDependency { }
 
 // MARK: Singleton
 

@@ -5,7 +5,7 @@ import FirebaseCore
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
-    private lazy var appFlowCoordinator = AppFlowCoordinator()
+    private lazy var appFlowCoordinator = AppFlowCoordinator(dependencies: appDependencies)
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // TODO: Uncomment this line when your Google plists are ready!
