@@ -1,5 +1,8 @@
 import UIKit
 
+let isRunningTests = NSClassFromString("XCTestCase") != nil
+let isUITesting = ProcessInfo.processInfo.arguments.contains("--uitesting")
+
 let appDelegateClass: AnyClass? = NSClassFromString("UnitTests.TestingAppDelegate") ?? AppDelegate.self
 
 let args = UnsafeMutableRawPointer(CommandLine.unsafeArgv).bindMemory(

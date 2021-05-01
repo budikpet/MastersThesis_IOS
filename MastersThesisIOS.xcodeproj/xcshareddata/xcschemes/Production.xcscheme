@@ -57,6 +57,16 @@
                ReferencedContainer = "container:MastersThesisIOS.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4B937D1A263DC71F00309E34"
+               BuildableName = "MastersThesisIOSUITests.xctest"
+               BlueprintName = "MastersThesisIOSUITests"
+               ReferencedContainer = "container:MastersThesisIOS.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

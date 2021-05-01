@@ -44,6 +44,7 @@
 		4B9174BC261770AC00946DE8 /* AnimalFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174BB261770AC00946DE8 /* AnimalFilterVC.swift */; };
 		4B9174C0261770BB00946DE8 /* AnimalFilterVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174BF261770BB00946DE8 /* AnimalFilterVM.swift */; };
 		4B9174D5261776C500946DE8 /* AnimalFilterItemCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9174D2261776C500946DE8 /* AnimalFilterItemCellVC.swift */; };
+		4B937D1E263DC71F00309E34 /* MastersThesisIOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B937D1D263DC71F00309E34 /* MastersThesisIOSUITests.swift */; };
 		4B9764CE26177EA500F32FA4 /* AnimalFilterItemCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9764CD26177EA500F32FA4 /* AnimalFilterItemCellVM.swift */; };
 		4BA828B02626F2C900B990C0 /* MapExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA828AF2626F2C700B990C0 /* MapExtensions.swift */; };
 		4BA828B826286E5A00B990C0 /* MapOptionsPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA828B726286E5A00B990C0 /* MapOptionsPanelView.swift */; };
@@ -114,6 +115,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4B937D20263DC71F00309E34 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 62EAF215D097B1438D8765D8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A1A06FEB47735E474B783847;
+			remoteInfo = MastersThesisIOS;
+		};
 		EAF8E5AC131D7D78BC93F153 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 62EAF215D097B1438D8765D8 /* Project object */;
@@ -202,6 +210,9 @@
 		4B9174BB261770AC00946DE8 /* AnimalFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalFilterVC.swift; sourceTree = "<group>"; };
 		4B9174BF261770BB00946DE8 /* AnimalFilterVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalFilterVM.swift; sourceTree = "<group>"; };
 		4B9174D2261776C500946DE8 /* AnimalFilterItemCellVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimalFilterItemCellVC.swift; sourceTree = "<group>"; };
+		4B937D1B263DC71F00309E34 /* MastersThesisIOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B937D1D263DC71F00309E34 /* MastersThesisIOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MastersThesisIOSUITests.swift; sourceTree = "<group>"; };
+		4B937D1F263DC71F00309E34 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4B9764CD26177EA500F32FA4 /* AnimalFilterItemCellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalFilterItemCellVM.swift; sourceTree = "<group>"; };
 		4BA828AF2626F2C700B990C0 /* MapExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapExtensions.swift; sourceTree = "<group>"; };
 		4BA828B726286E5A00B990C0 /* MapOptionsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptionsPanelView.swift; sourceTree = "<group>"; };
@@ -306,6 +317,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A684721F7F11AED45A0A356 /* Pods_MastersThesisIOS_MastersThesisIOSTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4B937D18263DC71F00309E34 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,6 +559,15 @@
 			path = AnimalFilter;
 			sourceTree = "<group>";
 		};
+		4B937D1C263DC71F00309E34 /* MastersThesisIOSUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4B937D1D263DC71F00309E34 /* MastersThesisIOSUITests.swift */,
+				4B937D1F263DC71F00309E34 /* Info.plist */,
+			);
+			path = MastersThesisIOSUITests;
+			sourceTree = "<group>";
+		};
 		4BA828BC2629EEC000B990C0 /* MapLexicon */ = {
 			isa = PBXGroup;
 			children = (
@@ -735,6 +762,7 @@
 			children = (
 				8E17F3B4F9B5472ED64BC510 /* Project */,
 				4BE756DE2608AB8000DFB440 /* Configs */,
+				4B937D1C263DC71F00309E34 /* MastersThesisIOSUITests */,
 				B7D9687AAE4679F1AAF5ADC7 /* Frameworks */,
 				9A71A0E217C4599105B45DC6 /* Products */,
 				DD12440652EDAA4C852AF36D /* Carthage */,
@@ -771,6 +799,7 @@
 			children = (
 				80A98B4E5443F5DCF67B8F9D /* MastersThesisIOS.app */,
 				4CE97500430CBD76773D5A7E /* MastersThesisIOSTests.xctest */,
+				4B937D1B263DC71F00309E34 /* MastersThesisIOSUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -914,6 +943,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4B937D1A263DC71F00309E34 /* MastersThesisIOSUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4B937D27263DC71F00309E34 /* Build configuration list for PBXNativeTarget "MastersThesisIOSUITests" */;
+			buildPhases = (
+				4B937D17263DC71F00309E34 /* Sources */,
+				4B937D18263DC71F00309E34 /* Frameworks */,
+				4B937D19263DC71F00309E34 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4B937D21263DC71F00309E34 /* PBXTargetDependency */,
+			);
+			name = MastersThesisIOSUITests;
+			productName = MastersThesisIOSUITests;
+			productReference = 4B937D1B263DC71F00309E34 /* MastersThesisIOSUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		7ACD3C16EBAC26D5066D7CD4 /* MastersThesisIOSTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4DD2841C73EB5ECD74B3E843 /* Build configuration list for PBXNativeTarget "MastersThesisIOSTests" */;
@@ -966,8 +1013,13 @@
 		62EAF215D097B1438D8765D8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1240;
 				ORGANIZATIONNAME = "Petr Budík";
 				TargetAttributes = {
+					4B937D1A263DC71F00309E34 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = A1A06FEB47735E474B783847;
+					};
 					7ACD3C16EBAC26D5066D7CD4 = {
 						TestTargetID = A1A06FEB47735E474B783847;
 					};
@@ -989,12 +1041,20 @@
 			targets = (
 				A1A06FEB47735E474B783847 /* MastersThesisIOS */,
 				7ACD3C16EBAC26D5066D7CD4 /* MastersThesisIOSTests */,
+				4B937D1A263DC71F00309E34 /* MastersThesisIOSUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		13062840F591B127E83FF30F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4B937D19263DC71F00309E34 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1275,6 +1335,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4B937D17263DC71F00309E34 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4B937D1E263DC71F00309E34 /* MastersThesisIOSUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CD9459286E4F90D3CCE63925 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1295,6 +1363,11 @@
 			name = MastersThesisIOS;
 			target = A1A06FEB47735E474B783847 /* MastersThesisIOS */;
 			targetProxy = EAF8E5AC131D7D78BC93F153 /* PBXContainerItemProxy */;
+		};
+		4B937D21263DC71F00309E34 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A1A06FEB47735E474B783847 /* MastersThesisIOS */;
+			targetProxy = 4B937D20263DC71F00309E34 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1477,6 +1550,140 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Beta-Development";
+		};
+		4B937D22263DC71F00309E34 /* Beta-Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 634A34CZA9;
+				INFOPLIST_FILE = MastersThesisIOSUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MastersThesisIOS;
+			};
+			name = "Beta-Development";
+		};
+		4B937D23263DC71F00309E34 /* Beta-Production */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 634A34CZA9;
+				INFOPLIST_FILE = MastersThesisIOSUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MastersThesisIOS;
+			};
+			name = "Beta-Production";
+		};
+		4B937D24263DC71F00309E34 /* Beta-Stage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 634A34CZA9;
+				INFOPLIST_FILE = MastersThesisIOSUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MastersThesisIOS;
+			};
+			name = "Beta-Stage";
+		};
+		4B937D25263DC71F00309E34 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 634A34CZA9;
+				INFOPLIST_FILE = MastersThesisIOSUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MastersThesisIOS;
+			};
+			name = Debug;
+		};
+		4B937D26263DC71F00309E34 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ACK_ENVIRONMENT_DIR = "$(PROJECT_DIR)/$(TEST_TARGET_NAME)/Environment";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 634A34CZA9;
+				INFOPLIST_FILE = MastersThesisIOSUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.budikpet.MastersThesisIOSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MastersThesisIOS;
+			};
+			name = Release;
 		};
 		54E839672F97369FF05C6DB7 /* Beta-Stage */ = {
 			isa = XCBuildConfiguration;
@@ -1955,6 +2162,18 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4B937D27263DC71F00309E34 /* Build configuration list for PBXNativeTarget "MastersThesisIOSUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4B937D22263DC71F00309E34 /* Beta-Development */,
+				4B937D23263DC71F00309E34 /* Beta-Production */,
+				4B937D24263DC71F00309E34 /* Beta-Stage */,
+				4B937D25263DC71F00309E34 /* Debug */,
+				4B937D26263DC71F00309E34 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4DD2841C73EB5ECD74B3E843 /* Build configuration list for PBXNativeTarget "MastersThesisIOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
