@@ -214,7 +214,7 @@
 		4B9174D2261776C500946DE8 /* AnimalFilterItemCellVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimalFilterItemCellVC.swift; sourceTree = "<group>"; };
 		4B937D1B263DC71F00309E34 /* MastersThesisIOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MastersThesisIOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B937D1D263DC71F00309E34 /* MastersThesisIOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MastersThesisIOSUITests.swift; sourceTree = "<group>"; };
-		4B937D1F263DC71F00309E34 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4B937D1F263DC71F00309E34 /* MastersThesisIOSUITests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MastersThesisIOSUITests.plist; sourceTree = "<group>"; };
 		4B9764CD26177EA500F32FA4 /* AnimalFilterItemCellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalFilterItemCellVM.swift; sourceTree = "<group>"; };
 		4BA828AF2626F2C700B990C0 /* MapExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapExtensions.swift; sourceTree = "<group>"; };
 		4BA828B726286E5A00B990C0 /* MapOptionsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptionsPanelView.swift; sourceTree = "<group>"; };
@@ -560,13 +560,12 @@
 			path = AnimalFilter;
 			sourceTree = "<group>";
 		};
-		4B937D1C263DC71F00309E34 /* MastersThesisIOSUITests */ = {
+		4B937D54263DCF7400309E34 /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				4B937D1D263DC71F00309E34 /* MastersThesisIOSUITests.swift */,
-				4B937D1F263DC71F00309E34 /* Info.plist */,
 			);
-			path = MastersThesisIOSUITests;
+			path = UI;
 			sourceTree = "<group>";
 		};
 		4BA828BC2629EEC000B990C0 /* MapLexicon */ = {
@@ -764,7 +763,6 @@
 			children = (
 				8E17F3B4F9B5472ED64BC510 /* Project */,
 				4BE756DE2608AB8000DFB440 /* Configs */,
-				4B937D1C263DC71F00309E34 /* MastersThesisIOSUITests */,
 				B7D9687AAE4679F1AAF5ADC7 /* Frameworks */,
 				9A71A0E217C4599105B45DC6 /* Products */,
 				DD12440652EDAA4C852AF36D /* Carthage */,
@@ -817,6 +815,7 @@
 		A64E9CD0B70C29E6A475846E /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				4B937D54263DCF7400309E34 /* UI */,
 				4BCFBEC92630640C0006C089 /* Utils */,
 				2D32EE98D63954B0BB5D3F55 /* Unit */,
 			);
@@ -886,6 +885,7 @@
 			children = (
 				A74EF88B712E2D071FF9988E /* MastersThesisIOS.plist */,
 				2EF1E5AC15A0B34CFC82CC80 /* MastersThesisIOSTests.plist */,
+				4B937D1F263DC71F00309E34 /* MastersThesisIOSUITests.plist */,
 			);
 			path = InfoPlists;
 			sourceTree = "<group>";
@@ -1564,7 +1564,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 634A34CZA9;
-				INFOPLIST_FILE = MastersThesisIOSUITests/Info.plist;
+				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSUITests.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1591,7 +1591,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 634A34CZA9;
-				INFOPLIST_FILE = MastersThesisIOSUITests/Info.plist;
+				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSUITests.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1617,7 +1617,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 634A34CZA9;
-				INFOPLIST_FILE = MastersThesisIOSUITests/Info.plist;
+				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSUITests.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1644,7 +1644,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 634A34CZA9;
-				INFOPLIST_FILE = MastersThesisIOSUITests/Info.plist;
+				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSUITests.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1671,7 +1671,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 634A34CZA9;
-				INFOPLIST_FILE = MastersThesisIOSUITests/Info.plist;
+				INFOPLIST_FILE = Derived/InfoPlists/MastersThesisIOSUITests.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

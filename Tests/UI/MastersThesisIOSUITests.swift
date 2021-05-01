@@ -28,9 +28,9 @@ class MastersThesisIOSUITests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments.append("--uitesting")
         app.launch()
-        
+
         let tableView = app.tables["LexiconVC_TableView"]
-        
+
         XCTAssertTrue(tableView.exists)
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
