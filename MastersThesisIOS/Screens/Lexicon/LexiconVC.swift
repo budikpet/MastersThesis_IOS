@@ -32,6 +32,9 @@ final class LexiconVC: BaseViewController {
         (self?.searchBarVisibility(isVisible: isVisible) ?? SignalProducer.empty)
     }
 
+    private lazy var imageNoFiltersSelected: UIImage? = UIImage(systemName: "line.horizontal.3.decrease.circle")
+    private lazy var imageFiltersSelected: UIImage? = UIImage(systemName: "line.horizontal.3.decrease.circle.fill")
+
     // MARK: Initializers
 
     init(viewModel: LexiconViewModeling) {
@@ -92,6 +95,10 @@ final class LexiconVC: BaseViewController {
         setupBindings()
 
         navigationItem.title = L10n.NavigationItem.Title.lexicon
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        self.filterItem.image = viewModel.numberOfSelectedFilters() == 0 ? self.imageNoFiltersSelected : self.imageFiltersSelected
     }
 
     private func setupBindings() {
