@@ -21,6 +21,7 @@
 "lexicon.updatingDB" = "Stahování dat lexikonu...";
 "animalFilter.class_" = "Třída";
 "animalFilter.biotop" = "Biotop";
+"animalFilter.zooHouse" = "Pavilon";
 "animalFilter.food" = "Potrava";
 "map.buttonDirections.start" = "Trasa";
 "map.buttonDirections.stop" = "Ukončit navigaci";

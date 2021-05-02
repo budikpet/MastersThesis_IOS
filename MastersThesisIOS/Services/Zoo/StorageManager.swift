@@ -122,7 +122,7 @@ extension StorageManager {
         A SignalProducer that combines results from all endpoints that contain filters data. Then all results are stored in Realm DB resulting in UpdateStatus.
      */
     private func updateAnimalFilters() -> SignalProducer<UpdateStatus, UpdateError> {
-        SignalProducer([zooApi.getClasses(), zooApi.getFoods(), zooApi.getBiotops()])
+        SignalProducer([zooApi.getClasses(), zooApi.getFoods(), zooApi.getBiotops(), zooApi.getZooHouses()])
             .flatten(.concat)
             .collect()
             .mapError() { UpdateError.updateError($0) }

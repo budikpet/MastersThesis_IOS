@@ -21,6 +21,7 @@
 "lexicon.updatingDB" = "Updating lexicon...";
 "animalFilter.class_" = "Class";
 "animalFilter.biotop" = "Biotop";
+"animalFilter.zooHouse" = "Zoo house";
 "animalFilter.food" = "Food";
 "map.buttonDirections.start" = "Directions";
 "map.buttonDirections.stop" = "Stop directing";

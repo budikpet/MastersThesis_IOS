@@ -18,6 +18,7 @@ protocol ZooAPIServicing {
     func getClasses() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError>
     func getBiotops() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError>
     func getFoods() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError>
+    func getZooHouses() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError>
     func getMapMetadata() -> SignalProducer<MapMetadata, RequestError>
 }
 
@@ -83,6 +84,19 @@ final class ZooAPIService: ZooAPIServicing {
 
             let metadata: DetachedMetadata = DetachedMetadata(using: metadataDict)
             let animalsFilter: DetachedAnimalFilter = DetachedAnimalFilter(ofType: "food", values)
+            return (metadata, animalsFilter)
+        }
+    }
+
+    func getZooHouses() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError> {
+        os_log("Fetching all zoo houses.", log: Logger.networkingLog(), type: .info)
+        return jsonAPI.request(path: "/api/zooHouses").compactMap { response in
+            guard let responseData = (response.data as? [String: Any]) else { return nil }
+            guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
+            guard let values = responseData["data"] as? [String] else { return nil }
+
+            let metadata: DetachedMetadata = DetachedMetadata(using: metadataDict)
+            let animalsFilter: DetachedAnimalFilter = DetachedAnimalFilter(ofType: "location_in_zoo", values)
             return (metadata, animalsFilter)
         }
     }

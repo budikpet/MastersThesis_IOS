@@ -97,6 +97,8 @@ extension AnimalFilterVC: UITableViewDelegate, UITableViewDataSource {
             return L10n.AnimalFilter.biotop
         case "food":
             return L10n.AnimalFilter.food
+        case "location_in_zoo":
+            return L10n.AnimalFilter.zooHouse
         default:
             fatalError("Unknown section value")
         }
