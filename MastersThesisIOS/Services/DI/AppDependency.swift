@@ -5,7 +5,7 @@ import CoreLocation
 protocol HasNoDependency { }
 
 typealias HasBaseAPIDependecies = HasNetwork & HasJSONAPI & HasRealm
-typealias HasAPIDependencies = HasFetcher & HasZooAPI
+typealias HasAPIDependencies = HasZooAPI
 typealias HasManagerDependencies = HasStorageManager & HasLocationManager & HasZooNavigationService
 
 typealias HasAllDependencies = HasBaseAPIDependecies & HasManagerDependencies & HasAPIDependencies & HasNoDependency
@@ -17,8 +17,6 @@ final class AppDependency: HasAllDependencies {
 
     lazy var jsonAPI: JSONAPIServicing = JSONAPIService(dependencies: self)
     lazy var zooAPI: ZooAPIServicing = ZooAPIService(dependencies: self)
-
-    lazy var fetcher: Fetcher = FirebaseFetcher(key: "min_version")
 
     lazy var storageManager: StorageManaging = StorageManager(dependencies: self)
     lazy var zooNavigationService: ZooNavigationServicing = ZooNavigationService(dependencies: self)

@@ -11,8 +11,6 @@ final class TestAppDependency: HasAllDependencies {
     lazy var jsonAPI: JSONAPIServicing = JSONAPIService(dependencies: self)
     lazy var zooAPI: ZooAPIServicing = ZooAPIService(dependencies: self)
 
-    lazy var fetcher: Fetcher = FirebaseFetcher(key: "min_version")
-
     lazy var storageManager: StorageManaging = StorageManager(dependencies: self)
     lazy var zooNavigationService: ZooNavigationServicing = ZooNavigationService(dependencies: self)
     lazy var locationManager: CLLocationManager = {

@@ -1,18 +1,122 @@
 name: ACKLocalization, nameSpecified: 
 body: Copyright (c) 2016 A…
-version: 1.1.2
+version: 1.1.3
+
+name: Firebase, nameSpecified: 
+body: 
+                   …
+version: 7.11.0
+
+name: Firebase, nameSpecified: 
+body: 
+                   …
+version: 7.11.0
+
+name: FirebaseAnalytics, nameSpecified: 
+body: Copyright 2021 Googl…
+version: 7.11.0
+
+name: FirebaseAnalytics, nameSpecified: 
+body: Copyright 2021 Googl…
+version: 7.11.0
+
+name: FirebaseCore, nameSpecified: 
+body: 
+                   …
+version: 7.11.0
+
+name: FirebaseCore, nameSpecified: 
+body: 
+                   …
+version: 7.11.0
+
+name: FirebaseCoreDiagnostics, nameSpecified: 
+body: 
+                   …
+version: 7.11.0
+
+name: FirebaseCoreDiagnostics, nameSpecified: 
+body: 
+                   …
+version: 7.11.0
+
+name: FirebaseCrashlytics, nameSpecified: 
+body: 
+                   …
+version: 7.11.0
+
+name: FirebaseCrashlytics, nameSpecified: 
+body: 
+                   …
+version: 7.11.0
+
+name: FirebaseInstallations, nameSpecified: 
+body: 
+                   …
+version: 7.11.0
+
+name: FirebaseInstallations, nameSpecified: 
+body: 
+                   …
+version: 7.11.0
+
+name: GoogleAppMeasurement, nameSpecified: 
+body: Copyright 2021 Googl…
+version: 7.11.0
+
+name: GoogleAppMeasurement, nameSpecified: 
+body: Copyright 2021 Googl…
+version: 7.11.0
+
+name: GoogleDataTransport, nameSpecified: 
+body: 
+                   …
+version: 8.4.0
+
+name: GoogleDataTransport, nameSpecified: 
+body: 
+                   …
+version: 8.4.0
+
+name: GoogleUtilities, nameSpecified: 
+body: 
+                   …
+version: 7.4.0
+
+name: GoogleUtilities, nameSpecified: 
+body: 
+                   …
+version: 7.4.0
 
 name: LicensePlist, nameSpecified: 
 body: MIT License
 
 Copyrig…
-version: 2.16.0
+version: 3.0.5
 
 name: LicensePlist, nameSpecified: 
 body: MIT License
 
 Copyrig…
-version: 2.16.0
+version: 3.0.5
+
+name: nanopb, nameSpecified: 
+body: Copyright (c) 2011 P…
+version: 2.30908.0
+
+name: nanopb, nameSpecified: 
+body: Copyright (c) 2011 P…
+version: 2.30908.0
+
+name: PromisesObjC, nameSpecified: 
+body: 
+                   …
+version: 1.2.12
+
+name: PromisesObjC, nameSpecified: 
+body: 
+                   …
+version: 1.2.12
 
 name: Realm, nameSpecified: 
 body: TABLE OF CONTENTS
@@ -42,21 +146,21 @@ name: SwiftGen, nameSpecified:
 body: MIT Licence
 
 Copyrig…
-version: 6.3.0
+version: 6.4.0
 
 name: SwiftGen, nameSpecified: 
 body: MIT Licence
 
 Copyrig…
-version: 6.3.0
+version: 6.4.0
 
 name: SwiftLint, nameSpecified: 
 body: The MIT License (MIT…
-version: 0.40.3
+version: 0.43.1
 
 name: SwiftLint, nameSpecified: 
 body: The MIT License (MIT…
-version: 0.40.3
+version: 0.43.1
 
 name: Tangram-es, nameSpecified: 
 body: The MIT License (MIT…
@@ -84,4 +188,4 @@ name: turf-swift, nameSpecified: , owner: mapbox, version: v1.2.0
 
 add-version-numbers: false
 
-LicensePlist Version: 2.16.0
+LicensePlist Version: 3.0.5

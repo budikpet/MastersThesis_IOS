@@ -13,9 +13,12 @@ target project_name do
     pod 'SwiftLint', '~> 0.27'
     
     pod 'SwiftGen', '~> 6.3'
-    pod 'LicensePlist', '~> 2.14'
+    pod 'LicensePlist', '~> 3.0.5'
     pod 'Tangram-es', '~> 0.15.0'
     pod 'RealmSwift', '~> 10.7.2'
+    
+    pod 'Firebase/Crashlytics', '~> 7.11.0'
+    pod 'Firebase/Analytics', '~> 7.11.0'
     
     target 'MastersThesisIOSTests' do
         inherit! :complete
