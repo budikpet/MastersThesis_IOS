@@ -109,7 +109,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
             return TGCoordinateBounds(sw: CLLocationCoordinate2D(latitude: bounds.south, longitude: bounds.west), ne: CLLocationCoordinate2D(latitude: bounds.north, longitude: bounds.east))
         })
 
-        currLocation = MutableProperty(CLLocationCoordinate2D(latitude: 50.117001, longitude: 14.406395))
+        currLocation = MutableProperty(CLLocationCoordinate2D(latitude: 48.117001, longitude: 14.406395))
         destLocation = MutableProperty(nil)
 
         super.init()

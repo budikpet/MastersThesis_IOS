@@ -125,7 +125,7 @@ final class MapVC: BaseViewController {
     }
 
     private func setupBindings() {
-        self.compositeDisposable += viewModel.highlightedLocations.signal.observeValues { [weak self] (locations: [TGMapFeature]) in
+        self.compositeDisposable += viewModel.highlightedLocations.producer.startWithValues { [weak self] (locations: [TGMapFeature]) in
             /// Show searched map features in the map
             guard let self = self else { return }
             self.highlight(locationsInMap: locations)
