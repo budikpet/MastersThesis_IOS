@@ -48,11 +48,20 @@ class MapOptionsPanelView: UIView {
         showAnimalsButton.setBackgroundColor(color: .systemBlue, forState: .normal)
         showAnimalsButton.addTarget(self, action: #selector(showAnimalsButtonTapped(_:)), for: .touchUpInside)
 
-        let titleView = UIView()
+//        titleView.snp.makeConstraints { (make) in
+//            make.top.left.equalToSuperview().inset(16)
+//            make.right.equalToSuperview().inset(8)
+//        }
+
+        let nameLabel = UILabel()
+        self.nameLabel = nameLabel
+        nameLabel.backgroundColor = .yellow
+        self.addSubview(nameLabel)
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 25)
 
         let hideButton = UIButton()
         self.hideButton = hideButton
-        titleView.addSubview(hideButton)
+        self.addSubview(hideButton)
         hideButton.setImage(UIImage(systemName: "xmark"), for: .normal)
         hideButton.tintColor = .darkGray
         hideButton.backgroundColor = UIColor(red: 218/255, green: 228/255, blue: 242/255, alpha: 0.5)
@@ -60,28 +69,25 @@ class MapOptionsPanelView: UIView {
         hideButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
         hideButton.addTarget(self, action: #selector(hideButtonTapped(_:)), for: .touchUpInside)
 
-        hideButton.snp.makeConstraints { (make) in
-            make.centerY.trailing.equalToSuperview()
-        }
-
-        let nameLabel = UILabel()
-        self.nameLabel = nameLabel
-        titleView.addSubview(nameLabel)
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 25)
-
         nameLabel.snp.makeConstraints { (make) in
-            make.centerY.leading.equalToSuperview()
-            make.trailing.equalTo(hideButton.snp.leading)
+            make.top.leading.equalToSuperview().offset(16)
+            make.trailing.lessThanOrEqualTo(hideButton.snp.leading)
         }
 
-        let stackView = UIStackView(arrangedSubviews: [titleView, navButton, showAnimalsButton])
+        hideButton.snp.makeConstraints { (make) in
+            make.trailing.equalToSuperview().inset(8)
+            make.centerY.equalTo(nameLabel)
+        }
+
+        let stackView = UIStackView(arrangedSubviews: [navButton, showAnimalsButton])
         self.stackView = stackView
         self.addSubview(stackView)
         stackView.distribution = .fillEqually
         stackView.spacing = 16
         stackView.axis = .vertical
         stackView.snp.makeConstraints { (make) in
-            make.top.left.equalToSuperview().offset(16)
+            make.top.equalTo(nameLabel.snp.bottom).offset(stackView.spacing)
+            make.left.equalToSuperview().offset(16)
             make.bottom.right.equalToSuperview().inset(8)
         }
 

@@ -104,6 +104,7 @@ final class MapVC: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.cameraToUserButton.layer.cornerRadius = self.cameraToUserButton.frame.width / 2.0
+        self.highlightedOptionsView.updateConstraints()
     }
 
     override func viewDidLoad() {
