@@ -185,10 +185,10 @@ extension StorageManager {
             }
 
             self.realmEdit { (realm: Realm) in
-//                let mapMetadata = self.loadMapMetadata()
-//                realm.add(Metadata(using: mapMetadata.metadata), update: .modified)
-//                realm.add(mapMetadata.roadNodes.map() { RoadNode($0) }, update: .modified)
-//                realm.add(mapMetadata.roads.map() { Road($0) }, update: .modified)
+                let mapMetadata = self.loadMapMetadata()
+                realm.add(Metadata(using: mapMetadata.metadata), update: .modified)
+                realm.add(mapMetadata.roadNodes.map() { RoadNode($0) }, update: .modified)
+                realm.add(mapMetadata.roads.map() { Road($0) }, update: .modified)
                 let animalData = self.loadAnimalData()
                 realm.add(animalData.map { AnimalData(using: $0) }, update: .modified)
                 let animalFilters = self.loadAnimalFilters()
@@ -249,10 +249,12 @@ extension StorageManager {
             if let dicts = try JSONSerialization.jsonObject(with: data, options: []) as? [String: [String]] {
                 guard let classes = dicts["classes"],
                       let biotops = dicts["biotops"],
-                      let foods = dicts["foods"] else {
+                      let foods = dicts["foods"],
+                      let zooHouses = dicts["zooHouses"]
+                else {
                     fatalError("Filters could not be loaded into dictionaries.")
                 }
-                return [DetachedAnimalFilter(ofType: "class_", classes), DetachedAnimalFilter(ofType: "biotop", biotops), DetachedAnimalFilter(ofType: "food", foods)]
+                return [DetachedAnimalFilter(ofType: "class_", classes), DetachedAnimalFilter(ofType: "biotop", biotops), DetachedAnimalFilter(ofType: "food", foods), DetachedAnimalFilter(ofType: "location_in_zoo", zooHouses)]
             } else {
                 throw "Could not parse animal data file into JSON."
             }
