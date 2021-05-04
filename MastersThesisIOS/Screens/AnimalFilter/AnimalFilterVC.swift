@@ -72,7 +72,7 @@ final class AnimalFilterVC: BaseViewController {
     // MARK: Helpers
 
     private func setupBindings() {
-        tableView.reactive.reloadData <~ viewModel.viewedAnimalFilters.signal.map() { _ in }
+        tableView.reactive.reloadData <~ viewModel.viewedAnimalFilters.producer.map() { _ in }
     }
 
     @objc

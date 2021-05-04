@@ -38,7 +38,7 @@ protocol MapViewModeling {
     func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData]
     func navButtonClicked()
     func getPolyline(_ coordinates: [CLLocationCoordinate2D]) -> TGMapFeature
-    func shouldHandleTap() -> Bool
+    func shouldHandleMapTap() -> Bool
 }
 
 extension MapViewModeling where Self: MapViewModelingActions {
@@ -95,7 +95,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
         locationServiceAvailable = MutableProperty(false)
         isUserInMap = MutableProperty(false)
         dbUpdating = storageManager.actions.updateLocalDB.isExecuting
-        mapConfig = MutableProperty(MapVM.loadMapConfig())
+        mapConfig = MutableProperty(storageManager.loadMapConfig())
 
         self.sceneUrl = MutableProperty(storageManager.getSceneUrl())
         self.mbtilesPath = MutableProperty(storageManager.getMbtilesUrl().path)
@@ -185,7 +185,7 @@ extension MapVM {
         self.shouldLocationUpdate.value = true
     }
 
-    func shouldHandleTap() -> Bool {
+    func shouldHandleMapTap() -> Bool {
         return self.destLocation.value == nil
     }
 
@@ -237,6 +237,9 @@ extension MapVM {
         return features
     }
 
+    /// Creates a polyline TGMapFeature object from a list of coordinates.
+    /// - Parameter coordinates: A list of coordinates that makes the polyline.
+    /// - Returns: A polyline TGMapFeature.
     func getPolyline(_ coordinates: [CLLocationCoordinate2D]) -> TGMapFeature {
         return coordinates.withUnsafeBufferPointer { (ptr) -> TGMapFeature in
             guard let baseAddress = ptr.baseAddress else { fatalError("Pointer should exist") }
@@ -245,6 +248,9 @@ extension MapVM {
         }
     }
 
+    /// Creates a list of animals that are connected to selected features
+    /// - Parameter features: A list of selected features – either animal pens or zoo houses.
+    /// - Returns: A list of animals connected to provided features.
     func getAnimals(fromFeatures features: [TGMapFeature]) -> [AnimalData] {
         let featureIds = Set(
             features
@@ -283,6 +289,7 @@ extension MapVM: CLLocationManagerDelegate {
 // MARK: Helpers
 
 extension MapVM {
+    /// - Returns: True if user is located in map's bounds. Otherwise false.
     private func isUserInMapFunc() -> Bool {
         let bounds = mapConfig.value.bounds
         let location = self.currLocation.value
@@ -290,6 +297,7 @@ extension MapVM {
         return location.latitude < bounds.north && location.latitude > bounds.south && location.longitude < bounds.east && location.longitude > bounds.west
     }
 
+    /// - Returns: True if location services are enabled and authorized.
     private func isLocationServiceAvailable() -> Bool {
         if(!CLLocationManager.locationServicesEnabled()) {
             return false
@@ -310,6 +318,9 @@ extension MapVM {
         }
     }
 
+    /// Get coordinates of the selected feature.
+    /// - Parameter feature: The selected feature.
+    /// - Returns: Coordinages.
     private func getDestinationPoint(using feature: TGMapFeature) -> CLLocationCoordinate2D {
         if let point = feature.point()?.pointee {
             return point
@@ -317,17 +328,6 @@ extension MapVM {
             return polygonCenter
         } else {
             fatalError("Was unable to get destination point from the feature with properties: \(feature.properties)")
-        }
-    }
-
-    private static func loadMapConfig() -> MapConfig {
-        guard let configFile = Bundle.resources.url(forResource: "defaultConfig", withExtension: "json", subdirectory: "Map") else { fatalError("Config file not found.") }
-
-        do {
-            let configData = try Data(contentsOf: configFile)
-            return try JSONDecoder().decode(MapConfig.self, from: configData)
-        } catch {
-            fatalError("Could not load map config.")
         }
     }
 }

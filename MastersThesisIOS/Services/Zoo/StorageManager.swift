@@ -27,6 +27,7 @@ protocol StorageManaging {
 
     func getMbtilesUrl() -> URL
     func getSceneUrl() -> URL
+    func loadMapConfig() -> MapConfig
 
     func loadLocalMapConfig() -> MapConfig
     func loadMapMetadata() -> MapMetadata
@@ -118,6 +119,18 @@ extension StorageManager {
     func getSceneUrl() -> URL {
         guard let sceneUrl = Bundle.resources.url(forResource: "bubbleWrapStyle", withExtension: "yaml", subdirectory: "Map/bubbleWrapStyle") else { fatalError("Scene file not found.") }
         return sceneUrl
+    }
+
+    /// - Returns: A MapConfig object created from default resources.
+    public func loadMapConfig() -> MapConfig {
+        guard let configFile = Bundle.resources.url(forResource: "defaultConfig", withExtension: "json", subdirectory: "Map") else { fatalError("Config file not found.") }
+
+        do {
+            let configData = try Data(contentsOf: configFile)
+            return try JSONDecoder().decode(MapConfig.self, from: configData)
+        } catch {
+            fatalError("Could not load map config.")
+        }
     }
 }
 
@@ -225,6 +238,7 @@ extension StorageManager {
 // MARK: Helper functions for update from local files
 
 extension StorageManager {
+    /// - Returns: A SignalProducer that stores all default data from resources to Realm DB
     internal func runUpdateFromLocalFiles() -> SignalProducer<UpdateStatus, UpdateError> {
         SignalProducer { [weak self] observer, lifetime in
             os_log("Updating from local files.", log: Logger.appLog(), type: .info)

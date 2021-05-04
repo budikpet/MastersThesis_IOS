@@ -229,8 +229,7 @@ extension MapVC: TGRecognizerDelegate {
     }
 
     func mapView(_ view: TGMapView!, recognizer: UIGestureRecognizer!, didRecognizeSingleTapGesture location: CGPoint) {
-        print("\nLocation: \(location)")
-        if(viewModel.shouldHandleTap()) {
+        if(viewModel.shouldHandleMapTap()) {
             view.pickLabel(at: location)
             view.pickFeature(at: location)
     //        view.pickMarker(at: location)
@@ -298,6 +297,7 @@ extension MapVC {
 // MARK: Helpers
 
 extension MapVC {
+    /// Positions camera to user's position with animation.
     private func moveCameraToUser() {
         let userPos = self.viewModel.currLocation.value
         let zoom = self.viewModel.mapConfig.value.maxZoom - 0.5
@@ -338,7 +338,12 @@ extension MapVC {
 
         self.mapView.requestRender()
     }
-
+    
+    /// Checks whether camera is still in map's bounds.
+    /// - Parameters:
+    ///   - view: TGMapView view
+    ///   - currCenterCoord: Coordinates of current camera center.
+    /// - Returns: Nil if in bounds. Otherwise returns a coordinate to the nearest point the camera can be in to still be in bounds.
     private func checkBounds(_ view: TGMapView, _ currCenterCoord: CLLocationCoordinate2D) -> (CGPoint, CLLocationCoordinate2D)? {
         let currCenterPos = view.viewPosition(from: view.cameraPosition.center, clipToViewport: false)
         let zooPragueBounds = viewModel.bounds.value

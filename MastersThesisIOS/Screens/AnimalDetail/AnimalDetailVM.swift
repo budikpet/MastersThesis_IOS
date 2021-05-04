@@ -47,6 +47,7 @@ final class AnimalDetailVM: BaseViewModel, AnimalDetailViewModeling, AnimalDetai
 // MARK: Protocol functions
 
 extension AnimalDetailVM {
+    /// - Returns: All map locations that the animal is connected to.
     func getLocations() -> [MapLocation] {
         return Array(animal.value.map_locations)
             .filter() { $0.geometry != nil }

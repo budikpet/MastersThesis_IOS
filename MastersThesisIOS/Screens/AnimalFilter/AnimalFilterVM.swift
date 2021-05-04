@@ -31,7 +31,7 @@ extension AnimalFilterViewModeling where Self: AnimalFilterViewModelingActions {
 }
 
 final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilterViewModelingActions {
-    typealias Dependencies = HasNetwork & HasStorageManager
+    typealias Dependencies = HasStorageManager
     let storageManager: StorageManaging
 
     // MARK: Protocol
@@ -102,14 +102,18 @@ extension AnimalFilterVM {
     }
 
     // MARK: VC Delegate/DataSource helpers
-
+    
+    /// Negates the picked value, either selecting or deselecting it.
+    /// - Parameter indexPath: Index of the selected value
     func pickValue(at indexPath: IndexPath) {
         let filter = viewedAnimalFilters.value[indexPath.section]
         let cellValue = filter.cellValues[indexPath.row]
 
         cellValue.1.value = !cellValue.1.value
     }
-
+    
+    /// - Parameter indexPath: Index of the filter.
+    /// - Returns: A cell VM for the ViewedAnimalFilter at position.
     func getAnimalFilterItemCellVM(at indexPath: IndexPath) -> AnimalFilterItemCellVM {
         let filter = viewedAnimalFilters.value[indexPath.section]
         let cellValue = filter.cellValues[indexPath.row]

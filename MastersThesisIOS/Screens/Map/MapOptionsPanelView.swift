@@ -55,7 +55,6 @@ class MapOptionsPanelView: UIView {
 
         let nameLabel = UILabel()
         self.nameLabel = nameLabel
-        nameLabel.backgroundColor = .yellow
         self.addSubview(nameLabel)
         nameLabel.font = UIFont.boldSystemFont(ofSize: 25)
 
