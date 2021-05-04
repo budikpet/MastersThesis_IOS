@@ -19,10 +19,16 @@ class AnimalFilterItemCellVC: UITableViewCell {
 
     public static let identifier: String = "AnimalFilterItemCell"
 
+    private var serialDisposable = SerialDisposable()
+
     var viewModel: AnimalFilterItemCellVM! {
         didSet {
+            let disposeBag = CompositeDisposable()
+            // serialDisposable will automatic dispose previous inner disposable
+            serialDisposable.inner = disposeBag
+
             labelValue.text = viewModel.value
-            imageCheckmark.reactive.isHidden <~ viewModel.isChecked.map() { !$0 }
+            disposeBag += imageCheckmark.reactive.isHidden <~ viewModel.isChecked.map() { !$0 }
         }
     }
 
