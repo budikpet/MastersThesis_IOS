@@ -47,7 +47,7 @@ extension MapViewModeling where Self: MapViewModelingActions {
 
 final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
     typealias Dependencies = HasStorageManager & HasLocationManager & HasZooNavigationService
-    private let realmDbManager: StorageManaging
+    private let storageManager: StorageManaging
     private let locationManager: CLLocationManager
     private let zooNavigationService: ZooNavigationServicing
 
@@ -72,11 +72,11 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
 
     // MARK: Local
     private lazy var animalData: Results<AnimalData> = {
-        return realmDbManager.realm.objects(AnimalData.self)
+        return storageManager.realm.objects(AnimalData.self)
     }()
 
     private lazy var locations: [Int64: MapLocation] = {
-        let res = realmDbManager.realm.objects(MapLocation.self)
+        let res = storageManager.realm.objects(MapLocation.self)
         return Dictionary(uniqueKeysWithValues: res.lazy.map { ($0._id, $0) })
     }()
 
@@ -85,7 +85,7 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
-        self.realmDbManager = dependencies.storageManager
+        self.storageManager = dependencies.storageManager
         self.locationManager = dependencies.locationManager
         self.zooNavigationService = dependencies.zooNavigationService
 
@@ -94,15 +94,11 @@ final class MapVM: NSBaseViewModel, MapViewModeling, MapViewModelingActions {
         selectedProperties = MutableProperty(SelectedMapObjects())
         locationServiceAvailable = MutableProperty(false)
         isUserInMap = MutableProperty(false)
-        dbUpdating = realmDbManager.actions.updateLocalDB.isExecuting
+        dbUpdating = storageManager.actions.updateLocalDB.isExecuting
         mapConfig = MutableProperty(MapVM.loadMapConfig())
 
-//        guard let sceneUrl = Bundle.resources.url(forResource: "bubbleWrapStyle", withExtension: "zip") else { fatalError("Scene file not found.") }
-        guard let sceneUrl = Bundle.resources.url(forResource: "bubbleWrapStyle", withExtension: "yaml", subdirectory: "Map/bubbleWrapStyle") else { fatalError("Scene file not found.") }
-        self.sceneUrl = MutableProperty(sceneUrl)
-
-        guard let mbtilesPath = Bundle.resources.url(forResource: "defaultZooPrague", withExtension: "mbtiles", subdirectory: "Map")?.path else { fatalError("MBTiles file not found.") }
-        self.mbtilesPath = MutableProperty(mbtilesPath)
+        self.sceneUrl = MutableProperty(storageManager.getSceneUrl())
+        self.mbtilesPath = MutableProperty(storageManager.getMbtilesUrl().path)
 
         bounds = Property(initial: TGCoordinateBounds.init(), then: mapConfig.producer.map() {
             let bounds = $0.bounds

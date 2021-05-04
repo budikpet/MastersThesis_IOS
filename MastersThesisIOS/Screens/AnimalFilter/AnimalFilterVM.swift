@@ -32,7 +32,7 @@ extension AnimalFilterViewModeling where Self: AnimalFilterViewModelingActions {
 
 final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilterViewModelingActions {
     typealias Dependencies = HasNetwork & HasStorageManager
-    let realmDbManager: StorageManaging
+    let storageManager: StorageManaging
 
     // MARK: Protocol
     internal var updateLocalDB: Action<Bool, UpdateStatus, UpdateError>
@@ -46,10 +46,10 @@ final class AnimalFilterVM: BaseViewModel, AnimalFilterViewModeling, AnimalFilte
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
-        realmDbManager = dependencies.storageManager
-        updateLocalDB = realmDbManager.actions.updateLocalDB
+        storageManager = dependencies.storageManager
+        updateLocalDB = storageManager.actions.updateLocalDB
 
-        animalFilters = realmDbManager.realm.objects(AnimalFilter.self)
+        animalFilters = storageManager.realm.objects(AnimalFilter.self)
         viewedAnimalFilters = MutableProperty(animalFilters.map() { ViewedAnimalFilter($0) })
 
         super.init()
@@ -83,7 +83,7 @@ extension AnimalFilterVM {
      Updates Realm DB with all changes that were made.
      */
     func persistChanges() {
-        realmDbManager.realmEdit { (realm: Realm) in
+        storageManager.realmEdit { (realm: Realm) in
             for viewedAnimalFilter in viewedAnimalFilters.value {
                 viewedAnimalFilter.persistChanges(realm)
             }

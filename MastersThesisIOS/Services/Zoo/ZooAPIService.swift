@@ -20,6 +20,7 @@ protocol ZooAPIServicing {
     func getFoods() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError>
     func getZooHouses() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError>
     func getMapMetadata() -> SignalProducer<MapMetadata, RequestError>
+    func getMapData() -> SignalProducer<Data, RequestError>
 }
 
 /**
@@ -29,11 +30,13 @@ final class ZooAPIService: ZooAPIServicing {
     typealias Dependencies = HasJSONAPI & HasNetwork
 
     private let jsonAPI: JSONAPIServicing
+    private let network: Networking
 
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
         self.jsonAPI = dependencies.jsonAPI
+        self.network = dependencies.network
     }
 
     func getAnimals() -> SignalProducer<(DetachedMetadata, [DetachedAnimalData]), RequestError> {
@@ -111,16 +114,9 @@ final class ZooAPIService: ZooAPIServicing {
         }
     }
 
-//    func getMapData() -> SignalProducer<(DetachedMetadata, DetachedAnimalFilter), RequestError> {
-//        os_log("Fetching all foods.", log: Logger.networkingLog(), type: .info)
-//        return jsonAPI.request(path: "/api/map/data").compactMap { response in
-//            guard let responseData = (response.data as? [String: Any]) else { return nil }
-//            guard let metadataDict = responseData["metadata"] as? [String: Any] else { return nil }
-//            guard let values = responseData["data"] as? [String] else { return nil }
-//
-//            let metadata: DetachedMetadata = DetachedMetadata(using: metadataDict)
-//            let animalsFilter: DetachedAnimalFilter = DetachedAnimalFilter(ofType: "food", values)
-//            return (metadata, animalsFilter)
-//        }
-//    }
+    func getMapData() -> SignalProducer<Data, RequestError> {
+        os_log("Fetching MBTiles file.", log: Logger.networkingLog(), type: .info)
+        return network.request(RequestAddress(path: "/api/map/data"), method: .get, parameters: [:], encoding: URLEncoding.default, headers: [:])
+            .compactMap { $0.data }
+    }
 }

@@ -100,3 +100,13 @@ public extension UIButton {
         )
     }
 }
+
+extension URL {
+
+    /// A URL to the default documents directory.
+    static var documents: URL {
+        return FileManager
+            .default
+            .urls(for: .documentDirectory, in: .userDomainMask)[0]
+    }
+}

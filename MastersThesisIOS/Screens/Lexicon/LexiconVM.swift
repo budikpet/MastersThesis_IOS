@@ -33,7 +33,7 @@ extension LexiconViewModeling where Self: LexiconViewModelingActions {
 
 final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingActions {
     typealias Dependencies = HasNetwork & HasStorageManager
-    let realmDbManager: StorageManaging
+    let storageManager: StorageManaging
 
     // MARK: Protocol
     internal var updateLocalDB: Action<Bool, UpdateStatus, UpdateError>
@@ -54,12 +54,12 @@ final class LexiconVM: BaseViewModel, LexiconViewModeling, LexiconViewModelingAc
     // MARK: Initializers
 
     init(dependencies: Dependencies) {
-        realmDbManager = dependencies.storageManager
-        updateLocalDB = realmDbManager.actions.updateLocalDB
+        storageManager = dependencies.storageManager
+        updateLocalDB = storageManager.actions.updateLocalDB
 
-        animalData = realmDbManager.realm.objects(AnimalData.self)
+        animalData = storageManager.realm.objects(AnimalData.self)
             .sorted(byKeyPath: "name", ascending: true)
-        animalFilters = realmDbManager.realm.objects(AnimalFilter.self)
+        animalFilters = storageManager.realm.objects(AnimalFilter.self)
 
         transformationAnimalData = MutableProperty([])
         filteredAnimalData = MutableProperty([])

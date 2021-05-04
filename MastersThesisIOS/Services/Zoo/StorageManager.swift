@@ -25,6 +25,9 @@ protocol StorageManaging {
 
     func realmEdit(_ editClosure: (Realm) -> ())
 
+    func getMbtilesUrl() -> URL
+    func getSceneUrl() -> URL
+
     func loadLocalMapConfig() -> MapConfig
     func loadMapMetadata() -> MapMetadata
     func loadAnimalData() -> [DetachedAnimalData]
@@ -47,6 +50,8 @@ final class StorageManager: StorageManaging, StorageManagingActions {
     // MARK: Local
     internal var realm: Realm
     internal var metadata: Results<Metadata>
+
+    private static let mbtilesFilename: String = "zooPrague.mbtiles"
 
     init(dependencies: Dependencies) {
         self.zooApi = dependencies.zooAPI
@@ -80,7 +85,7 @@ final class StorageManager: StorageManaging, StorageManagingActions {
         }
 
         os_log("Update required.", log: Logger.networkingLog(), type: .info)
-        var producers = [updateAnimalData(), updateAnimalFilters(), updateMapMetadata()]
+        var producers = [updateAnimalData(), updateAnimalFilters(), updateMapMetadata(), updateMapData()]
 
         if(realm.isEmpty) {
             // If realm is empty, first download data from local files
@@ -89,6 +94,30 @@ final class StorageManager: StorageManaging, StorageManagingActions {
 
         return SignalProducer(producers)
             .flatten(.concat)
+    }
+}
+
+// MARK: Protocol
+
+extension StorageManager {
+    /// - Returns: A URL to the MBTiles file. Either the default one from resources or the downloaded one from documents directory.
+    func getMbtilesUrl() -> URL {
+        let storedMbtiles = URL.documents.appendingPathComponent(StorageManager.mbtilesFilename)
+
+        if(FileManager.default.fileExists(atPath: storedMbtiles.path)) {
+            // Return MBTiles that was downloaded
+            return storedMbtiles
+        }
+
+        // Return default MBTiles from resources
+        guard let mbtilesUrl = Bundle.resources.url(forResource: "defaultZooPrague", withExtension: "mbtiles", subdirectory: "Map") else { fatalError("MBTiles file not found.") }
+        return mbtilesUrl
+    }
+
+    /// - Returns: A URL to the scene file that is stored in resources.
+    func getSceneUrl() -> URL {
+        guard let sceneUrl = Bundle.resources.url(forResource: "bubbleWrapStyle", withExtension: "yaml", subdirectory: "Map/bubbleWrapStyle") else { fatalError("Scene file not found.") }
+        return sceneUrl
     }
 }
 
@@ -165,6 +194,27 @@ extension StorageManager {
                     realm.add(Metadata(using: mapMetadata.metadata), update: .modified)
                     realm.add(mapMetadata.roadNodes.map() { RoadNode($0) }, update: .modified)
                     realm.add(mapMetadata.roads.map() { Road($0) }, update: .modified)
+                }
+
+                return SignalProducer(value: UpdateStatus.dataUpdated)
+            }
+    }
+
+    /**
+     - Returns:
+        A SignalProducer that downloads map data and stores it in local document storage, resulting in UpdateStatus.
+     */
+    private func updateMapData() -> SignalProducer<UpdateStatus, UpdateError> {
+        zooApi.getMapData()
+            .mapError { UpdateError.updateError($0) }
+            .observe(on: QueueScheduler.main)
+            .flatMap(.concat) { (data: Data) -> SignalProducer<UpdateStatus, UpdateError> in
+                let url = URL.documents.appendingPathComponent(StorageManager.mbtilesFilename)
+
+                do {
+                    try data.write(to: url, options: .atomic)
+                } catch {
+                    return SignalProducer(error: UpdateError.filesystemError)
                 }
 
                 return SignalProducer(value: UpdateStatus.dataUpdated)
@@ -272,4 +322,5 @@ enum UpdateStatus {
 enum UpdateError: Error {
     case realmError
     case updateError(RequestError)
+    case filesystemError
 }
