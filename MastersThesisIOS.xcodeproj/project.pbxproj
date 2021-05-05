@@ -697,20 +697,12 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
-		8E17F3B4F9B5472ED64BC510 /* Project */ = {
+		8F718DEA3D4D834F6F5ED0FF = {
 			isa = PBXGroup;
 			children = (
 				B2F02A4090F193E35E16D1F2 /* MastersThesisIOS */,
 				AD0C6B10122A122E5279B949 /* Derived */,
 				A64E9CD0B70C29E6A475846E /* Tests */,
-			);
-			name = Project;
-			sourceTree = "<group>";
-		};
-		8F718DEA3D4D834F6F5ED0FF = {
-			isa = PBXGroup;
-			children = (
-				8E17F3B4F9B5472ED64BC510 /* Project */,
 				4BE756DE2608AB8000DFB440 /* Configs */,
 				B7D9687AAE4679F1AAF5ADC7 /* Frameworks */,
 				9A71A0E217C4599105B45DC6 /* Products */,

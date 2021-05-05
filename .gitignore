@@ -4,7 +4,7 @@
 .LSOverride
 
 # Other
-MastersThesisIOS/Model/Generated
+#MastersThesisIOS/Model/Generated
 MastersThesisIOS/Environment/Current
 MastersThesisIOS/Environment/.current
 MastersThesisIOS/Environment/.environment_preprocess.h
