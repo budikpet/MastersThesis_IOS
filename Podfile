@@ -13,7 +13,7 @@ target project_name do
     pod 'SwiftLint', '~> 0.27'
     
     pod 'SwiftGen', '~> 6.3'
-    pod 'LicensePlist', '~> 3.0.5'
+    pod 'LicensePlist', '~> 2.14'
     pod 'Tangram-es', '~> 0.16.0'
     pod 'RealmSwift', '~> 10.7.2'
     
