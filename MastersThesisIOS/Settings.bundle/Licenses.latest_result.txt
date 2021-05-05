@@ -92,13 +92,13 @@ name: LicensePlist, nameSpecified:
 body: MIT License
 
 Copyrig…
-version: 3.0.5
+version: 2.16.0
 
 name: LicensePlist, nameSpecified: 
 body: MIT License
 
 Copyrig…
-version: 3.0.5
+version: 2.16.0
 
 name: nanopb, nameSpecified: 
 body: Copyright (c) 2011 P…
@@ -122,25 +122,25 @@ name: Realm, nameSpecified:
 body: TABLE OF CONTENTS
 
 1…
-version: 10.7.2
+version: 10.7.4
 
 name: Realm, nameSpecified: 
 body: TABLE OF CONTENTS
 
 1…
-version: 10.7.2
+version: 10.7.4
 
 name: RealmSwift, nameSpecified: 
 body: TABLE OF CONTENTS
 
 1…
-version: 10.7.2
+version: 10.7.4
 
 name: RealmSwift, nameSpecified: 
 body: TABLE OF CONTENTS
 
 1…
-version: 10.7.2
+version: 10.7.4
 
 name: SwiftGen, nameSpecified: 
 body: MIT Licence
@@ -164,11 +164,11 @@ version: 0.43.1
 
 name: Tangram-es, nameSpecified: 
 body: The MIT License (MIT…
-version: 0.15.0
+version: 0.16.1
 
 name: Tangram-es, nameSpecified: 
 body: The MIT License (MIT…
-version: 0.15.0
+version: 0.16.1
 
 name: ACKategories, nameSpecified: , owner: AckeeCZ, version: 6.8.1
 
@@ -188,4 +188,4 @@ name: turf-swift, nameSpecified: , owner: mapbox, version: v1.2.0
 
 add-version-numbers: false
 
-LicensePlist Version: 3.0.5
+LicensePlist Version: 2.16.0

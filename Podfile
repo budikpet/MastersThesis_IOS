@@ -14,7 +14,7 @@ target project_name do
     
     pod 'SwiftGen', '~> 6.3'
     pod 'LicensePlist', '~> 2.16.0'
-    pod 'Tangram-es', '~> 0.16.0'
+    pod 'Tangram-es', '~> 0.16.1'
     pod 'RealmSwift', '~> 10.7.2'
     
     pod 'Firebase/Crashlytics', '~> 7.11.0'

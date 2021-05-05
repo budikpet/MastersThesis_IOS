@@ -86,31 +86,31 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.4.0):
     - GoogleUtilities/Logger
-  - LicensePlist (3.0.5)
+  - LicensePlist (2.16.0)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - PromisesObjC (1.2.12)
-  - Realm (10.7.2):
-    - Realm/Headers (= 10.7.2)
-  - Realm/Headers (10.7.2)
-  - RealmSwift (10.7.2):
-    - Realm (= 10.7.2)
+  - Realm (10.7.4):
+    - Realm/Headers (= 10.7.4)
+  - Realm/Headers (10.7.4)
+  - RealmSwift (10.7.4):
+    - Realm (= 10.7.4)
   - SwiftGen (6.4.0)
   - SwiftLint (0.43.1)
-  - Tangram-es (0.15.0)
+  - Tangram-es (0.16.1)
 
 DEPENDENCIES:
   - ACKLocalization (~> 1.1)
   - Firebase/Analytics (~> 7.11.0)
   - Firebase/Crashlytics (~> 7.11.0)
-  - LicensePlist (~> 3.0.5)
+  - LicensePlist (~> 2.16.0)
   - RealmSwift (~> 10.7.2)
   - SwiftGen (~> 6.3)
   - SwiftLint (~> 0.27)
-  - Tangram-es (~> 0.15.0)
+  - Tangram-es (~> 0.16.1)
 
 SPEC REPOS:
   trunk:
@@ -144,15 +144,15 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: fd19169c3034975cb934e865e5667bfdce59df7f
   GoogleDataTransport: cd9db2180fcecd8da1b561aea31e3e56cf834aa7
   GoogleUtilities: 284cddc7fffc14ae1907efb6f78ab95c1fccaedc
-  LicensePlist: 11c638fa9dc22ddb5771cdf910242ae1ba2684da
+  LicensePlist: 26afd3ef32fffcc649a15b31d96fef5eded65497
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  Realm: e523da9ade306c5ae87e85dc09fdef148d3e1cc1
-  RealmSwift: 4f6758c3adbdcc87f7b7777107226532a077f61c
+  Realm: f08ce1a85649a41303ecfe1cbd914c62e9e6d710
+  RealmSwift: 60ec49d165f23d040ab48811d8dd177e09baf4d3
   SwiftGen: 67860cc7c3cfc2ed25b9b74cfd55495fc89f9108
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
-  Tangram-es: ec3048d4f8887f0dde78f40e6d8330e8f5e8c5eb
+  Tangram-es: daf4c177f864505df5125f83c2d8ba857165aea1
 
-PODFILE CHECKSUM: bd2481ab225e8f8e998025b17b09eccca42a137b
+PODFILE CHECKSUM: e22b409196e2505e2ae230ad93ff0644441969ad
 
 COCOAPODS: 1.10.1
