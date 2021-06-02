@@ -41,4 +41,10 @@ Map view - highlighted animal pen | Map view - navigation
     - makes it possible to navigate to a point on the map or a specific location.
 
 ## How to build manually
+Run these commands to install all dependencies:
+```bash
+    $ carthage bootstrap --platform iOS --cache-builds --use-xcframeworks
+    $ pod install
+```
+
 API keys for automated localization through ACKLocalization need to be provided. Use [official documentation](https://github.com/AckeeCZ/ACKLocalization#use-with-service-account) to prepare the library itself and a [step-by-step](https://cloud.google.com/iam/docs/creating-managing-service-account-keys) guide for creating Google development console Service account key. It mainly requires the service account specified through the file *Localization/localizationServiceAccount.json.fill* that is downloaded from the Google development console.
